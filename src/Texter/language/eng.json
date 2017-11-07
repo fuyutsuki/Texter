@@ -1,0 +1,57 @@
+{
+  "on.enable": "is Enabled.",
+  "on.disable": "is Disabled.",
+  "lang.registered": "Language was set to {lang}.",
+  "config.update": "config.yml version {newer} => Please delete config.yml once.",
+  "transfer.crftp": "Successful file transfer from crftps.json to crfts.json.",
+  "transfer.ftp": "Successful file transfer from ftps.json to fts.json.",
+
+  "commands.registered": "Command was set to enabled.",
+  "commands.unavailable": "Command was set to disabled.",
+
+  "version.pre": "This version is under development. Operation may be unstable.",
+  "version.warning": "Detected version change, you may not be able to receive support.",
+
+  "update.unnecessary": "Newest version: v{curver} / No update required.",
+  "update.available.1": "Newest version: v{newver} / Current version: v{curver}",
+  "update.available.2": "Update is available.",
+  "update.available.3": "URL: {url}",
+
+  "timezone": "Timezone was set to {zone}.",
+
+  "world.not.exists": "The listed world ({world}) does not exist.",
+  "txt.type.invalid": "The type of the specified text is invalid.",
+
+  "command.description.txt": "Operate floating texts.",
+  "command.description.txtadm": "Manage floating texts.",
+
+  "command.txt.usage": "Usage:",
+  "command.txt.usage.add": "/txt a(dd) <title> [message]",
+  "command.txt.usage.remove": "/txt r(emove) <ID>",
+  "command.txt.usage.update": "/txt u(pdate) <ID> <title | text> <message>",
+  "command.txt.usage.indent": "When breaking a line, insert §6#§b",
+
+  "command.txt.set": "Placed floating text.",
+  "command.txt.world": "You can`t manipulate floating letters in this world.",
+  "command.txt.limit": "The number of characters is limited by {limit}.",
+  "command.txt.feed": "Line feeds are limited to {feed} times.",
+  "command.txt.limit": "The number of characters is limited by {limit}.",
+  "command.txt.remove": "Removed floating text.",
+  "command.txt.updated": "Updated floating text.",
+  "command.txt.permission": "You don`t have permission to edit the specified floating text.",
+
+  "command.txtadm.usage.allremove": "/t(xt)adm a(ll)r(emove)",
+  "command.txtadm.usage.userremove": "/t(xt)adm u(ser)r(emove) <userName>",
+  "command.txtadm.usage.info": "/txtadm info",
+
+  "command.txtadm.allremove": "{count} floating texts were deleted.",
+  "command.txtadm.userremove": "All floating texts of {user} have been deleted.",
+  "command.txtadm.notexists": "Any floating texts doesn`t exists.",
+
+  "command.console": "Please use from within game.",
+
+  "txt.failed": "Failed to generate floating text.",
+  "txt.exists": "Floating text already exists at the specified coordinates.",
+  "txt.doesn`t.exists": "The specified ID floating text does not exist.",
+  "txt.user.doesn`t.exists": "The float text of the specified user does not exist."
+}

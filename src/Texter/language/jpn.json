@@ -1,0 +1,56 @@
+{
+  "on.enable": "が読み込まれました。",
+  "on.disable": "が無効化されました。",
+  "lang.registered": "言語は{lang} に設定されました。",
+  "config.update": "config.yml {newer} => 一度config.ymlを削除してください。",
+  "transfer.crftp": "crftps.json から crfts.json へのファイル移行に成功しました。",
+  "transfer.ftp": "ftps.json から fts.json へのファイル移行に成功しました。",
+
+  "commands.registered": "コマンドは使用可能に設定されました。",
+  "commands.unavailable": "コマンドは使用不能に設定されました。",
+
+  "version.pre": "このバージョンは開発中のものです。動作が不安定な場合があります。",
+  "version.warning": "バージョンの変更を検知しました。バグが発生した場合、製作者は一切の責任を負いません。",
+
+  "update.unnecessary": "最新バージョン: v{curver} / アップデートは必要ありません",
+  "update.available.1": "最新バージョン: v{newver} / 現在のバージョン: v{curver}",
+  "update.available.2": "アップデートが利用可能です。",
+  "update.available.3": "URL: {url}",
+
+  "timezone": "タイムゾーンは {zone} に設定されました。",
+
+  "world.not.exists": "記載されたワールド名 {world} は存在しません。",
+  "txt.type.invalid": "指定されたテキストの型は無効です。",
+
+  "command.description.txt": "浮き文字を操作します。",
+  "command.description.txtadm": "浮き文字の管理をします。",
+
+  "command.txt.usage": "使用方法:",
+  "command.txt.usage.add": "/txt a(dd) <タイトル> <メッセージ>",
+  "command.txt.usage.remove": "/txt r(emove) <ID>",
+  "command.txt.usage.update": "/txt u(pdate) <ID> <title | text> <テキスト>",
+  "command.txt.usage.indent": "改行したい場合は§6#§bを挿入",
+
+  "command.txt.set": "浮き文字を設置しました。",
+  "command.txt.world": "このワールドでは浮き文字を操作できません。",
+  "command.txt.limit": "{limit} までに文字数が制限されています。",
+  "command.txt.feed": "改行は {feed} 回までに制限されています。",
+  "command.txt.remove": "浮き文字を削除しました。",
+  "command.txt.updated": "浮き文字を更新しました。",
+  "command.txt.permission": "指定された浮き文字を扱う権限がありません。",
+
+  "command.txtadm.usage.allremove": "/t(xt)adm a(ll)r(emove)",
+  "command.txtadm.usage.userremove": "/t(xt)adm u(ser)r(emove) <ユーザー名>",
+  "command.txtadm.usage.info": "/txtadm info",
+
+  "command.txtadm.allremove": "{count} 個の浮き文字を削除しました。",
+  "command.txtadm.userremove": "{user} の浮き文字をすべて削除しました。",
+  "command.txtadm.notexists": "浮き文字が一つもありません。",
+
+  "command.console": "ゲーム内から使用してください。",
+
+  "txt.failed": "浮き文字の生成に失敗しました。",
+  "txt.exists": "指定された座標に既に浮き文字が存在します。",
+  "txt.doesn`t.exists": "指定されたIDの浮き文字が存在しません。",
+  "txt.user.doesn`t.exists": "指定されたユーザーの浮き文字は存在しません。"
+}

@@ -96,14 +96,6 @@ class TxtAdmCommand extends Command{
         default:
           $sender->sendMessage(TF::AQUA . Lang::PREFIX . $this->help);
         break;
-
-        case 'test':
-          if ($this->main->devmode) {
-            for ($i=1; $i<51; $i++) {
-              $ft = new FT($lev, $s->x+$i, $s->y, $s->z, "test", "§$i", $name);
-            }
-          }
-        break;
       }
     }else {
       $sender->sendMessage(TF::AQUA . Lang::PREFIX . $this->help);

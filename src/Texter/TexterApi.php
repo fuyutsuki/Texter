@@ -48,9 +48,9 @@ use Texter\utils\TunedConfig as Config;
 /**
  * TexterApi
  */
-class TexterAPI{
+class TexterApi{
 
-  /** @var TexterAPI */
+  /** @var TexterApi */
   private static $instance = null;
   /** @var Config $crft_config */
   private $crft_config = null;

@@ -18,12 +18,11 @@ It may have many bugs.
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **2.2.4** _Papilio dehaanii(カラスアゲハ)_  
+Latest: ver **2.2.5** _Papilio dehaanii(カラスアゲハ)_  
 
 ### Supporting
 - [x] Multi-language (eng, jpn)
 - [x] Multi-world display
-- [x] Minecraft:PE v1.1.x
 - [x] Minecraft(Bedrock) v1.2.x
 
 ### Commands
@@ -70,12 +69,11 @@ It is output as follows.
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除ができるプラグインです。  
-最新バージョン: **2.2.4** _Papilio dehaanii(カラスアゲハ)_  
+最新バージョン: **2.2.5** _Papilio dehaanii(カラスアゲハ)_  
 
 ### 対応状況
 - [x] 複数言語 (eng, jpn)
 - [x] 複数ワールドの表示
-- [x] Minecraft:PE v1.1.x
 - [x] Minecraft(Bedrockエンジン) v1.2.x
 
 ### コマンド

@@ -158,6 +158,9 @@ class Main extends PluginBase {
     if(!file_exists($this->dir.self::FILE_CONFIG)){
       file_put_contents($this->dir.self::FILE_CONFIG, $this->getResource(self::FILE_CONFIG));
     }
+    if(!file_exists($this->dir.self::FILE_CRFT)){
+      file_put_contents($this->dir.self::FILE_CRFT, $this->getResource(self::FILE_CRFT));
+    }
     // config.yml
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
     // Lang

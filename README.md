@@ -27,6 +27,9 @@ Latest: ver **2.2.5** _Papilio dehaanii(カラスアゲハ)_
 - [x] Multi-world display
 - [x] Minecraft(Bedrock) v1.2.x
 
+### Download
+You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
+
 ### Commands
 #### General command
 | \ |command|argument|alias|
@@ -77,6 +80,10 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 - [x] 複数言語 (eng, jpn)
 - [x] 複数ワールドの表示
 - [x] Minecraft(Bedrockエンジン) v1.2.x
+
+### ダウンロード
+ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  
+最新の .pharファイルが必要であれば [PoggitCI](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter) の最新ビルドの **Download** から。  
 
 ### コマンド
 #### 一般用コマンド

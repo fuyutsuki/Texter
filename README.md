@@ -1,7 +1,9 @@
 <img src="/assets/Texter.png" width="400px">  
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
-[![Github All Releases](https://img.shields.io/github/downloads/fuyutsuki/Texter/total.svg)](https://github.com/fuyutsuki/Texter/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/fuyutsuki/Texter/total.svg)](https://github.com/fuyutsuki/Texter/releases)  
+
+[![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
 ## Overview
 Select Language: [English](#eng), [日本語](#jpn)

@@ -49,9 +49,7 @@ use Texter\EventListener;
 use Texter\TexterApi;
 use Texter\commands\{
   TxtCommand,
-  TxtCommandOld,
-  TxtAdmCommand,
-  TxtAdmCommandOld};
+  TxtAdmCommand};
 use Texter\language\Lang;
 use Texter\text\{
   CantRemoveFloatingText as CRFT,
@@ -66,13 +64,11 @@ define("DS", DIRECTORY_SEPARATOR);
 class Main extends PluginBase {
 
   const NAME = "Texter";
-  const VERSION = "v2.2.4";
+  const VERSION = "v2.2.5";
   const CODENAME = "Papilio dehaanii(カラスアゲハ)";
 
   const FILE_CONFIG = "config.yml";
-  const FILE_CRFTP = "crftps.json";// for old format
   const FILE_CRFT = "crfts.json";
-  const FILE_FTP = "ftps.json";// for old format
   const FILE_FT = "fts.json";
 
   const CONFIG_VERSION = 22;
@@ -172,34 +168,6 @@ class Main extends PluginBase {
     }else {
       $this->getLogger()->error("Invalid language settings. If you have any questions, please contact the issue.");
     }
-    if(!file_exists($this->dir.self::FILE_CRFT)){
-      if (!file_exists($this->dir.self::FILE_CRFTP)) {
-        file_put_contents($this->dir.self::FILE_CRFT, $this->getResource(self::FILE_CRFT));
-      }else {
-        $tmpOld = new Config($this->dir.self::FILE_CRFTP, Config::JSON);
-        $tmpOldData = $tmpOld->getAll();
-        file_put_contents($this->dir.self::FILE_CRFT, []);
-        $tmpNew = new Config($this->dir.self::FILE_CRFT, Config::JSON);
-        $tmpNew->setAll($tmpOldData);
-        $tmpNew->save();
-        unlink($this->dir.self::FILE_CRFTP);
-        $this->getLogger()->info(TF::GREEN.$this->language->transrateString("transfer.crftp"));
-      }
-    }
-    if(!file_exists($this->dir.self::FILE_FT)){
-      if (!file_exists($this->dir.self::FILE_FTP)) {
-        file_put_contents($this->dir.self::FILE_FT, $this->getResource(self::FILE_FT));
-      }else {
-        $tmpOld = new Config($this->dir.self::FILE_FTP, Config::JSON);
-        $tmpOldData = $tmpOld->getAll();
-        file_put_contents($this->dir.self::FILE_FT, []);
-        $tmpNew = new Config($this->dir.self::FILE_FT, Config::JSON);
-        $tmpNew->setAll($tmpOldData);
-        $tmpNew->save();
-        unlink($this->dir.self::FILE_FTP);
-        $this->getLogger()->info(TF::GREEN.$this->language->transrateString("transfer.ftp"));
-      }
-    }
     // crfts.json
     $crft_config = new Config($this->dir.self::FILE_CRFT, Config::JSON);
     $this->crfts = $crft_config->getAll();
@@ -220,24 +188,10 @@ class Main extends PluginBase {
   private function registerCommands(){
     if ((bool)$this->config->get("canUseCommands")) {
       $map = $this->getServer()->getCommandMap();
-      switch (strtolower($this->getServer()->getName())) {
-        case 'pocketmine-mp':
-          $commands = [
-            new TxtCommand($this),
-            new TxtAdmCommand($this)
-          ];
-        break;
-
-        // NOTE: Confirmed
-        case 'genisyspro':
-        case 'leveryl':
-        default:
-          $commands = [
-            new TxtCommandOld($this),
-            new TxtAdmCommandOld($this)
-          ];
-        break;
-      }
+      $commands = [
+        new TxtCommand($this),
+        new TxtAdmCommand($this)
+      ];
       $map->registerAll(self::NAME, $commands);
       $this->getLogger()->info(TF::GREEN.$this->language->transrateString("commands.registered"));
     }else {

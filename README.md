@@ -1,3 +1,5 @@
+<img src="/assets/Texter.png" width="400px">  
+
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
 [![Github All Releases](https://img.shields.io/github/downloads/fuyutsuki/Texter/total.svg)](https://github.com/fuyutsuki/Texter/releases)
 
@@ -7,10 +9,6 @@ Select Language: [English](#eng), [日本語](#jpn)
 ***
 <a name="eng"></a>
 ## English
-
-## Notice
-This plugin is **fork** of *yuko fuyutsuki`s* plugin developed by *p-NLab*.  
-It is distributed under MIT license.
 
 <!--
 ## !! Caution !!
@@ -26,7 +24,7 @@ Latest: ver **2.2.4** _Papilio dehaanii(カラスアゲハ)_
 - [x] Multi-language (eng, jpn)
 - [x] Multi-world display
 - [x] Minecraft:PE v1.1.x
-- [x] Minecraft(Bedrock) v1.2.0.x
+- [x] Minecraft(Bedrock) v1.2.x
 
 ### Commands
 #### General command
@@ -64,10 +62,6 @@ It is output as follows.
 ***
 <a name="jpn"></a>
 ## 日本語
-
-## お知らせ
-このプラグインは *p-NLab* が開発する、*yuko fuyutsuki* さんのプラグインの**フォーク**です。  
-MITライセンスの下で配布されています。
 
 <!--
 ## !! 注意 !!

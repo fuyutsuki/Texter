@@ -5,12 +5,12 @@
 
 [![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
-## Overview
+### Overview
 Select Language: [English](#eng), [日本語](#jpn)
 
 ***
 <a name="eng"></a>
-## English
+# English
 
 <!--
 ## !! Caution !!
@@ -26,9 +26,6 @@ Latest: ver **2.2.5** _Papilio dehaanii(カラスアゲハ)_
 - [x] Multi-language (eng, jpn)
 - [x] Multi-world display
 - [x] Minecraft(Bedrock) v1.2.x
-
-### Download
-You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
 
 ### Commands
 #### General command
@@ -65,7 +62,7 @@ It is output as follows.
 
 ***
 <a name="jpn"></a>
-## 日本語
+# 日本語
 
 <!--
 ## !! 注意 !!
@@ -80,10 +77,6 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 - [x] 複数言語 (eng, jpn)
 - [x] 複数ワールドの表示
 - [x] Minecraft(Bedrockエンジン) v1.2.x
-
-### ダウンロード
-ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  
-最新の .pharファイルが必要であれば [PoggitCI](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter) の最新ビルドの **Download** から。  
 
 ### コマンド
 #### 一般用コマンド

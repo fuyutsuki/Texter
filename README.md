@@ -1,4 +1,7 @@
 <img src="/assets/Texter.png" width="400px">  
+<!-- for poggit
+<img src="https://raw.githubusercontent.com/fuyutsuki/Texter/master/assets/Texter.png" width="400px">  
+-->
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
 [![Github All Releases](https://img.shields.io/github/downloads/fuyutsuki/Texter/total.svg)](https://github.com/fuyutsuki/Texter/releases)  
@@ -58,8 +61,10 @@ anythingUniqueValue: {
 }
 ```
 It is output as follows.  
-<img src="https://cloud.githubusercontent.com/assets/16377174/24609877/642d64f6-18b7-11e7-9b38-488e0ada3f1e.JPG" width="320px">
-
+<img src="/assets/Example.jpg" width="320px">
+<!-- for poggit
+<img src="https://raw.githubusercontent.com/fuyutsuki/Texter/master/assets/Example.jpg" width="320px">
+-->
 ***
 <a name="jpn"></a>
 # 日本語
@@ -112,4 +117,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 ```
 
 こう書くことで以下のように出力されます。  
-<img src="https://cloud.githubusercontent.com/assets/16377174/24609877/642d64f6-18b7-11e7-9b38-488e0ada3f1e.JPG" width="320px">
+<img src="/assets/Example.jpg" width="320px">
+<!-- for poggit
+<img src="https://raw.githubusercontent.com/fuyutsuki/Texter/master/assets/Example.jpg" width="320px">
+-->

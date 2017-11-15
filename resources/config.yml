@@ -8,11 +8,11 @@ configVersion: 22
 
 # 言語を設定してください (eng or jpn)
 # set language (eng or jpn)
-language: jpn
+language: eng
 
 # タイムゾーンを設定してください
-# set timezone
-timezone: Asia/Tokyo
+# set timezone http://php.net/manual/ja/timezones.php
+timezone: false
 
 # もし起動時にアップデートの通知が必要ならtrue, 必要ないならfalseにしてください
 # When set to true, update notification is displayed at startup

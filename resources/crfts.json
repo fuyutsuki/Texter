@@ -4,23 +4,23 @@
     "Xvec": 128,
     "Yvec": 90,
     "Zvec": 128,
-    "TITLE": "タイトル",
-    "TEXT": "テキスト(\nを入れると改行)"
+    "TITLE": "Title",
+    "TEXT": "Text(New line with \n or #)"
   },
   "1":{
     "WORLD": "world",
     "Xvec": 128,
     "Yvec": 90,
     "Zvec": 130,
-    "TITLE": "タイトル",
-    "TEXT": "テキスト(\nを入れると改行)"
+    "TITLE": "Title",
+    "TEXT": "Text(New line with \n or #)"
   },
   "2":{
     "WORLD": "world",
     "Xvec": 128,
     "Yvec": 90,
     "Zvec": 132,
-    "TITLE": "タイトル",
-    "TEXT": "テキスト(\nを入れると改行)"
+    "TITLE": "Title",
+    "TEXT": "Text(New line with \n or #)"
   }
 }

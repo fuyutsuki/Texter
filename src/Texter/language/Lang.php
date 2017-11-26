@@ -13,10 +13,10 @@ class Lang {
    * 利用可能な言語
    * Available languages
    */
-  const JPN = "jpn";
-  const ENG = "eng";
+  public const JPN = "jpn";
+  public const ENG = "eng";
 
-  const PREFIX = "[Texter] ";
+  public const PREFIX = "[Texter] ";
 
   /** @var string $dir */
   public $dir = "";
@@ -26,8 +26,13 @@ class Lang {
   private static $instance = null;
   /** @var Config $config */
   private $config = null;
-  /** @var string $language */
-  private $language = "";
+  /** @var string $lang */
+  private $lang = "";
+  /** @var array $langList */
+  private $langList = [
+    self::JPN => "日本語",
+    self::ENG => "English"
+  ];
 
   public function __construct(Main $main, string $lang) {
     self::$instance = $this;
@@ -45,34 +50,42 @@ class Lang {
   }
 
   /**
+   * 現在使用中の言語を取得(jpn, eng)
+   * @return string "eng"|"jpn"
+   */
+  public function getLangCode(): string{
+    return $this->lang;
+  }
+
+  /**
    * 現在使用中の言語を取得
-   * @return string $this->language
+   * @return string "English"|"日本語"
    */
   public function getLang(): string{
-    return $this->language;
+    return $this->langList[$this->lang];
   }
 
   /**
    * 使用する言語を取得
    * @param  string $lang
-   * @return string $this->language
+   * @return string $this->langList[$this->lang]
    */
   public function setLang(string $lang): string{
     switch (strtolower($lang)) {
       case self::ENG:
-        $this->language = self::ENG;
+        $this->lang = self::ENG;
       break;
 
       case self::JPN:
-        $this->language = self::JPN;
+        $this->lang = self::JPN;
       break;
 
       default:
-        $this->language = self::ENG;
+        $this->lang = self::ENG;
       break;
     }
-    $this->lang = new Config(__DIR__.DS.$this->language.".json", Config::JSON);
-    return $this->language;
+    $this->config = new Config(__DIR__.DS.$this->lang.".json", Config::JSON);
+    return $this->langList[$this->lang];
   }
 
   /**
@@ -83,7 +96,7 @@ class Lang {
    * @return string
    */
   public function transrateString(string $key, array $search = [], array $replace = []): string{
-    $result = $this->lang->get($key);
+    $result = $this->config->get($key);
     if ($result !== false) {
       $result = str_replace($search, $replace, $result);
       return $result;

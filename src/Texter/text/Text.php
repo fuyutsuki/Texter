@@ -53,13 +53,12 @@ abstract class Text{
 
   /**
    * コンストラクタ
-   * @param Level     $level
-   * @param int|float $x = 0
-   * @param int|float $y = 0
-   * @param int|float $z = 0
-   * @param Vector3   $pos
-   * @param string    $title = ""
-   * @param string    $text = ""
+   * @param Level  $level
+   * @param number $x = 0
+   * @param number $y = 0
+   * @param number $z = 0
+   * @param string $title = ""
+   * @param string $text = ""
    */
   public function __construct(Level $level, $x = 0, $y = 0, $z = 0, string $title = "", string $text = ""){
     $this->level = $level;
@@ -79,7 +78,7 @@ abstract class Text{
 
   /**
    * X座標を取得します
-   * @return int|float $this->x
+   * @return number $this->x
    */
   public function getX(){
     return $this->x;
@@ -87,7 +86,7 @@ abstract class Text{
 
   /**
    * X座標を変更します
-   * @param  int|float $x
+   * @param  number $x
    * @return bool
    */
   public function setX($x): bool{
@@ -106,7 +105,7 @@ abstract class Text{
 
   /**
    * Y座標を取得します
-   * @return int|float $this->y
+   * @return number $this->y
    */
   public function getY(){
     return $this->y;
@@ -114,7 +113,7 @@ abstract class Text{
 
   /**
    * Y座標を変更します
-   * @param  int|float $y
+   * @param  number $y
    * @return bool
    */
   public function setY($y): bool{
@@ -133,7 +132,7 @@ abstract class Text{
 
   /**
    * Z座標を取得します
-   * @return int|float $this->z
+   * @return number $this->z
    */
   public function getZ(){
     return $this->z;
@@ -141,7 +140,7 @@ abstract class Text{
 
   /**
    * Z座標を変更します
-   * @param  int|float $z
+   * @param  number $z
    * @return bool
    */
   public function setZ($z): bool{

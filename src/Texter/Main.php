@@ -6,9 +6,9 @@
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
  * Copyright (c) 2017 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * Released under the "MIT license".
+ * This software is distributed under "MIT license".
  * You should have received a copy of the MIT license
- * along with this program.  If not,
+ * along with this program.  If not, see
  * < https://opensource.org/licenses/mit-license >.
  *
  * ---------------------------------------------------------------------
@@ -63,15 +63,15 @@ define("DS", DIRECTORY_SEPARATOR);
 
 class Main extends PluginBase {
 
-  const NAME = "Texter";
-  const VERSION = "v2.2.5";
-  const CODENAME = "Papilio dehaanii(カラスアゲハ)";
+  public const NAME = "Texter";
+  public const VERSION = "v2.2.6";
+  public const CODENAME = "Papilio dehaanii(カラスアゲハ)";
 
-  const FILE_CONFIG = "config.yml";
-  const FILE_CRFT = "crfts.json";
-  const FILE_FT = "fts.json";
+  public const FILE_CONFIG = "config.yml";
+  public const FILE_CRFT = "crfts.json";
+  public const FILE_FT = "fts.json";
 
-  const CONFIG_VERSION = 22;
+  public const CONFIG_VERSION = 22;
 
   /** @var bool $devmode */
   public $devmode = false;
@@ -149,7 +149,11 @@ class Main extends PluginBase {
   /****************************************************************************/
   /* Private functions */
 
-  private function loadFiles(){
+  /**
+   * 各種ファイルを読み込みます
+   * @return void
+   */
+  private function loadFiles(): void{
     $this->dir = $this->getDataFolder();
     //
     if(!file_exists($this->dir)){
@@ -167,7 +171,7 @@ class Main extends PluginBase {
     $lang = $this->config->get("language");
     if ($lang !== false) {
       $this->language = new Lang($this, $lang);
-      $this->getLogger()->info(TF::GREEN.$this->language->transrateString("lang.registered", ["{lang}"], [$lang]));
+      $this->getLogger()->info(TF::GREEN.$this->language->transrateString("lang.registered", ["{lang}"], [$this->language->getLang()]));
     }else {
       $this->getLogger()->error("Invalid language settings. If you have any questions, please contact the issue.");
     }
@@ -184,11 +188,19 @@ class Main extends PluginBase {
     }
   }
 
-  private function initApi(){
+  /**
+   * APIを初期化します
+   * @return void
+   */
+  private function initApi(): void{
     $this->api = new TexterApi($this);
   }
 
-  private function registerCommands(){
+  /**
+   * コマンドを登録します
+   * @return void
+   */
+  private function registerCommands(): void{
     if ((bool)$this->config->get("canUseCommands")) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
@@ -202,7 +214,11 @@ class Main extends PluginBase {
     }
   }
 
-  private function checkUpdate(){
+  /**
+   * アップデートを確認するために非同期タスクを実行します
+   * @return void
+   */
+  private function checkUpdate(): void{
     if ((bool)$this->config->get("checkUpdate")) {
       try {
         $async = new CheckUpdateTask();
@@ -217,11 +233,16 @@ class Main extends PluginBase {
     }
   }
 
-  public function versionCompare(array $data){
+  /**
+   * 非同期タスクで取得したデータを比較します
+   * @param  array $data
+   * @return void
+   */
+  public function versionCompare(array $data): void{
     $curver = str_replace("v", "", self::VERSION);
     $newver = str_replace("v", "", $data[0]["name"]);
     if ($this->getDescription()->getVersion() !== $curver) {
-      $this->getLogger()->warning($this->messages->get("version.warning"));
+      $this->getLogger()->warning($this->language->transrateString("version.warning"));
     }
     if (version_compare($newver, $curver, "=")) {
       $this->getLogger()->notice($this->language->transrateString("update.unnecessary", ["{curver}"], [$curver]));
@@ -232,7 +253,11 @@ class Main extends PluginBase {
     }
   }
 
-  private function setTimezone(){
+  /**
+   * タイムゾーンを設定します
+   * @return void
+   */
+  private function setTimezone(): void{
     $timezone = $this->config->get("timezone");
     if ($timezone !== false) {
       date_default_timezone_set($timezone);
@@ -240,7 +265,12 @@ class Main extends PluginBase {
     }
   }
 
-  private function prepareTexts(){
+  /**
+   * テキストを生成します
+   * @return void
+   * TODO: 非同期化?
+   */
+  private function prepareTexts(): void{
     if (!empty($this->crfts)) {
       foreach ($this->crfts as $value) {
         $title = isset($value["TITLE"]) ? str_replace("#", "\n", $value["TITLE"]) : "";

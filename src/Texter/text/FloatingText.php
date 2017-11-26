@@ -30,13 +30,13 @@ class FloatingText extends Text{
   /**
    * コンストラクタ
    * @Override
-   * @param Level     $level
-   * @param int|float $x = 0
-   * @param int|float $y = 0
-   * @param int|float $z = 0
-   * @param string    $title = ""
-   * @param string    $text  = ""
-   * @param string    $owner = ""
+   * @param Level  $level
+   * @param number $x = 0
+   * @param number $y = 0
+   * @param number $z = 0
+   * @param string $title = ""
+   * @param string $text  = ""
+   * @param string $owner = ""
    */
   public function __construct(Level $level, $x = 0, $y = 0, $z = 0, string $title = "", string $text = "", string $owner = ""){
     $this->level = $level;
@@ -58,7 +58,7 @@ class FloatingText extends Text{
   /**
    * X座標を変更します
    * @Override
-   * @param  int|float $x
+   * @param  number $x
    * @return bool
    */
   public function setX($x): bool{
@@ -78,7 +78,7 @@ class FloatingText extends Text{
   /**
    * Y座標を変更します
    * @Override
-   * @param  int|float $y
+   * @param  number $y
    * @return bool
    */
   public function setY($y): bool{
@@ -98,7 +98,7 @@ class FloatingText extends Text{
   /**
    * Z座標を変更します
    * @Override
-   * @param  int|float $z
+   * @param  number $z
    * @return bool
    */
   public function setZ($z): bool{

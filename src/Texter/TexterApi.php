@@ -6,7 +6,7 @@
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
  * Copyright (c) 2017 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * Released under the "MIT license".
+ * This software is distributed under "MIT license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
  * < https://opensource.org/licenses/mit-license >.
@@ -85,8 +85,8 @@ class TexterApi{
    * 現在使用中の言語を取得します
    * @return string "eng"|"jpn"
    */
-  public function getLanguage(): string{
-    return $this->language->getLang();
+  public function getLangCode(): string{
+    return $this->language->getLangCode();
   }
 
   /**

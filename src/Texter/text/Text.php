@@ -247,13 +247,13 @@ abstract class Text{
   /**
    * タイトルを変更します, # で改行です.
    * @param  string $title
-   * @return bool   true
+   * @return Text
    */
-  public function setTitle(string $title): bool{
+  public function setTitle(string $title): Text{
     $this->title = str_replace("#", "\n", $title);
     $this->api->saveCrft($this);
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**
@@ -267,13 +267,13 @@ abstract class Text{
   /**
    * テキストを変更します, # で改行です
    * @param  string $text
-   * @return bool   true
+   * @return Text
    */
-  public function setText(string $text): bool{
+  public function setText(string $text): Text{
     $this->text = str_replace("#", "\n", $text);
     $this->api->saveCrft($this);
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**
@@ -287,12 +287,12 @@ abstract class Text{
   /**
    * 不可視かどうか変更します
    * @param  bool $bool
-   * @return bool true
+   * @return Text
    */
-  public function setInvisible(bool $bool): bool{
+  public function setInvisible(bool $bool): Text{
     $this->invisible = $bool;
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**
@@ -306,13 +306,13 @@ abstract class Text{
   /**
    * エンティティIDを変更します
    * @param  int  $eid
-   * @return bool true
+   * @return Text
    */
-  public function setEntityId(int $eid): bool{
+  public function setEntityId(int $eid): Text{
     $this->sendToLevel(self::SEND_TYPE_REMOVE);
     $this->eid = $eid;
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**

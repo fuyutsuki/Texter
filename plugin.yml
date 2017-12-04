@@ -1,7 +1,7 @@
 name: Texter
 main: Texter\Main
 version: 2.2.6
-api: 3.0.0-ALPHA9 #pmmp/PocketMine-MP
+api: 3.0.0-ALPHA10 #pmmp/PocketMine-MP
 
 author: yuko_fuyutsuki
 authors:

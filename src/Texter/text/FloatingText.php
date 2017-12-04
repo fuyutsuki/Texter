@@ -59,79 +59,79 @@ class FloatingText extends Text{
    * X座標を変更します
    * @Override
    * @param  number $x
-   * @return bool
+   * @return Text
    */
-  public function setX($x): bool{
+  public function setX($x): Text{
     if (is_numeric($x)) {
       $tmpX = $this->x;
       $this->x = $x;
       if ($this->api->saveFt($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
+        return $this;
       }else {
         $this->x = $tmpX;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
    * Y座標を変更します
    * @Override
    * @param  number $y
-   * @return bool
+   * @return Text
    */
-  public function setY($y): bool{
+  public function setY($y): Text{
     if (is_numeric($y)) {
       $tmpY = $this->y;
       $this->y = $y;
       if ($this->api->saveFt($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
+        return $this;
       }else {
         $this->y = $tmpY;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
    * Z座標を変更します
    * @Override
    * @param  number $z
-   * @return bool
+   * @return Text
    */
-  public function setZ($z): bool{
+  public function setZ($z): Text{
     if (is_numeric($z)) {
       $tmpZ = $this->z;
       $this->z = $z;
       if ($this->api->saveFt($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
+        return $this;
       }else {
         $this->z = $tmpZ;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
    * Levelを変更します
    * @Override
    * @param  Level $level
-   * @return bool
+   * @return Text
    */
-  public function setLevel(Level $level): bool{
+  public function setLevel(Level $level): Text{
     $this->sendToLevel(self::SEND_TYPE_REMOVE);
     $tmpLev = $this->level;
     $this->level = $level;
     if ($this->api->saveFt($this)) {
       $this->sendToLevel(self::SEND_TYPE_ADD);
-      return true;
+      return $this;
     }else {
       $this->level = $tmpLev;
       $this->sendToLevel(self::SEND_TYPE_ADD);
-      return false;
+      return $this;
     }
   }
 
@@ -139,9 +139,9 @@ class FloatingText extends Text{
    * Levelを変更します
    * @Override
    * @param  string $levelName
-   * @return bool
+   * @return Text
    */
-  public function setLevelByName(string $levelName): bool{
+  public function setLevelByName(string $levelName): Text{
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       $this->sendToLevel(self::SEND_TYPE_REMOVE);
@@ -149,22 +149,22 @@ class FloatingText extends Text{
       $this->level = $level;
       if ($this->api->saveFt($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
+        return $this;
       }else {
         $this->level = $tmpLev;
         $this->sendToLevel(self::SEND_TYPE_ADD);
       }
     }
-    return false;
+    return $this;
   }
 
   /**
   * 座標を変更します
   * @Override
   * @param  Vector3 $pos
-  * @return bool    true
+  * @return Text
   */
-  public function setCoord(Vector3 $pos): bool{
+  public function setCoord(Vector3 $pos): Text{
     $tmpX = $this->x;
     $tmpY = $this->y;
     $tmpZ = $this->z;
@@ -173,12 +173,12 @@ class FloatingText extends Text{
     $this->z = $pos->z;
     if ($this->api->saveFt($this)) {
       $this->sendToLevel(self::SEND_TYPE_ADD);
-      return true;
+      return $this;
     }else {
       $this->x = $tmpX;
       $this->y = $tmpY;
       $this->z = $tmpZ;
-      return false;
+      return $this;
     }
   }
 
@@ -186,26 +186,26 @@ class FloatingText extends Text{
    * タイトルを変更します, # で改行です.
    * @Override
    * @param  string $title
-   * @return bool   true
+   * @return Text
    */
-  public function setTitle(string $title): bool{
+  public function setTitle(string $title): Text{
     $this->title = str_replace("#", "\n", $title);
     $this->api->saveFt($this);
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**
    * テキストを変更します, # で改行です
    * @Override
    * @param  string $text
-   * @return bool   true
+   * @return Text
    */
-  public function setText(string $text): bool{
+  public function setText(string $text): Text{
     $this->text = str_replace("#", "\n", $text);
     $this->api->saveFt($this);
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**
@@ -283,13 +283,13 @@ class FloatingText extends Text{
   /**
    * 所有者を変更します
    * @param  string $owner
-   * @return bool   true
+   * @return Text
    */
-  public function setOwner(string $owner): bool{
+  public function setOwner(string $owner): Text{
     $this->owner = strtolower($owner);
     $this->api->saveFt($this);
     $this->sendToLevel(self::SEND_TYPE_ADD);
-    return true;
+    return $this;
   }
 
   /**

@@ -87,20 +87,19 @@ abstract class Text{
   /**
    * X座標を変更します
    * @param  number $x
-   * @return bool
+   * @return Text
    */
-  public function setX($x): bool{
+  public function setX($x): Text{
     if (is_numeric($x)) {
       $tmpX = $this->x;
       $this->x = $x;
       if ($this->api->saveCrft($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
       }else {
         $this->x = $tmpX;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
@@ -114,20 +113,19 @@ abstract class Text{
   /**
    * Y座標を変更します
    * @param  number $y
-   * @return bool
+   * @return Text
    */
-  public function setY($y): bool{
+  public function setY($y): Text{
     if (is_numeric($y)) {
       $tmpY = $this->y;
       $this->y = $y;
       if ($this->api->saveCrft($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
       }else {
         $this->y = $tmpY;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
@@ -141,20 +139,19 @@ abstract class Text{
   /**
    * Z座標を変更します
    * @param  number $z
-   * @return bool
+   * @return Text
    */
-  public function setZ($z): bool{
+  public function setZ($z): Text{
     if (is_numeric($z)) {
       $tmpZ = $this->z;
       $this->z = $z;
       if ($this->api->saveCrft($this)) {
         $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
       }else {
         $this->z = $tmpZ;
       }
     }
-    return false;
+    return $this;
   }
 
   /**
@@ -168,49 +165,43 @@ abstract class Text{
   /**
    * Levelを変更します
    * @param  Level $level
-   * @return bool
+   * @return Text
    */
-  public function setLevel(Level $level): bool{
+  public function setLevel(Level $level): Text{
     $this->sendToLevel(self::SEND_TYPE_REMOVE);
     $tmpLev = $this->level;
     $this->level = $level;
-    if ($this->api->saveCrft($this)) {
-      $this->sendToLevel(self::SEND_TYPE_ADD);
-      return true;
-    }else {
+    if (!$this->api->saveCrft($this)) {
       $this->level = $tmpLev;
-      $this->sendToLevel(self::SEND_TYPE_ADD);
-      return false;
     }
+    $this->sendToLevel(self::SEND_TYPE_ADD);
+    return $this;
   }
 
   /**
    * Levelを変更します
    * @param  string $levelName
-   * @return bool
+   * @return Text
    */
-  public function setLevelByName(string $levelName): bool{
+  public function setLevelByName(string $levelName): Text{
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       $this->sendToLevel(self::SEND_TYPE_REMOVE);
       $tmpLev = $this->level;
       $this->level = $level;
-      if ($this->api->saveCrft($this)) {
-        $this->sendToLevel(self::SEND_TYPE_ADD);
-        return true;
-      }else {
+      if (!$this->api->saveCrft($this)) {
         $this->level = $tmpLev;
-        $this->sendToLevel(self::SEND_TYPE_ADD);
       }
     }
-    return false;
+    $this->sendToLevel(self::SEND_TYPE_ADD);
+    return $this;
   }
 
   /**
    * 座標をVector3オブジェクトとして取得します
    * @return Vector3 $this->pos
    */
-  public function getAsVector3(){
+  public function getAsVector3(): Vector3{
     return new Vector3($this->x, $this->y, $this->z);
   }
 
@@ -218,16 +209,16 @@ abstract class Text{
    * 座標をPositionオブジェクトとして取得します
    * @return Position
    */
-  public function getAsPosition(){
+  public function getAsPosition(): Position{
     return new Position($this->x, $this->y, $this->z, $this->level);
   }
 
   /**
   * 座標を変更します
   * @param  Vector3 $pos
-  * @return bool    true
+  * @return Text
   */
-  public function setCoord(Vector3 $pos): bool{
+  public function setCoord(Vector3 $pos): Text{
     $tmpX = $this->x;
     $tmpY = $this->y;
     $tmpZ = $this->z;
@@ -236,12 +227,12 @@ abstract class Text{
     $this->z = $pos->z;
     if ($this->api->saveCrft($this)) {
       $this->sendToLevel(self::SEND_TYPE_ADD);
-      return true;
+      return $this;
     }else {
       $this->x = $tmpX;
       $this->y = $tmpY;
       $this->z = $tmpZ;
-      return false;
+      return $this;
     }
   }
 

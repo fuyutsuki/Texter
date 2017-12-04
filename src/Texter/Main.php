@@ -268,7 +268,7 @@ class Main extends PluginBase {
   /**
    * テキストを生成します
    * @return void
-   * TODO: 非同期化?
+   * TODO: 非同期化(v2.2.6)
    */
   private function prepareTexts(): void{
     if (!empty($this->crfts)) {

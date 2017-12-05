@@ -1,0 +1,32 @@
+name: Texter
+main: tokyo\pmmp\Texter\Core
+version: 2.3.0
+api: 3.0.0-ALPHA10 #pmmp/PocketMine-MP
+author: yuko_fuyutsuki
+authors:
+# SpecialThanks(敬称略)
+- mfmfnek0
+- onebone
+- ogiwara
+- Shootsta_ERU0531
+- Toganon
+- ShadowArt
+- Marron0421
+website: https://twitter.com/_riu_m
+description: This is a PocketMine-MP plugin that can add, remove, move and update FloatingTextParticle.
+
+permissions:
+ texter.*:
+  default: op
+  description: "permission that allows player to use texter"
+  children:
+   texter.command.*:
+    default: op
+    description: "permission that allows player to use texter"
+    children:
+      texter.command.txt:
+        default: true # もしopのみ実行させたい場合は op と記述してください
+        description: "permission that allows player to use /txt"
+      texter.command.txtadm:
+        default: op
+        description: "permission that allows player to use /txtadm"

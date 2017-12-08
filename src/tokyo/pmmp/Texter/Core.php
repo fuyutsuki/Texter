@@ -34,7 +34,8 @@ use pocketmine\{
 
 // Texter
 use tokyo\pmmp\Texter\{
-  EventListener
+  EventListener,
+  TexterApi
 };
 
 /**
@@ -50,11 +51,21 @@ class Core extends PluginBase {
   public const FILE_CRFTS      = "crfts.json";
   public const FILE_FTS        = "fts.json";
 
+  /** @var ?TexterApi */
+  private $api = null;
+  /** @var string */
+  private $langCode = "";
+  /** @var string[] */
+  private $language = [
+    "eng" => "English",
+    "jpn" => "日本語"
+  ];
+
   public function onLoad() {
     // TODO:
-    // $this->initLanguage();
-    // $this->initApi();
-    // $this->initFiles(); (or execute ReadTask)
+    $this->initApi();
+    $this->initFiles();
+    $this->initLanguage();
     // $this->checkUpdate();
     // $this->setTimezone();
   }
@@ -70,5 +81,31 @@ class Core extends PluginBase {
 
   public function onDisable() {
 
+  }
+
+  /**
+   * @link onLoad() initApi
+   * @return void
+   */
+  private function initApi(): void {
+    $this->api = new TexterApi($this);
+  }
+
+  /**
+   * @link onLoad() initFiles
+   * @return void
+   */
+  private function initFiles(): void {
+    $dir = $this->getDataFolder();
+    
+  }
+
+  /**
+   * @link onLoad() initLanguage
+   * @return void
+   */
+  private function initLanguage(): void {
+    // TODO: 2017/12/08
+    $lang = new BaseLang();
   }
 }

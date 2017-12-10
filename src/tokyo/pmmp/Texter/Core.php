@@ -29,6 +29,7 @@ namespace tokyo\pmmp\Texter;
 use pocketmine\{
   lang\BaseLang,
   plugin\PluginBase,
+  scheduler\PluginTask,
   utils\Config,
   utils\TextFormat as TF
 };
@@ -44,7 +45,6 @@ use tokyo\pmmp\Texter\{
  */
 class Core extends PluginBase {
 
-
   public const VERSION  = "2.3.0";
   public const CODENAME = "Phyllorhiza punctata";
 
@@ -54,6 +54,7 @@ class Core extends PluginBase {
   public const FILE_FTS        = "fts.json";
 
   public const DS = DIRECTORY_SEPARATOR;
+  private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
   /** @var ?TexterApi */
   private $api = null;
@@ -68,6 +69,14 @@ class Core extends PluginBase {
     "eng" => "English",
     "jpn" => "日本語"
   ];
+  /** @var ?Config */
+  private $crftsFile = null;
+  /** @var CantRemoveFloatingText[] */
+  public $crfts = [];
+  /** @var ?Config */
+  private $ftsFile = null;
+  /** @var FloatingText[] */
+  public $fts = [];
 
   public function onLoad() {
     $this->initApi();
@@ -80,6 +89,7 @@ class Core extends PluginBase {
   }
 
   public function onEnable() {
+    $this->prepareTexts();
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
     $message = $this->lang->translateString("on.enable.message", [
@@ -111,6 +121,12 @@ class Core extends PluginBase {
     $this->saveResource(self::FILE_CRFTS);
     $this->saveResource(self::FILE_CONFIG);
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
+    $this->crftsFile = new Config($this->dir.self::FILE_CRFTS, Config::JSON);
+    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
+    $this->crfts = $this->crftsFile->getAll();
+    $this->ftsFile = new Config($this->dir.self::FILE_FTS, Config::JSON);
+    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
+    $this->fts = $this->ftsFile->getAll();
   }
 
   /**
@@ -126,5 +142,27 @@ class Core extends PluginBase {
       $langCode
     ]);
     $this->getLogger()->info(TF::GREEN.$message);
+  }
+
+  /**
+   * @link onEnable() prepareTexts
+   * @return void
+   */
+  private function prepareTexts(): void {
+    $task = new class($this) extends PluginTask {
+
+      /** @var ?Core */
+      private $core = null;
+
+      public function __construct(Core $core) {
+        parent::__construct($core);
+        $this->core = $core;
+      }
+
+      public function onRun(int $tick) {
+        // TODO: 
+      }
+    };
+    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 20);
   }
 }

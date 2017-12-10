@@ -1,0 +1,38 @@
+configVersion: 22
+
+# 日本語 ガイド
+# eng guide
+
+# Texter 設定ファイル
+# Texter config file
+
+# 言語を設定してください (eng or jpn)
+# set language (eng or jpn)
+language: eng
+
+# タイムゾーンを設定してください
+# set timezone http://php.net/manual/ja/timezones.php
+timezone: false
+
+# もし起動時にアップデートの通知が必要ならtrue, 必要ないならfalseにしてください
+# When set to true, update notification is displayed at startup
+checkUpdate: true
+
+# コマンドを使用不可にしたい場合はfalseにしてください
+# If you want to disable the command, prease set it to false
+canUseCommands: true
+
+# 文字数の制限をする場合は文字数を, 不要なら -1 にしてください
+# To limit the number of characters, set it to that, if unnecessary, set it to -1.
+limit: 50
+
+# 改行数の制限をする場合は改行回数を、不要なら -1 にしてください
+# To limit the number of line feeds, set it to that, if unnecessary, set it to -1.
+feed: 3
+
+# テキストを設置不可能なワールドを設定する場合はワールド名を指定してください
+# Please specify the world name when setting the world where text can not be set up
+world:
+  # example
+  # - world
+  # - world-2

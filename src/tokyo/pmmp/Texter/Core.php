@@ -29,6 +29,7 @@ namespace tokyo\pmmp\Texter;
 use pocketmine\{
   lang\BaseLang,
   plugin\PluginBase,
+  utils\Config,
   utils\TextFormat as TF
 };
 
@@ -43,6 +44,7 @@ use tokyo\pmmp\Texter\{
  */
 class Core extends PluginBase {
 
+
   public const VERSION  = "2.3.0";
   public const CODENAME = "Phyllorhiza punctata";
 
@@ -51,10 +53,16 @@ class Core extends PluginBase {
   public const FILE_CRFTS      = "crfts.json";
   public const FILE_FTS        = "fts.json";
 
+  public const DS = DIRECTORY_SEPARATOR;
+
   /** @var ?TexterApi */
   private $api = null;
+  /** @var ?Config */
+  private $config = null;
   /** @var string */
-  private $langCode = "";
+  private $dir = "";
+  /** @var ?BaseLang */
+  private $lang = null;
   /** @var string[] */
   private $language = [
     "eng" => "English",
@@ -62,10 +70,11 @@ class Core extends PluginBase {
   ];
 
   public function onLoad() {
-    // TODO:
     $this->initApi();
     $this->initFiles();
     $this->initLanguage();
+    // TODO:
+    // $this->registerCommand();
     // $this->checkUpdate();
     // $this->setTimezone();
   }
@@ -73,9 +82,10 @@ class Core extends PluginBase {
   public function onEnable() {
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
-    $message  = TF::GREEN.$this->getDescription()->getFullName();
-    $message .= " - ".TF::BLUE."\"".self::CODENAME."\"";
-    $message .= TF::GREEN;// TODO: transrate
+    $message = $this->lang->translateString("on.enable.message", [
+      TF::GREEN.$this->getDescription()->getFullName(),
+      TF::BLUE.self::CODENAME.TF::GREEN
+    ]);
     $this->getLogger()->info($message);
   }
 
@@ -96,8 +106,11 @@ class Core extends PluginBase {
    * @return void
    */
   private function initFiles(): void {
-    $dir = $this->getDataFolder();
-    
+    $this->dir = $this->getDataFolder();
+    $this->saveResource(self::FILE_FTS);
+    $this->saveResource(self::FILE_CRFTS);
+    $this->saveResource(self::FILE_CONFIG);
+    $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
   }
 
   /**
@@ -105,7 +118,13 @@ class Core extends PluginBase {
    * @return void
    */
   private function initLanguage(): void {
-    // TODO: 2017/12/08
-    $lang = new BaseLang();
+    $langCode = (string)$this->config->get("language");
+    $this->saveResource("language".self::DS.$langCode.".ini");
+    $this->lang = new BaseLang($langCode, $this->dir."language".self::DS, "eng");
+    $message = $this->lang->translateString("language.selected", [
+      $this->lang->translateString("language.name"),
+      $langCode
+    ]);
+    $this->getLogger()->info(TF::GREEN.$message);
   }
 }

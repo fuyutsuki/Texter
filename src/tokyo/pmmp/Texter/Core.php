@@ -50,8 +50,6 @@ class Core extends PluginBase {
 
   public const FILE_CONFIG     = "config.yml";
   public const FILE_CONFIG_VER = 22;
-  public const FILE_CRFTS      = "crfts.json";
-  public const FILE_FTS        = "fts.json";
 
   public const DS = DIRECTORY_SEPARATOR;
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
@@ -60,23 +58,10 @@ class Core extends PluginBase {
   private $api = null;
   /** @var ?Config */
   private $config = null;
-  /** @var string */
-  private $dir = "";
   /** @var ?BaseLang */
   private $lang = null;
-  /** @var string[] */
-  private $language = [
-    "eng" => "English",
-    "jpn" => "日本語"
-  ];
-  /** @var ?Config */
-  private $crftsFile = null;
-  /** @var CantRemoveFloatingText[] */
-  public $crfts = [];
-  /** @var ?Config */
-  private $ftsFile = null;
-  /** @var FloatingText[] */
-  public $fts = [];
+  /** @var string */
+  public $dir = "";
 
   public function onLoad() {
     $this->initApi();
@@ -100,7 +85,7 @@ class Core extends PluginBase {
   }
 
   public function onDisable() {
-
+    // TODO:
   }
 
   /**
@@ -117,8 +102,6 @@ class Core extends PluginBase {
    */
   private function initFiles(): void {
     $this->dir = $this->getDataFolder();
-    $this->saveResource(self::FILE_FTS);
-    $this->saveResource(self::FILE_CRFTS);
     $this->saveResource(self::FILE_CONFIG);
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
     $this->crftsFile = new Config($this->dir.self::FILE_CRFTS, Config::JSON);
@@ -160,7 +143,7 @@ class Core extends PluginBase {
       }
 
       public function onRun(int $tick) {
-        // TODO: 
+
       }
     };
     $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 20);

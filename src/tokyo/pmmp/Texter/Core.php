@@ -29,13 +29,13 @@ namespace tokyo\pmmp\Texter;
 use pocketmine\{
   lang\BaseLang,
   plugin\PluginBase,
-  scheduler\PluginTask,
   utils\Config,
   utils\TextFormat as TF
 };
 
 // Texter
 use tokyo\pmmp\Texter\{
+  scheduler\PrepareTextsTask,
   EventListener,
   TexterApi
 };
@@ -49,17 +49,23 @@ class Core extends PluginBase {
   public const CODENAME = "Phyllorhiza punctata";
 
   public const FILE_CONFIG     = "config.yml";
-  public const FILE_CONFIG_VER = 22;
+  public const FILE_CONFIG_VER = 23;
 
   public const DS = DIRECTORY_SEPARATOR;
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
   /** @var ?TexterApi */
   private $api = null;
-  /** @var ?Config */
-  private $config = null;
   /** @var ?BaseLang */
   private $lang = null;
+  /** @var ?Config */
+  private $config = null;
+  /** @var int */
+  private $char = 50;
+  /** @var int */
+  private $feed = 3;
+  /** @var string[] */
+  private $worlds = [];
   /** @var string */
   public $dir = "";
 
@@ -67,6 +73,7 @@ class Core extends PluginBase {
     $this->initApi();
     $this->initFiles();
     $this->initLanguage();
+    $this->loadLimits();
     // TODO:
     // $this->registerCommand();
     // $this->checkUpdate();
@@ -89,6 +96,41 @@ class Core extends PluginBase {
   }
 
   /**
+   * @return ?TexterApi
+   */
+  public function getApi(): ?TexterApi{
+    return $this->api;
+  }
+
+  /**
+   * @return ?BaseLang
+   */
+  public function getLang(): ?BaseLang{
+    return $this->lang;
+  }
+
+  /**
+   * @return int
+   */
+  public function getCharLimit(): int{
+    return $this->char;
+  }
+
+  /**
+   * @return int
+   */
+  public function getFeedLimit(): int{
+    return $this->feed;
+  }
+
+  /**
+   * @return array
+   */
+  public function getWorldLimit(): array{
+    return $this->worlds;
+  }
+
+  /**
    * @link onLoad() initApi
    * @return void
    */
@@ -104,12 +146,6 @@ class Core extends PluginBase {
     $this->dir = $this->getDataFolder();
     $this->saveResource(self::FILE_CONFIG);
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
-    $this->crftsFile = new Config($this->dir.self::FILE_CRFTS, Config::JSON);
-    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->crfts = $this->crftsFile->getAll();
-    $this->ftsFile = new Config($this->dir.self::FILE_FTS, Config::JSON);
-    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->fts = $this->ftsFile->getAll();
   }
 
   /**
@@ -128,24 +164,71 @@ class Core extends PluginBase {
   }
 
   /**
+   * @link onLoad() loadLimits
+   * @return void
+   */
+  private function loadLimits(): void {
+    try {
+      $char = $this->config->get("char");
+      if ($char !== false) {
+        if (is_int($char)) {
+          $this->char = $char;
+        }else {
+          $message = $this->lang->translateString("error.config.limit", [
+            "char",
+            50
+          ]);
+          throw new \ErrorException($message, E_NOTICE);
+        }
+      }
+    } catch (\Exception $e) {
+      $this->getLogger()->notice($e->getMessage());
+    }
+    try {
+      $feed = $this->config->get("feed");
+      if ($feed !== false) {
+        if (is_int($feed)) {
+          $this->feed = $feed;
+        }else {
+          $message = $this->lang->translateString("error.config.limit", [
+            "feed",
+            3
+          ]);
+          throw new \ErrorException($message, E_NOTICE);
+        }
+      }
+    } catch (\Exception $e) {
+      $this->getLogger()->notice($e->getMessage());
+    }
+    try {
+      $worlds = $this->config->get("worlds");
+      var_dump($worlds);
+      if ($worlds !== false) {
+        if (is_string($worlds)) {
+          $this->worlds = [$worlds => ""];
+        }elseif(is_array($worlds)) {
+          $this->worlds = array_flip($worlds);
+        }else {
+          $message = $this->lang->translateString("error.config.limit", [
+            "world",
+            "[] (unlimited)"
+          ]);
+          throw new \ErrorException($message, E_NOTICE);
+        }
+      }else {
+        $this->worlds = [];
+      }
+    } catch (\ErrorException $e) {
+      $this->getLogger()->notice($e->getMessage());
+    }
+  }
+
+  /**
    * @link onEnable() prepareTexts
    * @return void
    */
   private function prepareTexts(): void {
-    $task = new class($this) extends PluginTask {
-
-      /** @var ?Core */
-      private $core = null;
-
-      public function __construct(Core $core) {
-        parent::__construct($core);
-        $this->core = $core;
-      }
-
-      public function onRun(int $tick) {
-
-      }
-    };
-    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 20);
+    $task = new PrepareTextsTask($this);
+    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
   }
 }

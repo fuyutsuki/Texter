@@ -16,7 +16,7 @@ checkUpdate: true
 canUseCommands: true
 
 # To limit the number of characters, set it to that, if unnecessary, set it to -1
-limit: 50
+char: 50
 
 # To limit the number of line feeds, set it to that, if unnecessary, set it to -1
 feed: 3

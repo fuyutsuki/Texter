@@ -4,6 +4,7 @@ namespace Texter\text;
 // Pocketmine
 use pocketmine\{
   level\Level,
+  Player
 };
 
 /**
@@ -11,11 +12,13 @@ use pocketmine\{
  */
 abstract class Text {
 
-  // TODO: メソッドチェーン及び動作回り
-
   /** @link $this->sendTo****() */
   public const SEND_TYPE_ADD = 0;
   public const SEND_TYPE_REMOVE = 1;
+  /** @link $this->getType() */
+  public const TEXT_TYPE_TEXT = 0;
+  public const TEXT_TYPE_FT = 1;
+  public const TEXT_TYPE_CRFT = 2;
 
   /** @var string **/
   private $title = "";
@@ -33,23 +36,26 @@ abstract class Text {
   private $id = 0;
   /** @var bool */
   private $invisible = false;
+  /** @var int */
+  private $type = 0;
 
   /**
+   * @param Level   $level
    * @param string  $title
    * @param string  $text = ""
    * @param number  $x = null
    * @param number  $y = null
    * @param number  $z = null
    * @param int     $id = 0
-   * @param Level   $level = null
    */
-  public function __construct(string $title, string $text = "", number $x = null, number $y = null, number $z = null, int $id = 0, Level $level = null) {
+  public function __construct(Level $level, string $title, string $text = "", number $x = null, number $y = null, number $z = null, int $id = 0) {
+    $this->level = $level;
     $this->title = $title;
     $this->text = $text;
     $this->x = $x !== null? $x : 0;
     $this->y = $y !== null? $y : 0;
     $this->z = $z !== null? $z : 0;
-    $this->level = $level;
+    $this->id = $id !== 0? $id : 0;
   }
 
   /**
@@ -61,10 +67,11 @@ abstract class Text {
 
   /**
    * @param string $title
-   * @return void
+   * @return Text
    */
-  public function setTitle(string $title): void {
+  public function setTitle(string $title): Text {
     $this->title = $title;
+    return $this;
   }
 
   /**
@@ -76,10 +83,11 @@ abstract class Text {
 
   /**
    * @param string $text
-   * @return void
+   * @return Text
    */
-  public function setText(string $text): void {
+  public function setText(string $text): Text {
     $this->text = $text;
+    return $this;
   }
 
   /**
@@ -91,10 +99,11 @@ abstract class Text {
 
   /**
    * @param number $x
-   * @return void
+   * @return Text
    */
-  public function setX(number $x): void {
+  public function setX(number $x): Text {
     $this->x = $x;
+    return $this;
   }
 
   /**
@@ -106,10 +115,11 @@ abstract class Text {
 
   /**
    * @param number $y
-   * @return void
+   * @return Text
    */
-  public function setY(number $y): void {
+  public function setY(number $y): Text {
     $this->y = $y;
+    return $this;
   }
 
   /**
@@ -174,5 +184,38 @@ abstract class Text {
   public function setInvisible(bool $invisible): Text {
     $this->invisible = true;
     return $this;
+  }
+
+  /**
+   * @return int $this->type
+   */
+  public function getType(): int {
+    $this->type;
+  }
+
+  public function sendToPlayer(int $sendType, Player $player): void {
+
+  }
+
+  public function sendToLevel(int $sendType, Level $level = null): void {
+
+  }
+
+  public function move(Vector3 $vec3): bool {
+
+  }
+
+  /**
+   * @link $this->sendToLevel(self::SEND_TYPE_REMOVE)
+   */
+  public function remove(): void {
+    $this->sendToLevel(self::SEND_TYPE_REMOVE);
+  }
+
+  /**
+   * @link $this->sendToLevel(self::SEND_TYPE_REMOVE)
+   */
+  public function clear(): void {
+    $this->sendToLevel(self::SEND_TYPE_REMOVE);
   }
 }

@@ -44,23 +44,23 @@ class PrepareTextsTask extends PluginTask {
   public function onRun(int $tick) {
     if (array_key_exists($this->keyCrft, $this->crfts)) {
       $tmpCrft = $this->crft[$this->keyCrft];
-      $world = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
+      $title = $tmpCrft["TITLE"];
+      $text = $tmpCrft["TEXT"];
       $x = $tmpCrft["Xvec"];
       $y = $tmpCrft["Yvec"];
       $z = $tmpCrft["Zvec"];
-      $title = $tmpCrft["TITLE"];
-      $text = $tmpCrft["TEXT"];
-      $crft = new CRFT($title, $text, $world, $x, $y, $z);
+      $level = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
+      $crft = new CRFT($title, $text, $x, $y, $z, $level);
       $this->processedCrfts[$crft->getId()] = $crft;
     }elseif (array_key_exists($this->keyFt, $this->fts)) {
       $tmpFt = $this->ft[$this->keyFt];
-      $world = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
+      $title = $tmpFt["TITLE"];
+      $text = $tmpFt["TEXT"];
       $x = $tmpFt["Xvec"];
       $y = $tmpFt["Yvec"];
       $z = $tmpFt["Zvec"];
-      $title = $tmpFt["TITLE"];
-      $text = $tmpFt["TEXT"];
-      $ft = new FT($title, $text, $world, $x, $y, $z);
+      $world = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
+      $ft = new FT($title, $text, $x, $y, $z, $world);
       $this->processedFts[$ft->getId()] = $ft;
     }else {
       $this->onComplete();

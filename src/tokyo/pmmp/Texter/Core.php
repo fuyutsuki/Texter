@@ -36,7 +36,6 @@ use pocketmine\{
 
 // Texter
 use tokyo\pmmp\Texter\{
-  scheduler\PrepareTextsTask,
   EventListener,
   TexterApi
 };
@@ -51,11 +50,8 @@ class Core extends PluginBase {
 
   public const FILE_CONFIG     = "config.yml";
   public const FILE_CONFIG_VER = 23;
-  public const FILE_CRFTS      = "crfts.json";
-  public const FILE_FTS        = "fts.json";
 
   public const DS = DIRECTORY_SEPARATOR;
-  private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
   /** @var ?TexterApi */
   private $api = null;
@@ -63,14 +59,6 @@ class Core extends PluginBase {
   private $lang = null;
   /** @var ?Config */
   private $config = null;
-  /** @var ?Config */
-  private $crftsFile = null;
-  /** @var CantRemoveFloatingText[] */
-  public $crfts = [];
-  /** @var ?Config */
-  private $ftsFile = null;
-  /** @var FloatingText[] */
-  public $fts = [];
   /** @var int */
   private $char = 50;
   /** @var int */
@@ -81,6 +69,7 @@ class Core extends PluginBase {
   public $dir = "";
 
   public function onLoad() {
+    $this->dir = $this->getDataFolder();
     $this->initApi();
     $this->initFiles();
     $this->initLanguage();
@@ -92,7 +81,7 @@ class Core extends PluginBase {
   }
 
   public function onEnable() {
-    $this->prepareTexts();
+    $this->api->prepareTexts();
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
     $message = $this->lang->translateString("on.enable.message", [
@@ -154,17 +143,8 @@ class Core extends PluginBase {
    * @return void
    */
   private function initFiles(): void {
-    $this->dir = $this->getDataFolder();
     $this->saveResource(self::FILE_CONFIG);
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
-    $this->saveResource(self::FILE_FTS);
-    $this->saveResource(self::FILE_CRFTS);
-    $this->crftsFile = new Config($this->dir.self::FILE_CRFTS, Config::JSON);
-    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->crfts = $this->crftsFile->getAll();
-    $this->ftsFile = new Config($this->dir.self::FILE_FTS, Config::JSON);
-    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->fts = $this->ftsFile->getAll();
   }
 
   /**
@@ -222,7 +202,6 @@ class Core extends PluginBase {
     }
     try {
       $worlds = $this->config->get("worlds");
-      var_dump($worlds);
       if ($worlds !== false) {
         if (is_string($worlds)) {
           $this->worlds = [$worlds => ""];
@@ -241,14 +220,5 @@ class Core extends PluginBase {
     } catch (\ErrorException $e) {
       $this->getLogger()->notice($e->getMessage());
     }
-  }
-
-  /**
-   * @link onEnable() prepareTexts
-   * @return void
-   */
-  private function prepareTexts(): void {
-    $task = new PrepareTextsTask($this, $this->crfts, $this->fts);
-    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
   }
 }

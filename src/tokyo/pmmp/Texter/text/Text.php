@@ -6,10 +6,13 @@ use pocketmine\{
   entity\Entity,
   level\Level,
   item\Item,
+  math\Vector3,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\SetEntityDataPacket,
   network\mcpe\protocol\MovePlayerPacket,
   network\mcpe\protocol\RemoveEntityPacket,
+  utils\TextFormat as TF,
+  utils\UUID,
   Player
 };
 
@@ -28,14 +31,14 @@ abstract class Text {
   public const TEXT_TYPE_FT = 1;
   public const TEXT_TYPE_CRFT = 2;
 
+  /** @var Level */
+  protected $level;
   /** @var string */
   protected $title = "";
   /** @var string */
   protected $text = "";
   /** @var ?Vector3 */
   protected $pos = null;
-  /** @var ?Level */
-  protected $level = null;
   /** @var string */
   protected $uuid = "";
   /** @var int */
@@ -43,7 +46,7 @@ abstract class Text {
   /** @var bool */
   protected $invisible = false;
   /** @var int */
-  protected $type = 0;
+  protected $type = self::TEXT_TYPE_TEXT;
 
   /**
    * @param Level   $level
@@ -57,6 +60,7 @@ abstract class Text {
     $this->title = $title;
     $this->text = $text;
     $this->pos = $pos !== null? $pos : new Vector3();
+    $this->uuid = UUID::fromRandom();
     $this->eid = $eid !== 0? $eid : Entity::$entityCount++;
   }
 
@@ -157,6 +161,22 @@ abstract class Text {
   }
 
   /**
+   * @return string UUID
+   */
+  public function getUUID(): string {
+    return $this->uuid;
+  }
+
+  /**
+   * @param string $uuid
+   * @return Text
+   */
+  public function setUUID(string $uuid): Text {
+    $this->uuid = $uuid;
+    return $this;
+  }
+
+  /**
    * @return int $this->eid
    */
   public function getEid(): int {
@@ -192,7 +212,7 @@ abstract class Text {
    * @return int $this->type
    */
   public function getType(): int {
-    $this->type;
+    return $this->type;
   }
 
   /**

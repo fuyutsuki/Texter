@@ -3,6 +3,7 @@ namespace tokyo\pmmp\Texter\scheduler;
 
 // Pocetmine
 use pocketmine\{
+  math\Vector3,
   scheduler\PluginTask,
   utils\TextFormat as TF
 };
@@ -46,22 +47,18 @@ class PrepareTextsTask extends PluginTask {
       $tmpCrft = $this->crfts[$this->keyCrft];
       $title = $tmpCrft["TITLE"];
       $text = $tmpCrft["TEXT"];
-      $x = $tmpCrft["Xvec"];
-      $y = $tmpCrft["Yvec"];
-      $z = $tmpCrft["Zvec"];
+      $pos = new Vector3($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"]);
       $level = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
-      $crft = new CRFT($level, $title, $text, $x, $y, $z);
+      $crft = new CRFT($level, $title, $text, $pos);
       $this->processedCrfts[$crft->getEid()] = $crft;
       ++$this->keyCrft;
     }elseif (array_key_exists($this->keyFt, $this->fts)) {
       $tmpFt = $this->fts[$this->keyFt];
       $title = $tmpFt["TITLE"];
       $text = $tmpFt["TEXT"];
-      $x = $tmpFt["Xvec"];
-      $y = $tmpFt["Yvec"];
-      $z = $tmpFt["Zvec"];
+      $pos = new Vector3($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"]);
       $level = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
-      $ft = new FT($level, $title, $text, $x, $y, $z);
+      $ft = new FT($level, $title, $text, $pos);
       $this->processedFts[$ft->getEid()] = $ft;
       ++$this->keyFt;
     }else {

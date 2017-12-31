@@ -9,5 +9,5 @@ namespace tokyo\pmmp\Texter\text;
 class CantRemoveFloatingText extends Text {
 
   /** @var int */
-  protected $type = 2;
+  protected $type = Text::TEXT_TYPE_CRFT;
 }

@@ -1,9 +1,15 @@
 <?php
-namespace Texter\text;
+namespace tokyo\pmmp\Texter\text;
 
 // Pocketmine
 use pocketmine\{
+  entity\Entity,
   level\Level,
+  item\Item,
+  network\mcpe\protocol\AddPlayerPacket,
+  network\mcpe\protocol\SetEntityDataPacket,
+  network\mcpe\protocol\MovePlayerPacket,
+  network\mcpe\protocol\RemoveEntityPacket,
   Player
 };
 
@@ -14,48 +20,44 @@ abstract class Text {
 
   /** @link $this->sendTo****() */
   public const SEND_TYPE_ADD = 0;
-  public const SEND_TYPE_REMOVE = 1;
+  public const SEND_TYPE_EDIT = 1;
+  public const SEND_TYPE_MOVE = 2;
+  public const SEND_TYPE_REMOVE = 3;
   /** @link $this->getType() */
   public const TEXT_TYPE_TEXT = 0;
   public const TEXT_TYPE_FT = 1;
   public const TEXT_TYPE_CRFT = 2;
 
-  /** @var string **/
-  private $title = "";
-  /** @var string **/
-  private $text = "";
-  /** @var number **/
-  private $x = 0;
-  /** @var number **/
-  private $y = 0;
-  /** @var number **/
-  private $z = 0;
+  /** @var string */
+  protected $title = "";
+  /** @var string */
+  protected $text = "";
+  /** @var ?Vector3 */
+  protected $pos = null;
   /** @var ?Level */
-  private $level = null;
+  protected $level = null;
+  /** @var string */
+  protected $uuid = "";
   /** @var int */
-  private $id = 0;
+  protected $eid = 0;
   /** @var bool */
-  private $invisible = false;
+  protected $invisible = false;
   /** @var int */
-  private $type = 0;
+  protected $type = 0;
 
   /**
    * @param Level   $level
    * @param string  $title
    * @param string  $text = ""
-   * @param number  $x = null
-   * @param number  $y = null
-   * @param number  $z = null
+   * @param Vector3 $vec3
    * @param int     $id = 0
    */
-  public function __construct(Level $level, string $title, string $text = "", number $x = null, number $y = null, number $z = null, int $id = 0) {
+  public function __construct(Level $level, string $title, string $text = "", Vector3 $pos = null, int $eid = 0) {
     $this->level = $level;
     $this->title = $title;
     $this->text = $text;
-    $this->x = $x !== null? $x : 0;
-    $this->y = $y !== null? $y : 0;
-    $this->z = $z !== null? $z : 0;
-    $this->id = $id !== 0? $id : 0;
+    $this->pos = $pos !== null? $pos : new Vector3();
+    $this->eid = $eid !== 0? $eid : Entity::$entityCount++;
   }
 
   /**
@@ -93,40 +95,40 @@ abstract class Text {
   /**
    * @return number $this->x
    */
-  public function getX(): number {
-    return $this->x;
+  public function getX() {
+    return $this->pos->x;
   }
 
   /**
-   * @param number $x
+   * @param  number $x
    * @return Text
    */
-  public function setX(number $x): Text {
-    $this->x = $x;
+  public function setX($x): Text {
+    $this->pos->x = is_numeric($x)? $x : $this->pos->x;
     return $this;
   }
 
   /**
    * @return number $this->y
    */
-  public function getY(): number {
-    return $this->y;
+  public function getY() {
+    return $this->pos->y;
   }
 
   /**
-   * @param number $y
+   * @param  number $y
    * @return Text
    */
-  public function setY(number $y): Text {
-    $this->y = $y;
+  public function setY($y): Text {
+    $this->pos->y = is_numeric($y)? $y : $this->pos->y;
     return $this;
   }
 
   /**
-   * @return number $this->z
+   * @return number $this->pos->z
    */
   public function getZ(): number {
-    return $this->z;
+    return $this->pos->z;
   }
 
   /**
@@ -134,7 +136,7 @@ abstract class Text {
    * @return Text
    */
   public function setZ(number $z): Text {
-    $this->z = $z;
+    $this->pos->z = is_numeric($z)? $z : $this->pos->z;
     return $this;
   }
 
@@ -155,18 +157,18 @@ abstract class Text {
   }
 
   /**
-   * @return int $this->id
+   * @return int $this->eid
    */
-  public function getId(): int {
-    return $this->id;
+  public function getEid(): int {
+    return $this->eid;
   }
 
   /**
-   * @param int $id
+   * @param int $eid
    * @return Text
    */
-  public function setId(int $id): Text {
-    $this->id = $id;
+  public function setEid(int $eid): Text {
+    $this->eid = $eid;
     return $this;
   }
 
@@ -193,29 +195,170 @@ abstract class Text {
     $this->type;
   }
 
+  /**
+   * Send to the player at the level.
+   * @param int    $sendType
+   * @param Player $player
+   * @return void
+   */
   public function sendToPlayer(int $sendType, Player $player): void {
+    switch ($sendType) {
+      case self::SEND_TYPE_ADD:
+        $pk = $this->getAsPacket(self::SEND_TYPE_ADD);
+      break;
 
-  }
+      case self::SEND_TYPE_EDIT:
+        $pk = $this->getAsPacket(self::SEND_TYPE_EDIT);
+      break;
 
-  public function sendToLevel(int $sendType, Level $level = null): void {
+      case self::SEND_TYPE_MOVE:
+        $pk = $this->getAsPacket(self::SEND_TYPE_MOVE);
+      break;
 
-  }
-
-  public function move(Vector3 $vec3): bool {
-
+      case self::SEND_TYPE_REMOVE:
+        $pk = $this->getAsPacket(self::SEND_TYPE_REMOVE);
+      break;
+    }
+    $player->dataPacket($pk);
   }
 
   /**
-   * @link $this->sendToLevel(self::SEND_TYPE_REMOVE)
+   * Send to all players at the level.
+   * @param int    $sendType
+   * @param Level  $level = null
+   * @return void
    */
-  public function remove(): void {
+  public function sendToLevel(int $sendType, Level $level = null): void {
+    $level = $level !== null? $level : $this->level;
+    $players = $level->getPlayers();
+    switch ($sendType) {
+      case self::SEND_TYPE_ADD:
+        $pk = $this->getAsPacket(self::SEND_TYPE_ADD);
+      break;
+
+      case self::SEND_TYPE_EDIT:
+        $pk = $this->getAsPacket(self::SEND_TYPE_EDIT);
+      break;
+
+      case self::SEND_TYPE_MOVE:
+        $pk = $this->getAsPacket(self::SEND_TYPE_MOVE);
+      break;
+
+      case self::SEND_TYPE_REMOVE:
+        $pk = $this->getAsPacket(self::SEND_TYPE_REMOVE);
+      break;
+    }
+    foreach ($players as $player) {
+      $player->dataPacket($pk);
+    }
+  }
+
+  /**
+   * It gets it as a packet.
+   * @param  int        $sendType
+   * @return DataPacket
+   */
+  public function getAsPacket(int $sendType): DataPacket {
+    switch ($sendType) {
+      case self::SEND_TYPE_ADD:
+        $pk = new AddPlayerPacket();
+        $pk->entityUniqueId = $this->eid;
+        $pk->uuid = $this->uuid;
+        $pk->username = "text";
+        $pk->position = $this->pos;
+        $pk->item = Item::get(Item::AIR);
+        $flags = 0;
+        $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
+        if ($this->invisible) $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
+        $pk->metadata = [
+          Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
+          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "")? "\n" . $this->text : ""],
+          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
+        ];
+      return $pk;
+
+      case self::SEND_TYPE_EDIT:
+        $pk = new SetEntityDataPacket();
+        $pk->entityUniqueId = $this->eid;
+        $flags = 0;
+        $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
+        if ($this->invisible) $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
+        $pk->metadata = [
+          Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
+          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "")? "\n" . $this->text : ""],
+          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
+        ];
+      return $pk;
+
+      case self::SEND_TYPE_MOVE:
+        $pk = new MovePlayerPacket();
+        $pk->entityUniqueId = $this->eid;
+        $pk->position = $this->pos;
+      return $pk;
+
+      case self::SEND_TYPE_REMOVE:
+        $pk = new RemoveEntityPacket();
+        $pk->entityUniqueId = $this->eid;
+      return $pk;
+    }
+  }
+
+  /**
+   * Move the FloatingText that a particular player can see
+   * @link $this->sendToPlayer()
+   * @param  Player  $player
+   * @param  Vector3 $vec3
+   * @return void
+   */
+  public function moveFromPlayer(Player $player, Vector3 $vec3): void {
+    $this->x = $vec3->x;
+    $this->y = $vec3->y;
+    $this->z = $vec3->z;
+    $this->sendToPlayer(self::SEND_TYPE_MOVE, $player);
+  }
+
+  /**
+   * Move the FloatingText that a particular player can see
+   * @link $this->sendToLevel()
+   * @param  Vector3 $vec3
+   * @return void
+   */
+  public function moveFromLevel(Vector3 $vec3): void {
+    $this->x = $vec3->x;
+    $this->y = $vec3->y;
+    $this->z = $vec3->z;
+    $this->sendToLevel(self::SEND_TYPE_MOVE);
+  }
+
+  /**
+   * @link $this->sendToPlayer()
+   */
+  public function removeFromPlayer(Player $player): void {
+    $this->sendToPlayer(self::SEND_TYPE_REMOVE, $player);
+  }
+
+  /**
+   * @link $this->sendToLevel()
+   */
+  public function removeFromLevel(): void {
     $this->sendToLevel(self::SEND_TYPE_REMOVE);
   }
 
   /**
-   * @link $this->sendToLevel(self::SEND_TYPE_REMOVE)
+   * @link $this->sendToPlayer()
    */
-  public function clear(): void {
+  public function clearFromPlayer(Player $player): void {
+    $this->sendToPlayer(self::SEND_TYPE_REMOVE, $player);
+  }
+
+  /**
+   * @link $this->sendToLevel()
+   */
+  public function clearFromLevel(): void {
     $this->sendToLevel(self::SEND_TYPE_REMOVE);
   }
 }

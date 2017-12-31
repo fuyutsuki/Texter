@@ -1,5 +1,5 @@
 <?php
-namespace Texter\text;
+namespace tokyo\pmmp\Texter\text;
 
 // Pocketmine
 
@@ -9,5 +9,5 @@ namespace Texter\text;
 class FloatingText extends Text {
 
   /** @var int */
-  private $type = 1;
+  protected $type = 1;
 }

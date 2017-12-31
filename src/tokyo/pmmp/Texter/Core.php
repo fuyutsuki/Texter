@@ -30,7 +30,8 @@ use pocketmine\{
   lang\BaseLang,
   plugin\PluginBase,
   utils\Config,
-  utils\TextFormat as TF
+  utils\TextFormat as TF,
+  utils\UUID
 };
 
 // Texter
@@ -50,6 +51,8 @@ class Core extends PluginBase {
 
   public const FILE_CONFIG     = "config.yml";
   public const FILE_CONFIG_VER = 23;
+  public const FILE_CRFTS      = "crfts.json";
+  public const FILE_FTS        = "fts.json";
 
   public const DS = DIRECTORY_SEPARATOR;
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
@@ -60,6 +63,14 @@ class Core extends PluginBase {
   private $lang = null;
   /** @var ?Config */
   private $config = null;
+  /** @var ?Config */
+  private $crftsFile = null;
+  /** @var CantRemoveFloatingText[] */
+  public $crfts = [];
+  /** @var ?Config */
+  private $ftsFile = null;
+  /** @var FloatingText[] */
+  public $fts = [];
   /** @var int */
   private $char = 50;
   /** @var int */
@@ -146,6 +157,14 @@ class Core extends PluginBase {
     $this->dir = $this->getDataFolder();
     $this->saveResource(self::FILE_CONFIG);
     $this->config = new Config($this->dir.self::FILE_CONFIG, Config::YAML);
+    $this->saveResource(self::FILE_FTS);
+    $this->saveResource(self::FILE_CRFTS);
+    $this->crftsFile = new Config($this->dir.self::FILE_CRFTS, Config::JSON);
+    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
+    $this->crfts = $this->crftsFile->getAll();
+    $this->ftsFile = new Config($this->dir.self::FILE_FTS, Config::JSON);
+    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
+    $this->fts = $this->ftsFile->getAll();
   }
 
   /**
@@ -154,6 +173,7 @@ class Core extends PluginBase {
    */
   private function initLanguage(): void {
     $langCode = (string)$this->config->get("language");
+    $this->saveResource("language".self::DS."eng.ini");
     $this->saveResource("language".self::DS.$langCode.".ini");
     $this->lang = new BaseLang($langCode, $this->dir."language".self::DS, "eng");
     $message = $this->lang->translateString("language.selected", [
@@ -228,7 +248,7 @@ class Core extends PluginBase {
    * @return void
    */
   private function prepareTexts(): void {
-    $task = new PrepareTextsTask($this);
+    $task = new PrepareTextsTask($this, $this->crfts, $this->fts);
     $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
   }
 }

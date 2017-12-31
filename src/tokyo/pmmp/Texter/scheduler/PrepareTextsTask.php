@@ -1,5 +1,5 @@
 <?php
-namespace Texter\scheduler;
+namespace tokyo\pmmp\Texter\scheduler;
 
 // Pocetmine
 use pocketmine\{
@@ -8,7 +8,7 @@ use pocketmine\{
 };
 
 // Texter
-use Texter\{
+use tokyo\pmmp\Texter\{
   Core,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT
@@ -43,35 +43,41 @@ class PrepareTextsTask extends PluginTask {
 
   public function onRun(int $tick) {
     if (array_key_exists($this->keyCrft, $this->crfts)) {
-      $tmpCrft = $this->crft[$this->keyCrft];
+      $tmpCrft = $this->crfts[$this->keyCrft];
       $title = $tmpCrft["TITLE"];
       $text = $tmpCrft["TEXT"];
       $x = $tmpCrft["Xvec"];
       $y = $tmpCrft["Yvec"];
       $z = $tmpCrft["Zvec"];
       $level = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
-      $crft = new CRFT($title, $text, $x, $y, $z, $level);
-      $this->processedCrfts[$crft->getId()] = $crft;
+      $crft = new CRFT($level, $title, $text, $x, $y, $z);
+      $this->processedCrfts[$crft->getEid()] = $crft;
+      ++$this->keyCrft;
     }elseif (array_key_exists($this->keyFt, $this->fts)) {
-      $tmpFt = $this->ft[$this->keyFt];
+      $tmpFt = $this->fts[$this->keyFt];
       $title = $tmpFt["TITLE"];
       $text = $tmpFt["TEXT"];
       $x = $tmpFt["Xvec"];
       $y = $tmpFt["Yvec"];
       $z = $tmpFt["Zvec"];
-      $world = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
-      $ft = new FT($title, $text, $x, $y, $z, $world);
-      $this->processedFts[$ft->getId()] = $ft;
+      $level = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
+      $ft = new FT($level, $title, $text, $x, $y, $z);
+      $this->processedFts[$ft->getEid()] = $ft;
+      ++$this->keyFt;
     }else {
       $this->onComplete();
     }
   }
 
-  private function onComplete(): void{
-    $this->core->getLang()->translateString("on.enable.prepared", [
-      ++$keyCrft,
-      ++$keyFt
+  private function onComplete(): void {
+    $message = $this->core->getLang()->translateString("on.enable.prepared", [
+      count($this->processedCrfts),
+      count($this->processedFts)
     ]);
     $this->core->getLogger()->info(TF::GREEN.$message);
+    $api = $this->core->getApi();
+    $api->registerTexts($this->processedCrfts);
+    $api->registerTexts($this->processedFts);
+    $this->core->getServer()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

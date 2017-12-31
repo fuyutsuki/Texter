@@ -40,38 +40,10 @@ use tokyo\pmmp\Texter\{
  */
 class TexterApi {
 
-  public const FILE_CRFTS      = "crfts.json";
-  public const FILE_FTS        = "fts.json";
-
-  private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
-
   /** @var ?Core */
   private $core = null;
-  /** @var ?Config */
-  private $crftsFile = null;
-  /** @var CantRemoveFloatingText[] */
-  public $crfts = [];
-  /** @var ?Config */
-  private $ftsFile = null;
-  /** @var FloatingText[] */
-  public $fts = [];
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->initFiles();
-  }
-
-  /**
-   * init
-   */
-  private function initFiles(): void {
-    $this->core->saveResource(self::FILE_FTS);
-    $this->core->saveResource(self::FILE_CRFTS);
-    $this->crftsFile = new Config($this->core->dir.self::FILE_CRFTS, Config::JSON);
-    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->crfts = $this->crftsFile->getAll();
-    $this->ftsFile = new Config($this->core->dir.self::FILE_FTS, Config::JSON);
-    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->fts = $this->ftsFile->getAll();
   }
 }

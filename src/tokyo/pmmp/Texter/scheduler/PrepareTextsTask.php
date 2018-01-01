@@ -3,7 +3,7 @@ namespace tokyo\pmmp\Texter\scheduler;
 
 // Pocetmine
 use pocketmine\{
-  math\Vector3,
+  level\Position,
   scheduler\PluginTask,
   utils\TextFormat as TF
 };
@@ -27,9 +27,9 @@ class PrepareTextsTask extends PluginTask {
   /** @var mixed[] */
   private $fts = [];
   /** @var int */
-  private $keyCrft = 0;
+  private $keyCrfts = 0;
   /** @var int */
-  private $keyFt = 0;
+  private $keyFts = 0;
   /** @var CantRemoveFloatingText[] */
   private $processedCrfts = [];
   /** @var FloatingText[] */
@@ -43,24 +43,35 @@ class PrepareTextsTask extends PluginTask {
   }
 
   public function onRun(int $tick) {
-    if (array_key_exists($this->keyCrft, $this->crfts)) {
-      $tmpCrft = $this->crfts[$this->keyCrft];
+    if (array_key_exists($this->keyCrfts, $this->crfts)) {
+      $tmpCrft = $this->crfts[$this->keyCrfts];
+      $level = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
+      if ($level !== null) {
+        $pos = new Position($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"], $level);
+      }else {
+        $level = $this->core->getServer()->getDefaultLevel();
+        $pos = new Position($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"], $level);
+      }
       $title = $tmpCrft["TITLE"];
       $text = $tmpCrft["TEXT"];
-      $pos = new Vector3($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"]);
-      $level = $this->core->getServer()->getLevelByName($tmpCrft["WORLD"]);
-      $crft = new CRFT($level, $title, $text, $pos);
-      $this->processedCrfts[$crft->getEid()] = $crft;
-      ++$this->keyCrft;
-    }elseif (array_key_exists($this->keyFt, $this->fts)) {
-      $tmpFt = $this->fts[$this->keyFt];
+      $crft = new CRFT($pos, $title, $text);
+      $this->processedCrfts[] = $crft;
+      ++$this->keyCrfts;
+    }elseif (array_key_exists($this->keyFts, $this->fts)) {
+      $tmpFt = $this->fts[$this->keyFts];
+      $level = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
+      if ($level !== null) {
+        $pos = new Position($tmpFt["Xvec"], $tmpFt["Yvec"], $tmpFt["Zvec"], $level);
+      }else {
+        $level = $this->core->getServer()->getDefaultLevel();
+        $pos = new Position($tmpFt["Xvec"], $tmpFt["Yvec"], $tmpFt["Zvec"], $level);
+      }
       $title = $tmpFt["TITLE"];
       $text = $tmpFt["TEXT"];
-      $pos = new Vector3($tmpCrft["Xvec"], $tmpCrft["Yvec"], $tmpCrft["Zvec"]);
-      $level = $this->core->getServer()->getLevelByName($tmpFt["WORLD"]);
-      $ft = new FT($level, $title, $text, $pos);
-      $this->processedFts[$ft->getEid()] = $ft;
-      ++$this->keyFt;
+      $owner = $tmpFt["OWNER"];
+      $ft = new FT($pos, $title, $text, $owner);
+      $this->processedFts[] = $ft;
+      ++$this->keyFts;
     }else {
       $this->onComplete();
     }
@@ -73,8 +84,16 @@ class PrepareTextsTask extends PluginTask {
     ]);
     $this->core->getLogger()->info(TF::GREEN.$message);
     $api = $this->core->getApi();
-    $api->registerTexts($this->processedCrfts);
-    $api->registerTexts($this->processedFts);
+    if (!empty($this->processedCrfts)) {
+      foreach ($this->processedCrfts as $crft) {
+        $api->registerText($crft);
+      }
+    }
+    if (!empty($this->processedFts)) {
+      foreach ($this->processedFts as $ft) {
+        $api->registerText($ft);
+      }
+    }
     $this->core->getServer()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

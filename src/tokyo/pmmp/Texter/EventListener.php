@@ -26,13 +26,37 @@
 namespace tokyo\pmmp\Texter;
 
 // Pocketmine
-use pocketmine\event\Listener;
+use pocketmine\{
+  event\Listener,
+  event\player\PlayerJoinEvent
+};
 
 // Texter
+use tokyo\pmmp\Texter\{
+  Core,
+  TexterApi,
+  scheduler\SendTextsTask
+};
 
 /**
  * EventListener
  */
 class EventListener implements Listener {
-  // TODO: 
+
+  /** @var ?Core */
+  private $core = null;
+  /** @var ?TexterApi */
+  private $api = null;
+
+  public function __construct(Core $core) {
+    $this->core = $core;
+    $this->api = $core->getApi();
+  }
+
+  public function onJoin(PlayerJoinEvent $event) {
+    $player = $event->getPlayer();
+    $level = $player->getLevel();
+    $task = new SendTextsTask($this->core, $player, $level);
+    $this->core->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
+  }
 }

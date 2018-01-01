@@ -5,8 +5,9 @@ namespace tokyo\pmmp\Texter\text;
 use pocketmine\{
   entity\Entity,
   level\Level,
+  level\Position,
   item\Item,
-  math\Vector3,
+  network\mcpe\protocol\DataPacket,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\SetEntityDataPacket,
   network\mcpe\protocol\MovePlayerPacket,
@@ -31,15 +32,13 @@ abstract class Text {
   public const TEXT_TYPE_FT = 1;
   public const TEXT_TYPE_CRFT = 2;
 
-  /** @var Level */
-  protected $level;
+  /** @var ?Position */
+  protected $pos = null;
   /** @var string */
   protected $title = "";
   /** @var string */
   protected $text = "";
-  /** @var ?Vector3 */
-  protected $pos = null;
-  /** @var string */
+  /** @var UUID */
   protected $uuid = "";
   /** @var int */
   protected $eid = 0;
@@ -49,19 +48,49 @@ abstract class Text {
   protected $type = self::TEXT_TYPE_TEXT;
 
   /**
-   * @param Level   $level
-   * @param string  $title
-   * @param string  $text = ""
-   * @param Vector3 $vec3
-   * @param int     $id = 0
+   * @param Position $pos
+   * @param string   $title
+   * @param string   $text = ""
+   * @param int      $id = 0
    */
-  public function __construct(Level $level, string $title, string $text = "", Vector3 $pos = null, int $eid = 0) {
-    $this->level = $level;
+  public function __construct(Position $pos, string $title, string $text = "", int $eid = 0) {
+    $this->pos = $pos !== null? $pos : new Position();
     $this->title = $title;
     $this->text = $text;
-    $this->pos = $pos !== null? $pos : new Vector3();
     $this->uuid = UUID::fromRandom();
     $this->eid = $eid !== 0? $eid : Entity::$entityCount++;
+  }
+
+  /**
+   * @return Position
+   */
+  public function getAsPosition(): Position {
+    return $this->pos;
+  }
+
+  /**
+   * @param  Position $pos
+   * @return Text
+   */
+  public function setCoordByPosition(Position $pos): Text {
+    $this->pos = $pos;
+    return $this;
+  }
+
+  /**
+   * @return Vector3
+   */
+  public function getAsVector3(): Vector3 {
+    return $this->pos->asVector3();
+  }
+
+  /**
+   * @param Vector3 $vec3
+   * @return Text
+   */
+  public function setCoordByVector3(Vector3 $vec3): Text {
+    $this->pos = Position::fromObject($vec3, $this->pos->getLevel());
+    return $this;
   }
 
   /**
@@ -148,7 +177,7 @@ abstract class Text {
    * @return Level $this->level
    */
   public function getLevel(): Level {
-    return $this->level;
+    return $this->pos->level;
   }
 
   /**
@@ -156,22 +185,22 @@ abstract class Text {
    * @return Text
    */
   public function setLevel(Level $level): Text {
-    $this->level = $level;
+    $this->pos->level = $level;
     return $this;
   }
 
   /**
    * @return string UUID
    */
-  public function getUUID(): string {
+  public function getUUID(): UUID {
     return $this->uuid;
   }
 
   /**
-   * @param string $uuid
+   * @param UUID $uuid
    * @return Text
    */
-  public function setUUID(string $uuid): Text {
+  public function setUUID(UUID $uuid): Text {
     $this->uuid = $uuid;
     return $this;
   }
@@ -283,6 +312,7 @@ abstract class Text {
       case self::SEND_TYPE_ADD:
         $pk = new AddPlayerPacket();
         $pk->entityUniqueId = $this->eid;
+        $pk->entityRuntimeId = $this->eid;
         $pk->uuid = $this->uuid;
         $pk->username = "text";
         $pk->position = $this->pos;
@@ -294,14 +324,14 @@ abstract class Text {
         if ($this->invisible) $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "")? "\n" . $this->text : ""],
+          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== ""? "\n" . $this->text : "")],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
       return $pk;
 
       case self::SEND_TYPE_EDIT:
         $pk = new SetEntityDataPacket();
-        $pk->entityUniqueId = $this->eid;
+        $pk->entityRuntimeId = $this->eid;
         $flags = 0;
         $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
         $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
@@ -309,14 +339,14 @@ abstract class Text {
         if ($this->invisible) $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "")? "\n" . $this->text : ""],
+          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== ""? "\n" . $this->text : "")],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
       return $pk;
 
       case self::SEND_TYPE_MOVE:
         $pk = new MovePlayerPacket();
-        $pk->entityUniqueId = $this->eid;
+        $pk->entityRuntimeId = $this->eid;
         $pk->position = $this->pos;
       return $pk;
 
@@ -331,26 +361,22 @@ abstract class Text {
    * Move the FloatingText that a particular player can see
    * @link $this->sendToPlayer()
    * @param  Player  $player
-   * @param  Vector3 $vec3
+   * @param  Position $pos = null
    * @return void
    */
-  public function moveFromPlayer(Player $player, Vector3 $vec3): void {
-    $this->x = $vec3->x;
-    $this->y = $vec3->y;
-    $this->z = $vec3->z;
+  public function moveFromPlayer(Player $player, Position $pos = null): void {
+    $this->pos = $pos !== null? $pos : $this->pos;
     $this->sendToPlayer(self::SEND_TYPE_MOVE, $player);
   }
 
   /**
    * Move the FloatingText that a particular player can see
    * @link $this->sendToLevel()
-   * @param  Vector3 $vec3
+   * @param  Position $pos = null
    * @return void
    */
-  public function moveFromLevel(Vector3 $vec3): void {
-    $this->x = $vec3->x;
-    $this->y = $vec3->y;
-    $this->z = $vec3->z;
+  public function moveFromLevel(Position $pos = null): void {
+    $this->pos = $pos !== null? $pos : $this->pos;
     $this->sendToLevel(self::SEND_TYPE_MOVE);
   }
 

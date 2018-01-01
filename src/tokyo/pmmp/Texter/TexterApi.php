@@ -27,7 +27,9 @@ namespace tokyo\pmmp\Texter;
 
 // Pocketmine
 use pocketmine\{
+  level\Level,
   utils\Config,
+  utils\UUID
 };
 
 // Texter
@@ -56,11 +58,11 @@ class TexterApi {
   /** @var ?Config */
   private $crftsFile = null;
   /** @var CantRemoveFloatingText[] */
-  public $crfts = [];
+  private $crfts = [];
   /** @var ?Config */
   private $ftsFile = null;
   /** @var FloatingText[] */
-  public $fts = [];
+  private $fts = [];
 
   public function __construct(Core $core) {
     self::$instance = $this;
@@ -101,7 +103,12 @@ class TexterApi {
    * @return array
    */
   public function getCrftsByLevel(Level $level): array {
-    return $this->crfts[strtolower($level->getName())];
+    $levelName = strtolower($level->getName());
+    if (array_key_exists($levelName, $this->crfts)) {
+      return $this->crfts[$levelName];
+    }else {
+      return [];
+    }
   }
 
   /**
@@ -109,25 +116,42 @@ class TexterApi {
    * @return array
    */
   public function getCrftsByLevelName(string $levelName): array {
-    return $this->crfts[strtolower($levelName)];
+    $levelName = strtolower($levelName);
+    if (array_key_exists($levelName, $this->crfts)) {
+      return $this->crfts[$levelName];
+    }else {
+      return [];
+    }
   }
 
   /**
-   * @param  Level  $level
-   * @param  string $uuid
-   * @return CantRemoveFloatingText
+   * @param  Level $level
+   * @param  UUID  $uuid
+   * @return ?CantRemoveFloatingText
    */
-  public function getCrftByLevel(Level $level, string $uuid): CRFT {
-    return $this->crfts[strtolower($level->getName())][$uuid];
+  public function getCrftByLevel(Level $level, UUID $uuid): ?CRFT {
+    $crfts = $this->getCrftsByLevel($level);
+    $uuid = $uuid->__toString();
+    if (array_key_exists($uuid, $crfts)) {
+      return $crfts[$uuid];
+    }else {
+      return null;
+    }
   }
 
   /**
    * @param  string $levelName
-   * @param  string $uuid
-   * @return CantRemoveFloatingText
+   * @param  UUID   $uuid
+   * @return ?CantRemoveFloatingText
    */
-  public function getCrftByLevelName(string $levelName, string $uuid): CRFT {
-    return $this->crfts[strtolower($levelName)][$uuid];
+  public function getCrftByLevelName(string $levelName, UUID $uuid): ?CRFT {
+    $crfts = $this->getCrftsByLevelName($levelName);
+    $uuid = $uuid->__toString();
+    if (array_key_exists($uuid, $crfts)) {
+      return $crfts[$uuid];
+    }else {
+      return null;
+    }
   }
 
   /**
@@ -151,7 +175,12 @@ class TexterApi {
    * @return array
    */
   public function getFtsByLevel(Level $level): array {
-    return $this->fts[strtolower($level->getName())];
+    $levelName = strtolower($level->getName());
+    if (array_key_exists($levelName, $this->fts)) {
+      return $this->fts[$levelName];
+    }else {
+      return [];
+    }
   }
 
   /**
@@ -159,16 +188,27 @@ class TexterApi {
    * @return array
    */
   public function getFtsByLevelName(string $levelName): array {
-    return $this->fts[strtolower($levelName)];
+    $levelName = strtolower($levelName);
+    if (array_key_exists($levelName, $this->crfts)) {
+      return $this->crfts[$levelName];
+    }else {
+      return [];
+    }
   }
 
   /**
    * @param  Level  $level
    * @param  string $uuid
-   * @return FloatingText
+   * @return ?FloatingText
    */
-  public function getFtByLevel(Level $level, string $uuid): FT {
-    return $this->fts[strtolower($level->getName())][$uuid];
+  public function getFtByLevel(Level $level, string $uuid): ?FT {
+    $fts = $this->getFtsByLevel($level);
+    $uuid = $uuid->__toString();
+    if (array_key_exists($uuid, $fts)) {
+      return $fts[$uuid];
+    }else {
+      return null;
+    }
   }
 
   /**
@@ -176,8 +216,14 @@ class TexterApi {
    * @param  string $uuid
    * @return FloatingText
    */
-  public function getFtByLevelName(string $levelName, string $uuid): FT {
-    return $this->fts[strtolower($levelName)][$uuid];
+  public function getFtByLevelName(string $levelName, string $uuid): ?FT {
+    $fts = $this->getFtsByLevelName($levelName);
+    $uuid = $uuid->__toString();
+    if (array_key_exists($uuid, $fts)) {
+      return $fts[$uuid];
+    }else {
+      return null;
+    }
   }
 
   /**
@@ -191,36 +237,17 @@ class TexterApi {
 
   /**
    * Register the FloatingText in TexterApi.
-   * @param  array $texts
-   * @return void
-   */
-  public function registerTexts(array $texts): void {
-    foreach ($texts as $text) {
-      switch ($text->getType()) {
-        case Text::TEXT_TYPE_FT:
-          $this->fts[$text->getLevel()->getName()][$text->getUUID()] = $text;
-        break;
-
-        case Text::TEXT_TYPE_CRFT:
-          $this->crfts[$text->getLevel()->getName()][$text->getUUID()] = $text;
-        break;
-      }
-    }
-  }
-
-  /**
-   * Register the FloatingText in TexterApi.
    * @param  Text $text
    * @return void
    */
   public function registerText(Text $text): void {
     switch ($text->getType()) {
       case Text::TEXT_TYPE_FT:
-        $this->fts[$text->getLevel()->getName()][$text->getUUID()] = $text;
+        $this->fts[$text->getLevel()->getName()][$text->getUUID()->__toString()] = $text;
       break;
 
       case Text::TEXT_TYPE_CRFT:
-        $this->crfts[$text->getLevel()->getName()][$text->getUUID()] = $text;
+        $this->crfts[$text->getLevel()->getName()][$text->getUUID()->__toString()] = $text;
       break;
     }
   }
@@ -232,7 +259,7 @@ class TexterApi {
    */
   public function unregisterText(Text $text): bool {
     $levelName = $text->getLevel()->getName();
-    $uuid = $text->getUUID();
+    $uuid = $text->getUUID()->__toString();
     if (array_key_exists($uuid, $this->fts)) {
       $ft = $this->getFt($levelName, $uuid);
       $ft->removeFromLevel();
@@ -248,14 +275,95 @@ class TexterApi {
   }
 
   /**
-   * Save crfts in Config file
-   * @return
+   * Save FloatingTexts in Config file.
+   * @return void
    */
-  public function saveCrfts(): void {
-    //$this->core->crftsFile
+  public function saveFts() {
+    $fts = [];
+    if (!empty($this->fts)) {
+      foreach ($this->fts as $levelName => $ftsOnLevel) {
+        foreach ($ftsOnLevel as $uuid => $ft) {
+          $fts[$uuid] = [
+            "WORLD" => $ft->getLevel()->getName(),
+            "Xvec"  => $ft->getX(),
+            "Yvec"  => $ft->getY(),
+            "Zvec"  => $ft->getZ(),
+            "TITLE" => $ft->getTitle(),
+            "TEXT"  => $ft->getText(),
+            "OWNER" => $ft->getOwner(),
+            "UUID"  => $ft->getUUID()->__toString()
+          ];
+        }
+      }
+      $this->ftsFile->setAll($fts);
+      $this->ftsFile->save(true);// HACK: Async
+      return true;
+    }else {
+      return false;
+    }
   }
 
-  public function saveFts() {
+  /**
+   * Save FloatingTexts on level in Config file.
+   * @return bool
+   */
+  public function saveFtsByLevel(Level $level): bool {
+    $fts = [];
+    $levelName = strtolower($level->getName());
+    if (!empty($this->fts)) {
+      foreach ($this->fts as $cLevelName => $ftsOnLevel) {
+        if ($cLevelName === $levelName) {
+          foreach ($ftsOnLevel as $uuid => $ft) {
+            $fts[$uuid] = [
+              "WORLD" => $ft->getLevel()->getName(),
+              "Xvec"  => $ft->getX(),
+              "Yvec"  => $ft->getY(),
+              "Zvec"  => $ft->getZ(),
+              "TITLE" => $ft->getTitle(),
+              "TEXT"  => $ft->getText(),
+              "OWNER" => $ft->getOwner(),
+              "UUID"  => $ft->getUUID()->__toString()
+            ];
+          }
+        }
+      }
+      $this->ftsFile->setAll($fts);
+      $this->ftsFile->save(true);// HACK: Async
+      return true;
+    }else {
+      return false;
+    }
+  }
 
+  /**
+   * Save FloatingTexts on level in Config file.
+   * @return bool
+   */
+  public function saveFtsByLevelName(string $levelName): bool {
+    $fts = [];
+    $levelName = strtolower($levelName);
+    if (!empty($this->fts)) {
+      foreach ($this->fts as $cLevelName => $ftsOnLevel) {
+        if ($cLevelName === $levelName) {
+          foreach ($ftsOnLevel as $uuid => $ft) {
+            $fts[$uuid] = [
+              "WORLD" => $ft->getLevel()->getName(),
+              "Xvec"  => $ft->getX(),
+              "Yvec"  => $ft->getY(),
+              "Zvec"  => $ft->getZ(),
+              "TITLE" => $ft->getTitle(),
+              "TEXT"  => $ft->getText(),
+              "OWNER" => $ft->getOwner(),
+              "UUID"  => $ft->getUUID()->__toString()
+            ];
+          }
+        }
+      }
+      $this->ftsFile->setAll($fts);
+      $this->ftsFile->save(true);// HACK: Async
+      return true;
+    }else {
+      return false;
+    }
   }
 }

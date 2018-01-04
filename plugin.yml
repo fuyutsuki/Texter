@@ -13,7 +13,7 @@ authors:
 - ShadowArt
 - Marron0421
 website: https://twitter.com/_riu_m
-description: This is a PocketMine-MP plugin that can add, remove, move and update FloatingTextParticle.
+description: This is a PocketMine-MP plugin that can add, remove, update and move FloatingTextParticle.
 
 permissions:
  texter.*:

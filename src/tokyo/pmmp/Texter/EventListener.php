@@ -1,10 +1,10 @@
 <?php
 
 /**
- * ## English
+ * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2017 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * This software is distributed under "MIT license".
  * You should have received a copy of the MIT license
@@ -12,10 +12,10 @@
  * < https://opensource.org/licenses/mit-license >.
  *
  * ---------------------------------------------------------------------
- * ## 日本語
+ * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです。
- * Copyright (c) 2017 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
  * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
@@ -27,7 +27,9 @@ namespace tokyo\pmmp\Texter;
 
 // Pocketmine
 use pocketmine\{
+  Player,
   event\Listener,
+  event\entity\EntityLevelChangeEvent,
   event\player\PlayerJoinEvent
 };
 
@@ -35,7 +37,7 @@ use pocketmine\{
 use tokyo\pmmp\Texter\{
   Core,
   TexterApi,
-  scheduler\SendTextsTask
+  scheduler\AddTextsTask
 };
 
 /**
@@ -56,7 +58,15 @@ class EventListener implements Listener {
   public function onJoin(PlayerJoinEvent $event) {
     $player = $event->getPlayer();
     $level = $player->getLevel();
-    $task = new SendTextsTask($this->core, $player, $level);
+    $task = new AddTextsTask($this->core, $player, $level);
     $this->core->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
+  }
+
+  public function onLevelChange(EntityLevelChangeEvent $event) {
+    $entity = $event->getEntity();
+    if ($entity instanceof Player) {
+      $removeTask = new RemoveTextsTask($this->core, $entity, true);
+      $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task, 10, 1);
+    }
   }
 }

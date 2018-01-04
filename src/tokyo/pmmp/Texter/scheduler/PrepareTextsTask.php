@@ -1,18 +1,43 @@
 <?php
+
+/**
+ * // English
+ *
+ * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ *
+ * This software is distributed under "MIT license".
+ * You should have received a copy of the MIT license
+ * along with this program.  If not, see
+ * < https://opensource.org/licenses/mit-license >.
+ *
+ * ---------------------------------------------------------------------
+ * // 日本語
+ *
+ * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです。
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ *
+ * このソフトウェアは"MITライセンス"下で配布されています。
+ * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * 受け取っていない場合、下記のURLからご覧ください。
+ * < https://opensource.org/licenses/mit-license >
+ */
+
 namespace tokyo\pmmp\Texter\scheduler;
 
 // Pocetmine
 use pocketmine\{
   level\Position,
   scheduler\PluginTask,
-  utils\TextFormat as TF
+  utils\TextFormat as TF,
+  utils\UUID
 };
 
 // Texter
 use tokyo\pmmp\Texter\{
   Core,
-  text\CantRemoveFloatingText as CRFT,
-  text\FloatingText as FT
+  texts\CantRemoveFloatingText as CRFT,
+  texts\FloatingText as FT
 };
 
 /**
@@ -69,7 +94,12 @@ class PrepareTextsTask extends PluginTask {
       $title = $tmpFt["TITLE"];
       $text = $tmpFt["TEXT"];
       $owner = $tmpFt["OWNER"];
-      $ft = new FT($pos, $title, $text, $owner);
+      if (array_key_exists("UUID", $tmpFt)) {
+        $uuid = UUID::fromString($tmpFt["UUID"]);
+        $ft = new FT($pos, $title, $text, $owner, $uuid);
+      }else {
+        $ft = new FT($pos, $title, $text, $owner);
+      }
       $this->processedFts[] = $ft;
       ++$this->keyFts;
     }else {
@@ -94,6 +124,7 @@ class PrepareTextsTask extends PluginTask {
         $api->registerText($ft);
       }
     }
+    $api->saveFts();
     $this->core->getServer()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

@@ -43,7 +43,7 @@ use io\github\mcbejpn\Texter\{
  */
 class Core extends PluginBase {
 
-  public const CODENAME = "Papilio dehaanii(カラスアゲハ)";
+  public const CODENAME = "Phyllorhiza punctata";
 
   /** @var string */
   public $dir = "";
@@ -108,6 +108,6 @@ class Core extends PluginBase {
    * @return void
    */
   private function initLang(): void {
-
+    $langCode = $this->tdm->getLangCode();
   }
 }

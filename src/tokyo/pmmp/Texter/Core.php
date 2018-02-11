@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace io\github\mcbejpn\Texter;
+namespace tokyo\pmmp\Texter;
 
 // pocketmine
 use pocketmine\{
@@ -32,10 +32,11 @@ use pocketmine\{
 };
 
 // texter
-use io\github\mcbejpn\Texter\{
-  texts\Text,
-  texts\CantRemoveFloatingText as CRFT,
-  texts\FloatingText as FT
+use tokyo\pmmp\Texter\{
+  managers\ConfigDataManager,
+  managers\CrftsDataManager,
+  managers\FtsDataManager,
+  managers\Manager
 };
 
 /**
@@ -47,18 +48,36 @@ class Core extends PluginBase {
 
   /** @var string */
   public $dir = "";
-  /** @var ?TextsDataManager */
-  private $tdm = null;
+  /** @var ?ConfigDataManager */
+  private $configDm = null;
+  /** @var ?CrftsDataManager */
+  private $crftsDm = null;
+  /** @var ?FtsDataManager */
+  private $ftsDm = null;
   /** @var ?TexterApi */
   private $api = null;
   /** @var ?BaseLang */
   private $lang = null;
 
   /**
-   * @return ?TextsDataManager
+   * @return ?ConfigDataManager
    */
-  public function getTextsDataManager(): ?TextsDataManager {
-    return $this->tdm;
+  public function getConfigDataManager(): ?ConfigDataManager {
+    return $this->configDm;
+  }
+
+  /**
+   * @return ?CrftsDataManager
+   */
+  public function getCrftsDataManager(): ?CrftsDataManager {
+    return $this->crftsDm;
+  }
+
+  /**
+   * @return ?FtsDataManager
+   */
+  public function getFtsDataManager(): ?FtsDataManager {
+    return $this->ftsDm;
   }
 
   /**
@@ -76,8 +95,9 @@ class Core extends PluginBase {
   }
 
   public function onLoad() {
-    $this->initDataManager();
-    $this->initApi();
+    $this->dir = $this->getDataFolder();
+    $this->initDataManagers();
+    $this->initApi();// TODO: 
     $this->initLang();
     $this->registerCommands();
     $this->checkUpdate();
@@ -93,8 +113,10 @@ class Core extends PluginBase {
   /**
    * @return void
    */
-  private function initDataManager(): void {
-    $this->tdm = new TextsDataManager($this);
+  private function initDataManagers(): void {
+    $this->configDm = new ConfigDataManager($this);
+    $this->crftsDm = new CrftsDataManager($this);
+    $this->ftsDm = new FtsDataManager($this);
   }
 
   /**

@@ -1,8 +1,7 @@
 name: Texter
-main: io\github\mcbejpn\Texter\Core
+main: tokyo\pmmp\Texter\Core
 version: 2.3.0
-api: 3.0.0-ALPHA10 #pmmp/PocketMine-MP
-
+api: 3.0.0-ALPHA11 #pmmp/PocketMine-MP
 author: yuko_fuyutsuki
 authors:
 # SpecialThanks(敬称略)

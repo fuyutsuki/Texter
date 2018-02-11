@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace io\github\mcbejpn\Texter;
+namespace tokyo\pmmp\Texter\managers;
 
 // pocketmine
 use pocketmine\{
@@ -31,69 +31,80 @@ use pocketmine\{
 };
 
 // texter
-use io\github\mcbejpn\Texter\{
+use tokyo\pmmp\Texter\{
   Core
 };
 
 /**
- * TextsDataManagerClass
+ * AbstractManagerClass
  */
-class TextsDataManager {
+abstract class Manager {
 
   private const FILE_CONFIG = "config.yml";
-  private const FILE_CONFIG_VER = 23;
-  private const FILE_CRFTS = "crfts.json";
-  private const FILE_FTS = "fts.json";
-
+  private const FILE_TYPE = Config::YAML;
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
+  /** @var ?self */
+  private static $instance = null;
   /** @var ?Core */
   private $core = null;
+  /** @var string */
+  private $dir = "";
+  /** @var ?Config */
+  private $config = null;
 
   public function __construct(Core $core) {
     $this->core = $core;
     $this->init();
   }
 
+  /**
+   * @return void
+   */
   private function init(): void {
     $this->core->saveResource(self::FILE_CONFIG);
-    $this->core->saveResource(self::FILE_CRFTS);
-    $this->core->saveResource(self::FILE_FTS);
-    $this->config = new Config($this->core->dir.self::FILE_CONFIG, Config::YAML);
-    $this->crftsFile = new Config($this->core->dir.self::FILE_CRFTS, Config::JSON);
-    $this->crftsFile->enableJsonOption(self::JSON_OPTIONS);
-    $this->ftsFile = new Config($this->core->dir.self::FILE_FTS, Config::JSON);
-    $this->ftsFile->enableJsonOption(self::JSON_OPTIONS);
-  }
-
-  /**
-   * Return config version
-   * @return int
-   */
-  public function getConfigVersion(): int {
-    return (int)$this->config->get("configVersion");
-  }
-
-  /**
-   * Returns the three letter language code
-   * @return string
-   */
-  public function getLangCode(): string {
-    return (string)$this->config->get("language");
-  }
-
-  /**
-   * Return timezone code
-   * @return string
-   */
-  public function getTimezone(): string {
-    $timezone = $this->config->get("timezone");
-    if (!$timezone) {
-      return "UTC";
-    }else {
-      return $timezone;
+    $this->config = new Config($this->core->dir.self::FILE_CONFIG, self::FILE_TYPE);
+    if (self::FILE_TYPE === Config::JSON) {
+      $this->config->enableJsonOption(self::JSON_OPTIONS);
     }
   }
 
-  public function 
+  /**
+   * @param  string $key
+   * @return string
+   */
+  public function getString(string $key): string {
+    return (string)$this->config->get($key);
+  }
+
+  /**
+   * @param  string $key
+   * @return int
+   */
+  public function getInt(string $key): int {
+    return (int)$this->config->get($key);
+  }
+
+  /**
+   * @param  string $key
+   * @return array
+   */
+  public function getArray(string $key): array {
+    return (array)$this->config->get($key);
+  }
+
+  /**
+   * @param  string $key
+   * @return bool
+   */
+  public function getBool(string $key): bool {
+    return (bool)$this->config->get($key);
+  }
+
+  /**
+   * @return self ConfigDataManager
+   */
+  public static function get(): self {
+    return self::$instance;
+  }
 }

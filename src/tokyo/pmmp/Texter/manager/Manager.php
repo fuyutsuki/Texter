@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\managers;
+namespace tokyo\pmmp\Texter\manager;
 
 // pocketmine
 use pocketmine\{
@@ -40,18 +40,20 @@ use tokyo\pmmp\Texter\{
  */
 abstract class Manager {
 
-  private const FILE_CONFIG = "config.yml";
-  private const FILE_TYPE = Config::YAML;
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
   /** @var ?self */
-  private static $instance = null;
+  protected static $instance = null;
   /** @var ?Core */
-  private $core = null;
+  protected $core = null;
   /** @var string */
-  private $dir = "";
+  protected $dir = "";
+  /** @var string */
+  protected $configName = "config.yml";
+  /** @var int */
+  protected $configType = Config::YAML;
   /** @var ?Config */
-  private $config = null;
+  protected $config = null;
 
   public function __construct(Core $core) {
     $this->core = $core;
@@ -62,9 +64,9 @@ abstract class Manager {
    * @return void
    */
   private function init(): void {
-    $this->core->saveResource(self::FILE_CONFIG);
-    $this->config = new Config($this->core->dir.self::FILE_CONFIG, self::FILE_TYPE);
-    if (self::FILE_TYPE === Config::JSON) {
+    $this->core->saveResource($this->configName);
+    $this->config = new Config($this->core->dir.$this->configName, $this->configType);
+    if ($this->configType === Config::JSON) {
       $this->config->enableJsonOption(self::JSON_OPTIONS);
     }
   }

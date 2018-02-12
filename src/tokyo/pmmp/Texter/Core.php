@@ -28,15 +28,17 @@ namespace tokyo\pmmp\Texter;
 // pocketmine
 use pocketmine\{
   plugin\PluginBase,
-  lang\BaseLang
+  lang\BaseLang,
+  utils\TextFormat as TF
 };
 
 // texter
 use tokyo\pmmp\Texter\{
-  managers\ConfigDataManager,
-  managers\CrftsDataManager,
-  managers\FtsDataManager,
-  managers\Manager
+  manager\ConfigDataManager,
+  manager\CrftsDataManager,
+  manager\FtsDataManager,
+  manager\Manager,
+  task\CheckUpdateTask
 };
 
 /**
@@ -44,7 +46,11 @@ use tokyo\pmmp\Texter\{
  */
 class Core extends PluginBase {
 
+  private const LANG_DIR = "language";
+  private const LANG_FALLBACK = "eng";
+
   public const CODENAME = "Phyllorhiza punctata";
+  public const DS = DIRECTORY_SEPARATOR;
 
   /** @var string */
   public $dir = "";
@@ -97,39 +103,104 @@ class Core extends PluginBase {
   public function onLoad() {
     $this->dir = $this->getDataFolder();
     $this->initDataManagers();
-    $this->initApi();// TODO: 
+    $this->initApi();
     $this->initLang();
     $this->registerCommands();
     $this->checkUpdate();
-    $this->prepareTexts();
+    // $this->prepareTexts();
     $this->setTimezone();
   }
 
   public function onEnable() {
-    $listener = new EventListener($this);
-    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    //$listener = new EventListener($this);
+    //$this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
 
-  /**
-   * @return void
-   */
   private function initDataManagers(): void {
     $this->configDm = new ConfigDataManager($this);
     $this->crftsDm = new CrftsDataManager($this);
     $this->ftsDm = new FtsDataManager($this);
   }
 
-  /**
-   * @return void
-   */
   private function initApi(): void {
     $this->api = new TexterApi($this);
   }
 
-  /**
-   * @return void
-   */
   private function initLang(): void {
-    $langCode = $this->tdm->getLangCode();
+    $langCode = $this->configDm->getLangCode();
+    $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
+    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
+    $this->lang = new BaseLang($langCode, $this->dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
+    $message = $this->lang->translateString("language.selected", [
+      $this->lang->translateString("language.name"),
+      $langCode
+    ]);
+    $this->getLogger()->info(TF::GREEN.$message);
+  }
+
+  private function registerCommands(): void {
+    if ($this->configDm->getCanUseCommands()) {
+      $map = $this->getServer()->getCommandMap();
+      $commands = [
+        // TODO:
+        // new TxtCommand($this),
+        // new TxtAdmCommand($this)
+      ];
+      $map->registerAll($this->getName(), $commands);
+      $message = $this->lang->translateString("on.load.commands.on");
+      $this->getLogger()->info(TF::GREEN.$message);
+    }else {
+      $message = $this->lang->translateString("on.load.commands.off");
+      $this->getLogger()->info(TF::RED.$message);
+    }
+  }
+
+  private function checkUpdate(): void {
+    if ($this->configDm->getCheckUpdate()) {
+      try {
+        $task = new CheckUpdateTask();
+        $this->getServer()->getScheduler()->scheduleAsyncTask($task);
+      } catch (\Exception $e) {
+        $this->getLogger()->warning($e->getMessage());
+      }
+    }
+    if (strpos($this->getDescription()->getVersion(), "-") !== false) {
+      $this->getLogger()->notice($this->lang->translateString("version.dev"));
+    }
+  }
+
+  public function versionCompare(string $newVer, string $url): void {
+    $curVer = $this->getDescription()->getVersion();
+    if (version_compare($newVer, $curVer, "=")) {
+      $message = $this->lang->translateString("on.load.update.nothing");
+      $this->getLogger()->notice($message);
+    }elseif (version_compare($newVer, $curVer, ">")) {
+      $message1 = $this->lang->translateString("on.load.update.available.1", [
+        $newVer,
+        $curVer
+      ]);
+      $message2 = $this->lang->translateString("on.load.update.available.2");
+      $message3 = $this->lang->translateString("on.load.update.available.3", [
+        $url
+      ]);
+      $this->getLogger()->notice($message1);
+      $this->getLogger()->notice($message2);
+      $this->getLogger()->notice($message3);
+    }
+  }
+
+  private function prepareTexts(): void {
+    // TODO: 
+  }
+
+  private function setTimezone(): void {
+    $timezone = $this->configDm->getTimezone();
+    if ($timezone !== "") {
+      date_default_timezone_set($timezone);
+      $message = $this->lang->translateString("on.load.timezone", [
+        $timezone
+      ]);
+      $this->getLogger()->info(TF::GREEN.$message);
+    }
   }
 }

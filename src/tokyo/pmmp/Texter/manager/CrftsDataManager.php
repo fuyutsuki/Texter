@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\managers;
+namespace tokyo\pmmp\Texter\manager;
 
 // pocketmine
 use pocketmine\{
@@ -35,8 +35,8 @@ use pocketmine\{
  */
 class CrftsDataManager extends Manager {
 
-  /** @Override */
-  private const FILE_CONFIG = "crfts.json";
-  /** @Override */
-  private const FILE_TYPE = Config::JSON;
+  /** @var string */
+  protected $configName = "crfts.json";
+  /** @var int */
+  protected $configType = Config::JSON;
 }

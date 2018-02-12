@@ -23,20 +23,23 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\managers;
+namespace tokyo\pmmp\Texter;
 
 // pocketmine
-use pocketmine\{
-  utils\Config
-};
+
+// texter
 
 /**
- * FtsDataManager
+ * TexterApi
  */
-class FtsDataManager extends Manager {
+class TexterApi {
 
-  /** @Override */
-  private const FILE_CONFIG = "fts.json";
-  /** @Override */
-  private const FILE_TYPE = Config::JSON;
+  /** @var ?Core */
+  private $core = null;
+
+  public function __construct(Core $core) {
+    $this->core = $core;
+  }
+
+  // NOTE: methods
 }

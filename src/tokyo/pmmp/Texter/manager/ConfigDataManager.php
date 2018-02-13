@@ -32,6 +32,9 @@ class ConfigDataManager extends Manager {
 
   private const FILE_CONFIG_VER = 23;
 
+  /** @var ?self */
+  protected static $instance = null;
+
   /**
    * @return int "version" value
    */
@@ -86,5 +89,13 @@ class ConfigDataManager extends Manager {
    */
   public function getWorldLimit(): array {
     return array_flip($this->getArray("world"));
+  }
+
+  protected function registerInstance(): void {
+    self::$instance = $this;
+  }
+
+  public static function get(): self {
+    return self::$instance;
   }
 }

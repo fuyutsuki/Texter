@@ -41,5 +41,10 @@ class TexterApi {
     $this->core = $core;
   }
 
-  // NOTE: methods
+  /**
+   * @internal It runs as soon as text is prepared with PrepareTextsTask
+   */
+  public function onPreparedTexts(array $crfts, array $fts): void {
+    // TODO: 
+  }
 }

@@ -58,6 +58,7 @@ abstract class Manager {
   public function __construct(Core $core) {
     $this->core = $core;
     $this->init();
+    $this->registerInstance();
   }
 
   /**
@@ -104,9 +105,13 @@ abstract class Manager {
   }
 
   /**
-   * @return self ConfigDataManager
+   * @internal
+   * @return void
    */
-  public static function get(): self {
-    return self::$instance;
-  }
+  abstract protected function registerInstance(): void;
+
+  /**
+   * @return self Manager
+   */
+  abstract public static function get();
 }

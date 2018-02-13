@@ -35,8 +35,43 @@ use pocketmine\{
  */
 class CrftsDataManager extends Manager {
 
+  /** @var ?self */
+  protected static $instance = null;
   /** @var string */
   protected $configName = "crfts.json";
   /** @var int */
   protected $configType = Config::JSON;
+
+  public function getData(): array {
+    return $this->config->getAll();
+  }
+
+  public function getDataByLevel(Level $level): array {
+
+  }
+
+  public function getDataByLevelName(string $levelName): array {
+
+  }
+
+  public function isDataExists(Level $level, string $textName): bool {
+
+  }
+
+  public function isDataExistsByLevelName(string $levelName, string $textName): bool {
+
+  }
+
+  public function saveTexts(array $crfts): void {
+    // TODO: config形式に戻す
+    $this->config->setAll($crfts);
+  }
+
+  protected function registerInstance(): void {
+    self::$instance = $this;
+  }
+
+  public static function get(): self {
+    return self::$instance;
+  }
 }

@@ -23,55 +23,37 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\manager;
+namespace tokyo\pmmp\Texter\task;
 
 // pocketmine
 use pocketmine\{
-  utils\Config
+  scheduler\PluginTask
+};
+// texter
+use tokyo\pmmp\Texter\{
+  Core,
+  manager\CrftsDataManager,
+  manager\FtsDataManager
 };
 
 /**
- * FtsDataManager
+ * PrepareTextsTask
  */
-class FtsDataManager extends Manager {
+class PrepareTextsTask extends PluginTask {
 
-  /** @var ?self */
-  protected static $instance = null;
-  /** @var string */
-  protected $configName = "fts.json";
-  /** @var int */
-  protected $configType = Config::JSON;
+  /** @var array */
+  private $crfts = [];
+  /** @var array */
+  private $fts = [];
 
-  public function getData(): array {
-    return $this->config->getAll();
+  public function __construct(Core $core) {
+    parent::__construct($core);
+    $this->core = $core;
+    $this->crfts = $core->getCrftsDataManager()->getData();
+    $this->fts = $core->getFtsDataManager()->getData();
   }
 
-  public function getDataByLevel(Level $level): array {
-
-  }
-
-  public function getDataByLevelName(string $levelName): array {
-
-  }
-
-  public function isDataExists(Level $level, string $textName): bool {
-
-  }
-
-  public function isDataExistsByLevelName(string $levelName, string $textName): bool {
-
-  }
-
-  public function saveTexts(array $fts): void {
-    // TODO: config形式に戻す
-    $this->config->setAll($fts);
-  }
-
-  protected function registerInstance(): void {
-    self::$instance = $this;
-  }
-
-  public static function get(): self {
-    return self::$instance;
+  public function onRun(int $tick) {
+    // TODO: ここで配列を回してオブジェクト生成
   }
 }

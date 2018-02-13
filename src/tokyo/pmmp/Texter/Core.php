@@ -38,7 +38,8 @@ use tokyo\pmmp\Texter\{
   manager\CrftsDataManager,
   manager\FtsDataManager,
   manager\Manager,
-  task\CheckUpdateTask
+  task\CheckUpdateTask,
+  task\PrepareTextsTask
 };
 
 /**
@@ -107,11 +108,11 @@ class Core extends PluginBase {
     $this->initLang();
     $this->registerCommands();
     $this->checkUpdate();
-    // $this->prepareTexts();
     $this->setTimezone();
   }
 
   public function onEnable() {
+    $this->prepareTexts();
     //$listener = new EventListener($this);
     //$this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
@@ -189,10 +190,6 @@ class Core extends PluginBase {
     }
   }
 
-  private function prepareTexts(): void {
-    // TODO: 
-  }
-
   private function setTimezone(): void {
     $timezone = $this->configDm->getTimezone();
     if ($timezone !== "") {
@@ -202,5 +199,10 @@ class Core extends PluginBase {
       ]);
       $this->getLogger()->info(TF::GREEN.$message);
     }
+  }
+
+  private function prepareTexts(): void {
+    $task = new PrepareTextsTask($this);
+    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
   }
 }

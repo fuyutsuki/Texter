@@ -54,6 +54,11 @@ class PrepareTextsTask extends PluginTask {
   }
 
   public function onRun(int $tick) {
-    // TODO: ここで配列を回してオブジェクト生成
+    if (!empty($this->crfts)) {
+      // TODO: テキスト生成&api側登録(登録は自動....かな)
+    }
+    if (!empty($this->fts)) {
+
+    }
   }
 }

@@ -43,7 +43,22 @@ class CrftsDataManager extends Manager {
   protected $configType = Config::JSON;
 
   public function getData(): array {
-    return $this->config->getAll();
+    $data = [];
+    $crfts = $this->config->getAll();
+    foreach ($crfts as $levelName => $texts) {
+      foreach ($texts as $textName => $val) {
+        $data[] = [
+          Manager::DATA_NAME => $textName,
+          Manager::DATA_LEVEL => $levelName,
+          Manager::DATA_X_VEC => $val["Xvec"],
+          Manager::DATA_Y_VEC => $val["Yvec"],
+          Manager::DATA_Z_VEC => $val["Zvec"],
+          Manager::DATA_TITLE => $val["TITLE"],
+          Manager::DATA_TEXT => $val["TEXT"]
+        ];
+      }
+    }
+    return $data;
   }
 
   public function getDataByLevel(Level $level): array {
@@ -63,7 +78,7 @@ class CrftsDataManager extends Manager {
   }
 
   public function saveTexts(array $crfts): void {
-    // TODO: config形式に戻す
+    // TODO: config形式に戻す処理
     $this->config->setAll($crfts);
   }
 

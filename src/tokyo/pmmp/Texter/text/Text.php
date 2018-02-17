@@ -85,61 +85,107 @@ abstract class Text {
     $this->eid = $eid !== 0 ? $eid : Entity::$entityCount++;
   }
 
+  /**
+   * @return string
+   */
   public function getName(): string {
     return $this->name;
   }
 
+  /**
+   * @param  string $name
+   * @return Text
+   */
   public function setName(string $name): Text {
     $this->name = $name;
     return $this;
   }
 
+  /**
+   * @return Position
+   */
   public function getPosition(): Position {
     return $this->pos;
   }
 
+  /**
+   * @param  Position $pos
+   * @return Text
+   */
   public function setPosition(Position $pos): Text {
     $this->pos = $pos;
     return $this;
   }
 
+  /**
+   * @return string
+   */
   public function getTitle(): string {
     return $this->title;
   }
 
+  /**
+   * @param  string $title
+   * @return Text
+   */
   public function setTitle(string $title): Text {
     $this->title = $title;
     return $this;
   }
 
+  /**
+   * @return string
+   */
   public function getText(): string {
     return $this->text;
   }
 
+  /**
+   * @param  string $text
+   * @return Text
+   */
   public function setText(string $text): Text {
     $this->text = $text;
     return $this;
   }
 
+  /**
+   * @return bool
+   */
   public function isInvisible(): bool {
     return $this->isInvisible;
   }
 
+  /**
+   * @param  bool $value
+   * @return Text
+   */
   public function setInvisible(bool $value): Text {
     $this->isInvisible = $value;
     return $this;
   }
 
+  /**
+   * @return int
+   */
   public function getEid(): int {
     return $this->eid;
   }
 
+  /**
+   * @param  int  $eid
+   * @return Text
+   */
   public function setEid(int $eid): Text {
     $this->eid = $eid;
     return $this;
   }
 
-  public function getAsPacket(int $type): DataPacket {
+  /**
+   * @param  int        $type
+   * @return DataPacket
+   */
+  public function asPacket(int $type): DataPacket {
     switch ($type) {
       case self::SEND_TYPE_ADD:
         $pk = new AddPlayerPacket;
@@ -191,17 +237,34 @@ abstract class Text {
     return $pk;
   }
 
+  /**
+   * @param  Player $player
+   * @param  int    $type
+   * @return Text
+   */
   public function sendToPlayer(Player $player, int $type = self::SEND_TYPE_ADD): Text {
     $pk = $this->getAsPacket($type);
     $player->dataPacket($pk);
     return $this;
   }
 
+  /**
+   * @param  Level  $level
+   * @param  int    $type
+   * @return Text
+   */
   public function sendToLevel(Level $level, int $type = self::SEND_TYPE_ADD): Text {
     $pk = $this->getAsPacket($type);
     $players = $level->getPlayers();
-    foreach ($players as $key => $value) {
-      # code...TODO
+    foreach ($players as $player) {
+      $player->dataPacket($pk);
     }
+    return $this;
   }
+
+  /**
+   * @internal
+   * @return array
+   */
+  abstract public function format(): array;
 }

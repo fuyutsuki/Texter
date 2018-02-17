@@ -40,6 +40,14 @@ use tokyo\pmmp\Texter\{
  */
 abstract class Manager {
 
+  /** @var string */
+  public const KEY_X_VEC = "Xvec";
+  public const KEY_Y_VEC = "Yvec";
+  public const KEY_Z_VEC = "Zvec";
+  public const KEY_TITLE = "TITLE";
+  public const KEY_TEXT = "TEXT";
+  public const KEY_OWNER = "OWNER";
+
   /** @var int */
   public const DATA_NAME = 0;
   public const DATA_LEVEL = 1;

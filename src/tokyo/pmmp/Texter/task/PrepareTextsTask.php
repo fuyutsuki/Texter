@@ -27,13 +27,15 @@ namespace tokyo\pmmp\Texter\task;
 
 // pocketmine
 use pocketmine\{
+  level\Position,
   scheduler\PluginTask
 };
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  manager\CrftsDataManager,
-  manager\FtsDataManager
+  manager\Manager,
+  text\CantRemoveFloatingText as CRFT,
+  text\FloatingText as FT
 };
 
 /**
@@ -45,20 +47,66 @@ class PrepareTextsTask extends PluginTask {
   private $crfts = [];
   /** @var array */
   private $fts = [];
+  /** @var int */
+  private $crftsKey = 0;
+  /** @var int */
+  private $crftsKeyMax = 0;
+  /** @var int */
+  private $ftsKey = 0;
+  /** @var int */
+  private $ftsKeyMax = 0;
 
   public function __construct(Core $core) {
     parent::__construct($core);
     $this->core = $core;
     $this->crfts = $core->getCrftsDataManager()->getData();
+    $this->crftsKeyMax = count($this->crfts);
     $this->fts = $core->getFtsDataManager()->getData();
+    $this->ftsKeyMax = count($this->fts);
+    var_dump($this->crfts);
   }
 
   public function onRun(int $tick) {
-    if (!empty($this->crfts)) {
-      // TODO: テキスト生成&api側登録(登録は自動....かな)
+    if ($this->crftsKey >= $this->crftsKeyMax) {
+      if ($this->ftsKey >= $this->ftsKeyMax) {
+        $this->onSuccess();
+      }else {
+        $data = $this->fts[$this->ftsKey];
+        $textName = $data[Manager::DATA_NAME];
+        $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
+        if ($level !== null) {
+          $x = (float)$data[Manager::DATA_X_VEC];
+          $y = (float)$data[Manager::DATA_Y_VEC];
+          $z = (float)$data[Manager::DATA_Z_VEC];
+          $pos = new Position($x, $y, $z, $level);
+          $title = $data[Manager::DATA_TITLE];
+          $text = $data[Manager::DATA_TEXT];
+          $owner = $data[Manager::DATA_OWNER];
+          $ft = new FT($textName, $pos, $title, $text, $owner);
+          $this->getOwner()->getApi()->registerText($ft);
+          ++$this->ftsKey;
+        }
+      }
+    }else {
+      $data = $this->crfts[$this->crftsKey];
+      $textName = $data[Manager::DATA_NAME];
+      $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
+      if ($level !== null) {
+        $x = (float)$data[Manager::DATA_X_VEC];
+        $y = (float)$data[Manager::DATA_Y_VEC];
+        $z = (float)$data[Manager::DATA_Z_VEC];
+        $pos = new Position($x, $y, $z, $level);
+        $title = $data[Manager::DATA_TITLE];
+        $text = $data[Manager::DATA_TEXT];
+        $crft = new CRFT($textName, $pos, $title, $text);
+        $this->getOwner()->getApi()->registerText($crft);
+        ++$this->crftsKey;
+      }
     }
-    if (!empty($this->fts)) {
+  }
 
-    }
+  private function onSuccess(): void {
+    $this->getOwner()->getServer()->getScheduler()->cancelTask($this->getTaskId());
+    var_dump("cancelled");
   }
 }

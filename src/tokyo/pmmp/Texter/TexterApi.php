@@ -28,23 +28,44 @@ namespace tokyo\pmmp\Texter;
 // pocketmine
 
 // texter
+use tokyo\pmmp\Texter\{
+  text\Text,
+  text\CantRemoveFloatingText as CRFT,
+  text\FloatingText as FT
+};
 
 /**
  * TexterApi
  */
 class TexterApi {
 
+  /** @var ?TexterApi */
+  private static $instance = null;
   /** @var ?Core */
   private $core = null;
+  /** @var array */
+  private $crfts = [];
+  /** @var array */
+  private $fts = [];
 
   public function __construct(Core $core) {
+    self::$instance = $this;
     $this->core = $core;
   }
 
-  /**
-   * @internal It runs as soon as text is prepared with PrepareTextsTask
-   */
-  public function onPreparedTexts(array $crfts, array $fts): void {
-    // TODO: 
+  public static function get(): TexterApi {
+    return self::$instance;
+  }
+
+  public function registerText(Text $text): void {
+    switch (true) {
+      case $text instanceof CRFT:
+        $this->crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+      break;
+
+      case $text instanceof FT:
+        $this->fts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+      break;
+    }
   }
 }

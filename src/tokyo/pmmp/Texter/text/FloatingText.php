@@ -23,7 +23,13 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\manager;
+namespace tokyo\pmmp\Texter\text;
+
+// pocketmine
+use pocketmine\{
+  entity\Entity,
+  level\Position
+};
 
 // texter
 use tokyo\pmmp\Texter\{
@@ -37,6 +43,23 @@ class FloatingText extends Text {
 
   /** @var string */
   protected $owner = "unknown";
+
+  /**
+   * @param string   $textName
+   * @param Position $pos
+   * @param string   $title
+   * @param string   $text
+   * @param string   $owner
+   * @param integer  $eid
+   */
+  public function __construct(string $textName, Position $pos, string $title = "", string $text = "", string $owner = "", int $eid = 0) {
+    $this->name = $textName;
+    $this->pos = $pos;
+    $this->title = $title;
+    $this->text = $text;
+    $this->owner = strtolower($owner);
+    $this->eid = $eid !== 0 ? $eid : Entity::$entityCount++;
+  }
 
   /**
    * @return string

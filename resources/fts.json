@@ -1,2 +1,12 @@
 {
+  "world": {
+    "TextName1": {
+      "Xvec": 128,
+      "Yvec": 90,
+      "Zvec": 128,
+      "TITLE": "Title",
+      "TEXT": "Text(New line with \n or #)",
+      "OWNER": "unknown"
+    }
+  }
 }

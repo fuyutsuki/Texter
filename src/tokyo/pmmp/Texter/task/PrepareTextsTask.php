@@ -28,7 +28,8 @@ namespace tokyo\pmmp\Texter\task;
 // pocketmine
 use pocketmine\{
   level\Position,
-  scheduler\PluginTask
+  scheduler\PluginTask,
+  utils\TextFormat as TF
 };
 // texter
 use tokyo\pmmp\Texter\{
@@ -63,7 +64,6 @@ class PrepareTextsTask extends PluginTask {
     $this->crftsKeyMax = count($this->crfts);
     $this->fts = $core->getFtsDataManager()->getData();
     $this->ftsKeyMax = count($this->fts);
-    var_dump($this->crfts);
   }
 
   public function onRun(int $tick) {
@@ -106,7 +106,12 @@ class PrepareTextsTask extends PluginTask {
   }
 
   private function onSuccess(): void {
+    $lang = $this->getOwner()->getLang();
+    $message = $lang->translateString("on.enable.prepared", [
+      $this->crftsKeyMax,
+      $this->ftsKeyMax
+    ]);
+    $this->getOwner()->getLogger()->info(TF::GREEN . $message);
     $this->getOwner()->getServer()->getScheduler()->cancelTask($this->getTaskId());
-    var_dump("cancelled");
   }
 }

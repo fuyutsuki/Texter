@@ -30,6 +30,12 @@ use pocketmine\{
   utils\Config
 };
 
+// texter
+use tokyo\pmmp\Texter\{
+  manager\Manager,
+  text\CantRemoveFloatingText as CRFT
+};
+
 /**
  * CrftsDataManager
  */
@@ -61,25 +67,52 @@ class CrftsDataManager extends Manager {
     return $data;
   }
 
-  public function getDataByLevel(Level $level): array {
-
+  public function saveTextByLevel(Level $level, CRFT $crft): bool {
+    $levelName = $level->getName();
+    $pos = $crft->getPosition();
+    $data = [];
+    $data[$crft->getName()] = [
+      Manager::KEY_X_VEC => $pos->x,
+      Manager::KEY_Y_VEC => $pos->y,
+      Manager::KEY_Z_VEC => $pos->z,
+      Manager::KEY_TITLE => $crft->getTitle(),
+      Manager::KEY_TEXT => $crft->getText(),
+      Manager::KEY_OWNER => $crft->getOwner()
+    ];
+    $this->config->set($levelName, $data);
+    $this->config->save(true);
+    return true;
   }
 
-  public function getDataByLevelName(string $levelName): array {
-
+  public function saveTextByLevelName(string $levelName, CRFT $crft): bool {
+    $level = $this->core->getServer()->getLevelByName($levelName);
+    if ($level !== null) {
+      return $this->saveTextByLevel($level, $crft);
+    }
+    return false;
   }
 
-  public function isDataExists(Level $level, string $textName): bool {
-
+  public function removeTextByLevel(Level $level, CRFT $crft): bool {
+    $levelName = $level->getName();
+    $name = $crft->getName();
+    if ($this->config->exists($levelName)) {
+      $texts = $this->config->get($levelName);
+      if (array_key_exists($name, $texts)) {
+        unset($texts[$name]);
+        $this->config->set($levelName, $texts);
+        $this->config->save();
+        return true;
+      }
+    }
+    return false;
   }
 
-  public function isDataExistsByLevelName(string $levelName, string $textName): bool {
-
-  }
-
-  public function saveTexts(array $crfts): void {
-    // TODO: config形式に戻す処理
-    $this->config->setAll($crfts);
+  public function removeTextByLevelName(string $levelName, CRFT $crft): bool {
+    $level = $this->core->getServer()->getLevelByName($levelName);
+    if ($level !== null) {
+      return $this->removeTextByLevel($level, $crft);
+    }
+    return false;
   }
 
   protected function registerInstance(): void {

@@ -113,8 +113,8 @@ class Core extends PluginBase {
 
   public function onEnable() {
     $this->prepareTexts();
-    //$listener = new EventListener($this);
-    //$this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    $listener = new EventListener($this);
+    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
 
   private function initDataManagers(): void {

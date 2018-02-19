@@ -30,6 +30,7 @@ use pocketmine\{
   Player,
   Server,
   entity\Entity,
+  item\Item,
   level\Position,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\DataPacket,
@@ -243,7 +244,7 @@ abstract class Text {
    * @return Text
    */
   public function sendToPlayer(Player $player, int $type = self::SEND_TYPE_ADD): Text {
-    $pk = $this->getAsPacket($type);
+    $pk = $this->asPacket($type);
     $player->dataPacket($pk);
     return $this;
   }
@@ -254,7 +255,7 @@ abstract class Text {
    * @return Text
    */
   public function sendToLevel(Level $level, int $type = self::SEND_TYPE_ADD): Text {
-    $pk = $this->getAsPacket($type);
+    $pk = $this->asPacket($type);
     $players = $level->getPlayers();
     foreach ($players as $player) {
       $player->dataPacket($pk);

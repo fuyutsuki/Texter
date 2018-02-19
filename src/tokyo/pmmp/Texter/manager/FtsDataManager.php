@@ -27,6 +27,7 @@ namespace tokyo\pmmp\Texter\manager;
 
 // pocketmine
 use pocketmine\{
+  level\Level,
   utils\Config
 };
 
@@ -70,17 +71,7 @@ class FtsDataManager extends Manager {
 
   public function saveTextByLevel(Level $level, FT $ft): bool {
     $levelName = $level->getName();
-    $pos = $ft->getPosition();
-    $data = [];
-    $data[$ft->getName()] = [
-      Manager::KEY_X_VEC => $pos->x,
-      Manager::KEY_Y_VEC => $pos->y,
-      Manager::KEY_Z_VEC => $pos->z,
-      Manager::KEY_TITLE => $ft->getTitle(),
-      Manager::KEY_TEXT => $ft->getText(),
-      Manager::KEY_OWNER => $ft->getOwner()
-    ];
-    $this->config->set($levelName, $data);
+    $this->config->set($levelName, $ft->format());
     $this->config->save(true);
     return true;
   }
@@ -93,11 +84,29 @@ class FtsDataManager extends Manager {
     return false;
   }
 
+  public function removeTextsByLevel(Level $level): bool {
+    $levelName = $level->getName();
+    if ($this->config->exists($levelName)) {
+      $this->config->remove($levelName);
+      $this->config->save(true);
+      return true;
+    }
+    return false;
+  }
+
+  public function removeTextsByLevelName(string $levelName): bool {
+    $level = $this->core->getServer()->getLevelByName($levelName);
+    if ($level !== null) {
+      return $this->removeTextsByLevel($level);
+    }
+    return false;
+  }
+
   public function removeTextByLevel(Level $level, FT $ft): bool {
     $levelName = $level->getName();
     $name = $ft->getName();
     if ($this->config->exists($levelName)) {
-      $texts = $this->config->get($levelName);
+      $texts = $this->getArray($levelName);
       if (array_key_exists($name, $texts)) {
         unset($texts[$name]);
         $this->config->set($levelName, $texts);

@@ -26,9 +26,13 @@
 namespace tokyo\pmmp\Texter;
 
 // pocketmine
+use pocketmine\{
+  level\Level
+};
 
 // texter
 use tokyo\pmmp\Texter\{
+  manager\FtsDataManager,
   text\Text,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT
@@ -312,5 +316,72 @@ class TexterApi {
       }
       return $search;
     }
+  }
+
+  /**
+   * @description
+   * Delete FTs within the specified level
+   * @param  Level $level
+   * @return bool
+   */
+  public function removeFtsByLevel(Level $level): bool {
+    $fts = $this->getFtsByLevel($level);
+    if (!empty($fts)) {
+      foreach ($fts as $ft) {
+        $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
+      }
+      $this->core->getFtsDataManager()->removeTextsByLevel($level);
+      unset($this->fts[$levelName]);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @description
+   * Delete FTs within the specified level name
+   * @param  string $levelName
+   * @return bool
+   */
+  public function removeFtsByLevelName(string $levelName): bool {
+    $level = $this->core->getServer()->getLevelByName($levelName);
+    if ($level !== null) {
+      return $this->removeFtsByLevel($level);
+    }
+    return false;
+  }
+
+  /**
+   * @description
+   * Delete FT within the specified level
+   * @param  Level $level
+   * @return bool
+   */
+  public function removeFtByLevel(Level $level, string $name): bool {
+    $fts = $this->getFtsByLevel($level);
+    if (!empty($fts)) {
+      if (array_key_exists($name, $fts)) {
+        $ft = $fts[$name];
+        $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
+        $this->core->getFtsDataManager()->removeTextByLevel($level);
+        unset($fts[$name]);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * @description
+   * Delete FT within the specified level name
+   * @param  string $levelName
+   * @return bool
+   */
+  public function removeFtByLevelName(string $levelName, string $name): bool {
+    $level = $this->core->getServer()->getLevelByName($levelName);
+    if ($level !== null) {
+      return $this->removeFtByLevel($level, $name);
+    }
+    return false;
   }
 }

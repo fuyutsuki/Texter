@@ -41,14 +41,12 @@ class CantRemoveFloatingText extends Text {
    */
   public function format(): array {
     $levelName = strtolower($this->pos->getLevel()->getName());
-    $data[$levelName] = [
-      $this->name => [
-        Manager::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
-        Manager::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
-        Manager::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),
-        Manager::KEY_TITLE => $this->title,
-        Manager::KEY_TEXT => $this->text
-      ]
+    $data[$this->name] = [
+      Manager::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
+      Manager::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
+      Manager::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),
+      Manager::KEY_TITLE => $this->title,
+      Manager::KEY_TEXT => $this->text
     ];
     return $data;
   }

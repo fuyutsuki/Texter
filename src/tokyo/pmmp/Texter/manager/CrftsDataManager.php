@@ -27,6 +27,7 @@ namespace tokyo\pmmp\Texter\manager;
 
 // pocketmine
 use pocketmine\{
+  level\Level,
   utils\Config
 };
 
@@ -69,17 +70,7 @@ class CrftsDataManager extends Manager {
 
   public function saveTextByLevel(Level $level, CRFT $crft): bool {
     $levelName = $level->getName();
-    $pos = $crft->getPosition();
-    $data = [];
-    $data[$crft->getName()] = [
-      Manager::KEY_X_VEC => $pos->x,
-      Manager::KEY_Y_VEC => $pos->y,
-      Manager::KEY_Z_VEC => $pos->z,
-      Manager::KEY_TITLE => $crft->getTitle(),
-      Manager::KEY_TEXT => $crft->getText(),
-      Manager::KEY_OWNER => $crft->getOwner()
-    ];
-    $this->config->set($levelName, $data);
+    $this->config->set($levelName, $crft->format());
     $this->config->save(true);
     return true;
   }
@@ -88,29 +79,6 @@ class CrftsDataManager extends Manager {
     $level = $this->core->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->saveTextByLevel($level, $crft);
-    }
-    return false;
-  }
-
-  public function removeTextByLevel(Level $level, CRFT $crft): bool {
-    $levelName = $level->getName();
-    $name = $crft->getName();
-    if ($this->config->exists($levelName)) {
-      $texts = $this->config->get($levelName);
-      if (array_key_exists($name, $texts)) {
-        unset($texts[$name]);
-        $this->config->set($levelName, $texts);
-        $this->config->save();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public function removeTextByLevelName(string $levelName, CRFT $crft): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
-    if ($level !== null) {
-      return $this->removeTextByLevel($level, $crft);
     }
     return false;
   }

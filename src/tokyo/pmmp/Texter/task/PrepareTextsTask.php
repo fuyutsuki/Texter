@@ -59,7 +59,6 @@ class PrepareTextsTask extends PluginTask {
 
   public function __construct(Core $core) {
     parent::__construct($core);
-    $this->core = $core;
     $this->crfts = $core->getCrftsDataManager()->getData();
     $this->crftsKeyMax = count($this->crfts);
     $this->fts = $core->getFtsDataManager()->getData();

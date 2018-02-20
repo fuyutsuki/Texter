@@ -1,3 +1,3 @@
-[submodule "form"]
-	path = /src/tokyo/pmmp/Texter/MCBEFormAPI
+[submodule "src/tokyo/pmmp/Texter/MCBEFormAPI"]
+	path = src/tokyo/pmmp/Texter/MCBEFormAPI
 	url = https://github.com/fuyutsuki/MCBEFormAPI.git

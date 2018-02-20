@@ -27,8 +27,8 @@ namespace tokyo\pmmp\Texter;
 
 // pocketmine
 use pocketmine\{
-  plugin\PluginBase,
   lang\BaseLang,
+  plugin\PluginBase,
   utils\TextFormat as TF
 };
 

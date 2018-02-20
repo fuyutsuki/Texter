@@ -42,6 +42,11 @@ use tokyo\pmmp\Texter\{
   task\PrepareTextsTask
 };
 
+// NOTE mcbeformapi
+//use tokyo\pmmp\MCBEFormAPI\{
+//  test
+//};
+
 /**
  * TexterCore
  */

@@ -88,7 +88,11 @@ class ConfigDataManager extends Manager {
    * @return array "world" value
    */
   public function getWorldLimit(): array {
-    return array_flip($this->getArray("world"));
+    $worlds = $this->getArray("world");
+    if ($worlds[0] !== false) {
+      return array_flip($worlds);
+    }
+    return $worlds;
   }
 
   protected function registerInstance(): void {

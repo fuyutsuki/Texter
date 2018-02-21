@@ -82,7 +82,7 @@ class PrepareTextsTask extends PluginTask {
           $text = $data[Manager::DATA_TEXT];
           $owner = $data[Manager::DATA_OWNER];
           $ft = new FT($textName, $pos, $title, $text, $owner);
-          $this->getOwner()->getApi()->registerText($ft);
+          $this->getOwner()->getTexterApi()->registerText($ft);
           ++$this->ftsKey;
         }
       }
@@ -98,7 +98,7 @@ class PrepareTextsTask extends PluginTask {
         $title = $data[Manager::DATA_TITLE];
         $text = $data[Manager::DATA_TEXT];
         $crft = new CRFT($textName, $pos, $title, $text);
-        $this->getOwner()->getApi()->registerText($crft);
+        $this->getOwner()->getTexterApi()->registerText($crft);
         ++$this->crftsKey;
       }
     }

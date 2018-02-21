@@ -34,6 +34,20 @@ use pocketmine\{
 };
 
 // texter
+use tokyo\pmmp\Texter\{
+  Core
+};
+
+// mcbeformapi
+use tokyo\pmmp\MCBEFormAPI\{
+  element\Button,
+  element\Dropdown,
+  element\Input,
+  element\Label,
+  element\Slider,
+  element\StepSlider,
+  element\Toggle
+};
 
 /**
  * TxtCommandClass
@@ -71,7 +85,7 @@ class TxtCommand extends Command {
           switch (strtolower($args[0])) {
             case 'add':
             case 'a':
-              # code...
+
             break;
 
             case 'edit':
@@ -99,10 +113,15 @@ class TxtCommand extends Command {
   }
 
   private function initHelp(): void {
-    $this->help  = $this->lang->transrateString("command.txt.usage")."\n";
-    $this->help .= $this->lang->transrateString("command.txt.usage.add")."\n";
-    $this->help .= $this->lang->transrateString("command.txt.usage.remove")."\n";
-    $this->help .= $this->lang->transrateString("command.txt.usage.update")."\n";
-    $this->help .= $this->lang->transrateString("command.txt.usage.indent");
+    $this->help  = $this->lang->translateString("command.txt.usage")."\n";
+    $this->help .= $this->lang->translateString("command.txt.usage.add")."\n";
+    $this->help .= $this->lang->translateString("command.txt.usage.remove")."\n";
+    $this->help .= $this->lang->translateString("command.txt.usage.update")."\n";
+    $this->help .= $this->lang->translateString("command.txt.usage.indent");
+  }
+
+  public function test(Player $player, $data): void {
+    // NOTE: nullならキャンセル
+    var_dump($data);
   }
 }

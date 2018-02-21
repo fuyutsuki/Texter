@@ -14,7 +14,7 @@
  * ---------------------------------------------------------------------
  * // 日本語
  *
- * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです。
+ * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
  * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
@@ -34,6 +34,7 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
+  command\TxtCommand,
   manager\ConfigDataManager,
   manager\CrftsDataManager,
   manager\FtsDataManager,
@@ -42,10 +43,10 @@ use tokyo\pmmp\Texter\{
   task\PrepareTextsTask
 };
 
-// NOTE mcbeformapi
-//use tokyo\pmmp\MCBEFormAPI\{
-//  test
-//};
+// mcbeformapi
+use tokyo\pmmp\MCBEFormAPI\{
+  FormApi
+};
 
 /**
  * TexterCore
@@ -67,7 +68,9 @@ class Core extends PluginBase {
   /** @var ?FtsDataManager */
   private $ftsDm = null;
   /** @var ?TexterApi */
-  private $api = null;
+  private $texter = null;
+  /** @var ?FormApi */
+  private $form = null;
   /** @var ?BaseLang */
   private $lang = null;
 
@@ -95,8 +98,15 @@ class Core extends PluginBase {
   /**
    * @return ?TexterApi
    */
-  public function getApi(): ?TexterApi {
-    return $this->api;
+  public function getTexterApi(): ?TexterApi {
+    return $this->texter;
+  }
+
+  /**
+   * @return ?FormApi
+   */
+  public function getFormApi(): ?FormApi {
+    return $this->form;
   }
 
   /**
@@ -109,7 +119,7 @@ class Core extends PluginBase {
   public function onLoad() {
     $this->dir = $this->getDataFolder();
     $this->initDataManagers();
-    $this->initApi();
+    $this->initTexterApi();
     $this->initLang();
     $this->registerCommands();
     $this->checkUpdate();
@@ -117,6 +127,7 @@ class Core extends PluginBase {
   }
 
   public function onEnable() {
+    $this->initFormApi();
     $this->prepareTexts();
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
@@ -128,8 +139,8 @@ class Core extends PluginBase {
     $this->ftsDm = new FtsDataManager($this);
   }
 
-  private function initApi(): void {
-    $this->api = new TexterApi($this);
+  private function initTexterApi(): void {
+    $this->texter = new TexterApi($this);
   }
 
   private function initLang(): void {
@@ -148,8 +159,7 @@ class Core extends PluginBase {
     if ($this->configDm->getCanUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
-        // TODO:
-        // new TxtCommand($this),
+        new TxtCommand($this),
         // new TxtAdmCommand($this)
       ];
       $map->registerAll($this->getName(), $commands);
@@ -204,6 +214,10 @@ class Core extends PluginBase {
       ]);
       $this->getLogger()->info(TF::GREEN.$message);
     }
+  }
+
+  private function initFormApi(): void {
+    $this->form = new FormApi($this);
   }
 
   private function prepareTexts(): void {

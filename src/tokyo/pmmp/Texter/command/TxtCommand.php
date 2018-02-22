@@ -37,6 +37,7 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
+  TexterApi,
   text\Text,
   text\FloatingText as FT
 };
@@ -73,11 +74,22 @@ class TxtCommand extends Command {
   private const EDIT_KEY_CONTENT = 4;
   private const MOVE_KEY_FTNAME = 1;
   private const REMOVE_KEY_FTNAME = 1;
+  private const LIST_KEY_EDIT = 0;
+  private const LIST_KEY_MOVE = 1;
+  private const LIST_KEY_REMOVE = 2;
+
+  /** @var int */
+  private const SESSION_PHASE1 = 0;
+  private const SESSION_PHASE2 = 1;
 
   /** @var ?Core */
   private $core = null;
   /** @var ?BaseLang */
   private $lang = null;
+  /** @var array */
+  private $session = [];
+  /** @var array */
+  private $fts = [];
 
   public function __construct(Core $core) {
     $this->core = $core;
@@ -95,185 +107,311 @@ class TxtCommand extends Command {
     if (!$this->core->isEnabled()) return false;
     if (!$this->testPermission($sender)) return false;
     if ($sender instanceof Player) {
-      $level = $sender->getLevel();
-      $levelName = $level->getName();
-      if (!array_key_exists($levelName, $this->cdm->getWorldLimit())) {
+      if (TexterApi::canEdit($sender)) {
         if (isset($args[0])) {
           switch (strtolower($args[0])) {
             case 'add':
             case 'a':
-              $custom = $this->core->getFormApi()->makeCustomForm([$this, "addCommand"]);
-              $description = $this->lang->translateString("form.add.description");
-              $tips = $this->lang->translateString("command.txt.usage.indent");
-              $ftName = $this->lang->translateString("form.ftname.unique");
-              $title = $this->lang->translateString("form.title");
-              $text = $this->lang->translateString("form.text");
-              $custom->setTitle(Core::PREFIX."/txt a(dd)")
-              ->addElement(new Label($description))
-              ->addElement(new Input($ftName, $ftName))
-              ->addElement(new Label($tips))
-              ->addElement(new Input($title, $title))
-              ->addElement(new Input($text, $text))
-              ->sendToPlayer($sender);
+              $this->addCommand($sender);
             break;
 
             case 'edit':
             case 'e':
-              $custom = $this->core->getFormApi()->makeCustomForm([$this, "editCommand"]);
-              $description = $this->lang->translateString("form.edit.description");
-              $ftName = $this->lang->translateString("form.ftname");
-              $type = $this->lang->translateString("form.edit.type");
-              $title = $this->lang->translateString("form.title");
-              $text = $this->lang->translateString("form.text");
-              $tips = $this->lang->translateString("command.txt.usage.indent");
-              $content = $this->lang->translateString("form.edit.content");
-              $custom->setTitle(Core::PREFIX."/txt e(dit)")
-              ->addElement(new Label($description))
-              ->addElement(new Input($ftName, $ftName))
-              ->addElement(new StepSlider($type, [$title, $text]))
-              ->addElement(new Label($tips))
-              ->addElement(new Input($content, $content))
-              ->sendToPlayer($sender);
+              $this->editCommand($sender);
             break;
 
             case 'move':
             case 'm':
-              $custom = $this->core->getFormApi()->makeCustomForm([$this, "moveCommand"]);
-              $description = $this->lang->translateString("form.move.description");
-              $ftName = $this->lang->translateString("form.ftname");
-              $custom->setTitle(Core::PREFIX."/txt m(ove)")
-              ->addElement(new Label($description))
-              ->addElement(new Input($ftName, $ftName))
-              ->sendToPlayer($sender);
+              $this->moveCommand($sender);
             break;
 
             case 'remove':
             case 'r':
-              $custom = $this->core->getFormApi()->makeCustomForm([$this, "removeCommand"]);
-              $description = $this->lang->translateString("form.remove.description");
-              $ftName = $this->lang->translateString("form.ftname");
-              $custom->setTitle(Core::PREFIX."/txt r(emove)")
-              ->addElement(new Label($description))
-              ->addElement(new Input($ftName, $ftName))
-              ->sendToPlayer($sender);
+              $this->removeCommand($sender);
             break;
 
             case 'list':
             case 'l':
-
+              $name = strtolower($sender->getName());
+              $this->session[$name] = self::SESSION_PHASE1;
+              $this->listCommand($sender);
             break;
 
             default:
-              //help
+              $message = $this->lang->translateString("command.txt.usage");
+              $sender->sendMessage(Core::PREFIX.$message);
             break;
           }
         }else {
-          //help
+          $message = $this->lang->translateString("command.txt.usage");
+          $sender->sendMessage(Core::PREFIX.$message);
         }
-      }else {
-        //worldlimit
       }
     }else {
-      //console
+      $message = $this->lang->translateString("error.console");
+      $this->core->getLogger()->info(TF::RED.$message);
     }
   }
 
-  public function addCommand(Player $player, $response): void {
-    if (!FormApi::formCancelled($response)) {
-      $level = $player->getLevel();
-      $exists = $this->texterApi->getFtByLevel($level, $response[self::ADD_KEY_FTNAME]);
-      if ($exists === null) {
-        $ft = new FT(
-          $response[self::ADD_KEY_FTNAME],
-          Position::fromObject($player->add(0, 1, 0), $level),
-          $response[self::ADD_KEY_TITLE],
-          $response[self::ADD_KEY_TEXT],
-          $player->getName()
-        );
-        $ft->sendToLevel($level);
-        $this->texterApi->registerText($ft);
-        $message = $this->lang->translateString("command.txt.add.success", [
-          TF::clean($response[self::ADD_KEY_FTNAME])
-        ]);
-        $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
-      }else {
-        $message = $this->lang->translateString("error.ftname.exists", [
-          TF::clean($response[self::ADD_KEY_FTNAME])
-        ]);
-        $player->sendMessage(TF::RED.Core::PREFIX.$message);
-      }
-    }
+  private function addCommand(Player $player, string $default = ""): void {
+    $custom = $this->core->getFormApi()->makeCustomForm([$this, "addReceive"]);
+    $description = $this->lang->translateString("form.add.description");
+    $tips = $this->lang->translateString("command.txt.usage.indent");
+    $ftName = $this->lang->translateString("form.ftname.unique");
+    $title = $this->lang->translateString("form.title");
+    $text = $this->lang->translateString("form.text");
+    $custom->setTitle(Core::PREFIX."/txt a(dd)")
+    ->addElement(new Label($description))
+    ->addElement(new Input($ftName, $ftName))
+    ->addElement(new Label($tips))
+    ->addElement(new Input($title, $title))
+    ->addElement(new Input($text, $text))
+    ->sendToPlayer($player);
   }
 
-  public function editCommand(Player $player, $response): void {
-    if (!FormApi::formCancelled($response)) {
-      $level = $player->getLevel();
-      $ft = $this->texterApi->getFtByLevel($level, $response[self::EDIT_KEY_FTNAME]);
-      if ($ft !== null) {
-        switch ($response[self::EDIT_KEY_TYPE]) {
-          case self::EDIT_TITLE:
-            $ft->setTitle($response[self::EDIT_KEY_CONTENT])
-            ->sendToLevel($level, Text::SEND_TYPE_EDIT);
-            $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
-            $message = $this->lang->translateString("command.txt.edit.success", [
-              TF::clean($response[self::EDIT_KEY_FTNAME]),
-              $this->lang->translateString("form.title")
-            ]);
-          break;
+  private function editCommand(Player $player, string $default = ""): void {
+    $custom = $this->core->getFormApi()->makeCustomForm([$this, "editReceive"]);
+    $description = $this->lang->translateString("form.edit.description");
+    $ftName = $this->lang->translateString("form.ftname");
+    $type = $this->lang->translateString("form.edit.type");
+    $title = $this->lang->translateString("form.title");
+    $text = $this->lang->translateString("form.text");
+    $tips = $this->lang->translateString("command.txt.usage.indent");
+    $content = $this->lang->translateString("form.edit.content");
+    $custom->setTitle(Core::PREFIX."/txt e(dit)")
+    ->addElement(new Label($description))
+    ->addElement(new Input($ftName, $ftName, $default))
+    ->addElement(new StepSlider($type, [$title, $text]))
+    ->addElement(new Label($tips))
+    ->addElement(new Input($content, $content))
+    ->sendToPlayer($player);
+  }
 
-          case self::EDIT_TEXT:
-            $ft->setText($response[self::EDIT_KEY_CONTENT])
-            ->sendToLevel($level, Text::SEND_TYPE_EDIT);
-            $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
-            $message = $this->lang->translateString("command.txt.edit.success", [
-              TF::clean($response[self::EDIT_KEY_FTNAME]),
-              $this->lang->translateString("form.text")
-            ]);
-          break;
+  private function moveCommand(Player $player, string $default = ""): void {
+    $custom = $this->core->getFormApi()->makeCustomForm([$this, "moveReceive"]);
+    $description = $this->lang->translateString("form.move.description");
+    $ftName = $this->lang->translateString("form.ftname");
+    $custom->setTitle(Core::PREFIX."/txt m(ove)")
+    ->addElement(new Label($description))
+    ->addElement(new Input($ftName, $ftName, $default))
+    ->sendToPlayer($player);
+  }
+
+  private function removeCommand(Player $player, string $default = ""): void {
+    $custom = $this->core->getFormApi()->makeCustomForm([$this, "removeReceive"]);
+    $description = $this->lang->translateString("form.remove.description");
+    $ftName = $this->lang->translateString("form.ftname");
+    $custom->setTitle(Core::PREFIX."/txt r(emove)")
+    ->addElement(new Label($description))
+    ->addElement(new Input($ftName, $ftName, $default))
+    ->sendToPlayer($player);
+  }
+
+  private function listCommand(Player $player, int $phase = self::SESSION_PHASE1): void {
+    $name = strtolower($player->getName());
+    switch ($phase) {
+      case self::SESSION_PHASE1:
+        $this->fts[$name] = [];
+        $list = $this->core->getFormApi()->makeListForm([$this, "listReceive"]);
+        $description = $this->lang->translateString("form.list.description.1");
+        $list->setTitle(Core::PREFIX."/txt l(ist)")
+        ->setContents($description);
+        $fts = $this->core->getTexterApi()->getFtsByLevel($player->getLevel());
+        foreach ($fts as $textName => $ft) {
+          if ($player->distance($ft->getPosition()) <= 10 &&
+             ($player->isOp() || $name === $ft->getOwner())) {
+            $list->addButton(new Button($ft->getName()));
+            $this->fts[$name][] = $ft;
+          }
         }
-        $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+        $list->sendToPlayer($player);
+      break;
+
+      case self::SESSION_PHASE2:
+        $list = $this->core->getFormApi()->makeListForm([$this, "listReceive"]);
+        $description = $this->lang->translateString("form.list.description.2", [
+          $this->fts[$name]->getName()
+        ]);
+        $list->setTitle(Core::PREFIX."/txt l(ist)")
+        ->setContents($description)
+        ->addButton(new Button("edit"))
+        ->addButton(new Button("move"))
+        ->addButton(new Button("remove"))
+        ->sendToPlayer($player);
+      break;
+    }
+  }
+
+  /****************************************************************************
+   * Callback functions
+   */
+
+  public function addReceive(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      $level = $player->getLevel();
+      if (!empty($response[self::ADD_KEY_FTNAME])) {
+        $exists = $this->texterApi->getFtByLevel($level, $response[self::ADD_KEY_FTNAME]);
+        if ($exists === null) {
+          $ft = new FT(
+            $response[self::ADD_KEY_FTNAME],
+            Position::fromObject($player->add(0, 1, 0), $level),
+            $response[self::ADD_KEY_TITLE],
+            $response[self::ADD_KEY_TEXT],
+            $player->getName()
+          );
+          if (TexterApi::canEdit($player, $ft)) {
+            $ft->sendToLevel($level);
+            $this->texterApi->registerText($ft);
+            $message = $this->lang->translateString("command.txt.add.success", [
+              TF::clean($response[self::ADD_KEY_FTNAME])
+            ]);
+            $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+          }
+        }else {
+          $message = $this->lang->translateString("error.ftname.exists", [
+            TF::clean($response[self::ADD_KEY_FTNAME])
+          ]);
+          $player->sendMessage(TF::RED.Core::PREFIX.$message);
+        }
       }else {
-        $message = $this->lang->translateString("error.ftname.not.exists");
+        $message = $this->lang->translateString("error.ftname.not.specified");
         $player->sendMessage(TF::RED.Core::PREFIX.$message);
       }
     }
   }
 
-  public function moveCommand(Player $player, $response): void {
+  public function editReceive(Player $player, $response): void {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
-      $ft = $this->texterApi->getFtByLevel($level, $response[self::MOVE_KEY_FTNAME]);
-      if ($ft !== null) {
-        $ft->setPosition(Position::fromObject($player->add(0, 2, 0), $level))
-        ->sendToLevel($level, Text::SEND_TYPE_MOVE);
-        $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
-        $message = $this->lang->translateString("command.txt.move.success", [
-          TF::clean($response[self::MOVE_KEY_FTNAME]),
-          $this->lang->translateString("form.move.here")
-        ]);
-        $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+      if (!empty($response[self::EDIT_KEY_FTNAME])) {
+        $ft = $this->texterApi->getFtByLevel($level, $response[self::EDIT_KEY_FTNAME]);
+        if ($ft !== null) {
+          switch ($response[self::EDIT_KEY_TYPE]) {
+            case self::EDIT_TITLE:
+              $check = clone $ft;
+              $check->setTitle($response[self::EDIT_KEY_CONTENT]);
+              if (TexterApi::canEdit($player, $check)) {
+                $ft->setTitle($response[self::EDIT_KEY_CONTENT])
+                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
+                $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+                $message = $this->lang->translateString("command.txt.edit.success", [
+                  TF::clean($response[self::EDIT_KEY_FTNAME]),
+                  $this->lang->translateString("form.title")
+                ]);
+                $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+              }
+            break;
+
+            case self::EDIT_TEXT:
+              $check = clone $ft;
+              $check->setText($response[self::EDIT_KEY_CONTENT]);
+              if (TexterApi::canEdit($player, $check)) {
+                $ft->setText($response[self::EDIT_KEY_CONTENT])
+                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
+                $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+                $message = $this->lang->translateString("command.txt.edit.success", [
+                  TF::clean($response[self::EDIT_KEY_FTNAME]),
+                  $this->lang->translateString("form.text")
+                ]);
+                $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+              }
+            break;
+          }
+        }else {
+          $message = $this->lang->translateString("error.ftname.not.exists");
+          $player->sendMessage(TF::RED.Core::PREFIX.$message);
+        }
       }else {
-        $message = $this->lang->translateString("error.ftname.not.exists");
+        $message = $this->lang->translateString("error.ftname.not.specified");
         $player->sendMessage(TF::RED.Core::PREFIX.$message);
       }
     }
   }
 
-  public function removeCommand(Player $player, $response): void {
+  public function moveReceive(Player $player, $response): void {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
-      $ft = $this->texterApi->getFtByLevel($level, $response[self::REMOVE_KEY_FTNAME]);
-      if ($ft !== null) {
-        $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-        $this->core->getFtsDataManager()->removeTextByLevel($level, $ft);
-        $message = $this->lang->translateString("command.txt.remove.success", [
-          TF::clean($response[self::REMOVE_KEY_FTNAME])
-        ]);
-        $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+      if (!empty($response[self::MOVE_KEY_FTNAME])) {
+        $ft = $this->texterApi->getFtByLevel($level, $response[self::MOVE_KEY_FTNAME]);
+        if ($ft !== null) {
+          if (TexterApi::canEdit($player, $ft)) {
+            $ft->setPosition(Position::fromObject($player->add(0, 2, 0), $level))
+            ->sendToLevel($level, Text::SEND_TYPE_MOVE);
+            $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+            $message = $this->lang->translateString("command.txt.move.success", [
+              TF::clean($response[self::MOVE_KEY_FTNAME]),
+              $this->lang->translateString("form.move.here")
+            ]);
+            $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+          }
+        }else {
+          $message = $this->lang->translateString("error.ftname.not.exists");
+          $player->sendMessage(TF::RED.Core::PREFIX.$message);
+        }
       }else {
-        $message = $this->lang->translateString("error.ftname.not.exists");
+        $message = $this->lang->translateString("error.ftname.not.specified");
         $player->sendMessage(TF::RED.Core::PREFIX.$message);
       }
+    }
+  }
+
+  public function removeReceive(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      $level = $player->getLevel();
+      if (!empty($response[self::MOVE_KEY_FTNAME])) {
+        $ft = $this->texterApi->getFtByLevel($level, $response[self::REMOVE_KEY_FTNAME]);
+        if ($ft !== null) {
+          if (TexterApi::canEdit($player, $ft)) {
+            $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
+            $this->core->getTexterApi()->removeFtByLevel($level, $ft->getName());
+            $message = $this->lang->translateString("command.txt.remove.success", [
+              TF::clean($response[self::REMOVE_KEY_FTNAME])
+            ]);
+            $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+          }
+        }else {
+          $message = $this->lang->translateString("error.ftname.not.exists");
+          $player->sendMessage(TF::RED.Core::PREFIX.$message);
+        }
+      }else {
+        $message = $this->lang->translateString("error.ftname.not.specified");
+        $player->sendMessage(TF::RED.Core::PREFIX.$message);
+      }
+    }
+  }
+
+  public function listReceive(Player $player, $response): void {
+    $name = strtolower($player->getName());
+    if (!FormApi::formCancelled($response)) {
+      switch ($this->session[$name]) {
+        case self::SESSION_PHASE1:
+          $ft = $this->fts[$name][$response];
+          $this->fts[$name] = $ft;
+          $this->session[$name] = self::SESSION_PHASE2;
+          $this->listCommand($player, self::SESSION_PHASE2);
+        break;
+
+        case self::SESSION_PHASE2:
+          switch ($response) {
+            case self::LIST_KEY_EDIT:
+              $this->editCommand($player, $this->fts[$name]->getName());
+            break;
+
+            case self::LIST_KEY_MOVE:
+              $this->moveCommand($player, $this->fts[$name]->getName());
+            break;
+
+            case self::LIST_KEY_REMOVE:
+              $this->removeCommand($player, $this->fts[$name]->getName());
+            break;
+          }
+          $this->session[$name] = self::SESSION_PHASE1;
+          $this->fts[$name] = [];
+        break;
+      }
+    }else {
+      $this->session[$name] = self::SESSION_PHASE1;
+      $this->fts[$name] = [];
     }
   }
 }

@@ -124,7 +124,7 @@ abstract class Text {
    * @return string
    */
   public function getTitle(): string {
-    return str_replace("#", "\n", $this->title);
+    return str_replace("\n", "#", $this->title);
   }
 
   /**
@@ -140,7 +140,7 @@ abstract class Text {
    * @return string
    */
   public function getText(): string {
-    return str_replace("#", "\n", $this->text);
+    return str_replace("\n", "#", $this->text);
   }
 
   /**
@@ -210,7 +210,7 @@ abstract class Text {
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
-        $this->isOwner($pk, $isOwner);
+        $this->addName($pk, $isOwner);
       break;
 
       case self::SEND_TYPE_EDIT:
@@ -227,7 +227,7 @@ abstract class Text {
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
-        $this->isOwner($pk, $isOwner);
+        $this->addName($pk, $isOwner);
       break;
 
       case self::SEND_TYPE_MOVE:
@@ -252,8 +252,7 @@ abstract class Text {
     return $pk;
   }
 
-  // TODO: limit check
-  protected function isOwner(DataPacket $pk, bool $isOwner) {
+  protected function addName(DataPacket $pk, bool $isOwner) {
     if ($this instanceof FT && $isOwner) {
       $pk->metadata[Entity::DATA_NAMETAG] = [
         Entity::DATA_TYPE_STRING,

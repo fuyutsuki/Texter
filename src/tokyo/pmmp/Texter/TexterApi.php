@@ -27,11 +27,15 @@ namespace tokyo\pmmp\Texter;
 
 // pocketmine
 use pocketmine\{
-  level\Level
+  Player,
+  level\Level,
+  utils\TextFormat as TF
 };
 
 // texter
 use tokyo\pmmp\Texter\{
+  Core,
+  manager\ConfigDataManager,
   manager\FtsDataManager,
   text\Text,
   text\CantRemoveFloatingText as CRFT,
@@ -55,6 +59,7 @@ class TexterApi {
   public function __construct(Core $core) {
     self::$instance = $this;
     $this->core = $core;
+    $this->lang = $core->getLang();
   }
 
   /**
@@ -361,7 +366,7 @@ class TexterApi {
       if (array_key_exists($name, $fts)) {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-        $this->core->getFtsDataManager()->removeTextByLevel($level);
+        $this->core->getFtsDataManager()->removeTextByLevel($level, $ft);
         unset($fts[$name]);
         return true;
       }
@@ -379,6 +384,51 @@ class TexterApi {
     $level = $this->core->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->removeFtByLevel($level, $name);
+    }
+    return false;
+  }
+
+  /**
+   * @description
+   * Check if text can be edited
+   * @param  Player $player
+   * @param  ?FT    $ft = null
+   * @return bool
+   */
+  public static function canEdit(Player $player, FT $ft = null): bool {
+    $cdm = ConfigDataManager::get();
+    $lang = self::$instance->core->getLang();
+    $level = $player->getLevel();
+    $levelName = $level->getName();
+    if (!$player->isOp()) {
+      if (!array_key_exists($levelName, $cdm->getWorldLimit())) {
+        if ($ft !== null) {
+          if ($ft->getOwner() === strtolower($player->getName())) {
+            $str = $ft->getTitle().$ft->getText();
+            if (mb_strlen($str) <= $cdm->getCharLimit()) {
+              if (mb_substr_count($str, "#") <= $cdm->getFeedLimit()) {
+                return true;
+              }else {
+                $message = $lang->translateString("error.config.limit.feed");
+                $player->sendMessage(TF::RED.Core::PREFIX.$message);
+              }
+            }else {
+              $message = $lang->translateString("error.config.limit.char");
+              $player->sendMessage(TF::RED.Core::PREFIX.$message);
+            }
+          }else {
+            $message = $lang->translateString("error.permission");
+            $player->sendMessage(TF::RED.Core::PREFIX.$message);
+          }
+        }else {
+          return true;
+        }
+      }else {
+        $message = $lang->translateString("error.config.limit.world");
+        $player->sendMessage(TF::RED.Core::PREFIX.$message);
+      }
+    }else {
+      return true;
     }
     return false;
   }

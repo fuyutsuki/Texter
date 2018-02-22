@@ -59,7 +59,7 @@ class CheckUpdateTask extends AsyncTask {
     $plugin = $server->getPluginManager()->getPlugin("Texter");
     if ($plugin !== null) {
       $data = $this->getResult();
-      $main->versionCompare($data[0]["name"], $data[0]["html_url"]);
+      $plugin->versionCompare($data[0]["name"], $data[0]["html_url"]);
     }
   }
 }

@@ -73,15 +73,14 @@ class TexterApi {
    * @return void
    */
   public function registerText(Text $text): void {
-    $textName = strtolower($text->getName());
     switch (true) {
       case $text instanceof CRFT:
-        $this->crfts[$text->getPosition()->getLevel()->getName()][$textName] = $text;
+        $this->crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
       break;
 
       case $text instanceof FT:
         $level = $text->getPosition()->getLevel();
-        $this->fts[$level->getName()][$textName] = $text;
+        $this->fts[$level->getName()][$text->getName()] = $text;
         $this->core->getFtsDataManager()->saveTextByLevel($level, $text);
       break;
     }
@@ -136,13 +135,11 @@ class TexterApi {
   public function getCrftByLevel(Level $level, string $name): ?CRFT {
     $crfts = $this->getCrftsByLevel($level);
     if (!empty($crfts)) {
-      $lowerName = strtolower($name);
-      if (array_key_exists($lowerName, $crfts)) {
-        return $crfts[$lowerName];
-      }else {
-        return null;
+      if (array_key_exists($name, $crfts)) {
+        return $crfts[$name];
       }
     }
+    return null;
   }
 
   /**
@@ -155,13 +152,11 @@ class TexterApi {
   public function getCrftByLevelName(string $levelName, string $name): ?CRFT {
     $crfts = $this->getCrftsByLevelName($levelName);
     if (!empty($crfts)) {
-      $lowerName = strtolower($name);
-      if (array_key_exists($lowerName, $crfts)) {
-        return $crfts[$lowerName];
-      }else {
-        return null;
+      if (array_key_exists($name, $crfts)) {
+        return $crfts[$name];
       }
     }
+    return null;
   }
 
   /**
@@ -182,6 +177,7 @@ class TexterApi {
       }
       return $search;
     }
+    return null;
   }
 
   /**
@@ -202,6 +198,7 @@ class TexterApi {
       }
       return $search;
     }
+    return null;
   }
 
   /**
@@ -253,13 +250,11 @@ class TexterApi {
   public function getFtByLevel(Level $level, string $name): ?FT {
     $fts = $this->getFtsByLevel($level);
     if (!empty($fts)) {
-      $lowerName = strtolower($name);
-      if (array_key_exists($lowerName, $fts)) {
-        return $fts[$lowerName];
-      }else {
-        return null;
+      if (array_key_exists($name, $fts)) {
+        return $fts[$name];
       }
     }
+    return null;
   }
 
   /**
@@ -272,13 +267,11 @@ class TexterApi {
   public function getFtByLevelName(string $levelName, string $name): ?FT {
     $fts = $this->getFtsByLevelName($levelName);
     if (!empty($fts)) {
-      $lowerName = strtolower($name);
-      if (array_key_exists($lowerName, $fts)) {
-        return $fts[$lowerName];
-      }else {
-        return null;
+      if (array_key_exists($name, $fts)) {
+        return $fts[$name];
       }
     }
+    return null;
   }
 
   /**
@@ -299,6 +292,7 @@ class TexterApi {
       }
       return $search;
     }
+    return null;
   }
 
   /**
@@ -319,6 +313,7 @@ class TexterApi {
       }
       return $search;
     }
+    return null;
   }
 
   /**

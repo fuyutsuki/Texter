@@ -71,7 +71,13 @@ class FtsDataManager extends Manager {
 
   public function saveTextByLevel(Level $level, FT $ft): bool {
     $levelName = $level->getName();
-    $this->config->set($levelName, $ft->format());
+    if ($this->config->exists($levelName)) {
+      $texts = $this->getArray($levelName);
+      $texts[$ft->getName()] = $ft->format();
+      $this->config->set($levelName, $texts);
+    }else {
+      $this->config->set($levelName, [$ft->getName() => $ft->format()]);
+    }
     $this->config->save(true);
     return true;
   }

@@ -85,7 +85,7 @@ class FloatingText extends Text {
    * @return Text
    */
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): Text {
-    if ($this->owner === strtolower($player->getName())) {
+    if ($this->owner === strtolower($player->getName()) || $player->isOp()) {
       $pk = $this->asPacket($type, true);
     }else {
       $pk = $this->asPacket($type);
@@ -112,7 +112,7 @@ class FloatingText extends Text {
    * @return array
    */
   public function format(): array {
-    $data[$this->name] = [
+    $data = [
       Manager::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
       Manager::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
       Manager::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),

@@ -63,9 +63,9 @@ class EventListener implements Listener {
     if ($entity instanceof Player) {
       $origin = $event->getOrigin();
       $target = $event->getTarget();
-      $task1 = new SendTextsTask($this->core, $origin, $player, Text::SEND_TYPE_REMOVE);
+      $task1 = new SendTextsTask($this->core, $origin, $entity, Text::SEND_TYPE_REMOVE);
       $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task1, 20, 1);// 1s
-      $task2 = new SendTextsTask($this->core, $target, $player);
+      $task2 = new SendTextsTask($this->core, $target, $entity);
       $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task2, 20, 1);// 1s
     }
   }

@@ -56,7 +56,7 @@ abstract class Text {
 
   /** @var int $this->sendTo****() */
   public const SEND_TYPE_ADD = 0;
-  public const SEND_TYPE_MODIFY = 1;
+  public const SEND_TYPE_EDIT = 1;
   public const SEND_TYPE_MOVE = 2;
   public const SEND_TYPE_REMOVE = 3;
 
@@ -124,7 +124,7 @@ abstract class Text {
    * @return string
    */
   public function getTitle(): string {
-    return $this->title;
+    return str_replace("#", "\n", $this->title);
   }
 
   /**
@@ -132,7 +132,7 @@ abstract class Text {
    * @return Text
    */
   public function setTitle(string $title): Text {
-    $this->title = $title;
+    $this->title = str_replace("#", "\n", $title);
     return $this;
   }
 
@@ -140,7 +140,7 @@ abstract class Text {
    * @return string
    */
   public function getText(): string {
-    return $this->text;
+    return str_replace("#", "\n", $this->text);
   }
 
   /**
@@ -148,7 +148,7 @@ abstract class Text {
    * @return Text
    */
   public function setText(string $text): Text {
-    $this->text = $text;
+    $this->text = str_replace("#", "\n", $text);
     return $this;
   }
 
@@ -210,23 +210,34 @@ abstract class Text {
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
-        $this->addName($pk, $isOwner);
+        $this->isOwner($pk, $isOwner);
       break;
 
-      case self::SEND_TYPE_MODIFY:
+      case self::SEND_TYPE_EDIT:
         $pk = new SetEntityDataPacket;
         $pk->entityRuntimeId = $this->eid;
+        $flags = 0;
+        $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
+        $flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
+        if ($this->isInvisible) {
+          $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
+        }
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
-        $this->addName($pk, $isOwner);
+        $this->isOwner($pk, $isOwner);
       break;
 
       case self::SEND_TYPE_MOVE:
         $pk = new MoveEntityPacket;
         $pk->entityRuntimeId = $this->eid;
         $pk->position = $this->pos;
+        $pk->yaw = 0;
+        $pk->headYaw = 0;
+        $pk->pitch = 0;
+        $pk->onGround = true;
       break;
 
       case self::SEND_TYPE_REMOVE:
@@ -241,16 +252,17 @@ abstract class Text {
     return $pk;
   }
 
-  private function addName(DataPacket $pk, bool $isOwner) {
+  // TODO: limit check
+  protected function isOwner(DataPacket $pk, bool $isOwner) {
     if ($this instanceof FT && $isOwner) {
       $pk->metadata[Entity::DATA_NAMETAG] = [
         Entity::DATA_TYPE_STRING,
-        $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text . "\n" . TF::DARK_GRAY."[".$this->name."]" : "")
+        $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]")
       ];
     }else {
       $pk->metadata[Entity::DATA_NAMETAG] = [
         Entity::DATA_TYPE_STRING,
-        $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text . "\n" : "")
+        TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""))
       ];
     }
   }

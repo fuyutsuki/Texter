@@ -70,7 +70,13 @@ class CrftsDataManager extends Manager {
 
   public function saveTextByLevel(Level $level, CRFT $crft): bool {
     $levelName = $level->getName();
-    $this->config->set($levelName, $crft->format());
+    if ($this->config->exists($levelName)) {
+      $texts = $this->getArray($levelName);
+      $texts[$crft->getName()] = $crft->format();
+      $this->config->set($levelName, $texts);
+    }else {
+      $this->config->set($levelName, [$crft->getName() => $crft->format()]);
+    }
     $this->config->save(true);
     return true;
   }

@@ -58,6 +58,7 @@ class Core extends PluginBase {
 
   public const CODENAME = "Phyllorhiza punctata";
   public const DS = DIRECTORY_SEPARATOR;
+  public const PREFIX = "[Texter] ";
 
   /** @var string */
   public $dir = "";

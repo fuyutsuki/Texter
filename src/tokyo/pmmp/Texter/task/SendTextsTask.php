@@ -86,7 +86,6 @@ class SendTextsTask extends PluginTask {
   }
 
   private function onSuccess(): void {
-    $this->getOwner()->getLogger()->info("[send] cancelled");
     $this->getOwner()->getServer()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

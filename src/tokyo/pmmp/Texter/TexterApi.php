@@ -73,13 +73,16 @@ class TexterApi {
    * @return void
    */
   public function registerText(Text $text): void {
+    $textName = strtolower($text->getName());
     switch (true) {
       case $text instanceof CRFT:
-        $this->crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+        $this->crfts[$text->getPosition()->getLevel()->getName()][$textName] = $text;
       break;
 
       case $text instanceof FT:
-        $this->fts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+        $level = $text->getPosition()->getLevel();
+        $this->fts[$level->getName()][$textName] = $text;
+        $this->core->getFtsDataManager()->saveTextByLevel($level, $text);
       break;
     }
   }

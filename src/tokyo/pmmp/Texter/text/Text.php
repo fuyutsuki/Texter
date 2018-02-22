@@ -31,6 +31,7 @@ use pocketmine\{
   Server,
   entity\Entity,
   item\Item,
+  level\Level,
   level\Position,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\DataPacket,
@@ -44,7 +45,8 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  TexterApi
+  TexterApi,
+  text\FloatingText as FT
 };
 
 /**
@@ -184,9 +186,10 @@ abstract class Text {
 
   /**
    * @param  int        $type
+   * @param  bool       $isOwner
    * @return DataPacket
    */
-  public function asPacket(int $type): DataPacket {
+  public function asPacket(int $type, bool $isOwner = false): DataPacket {
     switch ($type) {
       case self::SEND_TYPE_ADD:
         $pk = new AddPlayerPacket;
@@ -205,9 +208,9 @@ abstract class Text {
         }
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : "")],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
+        $this->addName($pk, $isOwner);
       break;
 
       case self::SEND_TYPE_MODIFY:
@@ -215,9 +218,9 @@ abstract class Text {
         $pk->entityRuntimeId = $this->eid;
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : "")],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
+        $this->addName($pk, $isOwner);
       break;
 
       case self::SEND_TYPE_MOVE:
@@ -236,6 +239,20 @@ abstract class Text {
       break;
     }
     return $pk;
+  }
+
+  private function addName(DataPacket $pk, bool $isOwner) {
+    if ($this instanceof FT && $isOwner) {
+      $pk->metadata[Entity::DATA_NAMETAG] = [
+        Entity::DATA_TYPE_STRING,
+        $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text . "\n" . TF::DARK_GRAY."[".$this->name."]" : "")
+      ];
+    }else {
+      $pk->metadata[Entity::DATA_NAMETAG] = [
+        Entity::DATA_TYPE_STRING,
+        $this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text . "\n" : "")
+      ];
+    }
   }
 
   /**

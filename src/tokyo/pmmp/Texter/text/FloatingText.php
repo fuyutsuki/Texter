@@ -27,7 +27,9 @@ namespace tokyo\pmmp\Texter\text;
 
 // pocketmine
 use pocketmine\{
+  Player,
   entity\Entity,
+  level\Level,
   level\Position
 };
 
@@ -74,6 +76,34 @@ class FloatingText extends Text {
    */
   public function setOwner(string $owner): FloatingText {
     $this->owner = $owner;
+    return $this;
+  }
+
+  /**
+   * @param  Player $player
+   * @param  int    $type
+   * @return Text
+   */
+  public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): Text {
+    if ($this->owner === strtolower($player->getName())) {
+      $pk = $this->asPacket($type, true);
+    }else {
+      $pk = $this->asPacket($type);
+    }
+    $player->dataPacket($pk);
+    return $this;
+  }
+
+  /**
+   * @param  Level  $level
+   * @param  int    $type
+   * @return Text
+   */
+  public function sendToLevel(Level $level, int $type = Text::SEND_TYPE_ADD): Text {
+    $players = $level->getPlayers();
+    foreach ($players as $player) {
+      $this->sendToPlayer($player, $type);
+    }
     return $this;
   }
 

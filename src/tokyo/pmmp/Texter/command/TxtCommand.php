@@ -30,16 +30,19 @@ use pocketmine\{
   Player,
   command\Command,
   command\CommandSender,
+  level\Position,
   utils\TextFormat as TF
 };
 
 // texter
 use tokyo\pmmp\Texter\{
-  Core
+  Core,
+  text\FloatingText as FT
 };
 
 // mcbeformapi
 use tokyo\pmmp\MCBEFormAPI\{
+  FormApi,
   element\Button,
   element\Dropdown,
   element\Input,
@@ -57,6 +60,10 @@ class TxtCommand extends Command {
   private const COMMAND = "txt";
   private const PERMISSION = "texter.command.txt";
 
+  private const ADD_KEY_FTNAME = 0;
+  private const ADD_KEY_TITLE = 2;
+  private const ADD_KEY_TEXT = 3;
+
   /** @var ?Core */
   private $core = null;
   /** @var ?BaseLang */
@@ -64,6 +71,7 @@ class TxtCommand extends Command {
 
   public function __construct(Core $core) {
     $this->core = $core;
+    $this->texterApi = $core->getTexterApi();
     $this->lang = $core->getLang();
     $this->cdm = $core->getConfigDataManager();
     //
@@ -71,7 +79,6 @@ class TxtCommand extends Command {
     $usage = $this->lang->translateString("command.txt.usage.inline");
     parent::__construct(self::COMMAND, $description, $usage);
     $this->setPermission(self::PERMISSION);
-    $this->initHelp();
   }
 
   public function execute(CommandSender $sender, string $label, array $args) {
@@ -85,7 +92,17 @@ class TxtCommand extends Command {
           switch (strtolower($args[0])) {
             case 'add':
             case 'a':
-
+              $custom = $this->core->getFormApi()->makeCustomForm([$this, "addCommand"]);
+              $labelTips = $this->lang->translateString("command.txt.usage.indent");
+              $inputFtName = $this->lang->translateString("form.add.input.ftname");
+              $inputTitle = $this->lang->translateString("form.add.input.title");
+              $inputText = $this->lang->translateString("form.add.input.text");
+              $custom->setTitle("[Texter] /txt add")
+              ->addElement(new Input($inputFtName, $inputFtName))
+              ->addElement(new Label($labelTips))
+              ->addElement(new Input($inputTitle, $inputTitle))
+              ->addElement(new Input($inputText, $inputText))
+              ->sendToPlayer($sender);
             break;
 
             case 'edit':
@@ -112,16 +129,46 @@ class TxtCommand extends Command {
     }
   }
 
-  private function initHelp(): void {
-    $this->help  = $this->lang->translateString("command.txt.usage")."\n";
-    $this->help .= $this->lang->translateString("command.txt.usage.add")."\n";
-    $this->help .= $this->lang->translateString("command.txt.usage.remove")."\n";
-    $this->help .= $this->lang->translateString("command.txt.usage.update")."\n";
-    $this->help .= $this->lang->translateString("command.txt.usage.indent");
+  public function addCommand(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      $exists = $this->texterApi->getFtByLevel($player->getLevel(), $response[self::ADD_KEY_FTNAME]);
+      if ($exists === null) {
+        $ft = new FT(
+          $response[self::ADD_KEY_FTNAME],
+          $player->getPosition(),
+          $response[self::ADD_KEY_TITLE],
+          $response[self::ADD_KEY_TEXT],
+          $player->getName()
+        );
+        $this->texterApi->registerText($ft);
+        $message = $this->lang->translateString("command.txt.add.success", [
+          TF::clean($response[self::ADD_KEY_FTNAME])
+        ]);
+        $player->sendMessage(TF::GREEN.Core::PREFIX.$message);
+      }else {
+        $message = $this->lang->translateString("error.ftname.exists", [
+          TF::clean($response[self::ADD_KEY_FTNAME])
+        ]);
+        $player->sendMessage(TF::RED.Core::PREFIX.$message);
+      }
+    }
   }
 
-  public function test(Player $player, $data): void {
-    // NOTE: nullならキャンセル
-    var_dump($data);
+  public function editCommand(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      var_dump($response);
+    }
+  }
+
+  public function moveCommand(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      var_dump($response);
+    }
+  }
+
+  public function removeCommand(Player $player, $response): void {
+    if (!FormApi::formCancelled($response)) {
+      var_dump($response);
+    }
   }
 }

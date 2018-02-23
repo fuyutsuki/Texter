@@ -199,7 +199,9 @@ class Core extends PluginBase {
   public function versionCompare(string $newVer, string $url): void {
     $curVer = $this->getDescription()->getVersion();
     if (version_compare($newVer, $curVer, "=")) {
-      $message = $this->lang->translateString("on.load.update.nothing");
+      $message = $this->lang->translateString("on.load.update.nothing", [
+        $curVer
+      ]);
       $this->getLogger()->notice($message);
     }elseif (version_compare($newVer, $curVer, ">")) {
       $message1 = $this->lang->translateString("on.load.update.available.1", [

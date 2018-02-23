@@ -46,12 +46,9 @@ use tokyo\pmmp\Texter\{
 use tokyo\pmmp\MCBEFormAPI\{
   FormApi,
   element\Button,
-  element\Dropdown,
   element\Input,
   element\Label,
-  element\Slider,
-  element\StepSlider,
-  element\Toggle
+  element\StepSlider
 };
 
 /**
@@ -98,7 +95,7 @@ class TxtCommand extends Command {
     $this->cdm = $core->getConfigDataManager();
     //
     $description = $this->lang->translateString("command.txt.description");
-    $usage = $this->lang->translateString("command.txt.usage.inline");
+    $usage = $this->lang->translateString("command.txt.usage");
     parent::__construct(self::COMMAND, $description, $usage);
     $this->setPermission(self::PERMISSION);
   }
@@ -216,7 +213,7 @@ class TxtCommand extends Command {
         $description = $this->lang->translateString("form.list.description.1");
         $list->setTitle(Core::PREFIX."/txt l(ist)")
         ->setContents($description);
-        $fts = $this->core->getTexterApi()->getFtsByLevel($player->getLevel());
+        $fts = $this->texterApi->getFtsByLevel($player->getLevel());
         foreach ($fts as $textName => $ft) {
           if ($player->distance($ft->getPosition()) <= 10 &&
              ($player->isOp() || $name === $ft->getOwner())) {
@@ -363,7 +360,7 @@ class TxtCommand extends Command {
         if ($ft !== null) {
           if (TexterApi::canEdit($player, $ft)) {
             $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-            $this->core->getTexterApi()->removeFtByLevel($level, $ft->getName());
+            $this->texterApi->removeFtByLevel($level, $ft->getName());
             $message = $this->lang->translateString("command.txt.remove.success", [
               TF::clean($response[self::REMOVE_KEY_FTNAME])
             ]);

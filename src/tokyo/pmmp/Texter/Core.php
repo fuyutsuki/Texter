@@ -35,6 +35,7 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   command\TxtCommand,
+  command\TxtAdmCommand,
   manager\ConfigDataManager,
   manager\CrftsDataManager,
   manager\FtsDataManager,
@@ -57,6 +58,7 @@ class Core extends PluginBase {
   private const LANG_FALLBACK = "eng";
 
   public const CODENAME = "Phyllorhiza punctata";
+  public const CONFIG_VERSION = 23;
   public const DS = DIRECTORY_SEPARATOR;
   public const PREFIX = "[Texter] ";
 
@@ -122,6 +124,7 @@ class Core extends PluginBase {
     $this->initDataManagers();
     $this->initTexterApi();
     $this->initLang();
+    $this->checkConfigVersion();
     $this->registerCommands();
     $this->checkUpdate();
     $this->setTimezone();
@@ -132,6 +135,11 @@ class Core extends PluginBase {
     $this->prepareTexts();
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    $message = $this->lang->translateString("on.enable.message", [
+      $this->getDescription()->getFullName(),
+      TF::BLUE.self::CODENAME.TF::GREEN
+    ]);
+    $this->getLogger()->info(TF::GREEN.$message);
   }
 
   private function initDataManagers(): void {
@@ -156,12 +164,20 @@ class Core extends PluginBase {
     $this->getLogger()->info(TF::GREEN.$message);
   }
 
+  private function checkConfigVersion(): void {
+    if (!$this->configDm->getConfig()->exists("version") ||
+        $this->configDm->getConfigVer() < self::CONFIG_VERSION) {
+      $message = $this->lang->translateString("on.load.config.update");
+      $this->getLogger()->notice($message);
+    }
+  }
+
   private function registerCommands(): void {
     if ($this->configDm->getCanUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
         new TxtCommand($this),
-        // new TxtAdmCommand($this)
+        new TxtAdmCommand($this)
       ];
       $map->registerAll($this->getName(), $commands);
       $message = $this->lang->translateString("on.load.commands.on");
@@ -203,6 +219,9 @@ class Core extends PluginBase {
       $this->getLogger()->notice($message1);
       $this->getLogger()->notice($message2);
       $this->getLogger()->notice($message3);
+    }else {
+      $message = $this->lang->translateString("on.load.version.dev");
+      $this->getLogger()->warning($message);
     }
   }
 

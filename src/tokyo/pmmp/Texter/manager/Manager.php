@@ -124,6 +124,13 @@ abstract class Manager {
   }
 
   /**
+   * @return Config
+   */
+  public function getConfig(): Config {
+    return $this->config;
+  }
+
+  /**
    * @internal
    * @return void
    */

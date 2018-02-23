@@ -334,7 +334,7 @@ class TexterApi {
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
       }
       $this->core->getFtsDataManager()->removeTextsByLevel($level);
-      unset($this->fts[$levelName]);
+      unset($this->fts[$level->getName()]);
       return true;
     }
     return false;
@@ -367,7 +367,7 @@ class TexterApi {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
         $this->core->getFtsDataManager()->removeTextByLevel($level, $ft);
-        unset($fts[$name]);
+        unset($this->fts[$level->getName()][$name]);
         return true;
       }
     }

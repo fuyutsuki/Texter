@@ -5,21 +5,21 @@
       "Yvec": 90,
       "Zvec": 128,
       "TITLE": "Title",
-      "TEXT": "Text(New line with \n or #)"
+      "TEXT": "Text(New line with #)"
     },
     "TextName2": {
       "Xvec": 128,
       "Yvec": 90,
       "Zvec": 130,
       "TITLE": "Title",
-      "TEXT": "Text(New line with \n or #)"
+      "TEXT": "Text(New line with #)"
     },
     "TextName3": {
       "Xvec": 128,
       "Yvec": 90,
       "Zvec": 132,
       "TITLE": "Title",
-      "TEXT": "Text(New line with \n or #)"
+      "TEXT": "Text(New line with #)"
     }
   }
 }

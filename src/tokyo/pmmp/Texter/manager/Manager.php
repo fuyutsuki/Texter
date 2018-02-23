@@ -123,6 +123,31 @@ abstract class Manager {
     return (bool)$this->config->get($key);
   }
 
+  public function isOldFormat(): bool {
+    $data = $this->config->getAll();
+    if (!empty($data)) {
+      $depth = $this->array_depth($data);
+      if ($depth !== 0 && $depth <= 2) {
+        // oldFormt
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private function array_depth($array, int $depth = 0): int {
+    if(!is_array($array)){
+      return $depth;
+    } else {
+      ++$depth;
+      $tmp = [];
+      foreach($array as $value){
+        $tmp[] = $this->array_depth($value, $depth);
+      }
+      return max($tmp);
+    }
+  }
+
   /**
    * @return Config
    */

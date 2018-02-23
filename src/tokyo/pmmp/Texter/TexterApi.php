@@ -409,11 +409,15 @@ class TexterApi {
               if (mb_substr_count($str, "#") <= $cdm->getFeedLimit()) {
                 return true;
               }else {
-                $message = $lang->translateString("error.config.limit.feed");
+                $message = $lang->translateString("error.config.limit.feed", [
+                  $cdm->getFeedLimit()
+                ]);
                 $player->sendMessage(TF::RED.Core::PREFIX.$message);
               }
             }else {
-              $message = $lang->translateString("error.config.limit.char");
+              $message = $lang->translateString("error.config.limit.char", [
+                $cdm->getCharLimit()
+              ]);
               $player->sendMessage(TF::RED.Core::PREFIX.$message);
             }
           }else {
@@ -424,7 +428,9 @@ class TexterApi {
           return true;
         }
       }else {
-        $message = $lang->translateString("error.config.limit.world");
+        $message = $lang->translateString("error.config.limit.world", [
+          $levelName
+        ]);
         $player->sendMessage(TF::RED.Core::PREFIX.$message);
       }
     }else {

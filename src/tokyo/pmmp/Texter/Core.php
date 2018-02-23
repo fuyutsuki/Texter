@@ -124,22 +124,24 @@ class Core extends PluginBase {
     $this->initDataManagers();
     $this->initTexterApi();
     $this->initLang();
-    $this->checkConfigVersion();
     $this->registerCommands();
-    $this->checkUpdate();
     $this->setTimezone();
   }
 
   public function onEnable() {
-    $this->initFormApi();
-    $this->prepareTexts();
-    $listener = new EventListener($this);
-    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
-    $message = $this->lang->translateString("on.enable.message", [
-      $this->getDescription()->getFullName(),
-      TF::BLUE.self::CODENAME.TF::GREEN
-    ]);
-    $this->getLogger()->info(TF::GREEN.$message);
+    $result = $this->checkConfigFormat();
+    if ($result !== false) {
+      $this->checkUpdate();
+      $this->initFormApi();
+      $this->prepareTexts();
+      $listener = new EventListener($this);
+      $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+      $message = $this->lang->translateString("on.enable.message", [
+        $this->getDescription()->getFullName(),
+        TF::BLUE.self::CODENAME.TF::GREEN
+      ]);
+      $this->getLogger()->info(TF::GREEN.$message);
+    }
   }
 
   private function initDataManagers(): void {
@@ -162,14 +164,6 @@ class Core extends PluginBase {
       $langCode
     ]);
     $this->getLogger()->info(TF::GREEN.$message);
-  }
-
-  private function checkConfigVersion(): void {
-    if (!$this->configDm->getConfig()->exists("version") ||
-        $this->configDm->getConfigVer() < self::CONFIG_VERSION) {
-      $message = $this->lang->translateString("on.load.config.update");
-      $this->getLogger()->notice($message);
-    }
   }
 
   private function registerCommands(): void {
@@ -234,6 +228,26 @@ class Core extends PluginBase {
       ]);
       $this->getLogger()->info(TF::GREEN.$message);
     }
+  }
+
+  private function checkConfigFormat(): bool {
+    $result1 = !$this->configDm->getConfig()->exists("version") || $this->configDm->getConfigVer() < self::CONFIG_VERSION;
+    $result2 = $this->crftsDm->isOldFormat();
+    $result3 = $this->ftsDm->isOldFormat();
+    $files = [];
+    if ($result1) $files[] = "config.yml";
+    if ($result2) $files[] = "crfts.json";
+    if ($result3) $files[] = "fts.json";
+    if ($result1 || $result2 || $result3) {
+      $fileList = implode(", ", $files);
+      $message = $this->lang->translateString("on.load.config.update", [
+        $fileList
+      ]);
+      $this->getLogger()->notice($message);
+      $this->getServer()->getPluginManager()->disablePlugin($this);
+      return false;
+    }
+    return true;
   }
 
   private function initFormApi(): void {

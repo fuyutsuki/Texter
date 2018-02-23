@@ -2,6 +2,7 @@
 submodule: true
 branches:
   - master
+  - dev/rewrite-v2.3.0
 projects:
   Texter:
     path: ""

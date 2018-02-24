@@ -39,7 +39,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 ### Commands
 #### General command
 | \ |command|alias|
-|:--:|:--:|:--:|:--:|
+|:--:|:--:|:--:|
 |Add text|`/txt add`|`/txt a`|
 |Edit text|`/txt edit`|`/txt e`|
 |Move text|`/txt move`|`/txt m`|
@@ -113,7 +113,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 ### コマンド
 #### 一般用コマンド
 | \ |コマンド|エイリアス|
-|:--:|:--:|:--:|:--:|
+|:--:|:--:|:--:|
 |浮き文字追加|`/txt add`|`/txt a`|
 |浮き文字編集|`/txt edit`|`/txt e`|
 |浮き文字移動|`/txt move`|`/txt m`|

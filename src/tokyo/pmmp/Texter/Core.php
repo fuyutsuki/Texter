@@ -54,13 +54,13 @@ use tokyo\pmmp\MCBEFormAPI\{
  */
 class Core extends PluginBase {
 
-  private const LANG_DIR = "language";
-  private const LANG_FALLBACK = "eng";
+  const LANG_DIR = "language";
+  const LANG_FALLBACK = "eng";
 
-  public const CODENAME = "Phyllorhiza punctata";
-  public const CONFIG_VERSION = 23;
-  public const DS = DIRECTORY_SEPARATOR;
-  public const PREFIX = "[Texter] ";
+  const CODENAME = "Phyllorhiza punctata";
+  const CONFIG_VERSION = 23;
+  const DS = DIRECTORY_SEPARATOR;
+  const PREFIX = "[Texter] ";
 
   /** @var string */
   public $dir = "";

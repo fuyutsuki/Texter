@@ -55,10 +55,10 @@ use tokyo\pmmp\Texter\{
 abstract class Text {
 
   /** @var int $this->sendTo****() */
-  public const SEND_TYPE_ADD = 0;
-  public const SEND_TYPE_EDIT = 1;
-  public const SEND_TYPE_MOVE = 2;
-  public const SEND_TYPE_REMOVE = 3;
+  const SEND_TYPE_ADD = 0;
+  const SEND_TYPE_EDIT = 1;
+  const SEND_TYPE_MOVE = 2;
+  const SEND_TYPE_REMOVE = 3;
 
   /** @var string */
   protected $name = "";

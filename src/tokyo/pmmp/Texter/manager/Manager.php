@@ -41,25 +41,25 @@ use tokyo\pmmp\Texter\{
 abstract class Manager {
 
   /** @var string */
-  public const KEY_X_VEC = "Xvec";
-  public const KEY_Y_VEC = "Yvec";
-  public const KEY_Z_VEC = "Zvec";
-  public const KEY_TITLE = "TITLE";
-  public const KEY_TEXT = "TEXT";
-  public const KEY_OWNER = "OWNER";
+  const KEY_X_VEC = "Xvec";
+  const KEY_Y_VEC = "Yvec";
+  const KEY_Z_VEC = "Zvec";
+  const KEY_TITLE = "TITLE";
+  const KEY_TEXT = "TEXT";
+  const KEY_OWNER = "OWNER";
 
   /** @var int */
-  public const DATA_NAME = 0;
-  public const DATA_LEVEL = 1;
-  public const DATA_X_VEC = 2;
-  public const DATA_Y_VEC = 3;
-  public const DATA_Z_VEC = 4;
-  public const DATA_TITLE = 5;
-  public const DATA_TEXT = 6;
-  public const DATA_OWNER = 7;
+  const DATA_NAME = 0;
+  const DATA_LEVEL = 1;
+  const DATA_X_VEC = 2;
+  const DATA_Y_VEC = 3;
+  const DATA_Z_VEC = 4;
+  const DATA_TITLE = 5;
+  const DATA_TEXT = 6;
+  const DATA_OWNER = 7;
 
   /** @var int */
-  private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+  const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
   /** @var ?self */
   protected static $instance = null;

@@ -61,15 +61,15 @@ use tokyo\pmmp\MCBEFormAPI\{
 class TxtAdmCommand extends Command {
 
   /** @var string */
-  private const COMMAND = "txtadm";
-  private const PERMISSION = "texter.command.txtadm";
+  const COMMAND = "txtadm";
+  const PERMISSION = "texter.command.txtadm";
 
   /** @var int */
-  private const SESSION_ID = 0;
-  private const SESSION_DATA = 1;
-  private const SESSION_AR = 0;
-  private const SESSION_UR = 1;
-  private const SESSION_LR = 2;
+  const SESSION_ID = 0;
+  const SESSION_DATA = 1;
+  const SESSION_AR = 0;
+  const SESSION_UR = 1;
+  const SESSION_LR = 2;
 
   /** @var ?Core */
   private $core = null;

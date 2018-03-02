@@ -57,27 +57,27 @@ use tokyo\pmmp\MCBEFormAPI\{
 class TxtCommand extends Command {
 
   /** @var string */
-  private const COMMAND = "txt";
-  private const PERMISSION = "texter.command.txt";
+  const COMMAND = "txt";
+  const PERMISSION = "texter.command.txt";
 
   /** @var int */
-  private const ADD_KEY_FTNAME = 1;
-  private const ADD_KEY_TITLE = 3;
-  private const ADD_KEY_TEXT = 4;
-  private const EDIT_KEY_FTNAME = 1;
-  private const EDIT_KEY_TYPE = 2;
-  private const EDIT_TITLE = 0;
-  private const EDIT_TEXT = 1;
-  private const EDIT_KEY_CONTENT = 4;
-  private const MOVE_KEY_FTNAME = 1;
-  private const REMOVE_KEY_FTNAME = 1;
-  private const LIST_KEY_EDIT = 0;
-  private const LIST_KEY_MOVE = 1;
-  private const LIST_KEY_REMOVE = 2;
+  const ADD_KEY_FTNAME = 1;
+  const ADD_KEY_TITLE = 3;
+  const ADD_KEY_TEXT = 4;
+  const EDIT_KEY_FTNAME = 1;
+  const EDIT_KEY_TYPE = 2;
+  const EDIT_TITLE = 0;
+  const EDIT_TEXT = 1;
+  const EDIT_KEY_CONTENT = 4;
+  const MOVE_KEY_FTNAME = 1;
+  const REMOVE_KEY_FTNAME = 1;
+  const LIST_KEY_EDIT = 0;
+  const LIST_KEY_MOVE = 1;
+  const LIST_KEY_REMOVE = 2;
 
   /** @var int */
-  private const SESSION_PHASE1 = 0;
-  private const SESSION_PHASE2 = 1;
+  const SESSION_PHASE1 = 0;
+  const SESSION_PHASE2 = 1;
 
   /** @var ?Core */
   private $core = null;

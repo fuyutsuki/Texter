@@ -30,7 +30,7 @@ namespace tokyo\pmmp\Texter\manager;
  */
 class ConfigDataManager extends Manager {
 
-  private const FILE_CONFIG_VER = 23;
+  const FILE_CONFIG_VER = 23;
 
   /** @var ?self */
   protected static $instance = null;

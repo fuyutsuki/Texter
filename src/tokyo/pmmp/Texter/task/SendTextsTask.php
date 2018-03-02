@@ -69,7 +69,7 @@ class SendTextsTask extends PluginTask {
     $this->type = $type;
   }
 
-  public function onRun(int $tick) {
+  public function onRun($tick) {
     if ($this->crftsKey >= $this->crftsKeyMax) {
       if ($this->ftsKey >= $this->ftsKeyMax) {
         $this->onSuccess();

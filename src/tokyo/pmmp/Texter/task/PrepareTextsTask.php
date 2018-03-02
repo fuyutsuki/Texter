@@ -65,7 +65,7 @@ class PrepareTextsTask extends PluginTask {
     $this->ftsKeyMax = count($this->fts);
   }
 
-  public function onRun(int $tick) {
+  public function onRun($tick) {
     if ($this->crftsKey >= $this->crftsKeyMax) {
       if ($this->ftsKey >= $this->ftsKeyMax) {
         $this->onSuccess();

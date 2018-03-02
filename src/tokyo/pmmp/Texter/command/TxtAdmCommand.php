@@ -91,7 +91,7 @@ class TxtAdmCommand extends Command {
     $this->setPermission(self::PERMISSION);
   }
 
-  public function execute(CommandSender $sender, string $label, array $args) {
+  public function execute(CommandSender $sender, $label, array $args) {
     if (!$this->core->isEnabled()) return false;
     if (!$this->testPermission($sender)) return false;
     if ($sender instanceof Player) {

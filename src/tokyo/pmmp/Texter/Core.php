@@ -80,50 +80,50 @@ class Core extends PluginBase {
   /**
    * @return ?ConfigDataManager
    */
-  public function getConfigDataManager(): ?ConfigDataManager {
+  public function getConfigDataManager(): ConfigDataManager {
     return $this->configDm;
   }
 
   /**
    * @return ?CrftsDataManager
    */
-  public function getCrftsDataManager(): ?CrftsDataManager {
+  public function getCrftsDataManager(): CrftsDataManager {
     return $this->crftsDm;
   }
 
   /**
    * @return ?FtsDataManager
    */
-  public function getFtsDataManager(): ?FtsDataManager {
+  public function getFtsDataManager(): FtsDataManager {
     return $this->ftsDm;
   }
 
   /**
    * @return ?TexterApi
    */
-  public function getTexterApi(): ?TexterApi {
+  public function getTexterApi(): TexterApi {
     return $this->texter;
   }
 
   /**
    * @return ?FormApi
    */
-  public function getFormApi(): ?FormApi {
+  public function getFormApi(): FormApi {
     return $this->form;
   }
 
   /**
    * @return ?BaseLang
    */
-  public function getLang(): ?BaseLang {
+  public function getLang(): BaseLang {
     return $this->lang;
   }
 
   public function onLoad() {
     $this->dir = $this->getDataFolder();
     $this->initDataManagers();
-    $this->initTexterApi();
     $this->initLang();
+    $this->initTexterApi();
     $this->registerCommands();
     $this->setTimezone();
   }

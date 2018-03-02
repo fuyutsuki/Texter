@@ -137,7 +137,7 @@ class TexterApi {
    * @param  string $name
    * @return ?CRFT
    */
-  public function getCrftByLevel(Level $level, string $name): ?CRFT {
+  public function getCrftByLevel(Level $level, string $name) {
     $crfts = $this->getCrftsByLevel($level);
     if (!empty($crfts)) {
       if (array_key_exists($name, $crfts)) {
@@ -154,7 +154,7 @@ class TexterApi {
    * @param  string $name
    * @return ?CRFT
    */
-  public function getCrftByLevelName(string $levelName, string $name): ?CRFT {
+  public function getCrftByLevelName(string $levelName, string $name) {
     $crfts = $this->getCrftsByLevelName($levelName);
     if (!empty($crfts)) {
       if (array_key_exists($name, $crfts)) {
@@ -171,7 +171,7 @@ class TexterApi {
    * @param  int    $eid
    * @return ?CRFT
    */
-  public function getCrftByLevelEid(Level $level, int $eid): ?CRFT {
+  public function getCrftByLevelEid(Level $level, int $eid) {
     $crfts = $this->getCrftsByLevel($level);
     if (!empty($crfts)) {
       $search = null;
@@ -192,7 +192,7 @@ class TexterApi {
    * @param  int    $eid
    * @return ?CRFT
    */
-  public function getCrftByLevelNameEid(string $levelName, int $eid): ?CRFT {
+  public function getCrftByLevelNameEid(string $levelName, int $eid) {
     $crfts = $this->getCrftsByLevelName($levelName);
     if (!empty($crfts)) {
       $search = null;
@@ -252,7 +252,7 @@ class TexterApi {
    * @param  string $name
    * @return ?FT
    */
-  public function getFtByLevel(Level $level, string $name): ?FT {
+  public function getFtByLevel(Level $level, string $name) {
     $fts = $this->getFtsByLevel($level);
     if (!empty($fts)) {
       if (array_key_exists($name, $fts)) {
@@ -269,7 +269,7 @@ class TexterApi {
    * @param  string $name
    * @return ?FT
    */
-  public function getFtByLevelName(string $levelName, string $name): ?FT {
+  public function getFtByLevelName(string $levelName, string $name) {
     $fts = $this->getFtsByLevelName($levelName);
     if (!empty($fts)) {
       if (array_key_exists($name, $fts)) {
@@ -286,7 +286,7 @@ class TexterApi {
    * @param  int    $eid
    * @return ?FT
    */
-  public function getFtByLevelEid(Level $level, int $eid): ?FT {
+  public function getFtByLevelEid(Level $level, int $eid) {
     $fts = $this->getFtsByLevel($level);
     if (!empty($fts)) {
       $search = null;
@@ -307,7 +307,7 @@ class TexterApi {
    * @param  int    $eid
    * @return ?FT
    */
-  public function getFtByLevelNameEid(string $levelName, int $eid): ?FT {
+  public function getFtByLevelNameEid(string $levelName, int $eid) {
     $fts = $this->getFtsByLevelName($levelName);
     if (!empty($fts)) {
       $search = null;

@@ -150,7 +150,7 @@ class TxtCommand extends Command {
     }
   }
 
-  private function addCommand(Player $player, string $default = ""): void {
+  private function addCommand(Player $player, string $default = "") {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "addReceive"]);
     $description = $this->lang->translateString("form.add.description");
     $tips = $this->lang->translateString("command.txt.usage.indent");
@@ -166,7 +166,7 @@ class TxtCommand extends Command {
     ->sendToPlayer($player);
   }
 
-  private function editCommand(Player $player, string $default = ""): void {
+  private function editCommand(Player $player, string $default = "") {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "editReceive"]);
     $description = $this->lang->translateString("form.edit.description");
     $ftName = $this->lang->translateString("form.ftname");
@@ -184,7 +184,7 @@ class TxtCommand extends Command {
     ->sendToPlayer($player);
   }
 
-  private function moveCommand(Player $player, string $default = ""): void {
+  private function moveCommand(Player $player, string $default = "") {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "moveReceive"]);
     $description = $this->lang->translateString("form.move.description");
     $ftName = $this->lang->translateString("form.ftname");
@@ -194,7 +194,7 @@ class TxtCommand extends Command {
     ->sendToPlayer($player);
   }
 
-  private function removeCommand(Player $player, string $default = ""): void {
+  private function removeCommand(Player $player, string $default = "") {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "removeReceive"]);
     $description = $this->lang->translateString("form.remove.description");
     $ftName = $this->lang->translateString("form.ftname");
@@ -204,7 +204,7 @@ class TxtCommand extends Command {
     ->sendToPlayer($player);
   }
 
-  private function listCommand(Player $player, int $phase = self::SESSION_PHASE1): void {
+  private function listCommand(Player $player, int $phase = self::SESSION_PHASE1) {
     $name = strtolower($player->getName());
     switch ($phase) {
       case self::SESSION_PHASE1:
@@ -243,7 +243,7 @@ class TxtCommand extends Command {
    * Callback functions
    */
 
-  public function addReceive(Player $player, $response): void {
+  public function addReceive(Player $player, $response) {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::ADD_KEY_FTNAME])) {
@@ -277,7 +277,7 @@ class TxtCommand extends Command {
     }
   }
 
-  public function editReceive(Player $player, $response): void {
+  public function editReceive(Player $player, $response) {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::EDIT_KEY_FTNAME])) {
@@ -325,7 +325,7 @@ class TxtCommand extends Command {
     }
   }
 
-  public function moveReceive(Player $player, $response): void {
+  public function moveReceive(Player $player, $response) {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::MOVE_KEY_FTNAME])) {
@@ -352,7 +352,7 @@ class TxtCommand extends Command {
     }
   }
 
-  public function removeReceive(Player $player, $response): void {
+  public function removeReceive(Player $player, $response) {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::MOVE_KEY_FTNAME])) {
@@ -377,7 +377,7 @@ class TxtCommand extends Command {
     }
   }
 
-  public function listReceive(Player $player, $response): void {
+  public function listReceive(Player $player, $response) {
     $name = strtolower($player->getName());
     if (!FormApi::formCancelled($response)) {
       switch ($this->session[$name]) {

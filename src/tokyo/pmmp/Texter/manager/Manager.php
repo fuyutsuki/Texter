@@ -83,7 +83,7 @@ abstract class Manager {
   /**
    * @return void
    */
-  private function init(): void {
+  private function init() {
     $this->core->saveResource($this->configName);
     $this->config = new Config($this->core->dir.$this->configName, $this->configType);
     if ($this->configType === Config::JSON) {
@@ -159,7 +159,7 @@ abstract class Manager {
    * @internal
    * @return void
    */
-  abstract protected function registerInstance(): void;
+  abstract protected function registerInstance();
 
   /**
    * @return self Manager

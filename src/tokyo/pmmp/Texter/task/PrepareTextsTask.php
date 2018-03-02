@@ -104,7 +104,7 @@ class PrepareTextsTask extends PluginTask {
     }
   }
 
-  private function onSuccess(): void {
+  private function onSuccess() {
     $lang = $this->getOwner()->getLang();
     $message = $lang->translateString("on.enable.prepared", [
       $this->crftsKeyMax,

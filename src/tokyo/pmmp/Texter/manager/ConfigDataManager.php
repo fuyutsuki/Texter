@@ -95,7 +95,7 @@ class ConfigDataManager extends Manager {
     return $worlds;
   }
 
-  protected function registerInstance(): void {
+  protected function registerInstance() {
     self::$instance = $this;
   }
 

@@ -77,7 +77,7 @@ class TexterApi {
    * @param Text $text
    * @return void
    */
-  public function registerText(Text $text): void {
+  public function registerText(Text $text) {
     switch (true) {
       case $text instanceof CRFT:
         $this->crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;

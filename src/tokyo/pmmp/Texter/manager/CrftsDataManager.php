@@ -89,7 +89,7 @@ class CrftsDataManager extends Manager {
     return false;
   }
 
-  protected function registerInstance(): void {
+  protected function registerInstance() {
     self::$instance = $this;
   }
 

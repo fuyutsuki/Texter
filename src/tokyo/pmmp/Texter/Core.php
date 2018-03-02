@@ -144,17 +144,17 @@ class Core extends PluginBase {
     }
   }
 
-  private function initDataManagers(): void {
+  private function initDataManagers() {
     $this->configDm = new ConfigDataManager($this);
     $this->crftsDm = new CrftsDataManager($this);
     $this->ftsDm = new FtsDataManager($this);
   }
 
-  private function initTexterApi(): void {
+  private function initTexterApi() {
     $this->texter = new TexterApi($this);
   }
 
-  private function initLang(): void {
+  private function initLang() {
     $langCode = $this->configDm->getLangCode();
     $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
     $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
@@ -166,7 +166,7 @@ class Core extends PluginBase {
     $this->getLogger()->info(TF::GREEN.$message);
   }
 
-  private function registerCommands(): void {
+  private function registerCommands() {
     if ($this->configDm->getCanUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
@@ -182,7 +182,7 @@ class Core extends PluginBase {
     }
   }
 
-  private function checkUpdate(): void {
+  private function checkUpdate() {
     if ($this->configDm->getCheckUpdate()) {
       try {
         $task = new CheckUpdateTask();
@@ -196,7 +196,7 @@ class Core extends PluginBase {
     }
   }
 
-  public function versionCompare(string $newVer, string $url): void {
+  public function versionCompare(string $newVer, string $url) {
     $curVer = $this->getDescription()->getVersion();
     if (version_compare($newVer, $curVer, "=")) {
       $message = $this->lang->translateString("on.load.update.nothing", [
@@ -221,7 +221,7 @@ class Core extends PluginBase {
     }
   }
 
-  private function setTimezone(): void {
+  private function setTimezone() {
     $timezone = $this->configDm->getTimezone();
     if ($timezone !== "") {
       date_default_timezone_set($timezone);
@@ -252,11 +252,11 @@ class Core extends PluginBase {
     return true;
   }
 
-  private function initFormApi(): void {
+  private function initFormApi() {
     $this->form = new FormApi($this);
   }
 
-  private function prepareTexts(): void {
+  private function prepareTexts() {
     $task = new PrepareTextsTask($this);
     $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
   }

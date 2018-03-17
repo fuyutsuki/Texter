@@ -44,8 +44,8 @@ use tokyo\pmmp\Texter\{
   task\PrepareTextsTask
 };
 
-// mcbeformapi
-use tokyo\pmmp\MCBEFormAPI\{
+// libform
+use tokyo\pmmp\libform\{
   FormApi
 };
 

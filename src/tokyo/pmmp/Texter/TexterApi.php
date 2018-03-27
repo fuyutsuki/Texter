@@ -70,7 +70,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Register text in the Texter plugin and enable management using TexterApi
    * If you do not do this registration,
    * you can operate with the function of class tokyo\pmmp\Texter\text\Text
@@ -92,7 +91,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all CRFTs
    * @return array
    */
@@ -101,7 +99,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all CRFTs at the specified level
    * @param  Level $level
    * @return array
@@ -116,7 +113,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all CRFTs in the specified level name
    * @param  string $levelName
    * @return array
@@ -131,7 +127,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Gets CRFT with text name within the specified level
    * @param  Level  $level
    * @param  string $name
@@ -148,7 +143,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Gets CRFT with text name within the specified level name
    * @param  string $levelName
    * @param  string $name
@@ -165,7 +159,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get CRFT with eid of text within the specified level
    * @param  Level  $level
    * @param  int    $eid
@@ -186,7 +179,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get CRFT with eid of text within the specified level name
    * @param  string $levelName
    * @param  int    $eid
@@ -207,7 +199,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all FTs
    * @return array
    */
@@ -216,7 +207,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all FTs at the specified level
    * @param  Level $level
    * @return array
@@ -231,7 +221,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get all FTs in the specified level name
    * @param  string $levelName
    * @return array
@@ -246,7 +235,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Gets FT with text name within the specified level
    * @param  Level  $level
    * @param  string $name
@@ -263,7 +251,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Gets FT with text name within the specified level name
    * @param  string $levelName
    * @param  string $name
@@ -280,7 +267,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get FT with eid of text within the specified level
    * @param  Level  $level
    * @param  int    $eid
@@ -301,7 +287,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Get FT with eid of text within the specified level name
    * @param  string $levelName
    * @param  int    $eid
@@ -322,7 +307,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Delete FTs within the specified level
    * @param  Level $level
    * @return bool
@@ -341,7 +325,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Delete FTs within the specified level name
    * @param  string $levelName
    * @return bool
@@ -355,7 +338,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Delete FT within the specified level
    * @param  Level $level
    * @return bool
@@ -375,7 +357,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Delete FT within the specified level name
    * @param  string $levelName
    * @return bool
@@ -389,7 +370,6 @@ class TexterApi {
   }
 
   /**
-   * @description
    * Check if text can be edited
    * @param  Player $player
    * @param  ?FT    $ft = null

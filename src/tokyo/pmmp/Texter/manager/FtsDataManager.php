@@ -132,7 +132,7 @@ class FtsDataManager extends Manager {
   }
 
   protected function registerInstance(): void {
-    self::$instance = $this;
+    self::$instance = self::$instance ?? $this;
   }
 
   public static function get(): self {

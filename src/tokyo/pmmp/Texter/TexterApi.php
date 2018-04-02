@@ -28,7 +28,9 @@ namespace tokyo\pmmp\Texter;
 // pocketmine
 use pocketmine\{
   Player,
+  Server,
   level\Level,
+  plugin\Plugin,
   utils\TextFormat as TF
 };
 
@@ -56,10 +58,9 @@ class TexterApi {
   /** @var array */
   private $fts = [];
 
-  public function __construct(Core $core) {
-    self::$instance = $this;
-    $this->core = $core;
-    $this->lang = $core->getLang();
+  public function __construct(Plugin $plugin) {
+    self::$instance = self::$instance ?? $this;
+    $this->plugin = $plugin;
   }
 
   /**
@@ -85,7 +86,7 @@ class TexterApi {
       case $text instanceof FT:
         $level = $text->getPosition()->getLevel();
         $this->fts[$level->getName()][$text->getName()] = $text;
-        $this->core->getFtsDataManager()->saveTextByLevel($level, $text);
+        FtsDataManager::get()->saveTextByLevel($level, $text);
       break;
     }
   }
@@ -118,7 +119,7 @@ class TexterApi {
    * @return array
    */
   public function getCrftsByLevelName(string $levelName): array {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->getCrftsByLevel($level);
     }else {
@@ -226,7 +227,7 @@ class TexterApi {
    * @return array
    */
   public function getFtsByLevelName(string $levelName): array {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->getFtsByLevel($level);
     }else {
@@ -317,7 +318,7 @@ class TexterApi {
       foreach ($fts as $ft) {
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
       }
-      $this->core->getFtsDataManager()->removeTextsByLevel($level);
+      FtsDataManager::get()->removeTextsByLevel($level);
       unset($this->fts[$level->getName()]);
       return true;
     }
@@ -330,7 +331,7 @@ class TexterApi {
    * @return bool
    */
   public function removeFtsByLevelName(string $levelName): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->removeFtsByLevel($level);
     }
@@ -348,7 +349,7 @@ class TexterApi {
       if (array_key_exists($name, $fts)) {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-        $this->core->getFtsDataManager()->removeTextByLevel($level, $ft);
+        FtsDataManager::get()->removeTextByLevel($level, $ft);
         unset($this->fts[$level->getName()][$name]);
         return true;
       }
@@ -362,7 +363,7 @@ class TexterApi {
    * @return bool
    */
   public function removeFtByLevelName(string $levelName, string $name): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->removeFtByLevel($level, $name);
     }

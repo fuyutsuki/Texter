@@ -1,6 +1,7 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fuyutsuki/Texter
 branches:
   - master
+  - legacy/php7.0.x
 projects:
   Texter:
     path: ""

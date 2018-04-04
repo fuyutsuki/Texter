@@ -37,11 +37,6 @@ Latest: ver **2.3.1** _Phyllorhiza punctata_
 ### Download
 You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
 
-%% NOTE %%  
-This branch is a version compatible with `php7.0.x`.  
-Please download the latest build from [here](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter) `legacy/php7.0.x` branch.  
-**Is not from the master branch**.
-
 ### Commands
 #### General command
 | \ |command|alias|
@@ -117,11 +112,6 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 ### ダウンロード
 ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  
 最新の .pharファイルが必要であれば [PoggitCI](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter) の最新ビルドの **Download** から。  
-
-%% メモ %%  
-このブランチは`php7.0.x`への互換性を持たせたブランチです。  
-[こちら](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter) のサイトの最新ビルドから、 `legacy/php7.0.x` ブランチのものを選んでダウンロードして下さい。.  
-**マスターブランチのものではありません**。
 
 ### コマンド
 #### 一般用コマンド

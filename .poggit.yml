@@ -8,6 +8,6 @@ projects:
     icon: "/assets/Logo.png"
     libs:
       - src: fuyutsuki/libform/libform
-      - version: 0.1.1
-      - branch: legacy/php7.0.x
+        version: 0.1.1
+        branch: legacy/php7.0.x
 ...

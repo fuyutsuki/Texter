@@ -44,8 +44,8 @@ use tokyo\pmmp\Texter\{
   task\PrepareTextsTask
 };
 
-// mcbeformapi
-use tokyo\pmmp\MCBEFormAPI\{
+// libform
+use tokyo\pmmp\libform\{
   FormApi
 };
 
@@ -160,7 +160,7 @@ class Core extends PluginBase {
     $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
     $this->lang = new BaseLang($langCode, $this->dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
     $message = $this->lang->translateString("language.selected", [
-      $this->lang->translateString("language.name"),
+      $this->lang->getName(),
       $langCode
     ]);
     $this->getLogger()->info(TF::GREEN.$message);

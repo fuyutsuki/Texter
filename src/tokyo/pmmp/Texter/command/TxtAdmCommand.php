@@ -43,8 +43,8 @@ use tokyo\pmmp\Texter\{
   text\FloatingText as FT
 };
 
-// mcbeformapi
-use tokyo\pmmp\MCBEFormAPI\{
+// libform
+use tokyo\pmmp\libform\{
   FormApi,
   element\Button,
   element\Dropdown,

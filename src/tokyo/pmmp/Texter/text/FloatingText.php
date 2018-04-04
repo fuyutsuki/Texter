@@ -55,12 +55,8 @@ class FloatingText extends Text {
    * @param integer  $eid
    */
   public function __construct(string $textName, Position $pos, string $title = "", string $text = "", string $owner = "", int $eid = 0) {
-    $this->name = $textName;
-    $this->pos = $pos;
-    $this->title = $title;
-    $this->text = $text;
+    parent::__construct($textName, $pos, $title, $text, $eid);
     $this->owner = strtolower($owner);
-    $this->eid = $eid !== 0 ? $eid : Entity::$entityCount++;
   }
 
   /**

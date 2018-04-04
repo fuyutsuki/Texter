@@ -95,8 +95,8 @@ class ConfigDataManager extends Manager {
     return $worlds;
   }
 
-  protected function registerInstance() {
-    self::$instance = $this;
+  protected function registerInstance(): void {
+    self::$instance = self::$instance ?? $this;
   }
 
   public static function get(): self {

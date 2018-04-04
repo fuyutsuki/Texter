@@ -26,12 +26,13 @@ It may have many bugs.
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **2.3.0** _Phyllorhiza punctata_  
+Latest: ver **2.3.1** _Phyllorhiza punctata_  
 
 ### Supporting
 - [x] Minecraft(Bedrock) v1.2.x
 - [x] Multi-language (eng, jpn)
 - [x] Multi-world display
+- [ ] CustomEvents(eg. TextEditEvent)
 
 ### Download
 You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
@@ -44,6 +45,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 |Edit text|`/txt edit`|`/txt e`|
 |Move text|`/txt move`|`/txt m`|
 |Remove text|`/txt remove`|`/txt r`|
+|Listup texts|`/txt list`|`/txt l`|
 |Help|`/txt or /txt help`|`/txt ?`|
 
 #### Management command
@@ -99,12 +101,13 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除ができるプラグインです。  
-最新バージョン: **2.3.0** _Phyllorhiza punctata_  
+最新バージョン: **2.3.1** _Phyllorhiza punctata_  
 
 ### 対応状況
 - [x] Minecraft(Bedrockエンジン) v1.2.x
 - [x] 複数言語 (eng, jpn)
 - [x] 複数ワールドの表示
+- [ ] カスタムイベント(例. TextEditEvent)
 
 ### ダウンロード
 ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  
@@ -118,6 +121,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 |浮き文字編集|`/txt edit`|`/txt e`|
 |浮き文字移動|`/txt move`|`/txt m`|
 |浮き文字削除|`/txt remove`|`/txt r`|
+|浮き文字リスト|`/txt list`|`txt l`|
 |ヘルプ|`/txt or /txt help`|`/txt ?`|
 
 #### 管理用コマンド

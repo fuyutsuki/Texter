@@ -157,6 +157,7 @@ class TxtCommand extends Command {
     $ftName = $this->lang->translateString("form.ftname.unique");
     $title = $this->lang->translateString("form.title");
     $text = $this->lang->translateString("form.text");
+
     $custom->setTitle(Core::PREFIX."/txt a(dd)")
     ->addElement(new Label($description))
     ->addElement(new Input($ftName, $ftName))
@@ -175,6 +176,7 @@ class TxtCommand extends Command {
     $text = $this->lang->translateString("form.text");
     $tips = $this->lang->translateString("command.txt.usage.indent");
     $content = $this->lang->translateString("form.edit.content");
+
     $custom->setTitle(Core::PREFIX."/txt e(dit)")
     ->addElement(new Label($description))
     ->addElement(new Input($ftName, $ftName, $default))
@@ -188,6 +190,7 @@ class TxtCommand extends Command {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "moveReceive"]);
     $description = $this->lang->translateString("form.move.description");
     $ftName = $this->lang->translateString("form.ftname");
+
     $custom->setTitle(Core::PREFIX."/txt m(ove)")
     ->addElement(new Label($description))
     ->addElement(new Input($ftName, $ftName, $default))
@@ -198,6 +201,7 @@ class TxtCommand extends Command {
     $custom = $this->core->getFormApi()->makeCustomForm([$this, "removeReceive"]);
     $description = $this->lang->translateString("form.remove.description");
     $ftName = $this->lang->translateString("form.ftname");
+
     $custom->setTitle(Core::PREFIX."/txt r(emove)")
     ->addElement(new Label($description))
     ->addElement(new Input($ftName, $ftName, $default))
@@ -289,7 +293,7 @@ class TxtCommand extends Command {
               $check->setTitle($response[self::EDIT_KEY_CONTENT]);
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setTitle($response[self::EDIT_KEY_CONTENT])
-                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
+                ->sendToLevel($level, Text::SEND_TYPE_ADD);
                 $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),
@@ -304,7 +308,7 @@ class TxtCommand extends Command {
               $check->setText($response[self::EDIT_KEY_CONTENT]);
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setText($response[self::EDIT_KEY_CONTENT])
-                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
+                ->sendToLevel($level, Text::SEND_TYPE_ADD);
                 $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),

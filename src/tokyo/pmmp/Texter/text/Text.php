@@ -56,7 +56,7 @@ abstract class Text {
 
   /** @var int $this->sendTo****() */
   public const SEND_TYPE_ADD = 0;
-  public const SEND_TYPE_EDIT = 1;
+  // public const SEND_TYPE_EDIT = 1;
   public const SEND_TYPE_MOVE = 2;
   public const SEND_TYPE_REMOVE = 3;
 
@@ -83,8 +83,8 @@ abstract class Text {
   public function __construct(string $textName, Position $pos, string $title = "", string $text = "", int $eid = 0) {
     $this->name = $textName;
     $this->pos = $pos;
-    $this->title = $title;
-    $this->text = $text;
+    $this->setTitle($title);
+    $this->setText($text);
     $this->eid = $eid !== 0 ? $eid : Entity::$entityCount++;
   }
 
@@ -194,7 +194,6 @@ abstract class Text {
       case self::SEND_TYPE_ADD:
         $pk = new AddPlayerPacket;
         $pk->uuid = UUID::fromRandom();
-        $pk->username = "text";
         $pk->entityUniqueId = $this->eid;
         $pk->entityRuntimeId = $this->eid;// ...huh?
         $pk->position = $this->pos;
@@ -213,6 +212,7 @@ abstract class Text {
         $this->addName($pk, $isOwner);
       break;
 
+      /** broken at 1.2.13
       case self::SEND_TYPE_EDIT:
         $pk = new SetEntityDataPacket;
         $pk->entityRuntimeId = $this->eid;
@@ -229,6 +229,7 @@ abstract class Text {
         ];
         $this->addName($pk, $isOwner);
       break;
+      */
 
       case self::SEND_TYPE_MOVE:
         $pk = new MoveEntityPacket;
@@ -254,15 +255,21 @@ abstract class Text {
 
   protected function addName(DataPacket $pk, bool $isOwner) {
     if ($this instanceof FT && $isOwner) {
+      /** broken at 1.2.13
       $pk->metadata[Entity::DATA_NAMETAG] = [
         Entity::DATA_TYPE_STRING,
         $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]")
       ];
+      */
+      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]");
     }else {
+      /** broken at 1.2.13
       $pk->metadata[Entity::DATA_NAMETAG] = [
         Entity::DATA_TYPE_STRING,
         TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""))
       ];
+      */
+      $pk->username = TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""));
     }
   }
 

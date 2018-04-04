@@ -144,7 +144,11 @@ abstract class Manager {
       foreach($array as $value){
         $tmp[] = $this->array_depth($value, $depth);
       }
-      return max($tmp);
+      if (empty($tmp)) {
+        return 0;
+      }else {
+        return max($tmp);
+      }
     }
   }
 

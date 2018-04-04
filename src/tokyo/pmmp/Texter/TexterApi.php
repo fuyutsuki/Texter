@@ -378,7 +378,7 @@ class TexterApi {
    */
   public static function canEdit(Player $player, FT $ft = null): bool {
     $cdm = ConfigDataManager::get();
-    $lang = self::$instance->core->getLang();
+    $lang = Server::getInstance()->getPluginManager()->getPlugin("Texter")->getLang();
     $level = $player->getLevel();
     $levelName = $level->getName();
     if (!$player->isOp()) {

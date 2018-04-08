@@ -253,11 +253,18 @@ class TxtCommand extends Command {
       if (!empty($response[self::ADD_KEY_FTNAME])) {
         $exists = $this->texterApi->getFtByLevel($level, $response[self::ADD_KEY_FTNAME]);
         if ($exists === null) {
+          if (!$player->isOp()) {
+            $title = TF::clean($response[self::ADD_KEY_TITLE]);
+            $text = TF::clean($response[self::ADD_KEY_TEXT]);
+          }else {
+            $title = $response[self::ADD_KEY_TITLE];
+            $text = $response[self::ADD_KEY_TEXT];
+          }
           $ft = new FT(
             $response[self::ADD_KEY_FTNAME],
             Position::fromObject($player->add(0, 1, 0), $level),
-            $response[self::ADD_KEY_TITLE],
-            $response[self::ADD_KEY_TEXT],
+            $title,
+            $text,
             $player->getName()
           );
           if (TexterApi::canEdit($player, $ft)) {
@@ -289,10 +296,11 @@ class TxtCommand extends Command {
         if ($ft !== null) {
           switch ($response[self::EDIT_KEY_TYPE]) {
             case self::EDIT_TITLE:
+              $title = $player->isOp()? $response[self::EDIT_KEY_CONTENT] : TF::clean($response[self::EDIT_KEY_CONTENT]);
               $check = clone $ft;
-              $check->setTitle($response[self::EDIT_KEY_CONTENT]);
+              $check->setTitle($title);
               if (TexterApi::canEdit($player, $check)) {
-                $ft->setTitle($response[self::EDIT_KEY_CONTENT])
+                $ft->setTitle($title)
                 ->sendToLevel($level, Text::SEND_TYPE_ADD);
                 $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
@@ -304,10 +312,11 @@ class TxtCommand extends Command {
             break;
 
             case self::EDIT_TEXT:
+              $text = $player->isOp()? $response[self::EDIT_KEY_CONTENT] : TF::clean($response[self::EDIT_KEY_CONTENT]);
               $check = clone $ft;
-              $check->setText($response[self::EDIT_KEY_CONTENT]);
+              $check->setText($text);
               if (TexterApi::canEdit($player, $check)) {
-                $ft->setText($response[self::EDIT_KEY_CONTENT])
+                $ft->setText($text)
                 ->sendToLevel($level, Text::SEND_TYPE_ADD);
                 $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [

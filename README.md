@@ -26,7 +26,7 @@ It may have many bugs.
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **2.3.1** _Phyllorhiza punctata_  
+Latest: ver **2.3.2** _Phyllorhiza punctata_  
 
 ### Supporting
 - [x] Minecraft(Bedrock) v1.2.x
@@ -101,7 +101,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除ができるプラグインです。  
-最新バージョン: **2.3.1** _Phyllorhiza punctata_  
+最新バージョン: **2.3.2** _Phyllorhiza punctata_  
 
 ### 対応状況
 - [x] Minecraft(Bedrockエンジン) v1.2.x

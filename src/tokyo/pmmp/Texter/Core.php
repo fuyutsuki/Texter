@@ -39,7 +39,6 @@ use tokyo\pmmp\Texter\{
   manager\ConfigDataManager,
   manager\CrftsDataManager,
   manager\FtsDataManager,
-  manager\Manager,
   task\CheckUpdateTask,
   task\PrepareTextsTask
 };

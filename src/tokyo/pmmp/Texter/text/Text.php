@@ -261,7 +261,7 @@ abstract class Text {
         $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]")
       ];
       */
-      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]");
+      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text : "")."\n".TF::GRAY."[".$this->name."]";
     }else {
       /** broken at 1.2.13
       $pk->metadata[Entity::DATA_NAMETAG] = [
@@ -269,7 +269,7 @@ abstract class Text {
         TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""))
       ];
       */
-      $pk->username = TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""));
+      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text : "");
     }
   }
 

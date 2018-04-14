@@ -32,7 +32,6 @@ Latest: ver **2.3.2** _Phyllorhiza punctata_
 - [x] Minecraft(Bedrock) v1.2.x
 - [x] Multi-language (eng, jpn)
 - [x] Multi-world display
-- [ ] CustomEvents(eg. TextEditEvent)
 
 ### Download
 You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
@@ -107,7 +106,6 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 - [x] Minecraft(Bedrockエンジン) v1.2.x
 - [x] 複数言語 (eng, jpn)
 - [x] 複数ワールドの表示
-- [ ] カスタムイベント(例. TextEditEvent)
 
 ### ダウンロード
 ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  

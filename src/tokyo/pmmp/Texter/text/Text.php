@@ -275,7 +275,7 @@ abstract class Text {
 
   /**
    * @param  Player $player
-   * @param  int    $type
+   * @param  int    $type = self::SEN_TYPE_ADD
    * @return Text
    */
   public function sendToPlayer(Player $player, int $type = self::SEND_TYPE_ADD): Text {
@@ -286,7 +286,7 @@ abstract class Text {
 
   /**
    * @param  Level  $level
-   * @param  int    $type
+   * @param  int    $type = self::SEND_TYPE_ADD
    * @return Text
    */
   public function sendToLevel(Level $level, int $type = self::SEND_TYPE_ADD): Text {

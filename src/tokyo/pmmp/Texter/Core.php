@@ -155,8 +155,9 @@ class Core extends PluginBase {
 
   private function initLang() {
     $langCode = $this->configDm->getLangCode();
-    $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
-    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
+    // TODO: Change not to replace with the next version. (at 2.2.4)
+    $this->saveResource(self::LANG_DIR.self::DS."eng.ini", true);
+    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini", true);
     $this->lang = new BaseLang($langCode, $this->dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
     $message = $this->lang->translateString("language.selected", [
       $this->lang->getName(),
@@ -195,28 +196,39 @@ class Core extends PluginBase {
     }
   }
 
-  public function versionCompare(string $newVer, string $url) {
+  /**
+   * @param bool   $isOnline
+   * @param string $newVer
+   * @param string $url
+   * @return void
+   */
+  public function versionCompare(bool $isOnline, string $newVer = "", string $url = ""): void {
     $curVer = $this->getDescription()->getVersion();
-    if (version_compare($newVer, $curVer, "=")) {
-      $message = $this->lang->translateString("on.load.update.nothing", [
-        $curVer
-      ]);
-      $this->getLogger()->notice($message);
-    }elseif (version_compare($newVer, $curVer, ">")) {
-      $message1 = $this->lang->translateString("on.load.update.available.1", [
-        $newVer,
-        $curVer
-      ]);
-      $message2 = $this->lang->translateString("on.load.update.available.2");
-      $message3 = $this->lang->translateString("on.load.update.available.3", [
-        $url
-      ]);
-      $this->getLogger()->notice($message1);
-      $this->getLogger()->notice($message2);
-      $this->getLogger()->notice($message3);
+    if ($isOnline) {
+      if (version_compare($newVer, $curVer, "=")) {
+        $message = $this->lang->translateString("on.load.update.nothing", [
+          $curVer
+        ]);
+        $this->getLogger()->notice($message);
+      }elseif (version_compare($newVer, $curVer, ">")) {
+        $message1 = $this->lang->translateString("on.load.update.available.1", [
+          $newVer,
+          $curVer
+        ]);
+        $message2 = $this->lang->translateString("on.load.update.available.2");
+        $message3 = $this->lang->translateString("on.load.update.available.3", [
+          $url
+        ]);
+        $this->getLogger()->notice($message1);
+        $this->getLogger()->notice($message2);
+        $this->getLogger()->notice($message3);
+      }else {
+        $message = $this->lang->translateString("on.load.version.dev");
+        $this->getLogger()->warning($message);
+      }
     }else {
-      $message = $this->lang->translateString("on.load.version.dev");
-      $this->getLogger()->warning($message);
+      $message = $this->lang->translateString("on.load.update.offline");
+      $this->getLogger()->notice($message);
     }
   }
 

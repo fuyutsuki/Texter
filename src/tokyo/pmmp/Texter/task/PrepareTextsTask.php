@@ -65,13 +65,15 @@ class PrepareTextsTask extends PluginTask {
     $this->ftsKeyMax = count($this->fts);
   }
 
-  public function onRun($tick) {
-    if ($this->crftsKey >= $this->crftsKeyMax) {
-      if ($this->ftsKey >= $this->ftsKeyMax) {
+  public function onRun(int $tick) {
+    if ($this->crftsKey === $this->crftsKeyMax) {
+      if ($this->ftsKey === $this->ftsKeyMax) {
         $this->onSuccess();
       }else {
         $data = $this->fts[$this->ftsKey];
         $textName = $data[Manager::DATA_NAME];
+        $loaded = $this->getOwner()->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
+        if (!$loaded) $this->getOwner()->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
         $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
         if ($level !== null) {
           $x = (float)$data[Manager::DATA_X_VEC];
@@ -89,6 +91,8 @@ class PrepareTextsTask extends PluginTask {
     }else {
       $data = $this->crfts[$this->crftsKey];
       $textName = $data[Manager::DATA_NAME];
+      $loaded = $this->getOwner()->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
+      if (!$loaded) $this->getOwner()->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
       $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
       if ($level !== null) {
         $x = (float)$data[Manager::DATA_X_VEC];

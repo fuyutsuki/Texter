@@ -198,10 +198,10 @@ abstract class Text {
         $pk->entityRuntimeId = $this->eid;// ...huh?
         $pk->position = $this->pos;
         $pk->item = Item::get(Item::AIR);
-        $flags = 0;
-        $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
-        $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
-        $flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
+        $flags =
+          1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG |
+          1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG |
+          1 << Entity::DATA_FLAG_IMMOBILE;
         if ($this->isInvisible) {
           $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
         }
@@ -216,10 +216,10 @@ abstract class Text {
       case self::SEND_TYPE_EDIT:
         $pk = new SetEntityDataPacket;
         $pk->entityRuntimeId = $this->eid;
-        $flags = 0;
-        $flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
-        $flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
-        $flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
+        $flags =
+          1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG |
+          1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG |
+          1 << Entity::DATA_FLAG_IMMOBILE;
         if ($this->isInvisible) {
           $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
         }

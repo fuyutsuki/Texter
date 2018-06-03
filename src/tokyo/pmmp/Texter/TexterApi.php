@@ -30,13 +30,11 @@ use pocketmine\{
   Player,
   Server,
   level\Level,
-  plugin\Plugin,
   utils\TextFormat as TF
 };
 
 // texter
 use tokyo\pmmp\Texter\{
-  Core,
   manager\ConfigDataManager,
   manager\FtsDataManager,
   text\Text,
@@ -49,25 +47,13 @@ use tokyo\pmmp\Texter\{
  */
 class TexterApi {
 
-  /** @var ?TexterApi */
-  private static $instance = null;
-  /** @var ?Core */
-  private $core = null;
   /** @var array */
-  private $crfts = [];
+  private static $crfts = [];
   /** @var array */
-  private $fts = [];
+  private static $fts = [];
 
-  public function __construct(Plugin $plugin) {
-    self::$instance = self::$instance ?? $this;
-    $this->plugin = $plugin;
-  }
-
-  /**
-   * @return TexterApi
-   */
-  public static function get(): TexterApi {
-    return self::$instance;
+  private function __construct() {
+    // DONT USE THIS METHOD!
   }
 
   /**
@@ -77,15 +63,15 @@ class TexterApi {
    * @param Text $text
    * @return void
    */
-  public function registerText(Text $text): void {
+  public static function registerText(Text $text): void {
     switch (true) {
       case $text instanceof CRFT:
-        $this->crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+        self::$crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
       break;
 
       case $text instanceof FT:
         $level = $text->getPosition()->getLevel();
-        $this->fts[$level->getName()][$text->getName()] = $text;
+        self::$fts[$level->getName()][$text->getName()] = $text;
         FtsDataManager::get()->saveTextByLevel($level, $text);
       break;
     }
@@ -95,8 +81,8 @@ class TexterApi {
    * Get all CRFTs
    * @return array
    */
-  public function getCrfts(): array {
-    return $this->crfts;
+  public static function getCrfts(): array {
+    return self::$crfts;
   }
 
   /**
@@ -104,10 +90,10 @@ class TexterApi {
    * @param  Level $level
    * @return array
    */
-  public function getCrftsByLevel(Level $level): array {
+  public static function getCrftsByLevel(Level $level): array {
     $levelName = $level->getName();
-    if (array_key_exists($levelName, $this->crfts)) {
-      return $this->crfts[$levelName];
+    if (array_key_exists($levelName, self::$crfts)) {
+      return self::$crfts[$levelName];
     }else {
       return [];
     }
@@ -118,10 +104,10 @@ class TexterApi {
    * @param  string $levelName
    * @return array
    */
-  public function getCrftsByLevelName(string $levelName): array {
+  public static function getCrftsByLevelName(string $levelName): array {
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
-      return $this->getCrftsByLevel($level);
+      return self::getCrftsByLevel($level);
     }else {
       return [];
     }
@@ -131,10 +117,10 @@ class TexterApi {
    * Gets CRFT with text name within the specified level
    * @param  Level  $level
    * @param  string $name
-   * @return ?CRFT
+   * @return CRFT|null
    */
-  public function getCrftByLevel(Level $level, string $name): ?CRFT {
-    $crfts = $this->getCrftsByLevel($level);
+  public static function getCrftByLevel(Level $level, string $name): ?CRFT {
+    $crfts = self::getCrftsByLevel($level);
     if (!empty($crfts)) {
       if (array_key_exists($name, $crfts)) {
         return $crfts[$name];
@@ -147,10 +133,10 @@ class TexterApi {
    * Gets CRFT with text name within the specified level name
    * @param  string $levelName
    * @param  string $name
-   * @return ?CRFT
+   * @return CRFT|null
    */
-  public function getCrftByLevelName(string $levelName, string $name): ?CRFT {
-    $crfts = $this->getCrftsByLevelName($levelName);
+  public static function getCrftByLevelName(string $levelName, string $name): ?CRFT {
+    $crfts = self::getCrftsByLevelName($levelName);
     if (!empty($crfts)) {
       if (array_key_exists($name, $crfts)) {
         return $crfts[$name];
@@ -163,10 +149,10 @@ class TexterApi {
    * Get CRFT with eid of text within the specified level
    * @param  Level  $level
    * @param  int    $eid
-   * @return ?CRFT
+   * @return CRFT|null
    */
-  public function getCrftByLevelEid(Level $level, int $eid): ?CRFT {
-    $crfts = $this->getCrftsByLevel($level);
+  public static function getCrftByLevelEid(Level $level, int $eid): ?CRFT {
+    $crfts = self::getCrftsByLevel($level);
     if (!empty($crfts)) {
       $search = null;
       foreach ($crfts as $name => $crft) {
@@ -183,10 +169,10 @@ class TexterApi {
    * Get CRFT with eid of text within the specified level name
    * @param  string $levelName
    * @param  int    $eid
-   * @return ?CRFT
+   * @return CRFT|null
    */
-  public function getCrftByLevelNameEid(string $levelName, int $eid): ?CRFT {
-    $crfts = $this->getCrftsByLevelName($levelName);
+  public static function getCrftByLevelNameEid(string $levelName, int $eid): ?CRFT {
+    $crfts = self::getCrftsByLevelName($levelName);
     if (!empty($crfts)) {
       $search = null;
       foreach ($crfts as $name => $crft) {
@@ -203,8 +189,8 @@ class TexterApi {
    * Get all FTs
    * @return array
    */
-  public function getFts(): array {
-    return $this->fts;
+  public static function getFts(): array {
+    return self::$fts;
   }
 
   /**
@@ -212,10 +198,10 @@ class TexterApi {
    * @param  Level $level
    * @return array
    */
-  public function getFtsByLevel(Level $level): array {
+  public static function getFtsByLevel(Level $level): array {
     $levelName = $level->getName();
-    if (array_key_exists($levelName, $this->fts)) {
-      return $this->fts[$levelName];
+    if (array_key_exists($levelName, self::$fts)) {
+      return self::$fts[$levelName];
     }else {
       return [];
     }
@@ -226,10 +212,10 @@ class TexterApi {
    * @param  string $levelName
    * @return array
    */
-  public function getFtsByLevelName(string $levelName): array {
+  public static function getFtsByLevelName(string $levelName): array {
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
-      return $this->getFtsByLevel($level);
+      return self::getFtsByLevel($level);
     }else {
       return [];
     }
@@ -239,10 +225,10 @@ class TexterApi {
    * Gets FT with text name within the specified level
    * @param  Level  $level
    * @param  string $name
-   * @return ?FT
+   * @return FT|null
    */
-  public function getFtByLevel(Level $level, string $name): ?FT {
-    $fts = $this->getFtsByLevel($level);
+  public static function getFtByLevel(Level $level, string $name): ?FT {
+    $fts = self::getFtsByLevel($level);
     if (!empty($fts)) {
       if (array_key_exists($name, $fts)) {
         return $fts[$name];
@@ -255,10 +241,10 @@ class TexterApi {
    * Gets FT with text name within the specified level name
    * @param  string $levelName
    * @param  string $name
-   * @return ?FT
+   * @return FT|null
    */
-  public function getFtByLevelName(string $levelName, string $name): ?FT {
-    $fts = $this->getFtsByLevelName($levelName);
+  public static function getFtByLevelName(string $levelName, string $name): ?FT {
+    $fts = self::getFtsByLevelName($levelName);
     if (!empty($fts)) {
       if (array_key_exists($name, $fts)) {
         return $fts[$name];
@@ -271,10 +257,10 @@ class TexterApi {
    * Get FT with eid of text within the specified level
    * @param  Level  $level
    * @param  int    $eid
-   * @return ?FT
+   * @return FT|null
    */
-  public function getFtByLevelEid(Level $level, int $eid): ?FT {
-    $fts = $this->getFtsByLevel($level);
+  public static function getFtByLevelEid(Level $level, int $eid): ?FT {
+    $fts = self::getFtsByLevel($level);
     if (!empty($fts)) {
       $search = null;
       foreach ($fts as $name => $ft) {
@@ -291,10 +277,10 @@ class TexterApi {
    * Get FT with eid of text within the specified level name
    * @param  string $levelName
    * @param  int    $eid
-   * @return ?FT
+   * @return FT|null
    */
-  public function getFtByLevelNameEid(string $levelName, int $eid): ?FT {
-    $fts = $this->getFtsByLevelName($levelName);
+  public static function getFtByLevelNameEid(string $levelName, int $eid): ?FT {
+    $fts = self::getFtsByLevelName($levelName);
     if (!empty($fts)) {
       $search = null;
       foreach ($fts as $name => $ft) {
@@ -312,14 +298,14 @@ class TexterApi {
    * @param  Level $level
    * @return bool
    */
-  public function removeFtsByLevel(Level $level): bool {
-    $fts = $this->getFtsByLevel($level);
+  public static function removeFtsByLevel(Level $level): bool {
+    $fts = self::getFtsByLevel($level);
     if (!empty($fts)) {
       foreach ($fts as $ft) {
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
       }
       FtsDataManager::get()->removeTextsByLevel($level);
-      unset($this->fts[$level->getName()]);
+      unset(self::$fts[$level->getName()]);
       return true;
     }
     return false;
@@ -330,27 +316,28 @@ class TexterApi {
    * @param  string $levelName
    * @return bool
    */
-  public function removeFtsByLevelName(string $levelName): bool {
+  public static function removeFtsByLevelName(string $levelName): bool {
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
-      return $this->removeFtsByLevel($level);
+      return self::removeFtsByLevel($level);
     }
     return false;
   }
 
   /**
    * Delete FT within the specified level
-   * @param  Level $level
+   * @param  Level  $level
+   * @param  string $name
    * @return bool
    */
-  public function removeFtByLevel(Level $level, string $name): bool {
-    $fts = $this->getFtsByLevel($level);
+  public static function removeFtByLevel(Level $level, string $name): bool {
+    $fts = self::getFtsByLevel($level);
     if (!empty($fts)) {
       if (array_key_exists($name, $fts)) {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
         FtsDataManager::get()->removeTextByLevel($level, $ft);
-        unset($this->fts[$level->getName()][$name]);
+        unset(self::$fts[$level->getName()][$name]);
         return true;
       }
     }
@@ -360,20 +347,21 @@ class TexterApi {
   /**
    * Delete FT within the specified level name
    * @param  string $levelName
+   * @param  string $name
    * @return bool
    */
-  public function removeFtByLevelName(string $levelName, string $name): bool {
+  public static function removeFtByLevelName(string $levelName, string $name): bool {
     $level = Server::getInstance()->getLevelByName($levelName);
     if ($level !== null) {
-      return $this->removeFtByLevel($level, $name);
+      return self::removeFtByLevel($level, $name);
     }
     return false;
   }
 
   /**
    * Check if text can be edited
-   * @param  Player $player
-   * @param  ?FT    $ft = null
+   * @param  Player  $player
+   * @param  FT|null $ft = null
    * @return bool
    */
   public static function canEdit(Player $player, FT $ft = null): bool {

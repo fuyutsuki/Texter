@@ -34,6 +34,7 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
+  TexterApi,
   text\Text
 };
 
@@ -61,9 +62,9 @@ class SendTextsTask extends PluginTask {
 
   public function __construct(Core $core, Level $level, Player $player, int $type = Text::SEND_TYPE_ADD) {
     parent::__construct($core);
-    $this->crfts = array_values($core->getTexterApi()->getCrftsByLevel($level));
+    $this->crfts = array_values(TexterApi::getCrftsByLevel($level));
     $this->crftsKeyMax = count($this->crfts);
-    $this->fts = array_values($core->getTexterApi()->getFtsByLevel($level));
+    $this->fts = array_values(TexterApi::getFtsByLevel($level));
     $this->ftsKeyMax = count($this->fts);
     $this->player = $player;
     $this->type = $type;

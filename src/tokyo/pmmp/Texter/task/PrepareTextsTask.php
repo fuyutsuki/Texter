@@ -32,12 +32,7 @@ use pocketmine\{
   utils\TextFormat as TF
 };
 // texter
-use tokyo\pmmp\Texter\{
-  Core,
-  manager\Manager,
-  text\CantRemoveFloatingText as CRFT,
-  text\FloatingText as FT
-};
+use tokyo\pmmp\Texter\{Core, manager\Manager, text\CantRemoveFloatingText as CRFT, text\FloatingText as FT, TexterApi};
 
 /**
  * PrepareTextsTask
@@ -84,7 +79,7 @@ class PrepareTextsTask extends PluginTask {
           $text = $data[Manager::DATA_TEXT];
           $owner = $data[Manager::DATA_OWNER];
           $ft = new FT($textName, $pos, $title, $text, $owner);
-          $this->getOwner()->getTexterApi()->registerText($ft);
+          TexterApi::registerText($ft);
           ++$this->ftsKey;
         }
       }
@@ -102,7 +97,7 @@ class PrepareTextsTask extends PluginTask {
         $title = $data[Manager::DATA_TITLE];
         $text = $data[Manager::DATA_TEXT];
         $crft = new CRFT($textName, $pos, $title, $text);
-        $this->getOwner()->getTexterApi()->registerText($crft);
+        TexterApi::registerText($crft);
         ++$this->crftsKey;
       }
     }

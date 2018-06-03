@@ -90,7 +90,6 @@ class TxtCommand extends Command {
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->texterApi = $core->getTexterApi();
     $this->lang = $core->getLang();
     $this->cdm = $core->getConfigDataManager();
     //
@@ -151,7 +150,7 @@ class TxtCommand extends Command {
   }
 
   private function addCommand(Player $player, string $default = ""): void {
-    $custom = $this->core->getFormApi()->makeCustomForm([$this, "addReceive"]);
+    $custom = FormApi::makeCustomForm([$this, "addReceive"]);
     $description = $this->lang->translateString("form.add.description");
     $tips = $this->lang->translateString("command.txt.usage.indent");
     $ftName = $this->lang->translateString("form.ftname.unique");
@@ -168,7 +167,7 @@ class TxtCommand extends Command {
   }
 
   private function editCommand(Player $player, string $default = ""): void {
-    $custom = $this->core->getFormApi()->makeCustomForm([$this, "editReceive"]);
+    $custom = FormApi::makeCustomForm([$this, "editReceive"]);
     $description = $this->lang->translateString("form.edit.description");
     $ftName = $this->lang->translateString("form.ftname");
     $type = $this->lang->translateString("form.edit.type");
@@ -187,7 +186,7 @@ class TxtCommand extends Command {
   }
 
   private function moveCommand(Player $player, string $default = ""): void {
-    $custom = $this->core->getFormApi()->makeCustomForm([$this, "moveReceive"]);
+    $custom = FormApi::makeCustomForm([$this, "moveReceive"]);
     $description = $this->lang->translateString("form.move.description");
     $ftName = $this->lang->translateString("form.ftname");
 
@@ -198,7 +197,7 @@ class TxtCommand extends Command {
   }
 
   private function removeCommand(Player $player, string $default = ""): void {
-    $custom = $this->core->getFormApi()->makeCustomForm([$this, "removeReceive"]);
+    $custom = FormApi::makeCustomForm([$this, "removeReceive"]);
     $description = $this->lang->translateString("form.remove.description");
     $ftName = $this->lang->translateString("form.ftname");
 
@@ -213,11 +212,11 @@ class TxtCommand extends Command {
     switch ($phase) {
       case self::SESSION_PHASE1:
         $this->fts[$name] = [];
-        $list = $this->core->getFormApi()->makeListForm([$this, "listReceive"]);
+        $list = FormApi::makeListForm([$this, "listReceive"]);
         $description = $this->lang->translateString("form.list.description.1");
         $list->setTitle(Core::PREFIX."/txt l(ist)")
         ->setContents($description);
-        $fts = $this->texterApi->getFtsByLevel($player->getLevel());
+        $fts = TexterApi::getFtsByLevel($player->getLevel());
         foreach ($fts as $textName => $ft) {
           if ($player->distance($ft->getPosition()) <= 10 &&
              ($player->isOp() || $name === $ft->getOwner())) {
@@ -229,7 +228,7 @@ class TxtCommand extends Command {
       break;
 
       case self::SESSION_PHASE2:
-        $list = $this->core->getFormApi()->makeListForm([$this, "listReceive"]);
+        $list = FormApi::makeListForm([$this, "listReceive"]);
         $description = $this->lang->translateString("form.list.description.2", [
           $this->fts[$name]->getName()
         ]);
@@ -251,7 +250,7 @@ class TxtCommand extends Command {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::ADD_KEY_FTNAME])) {
-        $exists = $this->texterApi->getFtByLevel($level, $response[self::ADD_KEY_FTNAME]);
+        $exists = TexterApi::getFtByLevel($level, $response[self::ADD_KEY_FTNAME]);
         if ($exists === null) {
           if (!$player->isOp()) {
             $title = TF::clean($response[self::ADD_KEY_TITLE]);
@@ -269,7 +268,7 @@ class TxtCommand extends Command {
           );
           if (TexterApi::canEdit($player, $ft)) {
             $ft->sendToLevel($level);
-            $this->texterApi->registerText($ft);
+            TexterApi::registerText($ft);
             $message = $this->lang->translateString("command.txt.add.success", [
               TF::clean($response[self::ADD_KEY_FTNAME])
             ]);
@@ -292,7 +291,7 @@ class TxtCommand extends Command {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::EDIT_KEY_FTNAME])) {
-        $ft = $this->texterApi->getFtByLevel($level, $response[self::EDIT_KEY_FTNAME]);
+        $ft = TexterApi::getFtByLevel($level, $response[self::EDIT_KEY_FTNAME]);
         if ($ft !== null) {
           switch ($response[self::EDIT_KEY_TYPE]) {
             case self::EDIT_TITLE:
@@ -342,7 +341,7 @@ class TxtCommand extends Command {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::MOVE_KEY_FTNAME])) {
-        $ft = $this->texterApi->getFtByLevel($level, $response[self::MOVE_KEY_FTNAME]);
+        $ft = TexterApi::getFtByLevel($level, $response[self::MOVE_KEY_FTNAME]);
         if ($ft !== null) {
           if (TexterApi::canEdit($player, $ft)) {
             $ft->setPosition(Position::fromObject($player->add(0, 2, 0), $level))
@@ -369,11 +368,11 @@ class TxtCommand extends Command {
     if (!FormApi::formCancelled($response)) {
       $level = $player->getLevel();
       if (!empty($response[self::MOVE_KEY_FTNAME])) {
-        $ft = $this->texterApi->getFtByLevel($level, $response[self::REMOVE_KEY_FTNAME]);
+        $ft = TexterApi::getFtByLevel($level, $response[self::REMOVE_KEY_FTNAME]);
         if ($ft !== null) {
           if (TexterApi::canEdit($player, $ft)) {
             $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-            $this->texterApi->removeFtByLevel($level, $ft->getName());
+            TexterApi::removeFtByLevel($level, $ft->getName());
             $message = $this->lang->translateString("command.txt.remove.success", [
               TF::clean($response[self::REMOVE_KEY_FTNAME])
             ]);

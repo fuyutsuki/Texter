@@ -69,10 +69,6 @@ class Core extends PluginBase {
   private $crftsDm = null;
   /** @var ?FtsDataManager */
   private $ftsDm = null;
-  /** @var ?TexterApi */
-  private $texter = null;
-  /** @var ?FormApi */
-  private $form = null;
   /** @var ?BaseLang */
   private $lang = null;
 
@@ -98,20 +94,6 @@ class Core extends PluginBase {
   }
 
   /**
-   * @return ?TexterApi
-   */
-  public function getTexterApi(): ?TexterApi {
-    return $this->texter;
-  }
-
-  /**
-   * @return ?FormApi
-   */
-  public function getFormApi(): ?FormApi {
-    return $this->form;
-  }
-
-  /**
    * @return ?BaseLang
    */
   public function getLang(): ?BaseLang {
@@ -120,53 +102,48 @@ class Core extends PluginBase {
 
   public function onLoad() {
     $this->dir = $this->getDataFolder();
-    $this->initDataManagers();
-    $this->initTexterApi();
-    $this->initLang();
-    $this->registerCommands();
-    $this->setTimezone();
+    $this
+      ->initDataManagers()
+      ->initLang()
+      ->registerCommands()
+      ->setTimezone();
   }
 
   public function onEnable() {
-    $result = $this->checkConfigFormat();
-    if ($result !== false) {
-      $this->checkUpdate();
-      $this->initFormApi();
-      $this->prepareTexts();
-      $listener = new EventListener($this);
-      $this->getServer()->getPluginManager()->registerEvents($listener, $this);
-      $message = $this->lang->translateString("on.enable.message", [
-        $this->getDescription()->getFullName(),
-        TF::BLUE.self::CODENAME.TF::GREEN
-      ]);
-      $this->getLogger()->info(TF::GREEN.$message);
-    }
+    $this
+      ->checkUpdate()
+      ->initFormApi()
+      ->prepareTexts();
+    $listener = new EventListener($this);
+    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    $message = $this->lang->translateString("on.enable.message", [
+      $this->getDescription()->getFullName(),
+      TF::BLUE.self::CODENAME.TF::GREEN
+    ]);
+    $this->getLogger()->info(TF::GREEN.$message);
   }
 
-  private function initDataManagers(): void {
+  private function initDataManagers(): self {
     $this->configDm = new ConfigDataManager($this);
     $this->crftsDm = new CrftsDataManager($this);
     $this->ftsDm = new FtsDataManager($this);
+    return $this;
   }
 
-  private function initTexterApi(): void {
-    $this->texter = new TexterApi($this);
-  }
-
-  private function initLang(): void {
+  private function initLang(): self {
     $langCode = $this->configDm->getLangCode();
-    // TODO: Change not to replace with the next version. (at 2.2.4)
-    $this->saveResource(self::LANG_DIR.self::DS."eng.ini", true);
-    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini", true);
+    $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
+    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
     $this->lang = new BaseLang($langCode, $this->dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
     $message = $this->lang->translateString("language.selected", [
       $this->lang->getName(),
       $langCode
     ]);
     $this->getLogger()->info(TF::GREEN.$message);
+    return $this;
   }
 
-  private function registerCommands(): void {
+  private function registerCommands(): self {
     if ($this->configDm->getCanUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
@@ -180,9 +157,10 @@ class Core extends PluginBase {
       $message = $this->lang->translateString("on.load.commands.off");
       $this->getLogger()->info(TF::RED.$message);
     }
+    return $this;
   }
 
-  private function checkUpdate(): void {
+  private function checkUpdate(): self {
     if ($this->configDm->getCheckUpdate()) {
       try {
         $task = new CheckUpdateTask();
@@ -194,6 +172,7 @@ class Core extends PluginBase {
     if (strpos($this->getDescription()->getVersion(), "-") !== false) {
       $this->getLogger()->notice($this->lang->translateString("version.dev"));
     }
+    return $this;
   }
 
   /**
@@ -232,7 +211,7 @@ class Core extends PluginBase {
     }
   }
 
-  private function setTimezone(): void {
+  private function setTimezone(): self {
     $timezone = $this->configDm->getTimezone();
     if ($timezone !== "") {
       date_default_timezone_set($timezone);
@@ -241,34 +220,17 @@ class Core extends PluginBase {
       ]);
       $this->getLogger()->info(TF::GREEN.$message);
     }
+    return $this;
   }
 
-  private function checkConfigFormat(): bool {
-    $result1 = !$this->configDm->getConfig()->exists("version") || $this->configDm->getConfigVer() < self::CONFIG_VERSION;
-    $result2 = $this->crftsDm->isOldFormat();
-    $result3 = $this->ftsDm->isOldFormat();
-    $files = [];
-    if ($result1) $files[] = "config.yml";
-    if ($result2) $files[] = "crfts.json";
-    if ($result3) $files[] = "fts.json";
-    if ($result1 || $result2 || $result3) {
-      $fileList = implode(", ", $files);
-      $message = $this->lang->translateString("on.load.config.update", [
-        $fileList
-      ]);
-      $this->getLogger()->notice($message);
-      $this->getServer()->getPluginManager()->disablePlugin($this);
-      return false;
-    }
-    return true;
+  private function initFormApi(): self {
+    FormApi::register($this);
+    return $this;
   }
 
-  private function initFormApi(): void {
-    $this->form = new FormApi($this);
-  }
-
-  private function prepareTexts(): void {
+  private function prepareTexts(): self {
     $task = new PrepareTextsTask($this);
     $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
+    return $this;
   }
 }

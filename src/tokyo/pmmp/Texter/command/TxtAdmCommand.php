@@ -38,21 +38,7 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  TexterApi,
-  text\Text,
-  text\FloatingText as FT
-};
-
-// libform
-use tokyo\pmmp\libform\{
-  FormApi,
-  element\Button,
-  element\Dropdown,
-  element\Input,
-  element\Label,
-  element\Slider,
-  element\StepSlider,
-  element\Toggle
+  TexterApi
 };
 
 /**
@@ -73,8 +59,6 @@ class TxtAdmCommand extends Command {
 
   /** @var ?Core */
   private $core = null;
-  /** @var ?TexterApi */
-  private $texterApi = null;
   /** @var ?BaseLang */
   private $lang = null;
   /** @var array */
@@ -82,7 +66,6 @@ class TxtAdmCommand extends Command {
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->texterApi = $core->getTexterApi();
     $this->lang = $core->getLang();
     //
     $description = $this->lang->translateString("command.txtadm.description");
@@ -97,7 +80,6 @@ class TxtAdmCommand extends Command {
     if ($sender instanceof Player) {
       $message = $this->lang->translateString("error.player");
       $sender->sendMessage(TF::RED.Core::PREFIX.$message);
-      //TODO: ver2.3.1 $this->sendList($sender);
     }else {
       if (isset($args[0])) {
         $logger = $this->core->getLogger();
@@ -107,18 +89,19 @@ class TxtAdmCommand extends Command {
           case 'ar':
             if (array_key_exists($console, $this->session)) {
               if ($this->session[$console][self::SESSION_ID] === self::SESSION_AR) {
-                $fts = $this->texterApi->getFts();
+                $fts = TexterApi::getFts();
                 foreach ($fts as $levelName => $levFts) {
-                  $this->texterApi->removeFtsByLevelName($levelName);
+                  TexterApi::removeFtsByLevelName($levelName);
                 }
                 $message = $this->lang->translateString("command.txtadm.ar.success");
                 $logger->info(TF::GREEN.$message);
                 unset($this->session[$console]);
               }
+            }else {
+              $message = $this->lang->translateString("command.txtadm.ar.warning.console");
+              $logger->warning($message);
+              $this->session[$console][self::SESSION_ID] = self::SESSION_AR;
             }
-            $message = $this->lang->translateString("command.txtadm.ar.warning.console");
-            $logger->warning($message);
-            $this->session[$console][self::SESSION_ID] = self::SESSION_AR;
           break;
 
           case 'userremove':
@@ -126,11 +109,11 @@ class TxtAdmCommand extends Command {
             if (array_key_exists($console, $this->session)) {
               if ($this->session[$console][self::SESSION_ID] === self::SESSION_UR) {
                 $specified = $this->session[$console][self::SESSION_DATA];
-                $fts = $this->texterApi->getFts();
+                $fts = TexterApi::getFts();
                 foreach ($fts as $levelName => $levFts) {
                   foreach ($levFts as $name => $ft) {
                     if ($specified === $ft->getOwner()) {
-                      $this->texterApi->removeFtByLevelName($levelName, $name);
+                      TexterApi::removeFtByLevelName($levelName, $name);
                     }
                   }
                 }
@@ -162,7 +145,7 @@ class TxtAdmCommand extends Command {
             if (array_key_exists($console, $this->session)) {
               if ($this->session[$console][self::SESSION_ID] === self::SESSION_LR) {
                 $levelName = $this->session[$console][self::SESSION_DATA];
-                $this->texterApi->removeFtsByLevelName($levelName);
+                TexterApi::removeFtsByLevelName($levelName);
                 $message = $this->lang->translateString("command.txtadm.lr.success", [
                   $this->session[$console][self::SESSION_DATA]
                 ]);

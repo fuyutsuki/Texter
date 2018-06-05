@@ -29,8 +29,9 @@ namespace tokyo\pmmp\Texter\task;
 use pocketmine\{
   Player,
   level\Level,
-  scheduler\PluginTask
+  scheduler\Task
 };
+
 // texter
 use tokyo\pmmp\Texter\{
   Core,
@@ -41,7 +42,7 @@ use tokyo\pmmp\Texter\{
 /**
  * SendTextsTask
  */
-class SendTextsTask extends PluginTask {
+class SendTextsTask extends Task {
 
   /** @var string[] */
   private $crfts = [];
@@ -56,7 +57,7 @@ class SendTextsTask extends PluginTask {
   /** @var int */
   private $ftsKeyMax = 0;
   /** @var ?Player */
-  private $Player = null;
+  private $player = null;
   /** @var int */
   private $type = Text::SEND_TYPE_ADD;
 
@@ -87,6 +88,6 @@ class SendTextsTask extends PluginTask {
   }
 
   private function onSuccess(): void {
-    $this->getOwner()->getServer()->getScheduler()->cancelTask($this->getTaskId());
+    $this->getOwner()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

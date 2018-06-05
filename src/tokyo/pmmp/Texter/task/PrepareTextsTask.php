@@ -28,16 +28,22 @@ namespace tokyo\pmmp\Texter\task;
 // pocketmine
 use pocketmine\{
   level\Position,
-  scheduler\PluginTask,
+  scheduler\Task,
   utils\TextFormat as TF
 };
+
 // texter
-use tokyo\pmmp\Texter\{Core, manager\Manager, text\CantRemoveFloatingText as CRFT, text\FloatingText as FT, TexterApi};
+use tokyo\pmmp\Texter\{
+  Core,
+  manager\Manager,
+  text\CantRemoveFloatingText as CRFT,
+  text\FloatingText as FT, TexterApi
+};
 
 /**
  * PrepareTextsTask
  */
-class PrepareTextsTask extends PluginTask {
+class PrepareTextsTask extends Task {
 
   /** @var array */
   private $crfts = [];
@@ -110,6 +116,6 @@ class PrepareTextsTask extends PluginTask {
       $this->ftsKeyMax
     ]);
     $this->getOwner()->getLogger()->info(TF::GREEN . $message);
-    $this->getOwner()->getServer()->getScheduler()->cancelTask($this->getTaskId());
+    $this->getOwner()->getScheduler()->cancelTask($this->getTaskId());
   }
 }

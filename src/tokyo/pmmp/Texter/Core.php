@@ -164,7 +164,7 @@ class Core extends PluginBase {
     if ($this->configDm->getCheckUpdate()) {
       try {
         $task = new CheckUpdateTask();
-        $this->getServer()->getScheduler()->scheduleAsyncTask($task);
+        $this->getServer()->getAsyncPool()->submitTask($task);
       } catch (\Exception $e) {
         $this->getLogger()->warning($e->getMessage());
       }
@@ -230,7 +230,7 @@ class Core extends PluginBase {
 
   private function prepareTexts(): self {
     $task = new PrepareTextsTask($this);
-    $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 1);
+    $this->getScheduler()->scheduleRepeatingTask($task, 1);
     return $this;
   }
 }

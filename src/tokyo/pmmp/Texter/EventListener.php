@@ -55,7 +55,7 @@ class EventListener implements Listener {
     $player = $event->getPlayer();
     $level = $player->getLevel();
     $task = new SendTextsTask($this->core, $level, $player);
-    $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task, 20, 1);// 1s
+    $this->core->getScheduler()->scheduleDelayedRepeatingTask($task, 20, 1);// 1s
   }
 
   public function onLevelChange(EntityLevelChangeEvent $event) {
@@ -64,9 +64,9 @@ class EventListener implements Listener {
       $origin = $event->getOrigin();
       $target = $event->getTarget();
       $task1 = new SendTextsTask($this->core, $origin, $entity, Text::SEND_TYPE_REMOVE);
-      $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task1, 20, 1);// 1s
+      $this->core->getScheduler()->scheduleDelayedRepeatingTask($task1, 20, 1);// 1s
       $task2 = new SendTextsTask($this->core, $target, $entity);
-      $this->core->getServer()->getScheduler()->scheduleDelayedRepeatingTask($task2, 20, 1);// 1s
+      $this->core->getScheduler()->scheduleDelayedRepeatingTask($task2, 20, 1);// 1s
     }
   }
 }

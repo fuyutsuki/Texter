@@ -37,6 +37,7 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
+  data\FtsData,
   TexterApi,
   text\Text,
   text\FloatingText as FT
@@ -300,7 +301,7 @@ class TxtCommand extends Command {
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setTitle($title)
                 ->sendToLevel($level, Text::SEND_TYPE_ADD);
-                $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+                FtsData::get()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),
                   $this->lang->translateString("form.title")
@@ -316,7 +317,7 @@ class TxtCommand extends Command {
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setText($text)
                 ->sendToLevel($level, Text::SEND_TYPE_ADD);
-                $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+                FtsData::get()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),
                   $this->lang->translateString("form.text")
@@ -345,7 +346,7 @@ class TxtCommand extends Command {
           if (TexterApi::canEdit($player, $ft)) {
             $ft->setPosition(Position::fromObject($player->add(0, 2, 0), $level))
             ->sendToLevel($level, Text::SEND_TYPE_MOVE);
-            $this->core->getFtsDataManager()->saveTextByLevel($level, $ft);
+            FtsData::get()->saveTextByLevel($level, $ft);
             $message = $this->lang->translateString("command.txt.move.success", [
               TF::clean($response[self::MOVE_KEY_FTNAME]),
               $this->lang->translateString("form.move.here")

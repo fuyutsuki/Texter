@@ -8,5 +8,5 @@ projects:
     icon: "/assets/Logo.png"
     libs:
       - src: fuyutsuki/libform/libform
-        version: 0.1.2
+        version: 0.2.0
 ...

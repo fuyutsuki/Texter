@@ -33,17 +33,17 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\Manager,
+  Core,
   text\CantRemoveFloatingText as CRFT
 };
 
 /**
- * CrftsDataManager
+ * CrftsData
  */
-class CrftsDataManager extends Manager {
+class CrftsData extends Data {
 
   /** @var ?self */
-  protected static $instance = null;
+  protected static $instance;
   /** @var string */
   protected $configName = "crfts.json";
   /** @var int */
@@ -55,13 +55,13 @@ class CrftsDataManager extends Manager {
     foreach ($crfts as $levelName => $texts) {
       foreach ($texts as $textName => $val) {
         $data[] = [
-          Manager::DATA_NAME => $textName,
-          Manager::DATA_LEVEL => $levelName,
-          Manager::DATA_X_VEC => $val["Xvec"],
-          Manager::DATA_Y_VEC => $val["Yvec"],
-          Manager::DATA_Z_VEC => $val["Zvec"],
-          Manager::DATA_TITLE => $val["TITLE"],
-          Manager::DATA_TEXT => $val["TEXT"]
+          Data::DATA_NAME => $textName,
+          Data::DATA_LEVEL => $levelName,
+          Data::DATA_X_VEC => $val["Xvec"],
+          Data::DATA_Y_VEC => $val["Yvec"],
+          Data::DATA_Z_VEC => $val["Zvec"],
+          Data::DATA_TITLE => $val["TITLE"],
+          Data::DATA_TEXT => $val["TEXT"]
         ];
       }
     }
@@ -82,15 +82,16 @@ class CrftsDataManager extends Manager {
   }
 
   public function saveTextByLevelName(string $levelName, CRFT $crft): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = self::getCore()->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->saveTextByLevel($level, $crft);
     }
     return false;
   }
 
-  protected function registerInstance(): void {
-    self::$instance = self::$instance ?? $this;
+  public static function register(Core $core): Data {
+    self::$instance = self::$instance ?? new CrftsData($core);
+    return self::$instance;
   }
 
   public static function get(): self {

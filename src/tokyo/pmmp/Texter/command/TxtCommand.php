@@ -91,7 +91,6 @@ class TxtCommand extends Command {
   public function __construct(Core $core) {
     $this->core = $core;
     $this->lang = $core->getLang();
-    $this->cdm = $core->getConfigDataManager();
     //
     $description = $this->lang->translateString("command.txt.description");
     $usage = $this->lang->translateString("command.txt.usage");

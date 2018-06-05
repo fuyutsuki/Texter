@@ -38,7 +38,7 @@ use tokyo\pmmp\Texter\{
 /**
  * AbstractManagerClass
  */
-abstract class Manager {
+abstract class Data {
 
   /** @var string */
   public const KEY_X_VEC = "Xvec";
@@ -61,10 +61,10 @@ abstract class Manager {
   /** @var int */
   private const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
-  /** @var ?self */
-  protected static $instance = null;
-  /** @var ?Core */
-  protected $core = null;
+  /** @var self */
+  protected static $instance;
+  /** @var Core */
+  protected static $core;
   /** @var string */
   protected $dir = "";
   /** @var string */
@@ -75,17 +75,9 @@ abstract class Manager {
   protected $config = null;
 
   public function __construct(Core $core) {
-    $this->core = $core;
-    $this->init();
-    $this->registerInstance();
-  }
-
-  /**
-   * @return void
-   */
-  private function init(): void {
-    $this->core->saveResource($this->configName);
-    $this->config = new Config($this->core->dir.$this->configName, $this->configType);
+    self::$core = $core;
+    $core->saveResource($this->configName);
+    $this->config = new Config(Core::$dir.$this->configName, $this->configType);
     if ($this->configType === Config::JSON) {
       $this->config->enableJsonOption(self::JSON_OPTIONS);
     }
@@ -160,13 +152,21 @@ abstract class Manager {
   }
 
   /**
-   * @internal
-   * @return void
+   * @return Core
    */
-  abstract protected function registerInstance(): void;
+  public static function getCore(): Core {
+    return self::$core;
+  }
 
   /**
-   * @return self Manager
+   * @internal
+   * @param Core  $core
+   * @return Data
+   */
+  abstract public static function register(Core $core): Data;
+
+  /**
+   * @return self Data
    */
   abstract public static function get();
 }

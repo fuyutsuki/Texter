@@ -33,17 +33,17 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\Manager,
+  Core,
   text\FloatingText as FT
 };
 
 /**
- * FtsDataManager
+ * FtsData
  */
-class FtsDataManager extends Manager {
+class FtsData extends Data {
 
-  /** @var ?self */
-  protected static $instance = null;
+  /** @var self */
+  protected static $instance;
   /** @var string */
   protected $configName = "fts.json";
   /** @var int */
@@ -55,14 +55,14 @@ class FtsDataManager extends Manager {
     foreach ($crfts as $levelName => $texts) {
       foreach ($texts as $textName => $val) {
         $data[] = [
-          Manager::DATA_NAME => $textName,
-          Manager::DATA_LEVEL => $levelName,
-          Manager::DATA_X_VEC => $val["Xvec"],
-          Manager::DATA_Y_VEC => $val["Yvec"],
-          Manager::DATA_Z_VEC => $val["Zvec"],
-          Manager::DATA_TITLE => $val["TITLE"],
-          Manager::DATA_TEXT => $val["TEXT"],
-          Manager::DATA_OWNER => $val["OWNER"]
+          Data::DATA_NAME => $textName,
+          Data::DATA_LEVEL => $levelName,
+          Data::DATA_X_VEC => $val["Xvec"],
+          Data::DATA_Y_VEC => $val["Yvec"],
+          Data::DATA_Z_VEC => $val["Zvec"],
+          Data::DATA_TITLE => $val["TITLE"],
+          Data::DATA_TEXT => $val["TEXT"],
+          Data::DATA_OWNER => $val["OWNER"]
         ];
       }
     }
@@ -83,7 +83,7 @@ class FtsDataManager extends Manager {
   }
 
   public function saveTextByLevelName(string $levelName, FT $ft): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = self::getCore()->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->saveTextByLevel($level, $ft);
     }
@@ -101,7 +101,7 @@ class FtsDataManager extends Manager {
   }
 
   public function removeTextsByLevelName(string $levelName): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = self::getCore()->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->removeTextsByLevel($level);
     }
@@ -124,15 +124,16 @@ class FtsDataManager extends Manager {
   }
 
   public function removeTextByLevelName(string $levelName, FT $ft): bool {
-    $level = $this->core->getServer()->getLevelByName($levelName);
+    $level = self::getCore()->getServer()->getLevelByName($levelName);
     if ($level !== null) {
       return $this->removeTextByLevel($level, $ft);
     }
     return false;
   }
 
-  protected function registerInstance(): void {
-    self::$instance = self::$instance ?? $this;
+  public static function register(Core $core): Data {
+    self::$instance = self::$instance ?? new FtsData($core);
+    return self::$instance;
   }
 
   public static function get(): self {

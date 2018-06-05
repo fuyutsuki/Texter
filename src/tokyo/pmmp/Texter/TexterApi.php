@@ -35,8 +35,8 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\ConfigDataManager,
-  manager\FtsDataManager,
+  manager\ConfigData,
+  manager\FtsData,
   text\Text,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT
@@ -72,7 +72,7 @@ class TexterApi {
       case $text instanceof FT:
         $level = $text->getPosition()->getLevel();
         self::$fts[$level->getName()][$text->getName()] = $text;
-        FtsDataManager::get()->saveTextByLevel($level, $text);
+        FtsData::get()->saveTextByLevel($level, $text);
       break;
     }
   }
@@ -304,7 +304,7 @@ class TexterApi {
       foreach ($fts as $ft) {
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
       }
-      FtsDataManager::get()->removeTextsByLevel($level);
+      FtsData::get()->removeTextsByLevel($level);
       unset(self::$fts[$level->getName()]);
       return true;
     }
@@ -336,7 +336,7 @@ class TexterApi {
       if (array_key_exists($name, $fts)) {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-        FtsDataManager::get()->removeTextByLevel($level, $ft);
+        FtsData::get()->removeTextByLevel($level, $ft);
         unset(self::$fts[$level->getName()][$name]);
         return true;
       }
@@ -365,7 +365,7 @@ class TexterApi {
    * @return bool
    */
   public static function canEdit(Player $player, FT $ft = null): bool {
-    $cdm = ConfigDataManager::get();
+    $cdm = ConfigData::get();
     $lang = Server::getInstance()->getPluginManager()->getPlugin("Texter")->getLang();
     $level = $player->getLevel();
     $levelName = $level->getName();

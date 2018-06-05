@@ -27,17 +27,18 @@ namespace tokyo\pmmp\Texter\task;
 
 // pocketmine
 use pocketmine\{
-  level\Position,
-  scheduler\Task,
-  utils\TextFormat as TF
+  level\Position, scheduler\Task, Server, utils\TextFormat as TF
 };
 
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  manager\Manager,
+  manager\CrftsData,
+  manager\Data,
+  manager\FtsData,
   text\CantRemoveFloatingText as CRFT,
-  text\FloatingText as FT, TexterApi
+  text\FloatingText as FT,
+  TexterApi
 };
 
 /**
@@ -47,75 +48,84 @@ class PrepareTextsTask extends Task {
 
   /** @var Core */
   private $core;
+  /** @var Server */
+  private $server;
   /** @var array */
   private $crfts;
   /** @var array */
   private $fts;
   /** @var int */
-  private $crftsKey = 0;
+  private $crftsCount = 0;
   /** @var int */
-  private $crftsKeyMax;
+  private $crftsMax;
   /** @var int */
-  private $ftsKey = 0;
+  private $ftsCount = 0;
   /** @var int */
-  private $ftsKeyMax;
+  private $ftsMax;
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->crfts = $core->getCrftsDataManager()->getData();
-    $this->crftsKeyMax = count($this->crfts);
-    $this->fts = $core->getFtsDataManager()->getData();
-    $this->ftsKeyMax = count($this->fts);
+    $this->server = $core->getServer();
+    $this->crfts = CrftsData::get()->getData();
+    $this->crftsMax = count($this->crfts);
+    $this->fts = FtsData::get()->getData();
+    $this->ftsMax = count($this->fts);
   }
 
   public function onRun(int $tick) {
-    if ($this->crftsKey === $this->crftsKeyMax) {
-      if ($this->ftsKey === $this->ftsKeyMax) {
+    if ($this->crftsCount === $this->crftsMax) {
+      if ($this->ftsCount === $this->ftsMax) {
         $this->onSuccess();
       }else {
-        $data = $this->fts[$this->ftsKey];
-        $textName = $data[Manager::DATA_NAME];
-        $loaded = $this->core->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
-        if (!$loaded) $this->core->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
-        $level = $this->core->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
-        if ($level !== null) {
-          $x = (float)$data[Manager::DATA_X_VEC];
-          $y = (float)$data[Manager::DATA_Y_VEC];
-          $z = (float)$data[Manager::DATA_Z_VEC];
-          $pos = new Position($x, $y, $z, $level);
-          $title = $data[Manager::DATA_TITLE];
-          $text = $data[Manager::DATA_TEXT];
-          $owner = $data[Manager::DATA_OWNER];
-          $ft = new FT($textName, $pos, $title, $text, $owner);
-          TexterApi::registerText($ft);
-          ++$this->ftsKey;
+        $data = $this->fts[$this->ftsCount];
+        $textName = $data[Data::DATA_NAME];
+        $loaded = $this->server->isLevelLoaded($data[Data::DATA_LEVEL]);
+        $successed = true;
+        if (!$loaded) $successed = $this->server->loadLevel($data[Data::DATA_LEVEL]);
+        if ($successed) {
+          $level = $this->server->getLevelByName($data[Data::DATA_LEVEL]);
+          if ($level !== null) {
+            $x = (float)$data[Data::DATA_X_VEC];
+            $y = (float)$data[Data::DATA_Y_VEC];
+            $z = (float)$data[Data::DATA_Z_VEC];
+            $pos = new Position($x, $y, $z, $level);
+            $title = $data[Data::DATA_TITLE];
+            $text = $data[Data::DATA_TEXT];
+            $owner = $data[Data::DATA_OWNER];
+            $ft = new FT($textName, $pos, $title, $text, $owner);
+            TexterApi::registerText($ft);
+          }
         }
+        ++$this->ftsCount;
       }
     }else {
-      $data = $this->crfts[$this->crftsKey];
-      $textName = $data[Manager::DATA_NAME];
-      $loaded = $this->core->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
-      if (!$loaded) $this->core->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
-      $level = $this->core->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
-      if ($level !== null) {
-        $x = (float)$data[Manager::DATA_X_VEC];
-        $y = (float)$data[Manager::DATA_Y_VEC];
-        $z = (float)$data[Manager::DATA_Z_VEC];
-        $pos = new Position($x, $y, $z, $level);
-        $title = $data[Manager::DATA_TITLE];
-        $text = $data[Manager::DATA_TEXT];
-        $crft = new CRFT($textName, $pos, $title, $text);
-        TexterApi::registerText($crft);
-        ++$this->crftsKey;
+      $data = $this->crfts[$this->crftsCount];
+      $textName = $data[Data::DATA_NAME];
+      $loaded = $this->server->isLevelLoaded($data[Data::DATA_LEVEL]);
+      $successed = true;
+      if (!$loaded) $successed = $this->server->loadLevel($data[Data::DATA_LEVEL]);
+      if ($successed) {
+        $level = $this->server->getLevelByName($data[Data::DATA_LEVEL]);
+        if ($level !== null) {
+          $x = (float)$data[Data::DATA_X_VEC];
+          $y = (float)$data[Data::DATA_Y_VEC];
+          $z = (float)$data[Data::DATA_Z_VEC];
+          $pos = new Position($x, $y, $z, $level);
+          $title = $data[Data::DATA_TITLE];
+          $text = $data[Data::DATA_TEXT];
+          $crft = new CRFT($textName, $pos, $title, $text);
+          TexterApi::registerText($crft);
+        }
       }
+      ++$this->crftsCount;
     }
   }
 
   private function onSuccess(): void {
     $lang = $this->core->getLang();
     $message = $lang->translateString("on.enable.prepared", [
-      $this->crftsKeyMax,
-      $this->ftsKeyMax
+      count(TexterApi::getCrfts(), COUNT_RECURSIVE),
+      count(TexterApi::getFts(), COUNT_RECURSIVE)
     ]);
     $this->core->getLogger()->info(TF::GREEN . $message);
     $this->core->getScheduler()->cancelTask($this->getTaskId());

@@ -35,7 +35,7 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\Manager
+  manager\Data
 };
 
 /**
@@ -109,12 +109,12 @@ class FloatingText extends Text {
    */
   public function format(): array {
     $data = [
-      Manager::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
-      Manager::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
-      Manager::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),
-      Manager::KEY_TITLE => $this->title,
-      Manager::KEY_TEXT => $this->text,
-      Manager::KEY_OWNER => $this->owner
+      Data::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
+      Data::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
+      Data::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),
+      Data::KEY_TITLE => $this->title,
+      Data::KEY_TEXT => $this->text,
+      Data::KEY_OWNER => $this->owner
     ];
     return $data;
   }

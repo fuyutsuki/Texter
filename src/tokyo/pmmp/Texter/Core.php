@@ -36,9 +36,9 @@ use pocketmine\{
 use tokyo\pmmp\Texter\{
   command\TxtCommand,
   command\TxtAdmCommand,
-  manager\ConfigDataManager,
-  manager\CrftsDataManager,
-  manager\FtsDataManager,
+  manager\ConfigData,
+  manager\CrftsData,
+  manager\FtsData,
   task\CheckUpdateTask,
   task\PrepareTextsTask
 };
@@ -62,46 +62,19 @@ class Core extends PluginBase {
   public const PREFIX = "[Texter] ";
 
   /** @var string */
-  public $dir = "";
-  /** @var ?ConfigDataManager */
-  private $configDm = null;
-  /** @var ?CrftsDataManager */
-  private $crftsDm = null;
-  /** @var ?FtsDataManager */
-  private $ftsDm = null;
-  /** @var ?BaseLang */
-  private $lang = null;
+  public static $dir = "";
+  /** @var BaseLang */
+  private $lang;
 
   /**
-   * @return ?ConfigDataManager
+   * @return BaseLang
    */
-  public function getConfigDataManager(): ?ConfigDataManager {
-    return $this->configDm;
-  }
-
-  /**
-   * @return ?CrftsDataManager
-   */
-  public function getCrftsDataManager(): ?CrftsDataManager {
-    return $this->crftsDm;
-  }
-
-  /**
-   * @return ?FtsDataManager
-   */
-  public function getFtsDataManager(): ?FtsDataManager {
-    return $this->ftsDm;
-  }
-
-  /**
-   * @return ?BaseLang
-   */
-  public function getLang(): ?BaseLang {
+  public function getLang(): BaseLang {
     return $this->lang;
   }
 
   public function onLoad() {
-    $this->dir = $this->getDataFolder();
+    self::$dir = $this->getDataFolder();
     $this
       ->initDataManagers()
       ->initLang()
@@ -124,17 +97,17 @@ class Core extends PluginBase {
   }
 
   private function initDataManagers(): self {
-    $this->configDm = new ConfigDataManager($this);
-    $this->crftsDm = new CrftsDataManager($this);
-    $this->ftsDm = new FtsDataManager($this);
+    ConfigData::register($this);
+    CrftsData::register($this);
+    FtsData::register($this);
     return $this;
   }
 
   private function initLang(): self {
-    $langCode = $this->configDm->getLangCode();
+    $langCode = ConfigData::get()->getLangCode();
     $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
     $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
-    $this->lang = new BaseLang($langCode, $this->dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
+    $this->lang = new BaseLang($langCode, self::$dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
     $message = $this->lang->translateString("language.selected", [
       $this->lang->getName(),
       $langCode
@@ -144,7 +117,7 @@ class Core extends PluginBase {
   }
 
   private function registerCommands(): self {
-    if ($this->configDm->getCanUseCommands()) {
+    if (ConfigData::get()->getCanUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
         new TxtCommand($this),
@@ -161,7 +134,7 @@ class Core extends PluginBase {
   }
 
   private function checkUpdate(): self {
-    if ($this->configDm->getCheckUpdate()) {
+    if (ConfigData::get()->getCheckUpdate()) {
       try {
         $task = new CheckUpdateTask();
         $this->getServer()->getAsyncPool()->submitTask($task);
@@ -212,7 +185,7 @@ class Core extends PluginBase {
   }
 
   private function setTimezone(): self {
-    $timezone = $this->configDm->getTimezone();
+    $timezone = ConfigData::get()->getTimezone();
     if ($timezone !== "") {
       date_default_timezone_set($timezone);
       $message = $this->lang->translateString("on.load.timezone", [

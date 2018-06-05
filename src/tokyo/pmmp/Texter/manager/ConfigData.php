@@ -25,12 +25,18 @@
 
 namespace tokyo\pmmp\Texter\manager;
 
+// texter
+use tokyo\pmmp\Texter\{
+  Core
+};
+
 /**
  * ConfigDataManagerClass
  */
-class ConfigDataManager extends Manager {
+class ConfigData extends Data {
 
-  private const FILE_CONFIG_VER = 23;
+  /** @var int */
+  private const FILE_CONFIG_VER = 23;// TODO
 
   /** @var ?self */
   protected static $instance = null;
@@ -95,8 +101,9 @@ class ConfigDataManager extends Manager {
     return $worlds;
   }
 
-  protected function registerInstance(): void {
-    self::$instance = self::$instance ?? $this;
+  public static function register(Core $core): Data {
+    self::$instance = self::$instance ?? new ConfigData($core);
+    return self::$instance;
   }
 
   public static function get(): self {

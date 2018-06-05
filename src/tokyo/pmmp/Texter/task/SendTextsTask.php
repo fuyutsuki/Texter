@@ -44,25 +44,27 @@ use tokyo\pmmp\Texter\{
  */
 class SendTextsTask extends Task {
 
-  /** @var string[] */
-  private $crfts = [];
+  /** @var Core */
+  private $core;
+  /** @var CRFT[] */
+  private $crfts;
   /** @var int */
   private $crftsKey = 0;
   /** @var int */
-  private $crftsKeyMax = 0;
-  /** @var string[] */
-  private $fts = [];
+  private $crftsKeyMax;
+  /** @var FT[] */
+  private $fts;
   /** @var int */
   private $ftsKey = 0;
   /** @var int */
-  private $ftsKeyMax = 0;
-  /** @var ?Player */
-  private $player = null;
+  private $ftsKeyMax;
+  /** @var Player */
+  private $player;
   /** @var int */
   private $type = Text::SEND_TYPE_ADD;
 
   public function __construct(Core $core, Level $level, Player $player, int $type = Text::SEND_TYPE_ADD) {
-    parent::__construct($core);
+    $this->core = $core;
     $this->crfts = array_values(TexterApi::getCrftsByLevel($level));
     $this->crftsKeyMax = count($this->crfts);
     $this->fts = array_values(TexterApi::getFtsByLevel($level));
@@ -88,6 +90,6 @@ class SendTextsTask extends Task {
   }
 
   private function onSuccess(): void {
-    $this->getOwner()->getScheduler()->cancelTask($this->getTaskId());
+    $this->core->getScheduler()->cancelTask($this->getTaskId());
   }
 }

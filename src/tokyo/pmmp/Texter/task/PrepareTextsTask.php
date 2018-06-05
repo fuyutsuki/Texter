@@ -45,21 +45,23 @@ use tokyo\pmmp\Texter\{
  */
 class PrepareTextsTask extends Task {
 
+  /** @var Core */
+  private $core;
   /** @var array */
-  private $crfts = [];
+  private $crfts;
   /** @var array */
-  private $fts = [];
+  private $fts;
   /** @var int */
   private $crftsKey = 0;
   /** @var int */
-  private $crftsKeyMax = 0;
+  private $crftsKeyMax;
   /** @var int */
   private $ftsKey = 0;
   /** @var int */
-  private $ftsKeyMax = 0;
+  private $ftsKeyMax;
 
   public function __construct(Core $core) {
-    parent::__construct($core);
+    $this->core = $core;
     $this->crfts = $core->getCrftsDataManager()->getData();
     $this->crftsKeyMax = count($this->crfts);
     $this->fts = $core->getFtsDataManager()->getData();
@@ -73,9 +75,9 @@ class PrepareTextsTask extends Task {
       }else {
         $data = $this->fts[$this->ftsKey];
         $textName = $data[Manager::DATA_NAME];
-        $loaded = $this->getOwner()->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
-        if (!$loaded) $this->getOwner()->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
-        $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
+        $loaded = $this->core->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
+        if (!$loaded) $this->core->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
+        $level = $this->core->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
         if ($level !== null) {
           $x = (float)$data[Manager::DATA_X_VEC];
           $y = (float)$data[Manager::DATA_Y_VEC];
@@ -92,9 +94,9 @@ class PrepareTextsTask extends Task {
     }else {
       $data = $this->crfts[$this->crftsKey];
       $textName = $data[Manager::DATA_NAME];
-      $loaded = $this->getOwner()->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
-      if (!$loaded) $this->getOwner()->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
-      $level = $this->getOwner()->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
+      $loaded = $this->core->getServer()->isLevelLoaded($data[Manager::DATA_LEVEL]);
+      if (!$loaded) $this->core->getServer()->loadLevel($data[Manager::DATA_LEVEL]);
+      $level = $this->core->getServer()->getLevelByName($data[Manager::DATA_LEVEL]);
       if ($level !== null) {
         $x = (float)$data[Manager::DATA_X_VEC];
         $y = (float)$data[Manager::DATA_Y_VEC];
@@ -110,12 +112,12 @@ class PrepareTextsTask extends Task {
   }
 
   private function onSuccess(): void {
-    $lang = $this->getOwner()->getLang();
+    $lang = $this->core->getLang();
     $message = $lang->translateString("on.enable.prepared", [
       $this->crftsKeyMax,
       $this->ftsKeyMax
     ]);
-    $this->getOwner()->getLogger()->info(TF::GREEN . $message);
-    $this->getOwner()->getScheduler()->cancelTask($this->getTaskId());
+    $this->core->getLogger()->info(TF::GREEN . $message);
+    $this->core->getScheduler()->cancelTask($this->getTaskId());
   }
 }

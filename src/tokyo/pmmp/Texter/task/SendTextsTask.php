@@ -74,8 +74,8 @@ class SendTextsTask extends Task {
   }
 
   public function onRun(int $tick) {
-    if ($this->crftsKey >= $this->crftsKeyMax) {
-      if ($this->ftsKey >= $this->ftsKeyMax) {
+    if ($this->crftsKey === $this->crftsKeyMax) {
+      if ($this->ftsKey === $this->ftsKeyMax) {
         $this->onSuccess();
       }else {
         $ft = $this->fts[$this->ftsKey];

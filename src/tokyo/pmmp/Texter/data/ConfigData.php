@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\manager;
+namespace tokyo\pmmp\Texter\data;
 
 // texter
 use tokyo\pmmp\Texter\{

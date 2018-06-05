@@ -27,7 +27,7 @@ namespace tokyo\pmmp\Texter\text;
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\Data
+  data\Data
 };
 
 /**
@@ -40,7 +40,6 @@ class CantRemoveFloatingText extends Text {
    * @return array
    */
   public function format(): array {
-    $levelName = strtolower($this->pos->getLevel()->getName());
     $data = [
       Data::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
       Data::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),

@@ -28,7 +28,6 @@ namespace tokyo\pmmp\Texter\text;
 // pocketmine
 use pocketmine\{
   Player,
-  Server,
   entity\Entity,
   item\Item,
   level\Level,
@@ -44,8 +43,6 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  Core,
-  TexterApi,
   text\FloatingText as FT
 };
 
@@ -299,7 +296,6 @@ abstract class Text {
   }
 
   /**
-   * @internal
    * @return array
    */
   abstract public function format(): array;

@@ -36,9 +36,9 @@ use pocketmine\{
 use tokyo\pmmp\Texter\{
   command\TxtCommand,
   command\TxtAdmCommand,
-  manager\ConfigData,
-  manager\CrftsData,
-  manager\FtsData,
+  data\ConfigData,
+  data\CrftsData,
+  data\FtsData,
   task\CheckUpdateTask,
   task\PrepareTextsTask
 };

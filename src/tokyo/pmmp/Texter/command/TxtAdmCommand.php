@@ -30,7 +30,6 @@ use pocketmine\{
   Player,
   command\Command,
   command\CommandSender,
-  level\Position,
   utils\TextFormat as TF,
   utils\Utils
 };

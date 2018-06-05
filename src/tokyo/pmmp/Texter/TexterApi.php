@@ -35,8 +35,8 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\ConfigData,
-  manager\FtsData,
+  data\ConfigData,
+  data\FtsData,
   text\Text,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT

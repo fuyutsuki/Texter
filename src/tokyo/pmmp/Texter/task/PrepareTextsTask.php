@@ -33,9 +33,9 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  manager\CrftsData,
-  manager\Data,
-  manager\FtsData,
+  data\CrftsData,
+  data\Data,
+  data\FtsData,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT,
   TexterApi
@@ -124,8 +124,8 @@ class PrepareTextsTask extends Task {
   private function onSuccess(): void {
     $lang = $this->core->getLang();
     $message = $lang->translateString("on.enable.prepared", [
-      count(TexterApi::getCrfts(), COUNT_RECURSIVE),
-      count(TexterApi::getFts(), COUNT_RECURSIVE)
+      count(TexterApi::getCrfts(), COUNT_RECURSIVE) - count(TexterApi::getCrfts()),
+      count(TexterApi::getFts(), COUNT_RECURSIVE) - count(TexterApi::getFts())
     ]);
     $this->core->getLogger()->info(TF::GREEN . $message);
     $this->core->getScheduler()->cancelTask($this->getTaskId());

@@ -23,7 +23,7 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\manager;
+namespace tokyo\pmmp\Texter\data;
 
 // pocketmine
 use pocketmine\{
@@ -34,18 +34,18 @@ use pocketmine\{
 // texter
 use tokyo\pmmp\Texter\{
   Core,
-  text\FloatingText as FT
+  text\CantRemoveFloatingText as CRFT
 };
 
 /**
- * FtsData
+ * CrftsData
  */
-class FtsData extends Data {
+class CrftsData extends Data {
 
-  /** @var self */
+  /** @var ?self */
   protected static $instance;
   /** @var string */
-  protected $configName = "fts.json";
+  protected $configName = "crfts.json";
   /** @var int */
   protected $configType = Config::JSON;
 
@@ -61,78 +61,36 @@ class FtsData extends Data {
           Data::DATA_Y_VEC => $val["Yvec"],
           Data::DATA_Z_VEC => $val["Zvec"],
           Data::DATA_TITLE => $val["TITLE"],
-          Data::DATA_TEXT => $val["TEXT"],
-          Data::DATA_OWNER => $val["OWNER"]
+          Data::DATA_TEXT => $val["TEXT"]
         ];
       }
     }
     return $data;
   }
 
-  public function saveTextByLevel(Level $level, FT $ft): bool {
+  public function saveTextByLevel(Level $level, CRFT $crft): bool {
     $levelName = $level->getName();
     if ($this->config->exists($levelName)) {
       $texts = $this->getArray($levelName);
-      $texts[$ft->getName()] = $ft->format();
+      $texts[$crft->getName()] = $crft->format();
       $this->config->set($levelName, $texts);
     }else {
-      $this->config->set($levelName, [$ft->getName() => $ft->format()]);
+      $this->config->set($levelName, [$crft->getName() => $crft->format()]);
     }
     $this->config->save(true);
     return true;
   }
 
-  public function saveTextByLevelName(string $levelName, FT $ft): bool {
+  public function saveTextByLevelName(string $levelName, CRFT $crft): bool {
     $level = self::getCore()->getServer()->getLevelByName($levelName);
     if ($level !== null) {
-      return $this->saveTextByLevel($level, $ft);
-    }
-    return false;
-  }
-
-  public function removeTextsByLevel(Level $level): bool {
-    $levelName = $level->getName();
-    if ($this->config->exists($levelName)) {
-      $this->config->remove($levelName);
-      $this->config->save(true);
-      return true;
-    }
-    return false;
-  }
-
-  public function removeTextsByLevelName(string $levelName): bool {
-    $level = self::getCore()->getServer()->getLevelByName($levelName);
-    if ($level !== null) {
-      return $this->removeTextsByLevel($level);
-    }
-    return false;
-  }
-
-  public function removeTextByLevel(Level $level, FT $ft): bool {
-    $levelName = $level->getName();
-    $name = $ft->getName();
-    if ($this->config->exists($levelName)) {
-      $texts = $this->getArray($levelName);
-      if (array_key_exists($name, $texts)) {
-        unset($texts[$name]);
-        $this->config->set($levelName, $texts);
-        $this->config->save();
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public function removeTextByLevelName(string $levelName, FT $ft): bool {
-    $level = self::getCore()->getServer()->getLevelByName($levelName);
-    if ($level !== null) {
-      return $this->removeTextByLevel($level, $ft);
+      return $this->saveTextByLevel($level, $crft);
     }
     return false;
   }
 
   public static function register(Core $core): Data {
-    self::$instance = self::$instance ?? new FtsData($core);
+    self::$instance = self::$instance ?? new CrftsData($core);
     return self::$instance;
   }
 

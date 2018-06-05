@@ -28,14 +28,13 @@ namespace tokyo\pmmp\Texter\text;
 // pocketmine
 use pocketmine\{
   Player,
-  entity\Entity,
   level\Level,
   level\Position
 };
 
 // texter
 use tokyo\pmmp\Texter\{
-  manager\Data
+  data\Data
 };
 
 /**

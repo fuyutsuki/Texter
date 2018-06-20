@@ -1,12 +1,11 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fuyutsuki/Texter
 branches:
   - master
-  - legacy/php7.0.x
 projects:
   Texter:
     path: ""
     icon: "/assets/Logo.png"
     libs:
       - src: fuyutsuki/libform/libform
-        version: 0.2.0
+        version: 0.2.1
 ...

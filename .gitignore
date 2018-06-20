@@ -1,5 +1,5 @@
-/.idea
-/.history
-/language
+.idea/
+.history/
+language/
 /config.yml
 /*.json

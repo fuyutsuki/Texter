@@ -26,7 +26,7 @@ It may have many bugs.
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **2.4.1** _Phyllorhiza punctata_  
+Latest: ver **2.4.2** _Phyllorhiza punctata_  
 
 ### Supporting
 - [x] Minecraft(Bedrock) v1.2.x
@@ -62,7 +62,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 - crfts.json
 ```json
 {
-  "LevelName": {
+  "LevelFolderName": {
     "TextName(Unique)": {
       "Xvec": 128,
       "Yvec": 90,
@@ -76,7 +76,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 - fts.json
 ```json
 {
-  "LevelName": {
+  "LevelFolderName": {
     "TextName1(Unique)": {
       "Xvec": 128,
       "Yvec": 90,
@@ -100,7 +100,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除ができるプラグインです。  
-最新バージョン: **2.4.1** _Phyllorhiza punctata_  
+最新バージョン: **2.4.2** _Phyllorhiza punctata_  
 
 ### 対応状況
 - [x] Minecraft(Bedrockエンジン) v1.2.x
@@ -137,7 +137,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 - crfts.json
 ```json
 {
-  "ワールド名": {
+  "ワールドフォルダ名": {
     "浮き文字名(一意)": {
       "Xvec": 128,
       "Yvec": 90,
@@ -151,7 +151,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 - fts.json
 ```json
 {
-  "ワールド名": {
+  "ワールドフォルダ名": {
     "浮き文字名(一意)": {
       "Xvec": 128,
       "Yvec": 90,

@@ -71,7 +71,7 @@ class TexterApi {
 
       case $text instanceof FT:
         $level = $text->getPosition()->getLevel();
-        self::$fts[$level->getName()][$text->getName()] = $text;
+        self::$fts[$level->getFolderName()][$text->getName()] = $text;
         FtsData::get()->saveTextByLevel($level, $text);
       break;
     }
@@ -91,7 +91,7 @@ class TexterApi {
    * @return array
    */
   public static function getCrftsByLevel(Level $level): array {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if (array_key_exists($levelName, self::$crfts)) {
       return self::$crfts[$levelName];
     }else {
@@ -199,7 +199,7 @@ class TexterApi {
    * @return array
    */
   public static function getFtsByLevel(Level $level): array {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if (array_key_exists($levelName, self::$fts)) {
       return self::$fts[$levelName];
     }else {
@@ -305,7 +305,7 @@ class TexterApi {
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
       }
       FtsData::get()->removeTextsByLevel($level);
-      unset(self::$fts[$level->getName()]);
+      unset(self::$fts[$level->getFolderName()]);
       return true;
     }
     return false;
@@ -337,7 +337,7 @@ class TexterApi {
         $ft = $fts[$name];
         $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
         FtsData::get()->removeTextByLevel($level, $ft);
-        unset(self::$fts[$level->getName()][$name]);
+        unset(self::$fts[$level->getFolderName()][$name]);
         return true;
       }
     }
@@ -368,7 +368,7 @@ class TexterApi {
     $cdm = ConfigData::get();
     $lang = Server::getInstance()->getPluginManager()->getPlugin("Texter")->getLang();
     $level = $player->getLevel();
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if (!$player->isOp()) {
       if (!array_key_exists($levelName, $cdm->getWorldLimit())) {
         if ($ft !== null) {

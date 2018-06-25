@@ -69,7 +69,7 @@ class CrftsData extends Data {
   }
 
   public function saveTextByLevel(Level $level, CRFT $crft): bool {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if ($this->config->exists($levelName)) {
       $texts = $this->getArray($levelName);
       $texts[$crft->getName()] = $crft->format();

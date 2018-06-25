@@ -70,7 +70,7 @@ class FtsData extends Data {
   }
 
   public function saveTextByLevel(Level $level, FT $ft): bool {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if ($this->config->exists($levelName)) {
       $texts = $this->getArray($levelName);
       $texts[$ft->getName()] = $ft->format();
@@ -91,7 +91,7 @@ class FtsData extends Data {
   }
 
   public function removeTextsByLevel(Level $level): bool {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     if ($this->config->exists($levelName)) {
       $this->config->remove($levelName);
       $this->config->save(true);
@@ -109,7 +109,7 @@ class FtsData extends Data {
   }
 
   public function removeTextByLevel(Level $level, FT $ft): bool {
-    $levelName = $level->getName();
+    $levelName = $level->getFolderName();
     $name = $ft->getName();
     if ($this->config->exists($levelName)) {
       $texts = $this->getArray($levelName);

@@ -35,11 +35,7 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  data\ConfigData,
-  data\FtsData,
-  text\Text,
-  text\CantRemoveFloatingText as CRFT,
-  text\FloatingText as FT
+  data\ConfigData, data\FtsData, i18n\Lang, text\Text, text\CantRemoveFloatingText as CRFT, text\FloatingText as FT
 };
 
 /**
@@ -366,7 +362,7 @@ class TexterApi {
    */
   public static function canEdit(Player $player, FT $ft = null): bool {
     $cdm = ConfigData::get();
-    $lang = Server::getInstance()->getPluginManager()->getPlugin("Texter")->getLang();
+    $lang = Lang::detectLangByStr();
     $level = $player->getLevel();
     $levelName = $level->getFolderName();
     if (!$player->isOp()) {

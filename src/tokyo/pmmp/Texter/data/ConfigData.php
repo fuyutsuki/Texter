@@ -36,7 +36,7 @@ use tokyo\pmmp\Texter\{
 class ConfigData extends Data {
 
   /** @var int */
-  private const FILE_CONFIG_VER = 23;// TODO
+  private const FILE_CONFIG_VER = 24;// TODO
 
   /** @var ?self */
   protected static $instance = null;

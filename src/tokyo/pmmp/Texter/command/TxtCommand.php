@@ -36,20 +36,12 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  Core,
-  data\FtsData,
-  TexterApi,
-  text\Text,
-  text\FloatingText as FT
+  Core, data\FtsData, i18n\Lang, TexterApi, text\Text, text\FloatingText as FT
 };
 
 // libform
 use tokyo\pmmp\libform\{
-  FormApi,
-  element\Button,
-  element\Input,
-  element\Label,
-  element\StepSlider
+  element\Dropdown, FormApi, element\Button, element\Input, element\Label, element\StepSlider
 };
 
 /**
@@ -91,7 +83,7 @@ class TxtCommand extends Command {
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->lang = $core->getLang();
+    $this->lang = Lang::detectLangByStr();
     //
     $description = $this->lang->translateString("command.txt.description");
     $usage = $this->lang->translateString("command.txt.usage");
@@ -215,7 +207,7 @@ class TxtCommand extends Command {
         $list = FormApi::makeListForm([$this, "listReceive"]);
         $description = $this->lang->translateString("form.list.description.1");
         $list->setTitle(Core::PREFIX."/txt l(ist)")
-        ->setContents($description);
+        ->setContent($description);
         $fts = TexterApi::getFtsByLevel($player->getLevel());
         foreach ($fts as $textName => $ft) {
           if ($player->distance($ft->getPosition()) <= 10 &&
@@ -233,7 +225,7 @@ class TxtCommand extends Command {
           $this->fts[$name]->getName()
         ]);
         $list->setTitle(Core::PREFIX."/txt l(ist)")
-        ->setContents($description)
+        ->setContent($description)
         ->addButton(new Button("edit"))
         ->addButton(new Button("move"))
         ->addButton(new Button("remove"))

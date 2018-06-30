@@ -39,6 +39,7 @@ use tokyo\pmmp\Texter\{
   data\ConfigData,
   data\CrftsData,
   data\FtsData,
+  i18n\Lang,
   task\CheckUpdateTask,
   task\PrepareTextsTask
 };
@@ -53,11 +54,6 @@ use tokyo\pmmp\libform\{
  */
 class Core extends PluginBase {
 
-  private const LANG_DIR = "language";
-  private const LANG_FALLBACK = "eng";
-
-  public const CODENAME = "Phyllorhiza punctata";
-  public const CONFIG_VERSION = 23;
   public const DS = DIRECTORY_SEPARATOR;
   public const PREFIX = "[Texter] ";
 
@@ -65,13 +61,6 @@ class Core extends PluginBase {
   public static $dir = "";
   /** @var BaseLang */
   private $lang;
-
-  /**
-   * @return BaseLang
-   */
-  public function getLang(): BaseLang {
-    return $this->lang;
-  }
 
   public function onLoad() {
     self::$dir = $this->getDataFolder();
@@ -90,8 +79,7 @@ class Core extends PluginBase {
     $listener = new EventListener($this);
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
     $message = $this->lang->translateString("on.enable.message", [
-      $this->getDescription()->getFullName(),
-      TF::BLUE.self::CODENAME.TF::GREEN
+      $this->getDescription()->getFullName()
     ]);
     $this->getLogger()->info(TF::GREEN.$message);
   }
@@ -104,11 +92,16 @@ class Core extends PluginBase {
   }
 
   private function initLang(): self {
+    $locales = [];
+    foreach (Lang::AVAILABLE_LANG as $locale) {
+      $this->saveResource(Lang::LANG_DIR.self::DS.$locale.".ini");
+      $locales[$locale] = new Lang($locale, self::$dir.Lang::LANG_DIR.self::DS, Lang::FALLBACK_LANGUAGE);
+    }
+    Lang::registerLanguages($locales);
+    //
     $langCode = ConfigData::get()->getLangCode();
-    $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
-    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
-    $this->lang = new BaseLang($langCode, self::$dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
-    $message = $this->lang->translateString("language.selected", [
+    $this->lang = new BaseLang($langCode, self::$dir.Lang::LANG_DIR.self::DS, Lang::FALLBACK_LANGUAGE);
+    $message = $this->lang->translateString("language.selected", [// TODO: consoleLang
       $this->lang->getName(),
       $langCode
     ]);
@@ -141,9 +134,6 @@ class Core extends PluginBase {
       } catch (\Exception $e) {
         $this->getLogger()->warning($e->getMessage());
       }
-    }
-    if (strpos($this->getDescription()->getVersion(), "-") !== false) {
-      $this->getLogger()->notice($this->lang->translateString("version.dev"));
     }
     return $this;
   }

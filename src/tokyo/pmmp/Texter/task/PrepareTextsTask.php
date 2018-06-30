@@ -36,6 +36,7 @@ use tokyo\pmmp\Texter\{
   data\CrftsData,
   data\Data,
   data\FtsData,
+  i18n\Lang,
   text\CantRemoveFloatingText as CRFT,
   text\FloatingText as FT,
   TexterApi
@@ -122,7 +123,7 @@ class PrepareTextsTask extends Task {
   }
 
   private function onSuccess(): void {
-    $lang = $this->core->getLang();
+    $lang = Lang::detectLangByStr();
     $message = $lang->translateString("on.enable.prepared", [
       count(TexterApi::getCrfts(), COUNT_RECURSIVE) - count(TexterApi::getCrfts()),
       count(TexterApi::getFts(), COUNT_RECURSIVE) - count(TexterApi::getFts())

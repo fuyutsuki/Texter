@@ -36,8 +36,7 @@ use pocketmine\{
 
 // texter
 use tokyo\pmmp\Texter\{
-  Core,
-  TexterApi
+  Core, i18n\Lang, TexterApi
 };
 
 /**
@@ -56,16 +55,16 @@ class TxtAdmCommand extends Command {
   private const SESSION_UR = 1;
   private const SESSION_LR = 2;
 
-  /** @var ?Core */
-  private $core = null;
-  /** @var ?BaseLang */
-  private $lang = null;
+  /** @var Core */
+  private $core;
+  /** @var Lang */
+  private $lang;
   /** @var array */
   private $session = [];
 
   public function __construct(Core $core) {
     $this->core = $core;
-    $this->lang = $core->getLang();
+    $this->lang = Lang::detectLangByStr();
     //
     $description = $this->lang->translateString("command.txtadm.description");
     $usage = $this->lang->translateString("command.txtadm.usage");
@@ -77,7 +76,8 @@ class TxtAdmCommand extends Command {
     if (!$this->core->isEnabled()) return false;
     if (!$this->testPermission($sender)) return false;
     if ($sender instanceof Player) {
-      $message = $this->lang->translateString("error.player");
+      $lang = Lang::detectLang($sender);
+      $message = $lang->translateString("error.player");
       $sender->sendMessage(TF::RED.Core::PREFIX.$message);
     }else {
       if (isset($args[0])) {
@@ -166,15 +166,6 @@ class TxtAdmCommand extends Command {
               $message = $this->lang->translateString("command.txtadm.lr.usage");
               $logger->info($message);
             }
-          break;
-
-          case 'info':
-          case 'i':
-            $message = $this->lang->translateString("command.txtadm.i", [
-              $this->core->getDescription()->getVersion(),
-              Core::CODENAME
-            ]);
-            $logger->info(TF::AQUA.$message);
           break;
 
           default:

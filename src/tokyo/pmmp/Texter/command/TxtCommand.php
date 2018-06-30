@@ -26,23 +26,26 @@
 namespace tokyo\pmmp\Texter\command;
 
 // pocketmine
-use pocketmine\{
-  Player,
-  command\Command,
-  command\CommandSender,
-  level\Position,
-  utils\TextFormat as TF
-};
+use pocketmine\Player;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use pocketmine\level\Position;
+use pocketmine\utils\TextFormat as TF;
 
 // texter
-use tokyo\pmmp\Texter\{
-  Core, data\FtsData, i18n\Lang, TexterApi, text\Text, text\FloatingText as FT
-};
+use tokyo\pmmp\Texter\Core;
+use tokyo\pmmp\Texter\data\FtsData;
+use tokyo\pmmp\Texter\i18n\Lang;
+use tokyo\pmmp\Texter\TexterApi;
+use tokyo\pmmp\Texter\text\Text;
+use tokyo\pmmp\Texter\text\FloatingText as FT;
 
 // libform
-use tokyo\pmmp\libform\{
-  element\Dropdown, FormApi, element\Button, element\Input, element\Label, element\StepSlider
-};
+use tokyo\pmmp\libform\FormApi;
+use tokyo\pmmp\libform\element\Button;
+use tokyo\pmmp\libform\element\Input;
+use tokyo\pmmp\libform\element\Label;
+use tokyo\pmmp\libform\element\StepSlider;
 
 /**
  * TxtCommandClass

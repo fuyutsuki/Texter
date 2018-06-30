@@ -1,5 +1,6 @@
 .idea/
 .history/
 language/
+vendor/
 /config.yml
 /*.json

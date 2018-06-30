@@ -1,6 +1,14 @@
+# Intellij IDEA
 .idea/
+
+# VisualStudio Code
 .history/
-language/
+
+# composer
 vendor/
+
+# for old-plugin data
+language/
 /config.yml
-/*.json
+/crfts.json
+/fts.json

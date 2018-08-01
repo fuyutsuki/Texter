@@ -34,7 +34,7 @@ use pocketmine\{
   level\Position,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\DataPacket,
-  network\mcpe\protocol\MoveEntityPacket,
+  network\mcpe\protocol\MoveEntityAbsolutePacket,
   network\mcpe\protocol\RemoveEntityPacket,
   network\mcpe\protocol\SetEntityDataPacket,
   utils\TextFormat as TF,
@@ -229,8 +229,10 @@ abstract class Text {
       */
 
       case self::SEND_TYPE_MOVE:
-        $pk = new MoveEntityPacket;
+        $pk = new MoveEntityAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
+        $pk->flags = 1 << MoveEntityAbsolutePacket::FLAG_TELEPORT;
+        // TODO
         $pk->position = $this->pos;
         $pk->yaw = 0;
         $pk->headYaw = 0;

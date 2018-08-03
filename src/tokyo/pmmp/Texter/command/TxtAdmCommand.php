@@ -27,9 +27,10 @@ namespace tokyo\pmmp\Texter\command;
 
 // pocketmine
 use pocketmine\{
-  Player,
   command\Command,
   command\CommandSender,
+  lang\Language,
+  Player,
   utils\TextFormat as TF,
   utils\Utils
 };

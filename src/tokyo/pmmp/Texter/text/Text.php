@@ -34,7 +34,7 @@ use pocketmine\{
   level\Position,
   network\mcpe\protocol\AddPlayerPacket,
   network\mcpe\protocol\DataPacket,
-  network\mcpe\protocol\MoveEntityPacket,
+  network\mcpe\protocol\MoveEntityAbsolutePacket,
   network\mcpe\protocol\RemoveEntityPacket,
   network\mcpe\protocol\SetEntityDataPacket,
   utils\TextFormat as TF,
@@ -53,7 +53,7 @@ abstract class Text {
 
   /** @var int $this->sendTo****() */
   public const SEND_TYPE_ADD = 0;
-  // public const SEND_TYPE_EDIT = 1;
+  public const SEND_TYPE_EDIT = 1;
   public const SEND_TYPE_MOVE = 2;
   public const SEND_TYPE_REMOVE = 3;
 
@@ -189,10 +189,11 @@ abstract class Text {
   public function asPacket(int $type, bool $isOwner = false): DataPacket {
     switch ($type) {
       case self::SEND_TYPE_ADD:
+      case self::SEND_TYPE_EDIT:
         $pk = new AddPlayerPacket;
         $pk->uuid = UUID::fromRandom();
         $pk->entityUniqueId = $this->eid;
-        $pk->entityRuntimeId = $this->eid;// ...huh?
+        $pk->entityRuntimeId = $this->eid;
         $pk->position = $this->pos;
         $pk->item = Item::get(Item::AIR);
         $flags =
@@ -209,33 +210,14 @@ abstract class Text {
         $this->addName($pk, $isOwner);
       break;
 
-      /** broken at 1.2.13
-      case self::SEND_TYPE_EDIT:
-        $pk = new SetEntityDataPacket;
-        $pk->entityRuntimeId = $this->eid;
-        $flags =
-          1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG |
-          1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG |
-          1 << Entity::DATA_FLAG_IMMOBILE;
-        if ($this->isInvisible) {
-          $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
-        }
-        $pk->metadata = [
-          Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
-        ];
-        $this->addName($pk, $isOwner);
-      break;
-      */
-
       case self::SEND_TYPE_MOVE:
-        $pk = new MoveEntityPacket;
+        $pk = new MoveEntityAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
+        // $pk->flags = MoveEntityAbsolutePacket::FLAG_TELEPORT; unnecessary. why?
         $pk->position = $this->pos;
-        $pk->yaw = 0;
-        $pk->headYaw = 0;
-        $pk->pitch = 0;
-        $pk->onGround = true;
+        $pk->xRot = 0;
+        $pk->yRot = 0;
+        $pk->zRot = 0;
       break;
 
       case self::SEND_TYPE_REMOVE:
@@ -251,23 +233,9 @@ abstract class Text {
   }
 
   protected function addName(DataPacket $pk, bool $isOwner) {
-    if ($this instanceof FT && $isOwner) {
-      /** broken at 1.2.13
-      $pk->metadata[Entity::DATA_NAMETAG] = [
-        Entity::DATA_TYPE_STRING,
-        $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text."\n".TF::GRAY."[".$this->name."]" : "\n".TF::GRAY."[".$this->name."]")
-      ];
-      */
-      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text : "")."\n".TF::GRAY."[".$this->name."]";
-    }else {
-      /** broken at 1.2.13
-      $pk->metadata[Entity::DATA_NAMETAG] = [
-        Entity::DATA_TYPE_STRING,
-        TF::clean($this->title . TF::RESET . TF::WHITE . ($this->text !== "" ? "\n" . $this->text : ""))
-      ];
-      */
-      $pk->username = $this->title.TF::RESET.TF::WHITE.($this->text !== "" ? "\n".$this->text : "");
-    }
+    $pk->username = $this->title . TF::RESET . TF::WHITE.
+      ($this->text !== "" ? "\n".$this->text : "").
+      ($this instanceof FT && $isOwner ? "\n".TF::GRAY."[".$this->name."]" : "");
   }
 
   /**

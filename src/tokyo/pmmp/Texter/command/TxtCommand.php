@@ -75,10 +75,10 @@ class TxtCommand extends Command {
   private const SESSION_PHASE1 = 0;
   private const SESSION_PHASE2 = 1;
 
-  /** @var ?Core */
-  private $core = null;
-  /** @var ?BaseLang */
-  private $lang = null;
+  /** @var Core */
+  private $core;
+  /** @var Language */
+  private $lang;
   /** @var array */
   private $session = [];
   /** @var array */
@@ -295,7 +295,7 @@ class TxtCommand extends Command {
               $check->setTitle($title);
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setTitle($title)
-                ->sendToLevel($level, Text::SEND_TYPE_ADD);
+                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
                 FtsData::get()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),
@@ -311,7 +311,7 @@ class TxtCommand extends Command {
               $check->setText($text);
               if (TexterApi::canEdit($player, $check)) {
                 $ft->setText($text)
-                ->sendToLevel($level, Text::SEND_TYPE_ADD);
+                ->sendToLevel($level, Text::SEND_TYPE_EDIT);
                 FtsData::get()->saveTextByLevel($level, $ft);
                 $message = $this->lang->translateString("command.txt.edit.success", [
                   TF::clean($response[self::EDIT_KEY_FTNAME]),

@@ -49,7 +49,7 @@ class TexterApi {
   private static $fts = [];
 
   private function __construct() {
-    // DONT USE THIS METHOD!
+    // DO NOT USE THIS METHOD!
   }
 
   /**

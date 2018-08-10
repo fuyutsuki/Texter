@@ -29,7 +29,7 @@ namespace tokyo\pmmp\Texter\command;
 use pocketmine\{
   command\Command,
   command\CommandSender,
-  lang\Language,
+  lang\BaseLang,
   Player,
   utils\TextFormat as TF,
   utils\Utils
@@ -59,7 +59,7 @@ class TxtAdmCommand extends Command {
 
   /** @var Core */
   private $core;
-  /** @var Language */
+  /** @var BaseLang */
   private $lang;
   /** @var array */
   private $session = [];

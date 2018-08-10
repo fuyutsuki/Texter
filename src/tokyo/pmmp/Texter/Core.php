@@ -27,7 +27,7 @@ namespace tokyo\pmmp\Texter;
 
 // pocketmine
 use pocketmine\{
-  lang\Language,
+  lang\BaseLang,
   plugin\PluginBase,
   utils\TextFormat as TF
 };
@@ -63,13 +63,13 @@ class Core extends PluginBase {
 
   /** @var string */
   public static $dir = "";
-  /** @var Language */
+  /** @var BaseLang */
   private $lang;
 
   /**
-   * @return Language
+   * @return BaseLang
    */
-  public function getLang(): Language {
+  public function getLang(): BaseLang {
     return $this->lang;
   }
 
@@ -107,7 +107,7 @@ class Core extends PluginBase {
     $langCode = ConfigData::get()->getLangCode();
     $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
     $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
-    $this->lang = new Language($langCode, self::$dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
+    $this->lang = new BaseLang($langCode, self::$dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
     $message = $this->lang->translateString("language.selected", [
       $this->lang->getName(),
       $langCode

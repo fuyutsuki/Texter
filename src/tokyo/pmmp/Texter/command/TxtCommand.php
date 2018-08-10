@@ -27,7 +27,7 @@ namespace tokyo\pmmp\Texter\command;
 
 // pocketmine
 use pocketmine\{
-  lang\Language,
+  lang\BaseLang,
   Player,
   command\Command,
   command\CommandSender,
@@ -83,7 +83,7 @@ class TxtCommand extends Command {
 
   /** @var Core */
   private $core;
-  /** @var Language */
+  /** @var BaseLang */
   private $lang;
   /** @var array */
   private $session = [];

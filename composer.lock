@@ -4,89 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca13503b0fe8a2091d1e9841652eb078",
+    "content-hash": "6179fc2ebcbd8e7d6d883685679ba005",
     "packages": [
         {
-            "name": "fgrosse/phpasn1",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fgrosse/PHPASN1.git",
-                "reference": "0e27e71e3d0a8d5c3f1471d727fd9574d920f33c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fgrosse/PHPASN1/zipball/0e27e71e3d0a8d5c3f1471d727fd9574d920f33c",
-                "reference": "0e27e71e3d0a8d5c3f1471d727fd9574d920f33c",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gmp": "*",
-                "php": ">=7.0.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.3",
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "suggest": {
-                "php-curl": "For loading OID information from the web if they have not bee defined statically"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FG\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Friedrich Große",
-                    "email": "friedrich.grosse@gmail.com",
-                    "homepage": "https://github.com/FGrosse",
-                    "role": "Author"
-                },
-                {
-                    "name": "All contributors",
-                    "homepage": "https://github.com/FGrosse/PHPASN1/contributors"
-                }
-            ],
-            "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
-            "homepage": "https://github.com/FGrosse/PHPASN1",
-            "keywords": [
-                "DER",
-                "asn.1",
-                "asn1",
-                "ber",
-                "binary",
-                "decoding",
-                "encoding",
-                "x.509",
-                "x.690",
-                "x509",
-                "x690"
-            ],
-            "time": "2017-12-17T10:21:51+00:00"
-        },
-        {
             "name": "fuyutsuki/libform",
-            "version": "v0.3.0",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuyutsuki/libform.git",
-                "reference": "d039d2bb7e65cb6e15421d0c8b83f98ba9bb979b"
+                "reference": "18125ba67b17ee04faebda672fb390fba718abab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuyutsuki/libform/zipball/d039d2bb7e65cb6e15421d0c8b83f98ba9bb979b",
-                "reference": "d039d2bb7e65cb6e15421d0c8b83f98ba9bb979b",
+                "url": "https://api.github.com/repos/fuyutsuki/libform/zipball/18125ba67b17ee04faebda672fb390fba718abab",
+                "reference": "18125ba67b17ee04faebda672fb390fba718abab",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +40,7 @@
                 "pocketmine/binaryutils": "^0.1.0",
                 "pocketmine/math": "^0.2.0",
                 "pocketmine/nbt": "^0.2.0",
-                "pocketmine/pocketmine-mp": "dev-master",
+                "pocketmine/pocketmine-mp": "^3.0",
                 "pocketmine/raklib": "^0.12.0",
                 "pocketmine/snooze": "^0.1.0",
                 "pocketmine/spl": "^0.3.0"
@@ -119,8 +50,7 @@
                 "psr-4": {
                     "": [
                         "src"
-                    ],
-                    "pocketmine\\": "src"
+                    ]
                 }
             },
             "license": [
@@ -129,82 +59,10 @@
             "description": "It is a virion library that can handle various forms easily.",
             "homepage": "https://github.com/fuyutsuki/libform",
             "support": {
-                "source": "https://github.com/fuyutsuki/libform/tree/master",
+                "source": "https://github.com/fuyutsuki/libform/tree/v0.3.1",
                 "issues": "https://github.com/fuyutsuki/libform/issues"
             },
-            "time": "2018-06-30T07:35:19+00:00"
-        },
-        {
-            "name": "mdanter/ecc",
-            "version": "v0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpecc/phpecc.git",
-                "reference": "ed5c6d496f5310de1b7071b8375fafa3559a1344"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpecc/phpecc/zipball/ed5c6d496f5310de1b7071b8375fafa3559a1344",
-                "reference": "ed5c6d496f5310de1b7071b8375fafa3559a1344",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gmp": "*",
-                "fgrosse/phpasn1": "v2.0.x",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.0",
-                "squizlabs/php_codesniffer": "~2",
-                "symfony/yaml": "~2.6|~3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mdanter\\Ecc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matyas Danter",
-                    "homepage": "http://matejdanter.com/",
-                    "role": "Author"
-                },
-                {
-                    "name": "Thibaud Fabre",
-                    "email": "thibaud@aztech.io",
-                    "homepage": "http://aztech.io",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Thomas Kerin",
-                    "email": "afk11@users.noreply.github.com",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "PHP Elliptic Curve Cryptography library",
-            "homepage": "https://github.com/phpecc/phpecc",
-            "keywords": [
-                "Diffie",
-                "ECDSA",
-                "Hellman",
-                "curve",
-                "ecdh",
-                "elliptic",
-                "nistp192",
-                "nistp224",
-                "nistp256",
-                "nistp384",
-                "nistp521",
-                "phpecc",
-                "secp256k1",
-                "secp256r1"
-            ],
-            "time": "2017-10-09T16:05:37+00:00"
+            "time": "2018-08-10T01:27:16+00:00"
         },
         {
             "name": "pocketmine/binaryutils",
@@ -316,25 +174,23 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "dev-master",
+            "version": "3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "af6b279e54b74e3e5bc3d5a615fc474313463e82"
+                "reference": "51a8905fb3d5753d12932625b5d1bce9f4300e51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/af6b279e54b74e3e5bc3d5a615fc474313463e82",
-                "reference": "af6b279e54b74e3e5bc3d5a615fc474313463e82",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/51a8905fb3d5753d12932625b5d1bce9f4300e51",
+                "reference": "51a8905fb3d5753d12932625b5d1bce9f4300e51",
                 "shasum": ""
             },
             "require": {
                 "ext-bcmath": "*",
-                "ext-crypto": "^0.3.1",
                 "ext-ctype": "*",
                 "ext-curl": "*",
                 "ext-date": "*",
-                "ext-gmp": "*",
                 "ext-hash": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
@@ -348,7 +204,6 @@
                 "ext-yaml": ">=2.0.0",
                 "ext-zip": "*",
                 "ext-zlib": ">=1.2.11",
-                "mdanter/ecc": "^0.5.0",
                 "php": ">=7.2.0",
                 "php-64bit": "*",
                 "pocketmine/binaryutils": "^0.1.0",
@@ -377,10 +232,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/master",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.1.3",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2018-08-01T16:28:30+00:00"
+            "time": "2018-08-04T15:41:16+00:00"
         },
         {
             "name": "pocketmine/raklib",
@@ -494,8 +349,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ext-pthreads": 20,
-        "pocketmine/pocketmine-mp": 20
+        "ext-pthreads": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -21,14 +21,14 @@
     "ext-yaml": ">=2.0.0",
     "ext-zip": "*",
     "ext-zlib": ">=1.2.11",
-    "pocketmine/pocketmine-mp": "dev-master",
+    "pocketmine/pocketmine-mp": "^3.0",
     "pocketmine/raklib": "^0.12.0",
     "pocketmine/spl": "^0.3.0",
     "pocketmine/binaryutils": "^0.1.0",
     "pocketmine/nbt": "^0.2.0",
     "pocketmine/math": "^0.2.0",
     "pocketmine/snooze": "^0.1.0",
-    "fuyutsuki/libform": "^0.3.0"
+    "fuyutsuki/libform": "^0.3.1"
   },
   "autoload": {
     "psr-4": {

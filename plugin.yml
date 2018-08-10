@@ -4,7 +4,7 @@ version: 2.4.2
 api:
 #pmmp/PocketMine-MP
   - 3.0.0 # ~ 3.x
-  - 4.0.0 # for developer
+  - 4.0.0
 author: yuko_fuyutsuki
 authors:
 # SpecialThanks(敬称略)

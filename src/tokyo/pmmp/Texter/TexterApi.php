@@ -64,13 +64,13 @@ class TexterApi {
    * @return void
    */
   public static function registerText(Text $text): void {
+    $level = $text->getPosition()->getLevel();
     switch (true) {
       case $text instanceof CRFT:
-        self::$crfts[$text->getPosition()->getLevel()->getName()][$text->getName()] = $text;
+        self::$crfts[$level->getFolderName()][$text->getName()] = $text;
       break;
 
       case $text instanceof FT:
-        $level = $text->getPosition()->getLevel();
         self::$fts[$level->getFolderName()][$text->getName()] = $text;
         FtsData::get()->saveTextByLevel($level, $text);
       break;

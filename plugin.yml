@@ -2,9 +2,8 @@ name: Texter
 main: tokyo\pmmp\Texter\Core
 version: 2.4.3
 api:
-#pmmp/PocketMine-MP
-  - 3.0.0 # ~ 3.x
-  - 4.0.0
+# pmmp/PocketMine-MP
+  - 3.0.0
 author: yuko_fuyutsuki
 authors:
 # SpecialThanks(敬称略)

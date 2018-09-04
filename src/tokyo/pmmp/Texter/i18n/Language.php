@@ -14,7 +14,7 @@
  * ---------------------------------------------------------------------
  * // 日本語
  *
- * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです。
+ * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
  * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
@@ -23,30 +23,21 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
-namespace tokyo\pmmp\Texter\text;
+declare(strict_types = 1);
 
-// texter
-use tokyo\pmmp\Texter\{
-  data\Data
-};
+namespace tokyo\pmmp\Texter\i18n;
+
+use pocketmine\lang\BaseLang;
+use tokyo\pmmp\Texter\Core;
 
 /**
- * CantRemoveFloatingTextClass
+ * Class Language
+ * @package tokyo\pmmp\Texter\language
  */
-class CantRemoveFloatingText extends Text {
+class Language extends BaseLang {
 
-  /**
-   * @internal
-   * @return array
-   */
-  public function format(): array {
-    $data = [
-      Data::KEY_X_VEC => sprintf('%0.1f', $this->pos->x),
-      Data::KEY_Y_VEC => sprintf('%0.1f', $this->pos->y),
-      Data::KEY_Z_VEC => sprintf('%0.1f', $this->pos->z),
-      Data::KEY_TITLE => $this->title,
-      Data::KEY_TEXT => $this->text
-    ];
-    return $data;
+  public function __construct(string $lang) {
+    $path = Core::get()->getDataFolder().Lang::DIR.DIRECTORY_SEPARATOR;
+    parent::__construct($lang, $path, Lang::FALLBACK);
   }
 }

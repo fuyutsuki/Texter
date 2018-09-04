@@ -1,74 +1,81 @@
 <?php
+
+/**
+ * // English
+ *
+ * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ *
+ * This software is distributed under "MIT license".
+ * You should have received a copy of the MIT license
+ * along with this program.  If not, see
+ * < https://opensource.org/licenses/mit-license >.
+ *
+ * ---------------------------------------------------------------------
+ * // 日本語
+ *
+ * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
+ * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ *
+ * このソフトウェアは"MITライセンス"下で配布されています。
+ * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * 受け取っていない場合、下記のURLからご覧ください。
+ * < https://opensource.org/licenses/mit-license >
+ */
+
+declare(strict_types = 1);
+
 namespace tokyo\pmmp\Texter\i18n;
 
-use pocketmine\lang\BaseLang;
-use pocketmine\Player;
-use pocketmine\utils\MainLogger;
-use pocketmine\utils\TextFormat;
 use tokyo\pmmp\Texter\Core;
 
-class Lang extends BaseLang {
+/**
+ * Class Lang
+ * @package tokyo\pmmp\Texter\language
+ */
+class Lang {
 
   /** @var string */
-  public const LANG_DIR = "i18n";
-  public const FALLBACK_LANGUAGE = "en_US";
-  public const AVAILABLE_LANG = [
+  public const DIR = "language";
+  public const FALLBACK = "en_US";
+
+  /** @var Lang */
+  private static $instance;
+  /** @var Language[] */
+  public static $language;
+  /** @var string[] */
+  private static $available = [
     "en_US",
     "ja_JP"
   ];
 
-  /** @var Lang[] */
-  private static $langs = [
-    /**
-    "en_US" => Lang(),
-    "ja_JP" => Lang(),
-     */
-  ];
-
-  /** @var Lang */
-  private static $consoleLang;
-
-  /**
-   * @param Player $player
-   * @return Lang
-   */
-  public static function detectLang(Player $player): Lang {
-    $locale = $player->getLocale();
-    return self::detectLangByStr($locale);
-  }
-
-  /**
-   * @param string $locale
-   * @return Lang
-   */
-  public static function detectLangByStr(string $locale = self::FALLBACK_LANGUAGE): Lang {
-    if (isset(self::$langs[$locale])) {
-      return self::$langs[$locale];
-    }else {
-      MainLogger::getLogger()->info(TextFormat::YELLOW.Core::PREFIX."Missing required i18n file: ".$locale.".ini");
-      return self::$langs[self::FALLBACK_LANGUAGE];
+  public function __construct(Core $core) {
+    self::$instance = $this;
+    foreach (self::$available as $lang) {
+      $core->saveResource(Lang::DIR.DIRECTORY_SEPARATOR.$lang.".ini");
+      $this->register(new Language($lang));
     }
   }
 
-  /**
-   * @param array $langs
-   */
-  public static function registerLanguages(array $langs): void {
-    self::$langs = $langs;
+  public function register(Language $language): self {
+    self::$language[$language->getLang()] = $language;
+    return self::$instance;
   }
 
   /**
-   * @param Lang $lang
+   * @param string $lang
+   * @return Language
    */
-  public static function register(Lang $lang): void {
-    self::$consoleLang = $lang;
+  public static function fromLocale(string $lang): Language {
+    $lLang = strtolower($lang);
+    if (isset(self::$language[$lLang])) {
+      return self::$language[$lLang];
+    }else {
+      return self::$language[self::FALLBACK];
+    }
   }
 
-  /**
-   * @param Lang $lang
-   * @return Lang
-   */
-  public static function getConsoleLang(Lang $lang): Lang {
-    return self::$consoleLang;
+  public static function get(): self {
+    return self::$instance;
   }
 }

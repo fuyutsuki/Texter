@@ -1,6 +1,6 @@
 name: Texter
 main: tokyo\pmmp\Texter\Core
-version: 2.5.0
+version: 3.0.0
 api:
 # pmmp/PocketMine-MP
   - 3.0.0

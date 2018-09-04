@@ -23,186 +23,48 @@
  * < https://opensource.org/licenses/mit-license >
  */
 
+declare(strict_types = 1);
+
 namespace tokyo\pmmp\Texter;
 
-// pocketmine
-use pocketmine\{
-  lang\BaseLang,
-  plugin\PluginBase,
-  utils\TextFormat as TF
-};
+use pocketmine\plugin\PluginBase;
+use tokyo\pmmp\Texter\i18n\Lang;
 
-// texter
-use tokyo\pmmp\Texter\{
-  command\TxtCommand,
-  command\TxtAdmCommand,
-  data\ConfigData,
-  data\CrftsData,
-  data\FtsData,
-  i18n\Lang,
-  task\CheckUpdateTask,
-  task\PrepareTextsTask
-};
-
-// libform
-use tokyo\pmmp\libform\{
-  FormApi
-};
-
-/**
- * TexterCore
- */
 class Core extends PluginBase {
 
-  public const DS = DIRECTORY_SEPARATOR;
-  public const PREFIX = "[Texter] ";
+  /** @var Core */
+  private static $core;
 
-  /** @var string */
-  public static $dir = "";
-  /** @var BaseLang */
-  private $lang;
-
-  /**
-   * @return BaseLang
-   */
-  public function getLang(): BaseLang {
-    return $this->lang;
-  }
-
-  public function onLoad() {
-    self::$dir = $this->getDataFolder();
+  public function onLoad(): void {
+    self::$core = $this;
     $this
-      ->initDataManagers()
-      ->initLang()
-      ->registerCommands()
-      ->setTimezone();
+      ->checkOldDirectives() // check old config file
+      ->loadResources()
+      ->initLanguage();
   }
 
-  public function onEnable() {
-    $this
-      ->checkUpdate()
-      ->initFormApi()
-      ->prepareTexts();
-    $listener = new EventListener($this);
-    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
-    $message = $this->lang->translateString("on.enable.message", [
-      $this->getDescription()->getFullName()
-    ]);
-    $this->getLogger()->info(TF::GREEN.$message);
+  public function onEnable(): void {
+    // TODO
   }
 
-  private function initDataManagers(): self {
-    ConfigData::register($this);
-    CrftsData::register($this);
-    FtsData::register($this);
+  private function checkOldDirectives(): self {
+    $dir = $this->getDataFolder();
     return $this;
   }
 
-  private function initLang(): self {
-    $locales = [];
-    foreach (Lang::AVAILABLE_LANG as $locale) {
-      $this->saveResource(Lang::LANG_DIR.self::DS.$locale.".ini");
-      $locales[$locale] = new Lang($locale, self::$dir.Lang::LANG_DIR.self::DS, Lang::FALLBACK_LANGUAGE);
-    }
-    Lang::registerLanguages($locales);
-    //
-    $langCode = ConfigData::get()->getLangCode();
-    $this->saveResource(self::LANG_DIR.self::DS."eng.ini");
-    $this->saveResource(self::LANG_DIR.self::DS.$langCode.".ini");
-    $this->lang = new BaseLang($langCode, self::$dir.self::LANG_DIR.self::DS, self::LANG_FALLBACK);
-    $message = $this->lang->translateString("language.selected", [
-      $this->lang->getName(),
-      $langCode
-    ]);
-    $this->getLogger()->info(TF::GREEN.$message);
+  private function loadResources(): self {
     return $this;
   }
 
-  private function registerCommands(): self {
-    if (ConfigData::get()->getCanUseCommands()) {
-      $map = $this->getServer()->getCommandMap();
-      $commands = [
-        new TxtCommand($this),
-        new TxtAdmCommand($this)
-      ];
-      $map->registerAll($this->getName(), $commands);
-      $message = $this->lang->translateString("on.load.commands.on");
-      $this->getLogger()->info(TF::GREEN.$message);
-    }else {
-      $message = $this->lang->translateString("on.load.commands.off");
-      $this->getLogger()->info(TF::RED.$message);
-    }
-    return $this;
-  }
-
-  private function checkUpdate(): self {
-    if (ConfigData::get()->getCheckUpdate()) {
-      try {
-        $task = new CheckUpdateTask();
-        $this->getServer()->getAsyncPool()->submitTask($task);
-      } catch (\Exception $e) {
-        $this->getLogger()->warning($e->getMessage());
-      }
-    }
+  private function initLanguage(): self {
+    new Lang($this);
     return $this;
   }
 
   /**
-   * @param bool   $isOnline
-   * @param string $newVer
-   * @param string $url
-   * @return void
+   * @return Core
    */
-  public function versionCompare(bool $isOnline, string $newVer = "", string $url = ""): void {
-    $curVer = $this->getDescription()->getVersion();
-    if ($isOnline) {
-      if (version_compare($newVer, $curVer, "=")) {
-        $message = $this->lang->translateString("on.load.update.nothing", [
-          $curVer
-        ]);
-        $this->getLogger()->notice($message);
-      }elseif (version_compare($newVer, $curVer, ">")) {
-        $message1 = $this->lang->translateString("on.load.update.available.1", [
-          $newVer,
-          $curVer
-        ]);
-        $message2 = $this->lang->translateString("on.load.update.available.2");
-        $message3 = $this->lang->translateString("on.load.update.available.3", [
-          $url
-        ]);
-        $this->getLogger()->notice($message1);
-        $this->getLogger()->notice($message2);
-        $this->getLogger()->notice($message3);
-      }else {
-        $message = $this->lang->translateString("on.load.version.dev");
-        $this->getLogger()->warning($message);
-      }
-    }else {
-      $message = $this->lang->translateString("on.load.update.offline");
-      $this->getLogger()->notice($message);
-    }
-  }
-
-  private function setTimezone(): self {
-    $timezone = ConfigData::get()->getTimezone();
-    if ($timezone !== "") {
-      date_default_timezone_set($timezone);
-      $message = $this->lang->translateString("on.load.timezone", [
-        $timezone
-      ]);
-      $this->getLogger()->info(TF::GREEN.$message);
-    }
-    return $this;
-  }
-
-  private function initFormApi(): self {
-    FormApi::register($this);
-    return $this;
-  }
-
-  private function prepareTexts(): self {
-    $task = new PrepareTextsTask($this);
-    $this->getScheduler()->scheduleRepeatingTask($task, 1);
-    return $this;
+  public static function get(): Core {
+    return self::$core;
   }
 }

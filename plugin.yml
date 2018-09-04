@@ -1,6 +1,6 @@
 name: Texter
 main: tokyo\pmmp\Texter\Core
-version: 2.4.3
+version: 2.5.0
 api:
 # pmmp/PocketMine-MP
   - 3.0.0
@@ -14,7 +14,7 @@ authors:
 - Toganon
 - ShadowArt
 - Marron0421
-website: https://twitter.com/_riu_m
+website: https://github.com/fuyutsuki/Texter
 
 permissions:
  texter.*:

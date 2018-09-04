@@ -1,9 +1,9 @@
-version: 23
+version: 24
 # Do not change version above!
 # Texter config file
 
-# set language (eng or jpn)
-language: eng
+# set language (en_US or ja_JP)
+language: en_US
 
 # set timezone, if unnecessary, set it to nothing
 # cf) http://php.net/manual/ja/timezones.php

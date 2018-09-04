@@ -66,16 +66,16 @@
         },
         {
             "name": "pocketmine/binaryutils",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/BinaryUtils.git",
-                "reference": "c824ac67eeeb6899c2a9ec91a769eb9ed6e3f595"
+                "reference": "54efeb978be0ff9335022729fe63c1e2077bf1be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/BinaryUtils/zipball/c824ac67eeeb6899c2a9ec91a769eb9ed6e3f595",
-                "reference": "c824ac67eeeb6899c2a9ec91a769eb9ed6e3f595",
+                "url": "https://api.github.com/repos/pmmp/BinaryUtils/zipball/54efeb978be0ff9335022729fe63c1e2077bf1be",
+                "reference": "54efeb978be0ff9335022729fe63c1e2077bf1be",
                 "shasum": ""
             },
             "require": {
@@ -93,23 +93,23 @@
             ],
             "description": "Classes and methods for conveniently handling binary data",
             "support": {
-                "source": "https://github.com/pmmp/BinaryUtils/tree/0.1.0",
+                "source": "https://github.com/pmmp/BinaryUtils/tree/0.1.1",
                 "issues": "https://github.com/pmmp/BinaryUtils/issues"
             },
-            "time": "2018-04-16T09:05:08+00:00"
+            "time": "2018-08-26T18:11:05+00:00"
         },
         {
             "name": "pocketmine/math",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/Math.git",
-                "reference": "95ae5600328ed2add44c0bc830a68d3660e9e0ef"
+                "reference": "ee299f5c9c444ca526c9c691b920f321458cf0b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/Math/zipball/95ae5600328ed2add44c0bc830a68d3660e9e0ef",
-                "reference": "95ae5600328ed2add44c0bc830a68d3660e9e0ef",
+                "url": "https://api.github.com/repos/pmmp/Math/zipball/ee299f5c9c444ca526c9c691b920f321458cf0b6",
+                "reference": "ee299f5c9c444ca526c9c691b920f321458cf0b6",
                 "shasum": ""
             },
             "require": {
@@ -127,23 +127,23 @@
             ],
             "description": "PHP library containing math related code used in PocketMine-MP",
             "support": {
-                "source": "https://github.com/pmmp/Math/tree/0.2.0",
+                "source": "https://github.com/pmmp/Math/tree/0.2.1",
                 "issues": "https://github.com/pmmp/Math/issues"
             },
-            "time": "2018-06-09T09:26:30+00:00"
+            "time": "2018-08-15T15:43:27+00:00"
         },
         {
             "name": "pocketmine/nbt",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/NBT.git",
-                "reference": "da19487ff92f6f7a16b5ce8894132bb1d1e9ea0c"
+                "reference": "a4ee39f313c6870153fb7c7e513b211217f7daf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/NBT/zipball/da19487ff92f6f7a16b5ce8894132bb1d1e9ea0c",
-                "reference": "da19487ff92f6f7a16b5ce8894132bb1d1e9ea0c",
+                "url": "https://api.github.com/repos/pmmp/NBT/zipball/a4ee39f313c6870153fb7c7e513b211217f7daf8",
+                "reference": "a4ee39f313c6870153fb7c7e513b211217f7daf8",
                 "shasum": ""
             },
             "require": {
@@ -167,23 +167,23 @@
             ],
             "description": "PHP library for working with Named Binary Tags",
             "support": {
-                "source": "https://github.com/pmmp/NBT/tree/0.2.0",
+                "source": "https://github.com/pmmp/NBT/tree/0.2.1",
                 "issues": "https://github.com/pmmp/NBT/issues"
             },
-            "time": "2018-06-13T09:56:00+00:00"
+            "time": "2018-09-04T10:36:02+00:00"
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "3.1.3",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "51a8905fb3d5753d12932625b5d1bce9f4300e51"
+                "reference": "cb04f287eb66b6b7b7b41613d19523689bb3b870"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/51a8905fb3d5753d12932625b5d1bce9f4300e51",
-                "reference": "51a8905fb3d5753d12932625b5d1bce9f4300e51",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/cb04f287eb66b6b7b7b41613d19523689bb3b870",
+                "reference": "cb04f287eb66b6b7b7b41613d19523689bb3b870",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                 "php-64bit": "*",
                 "pocketmine/binaryutils": "^0.1.0",
                 "pocketmine/math": "^0.2.0",
-                "pocketmine/nbt": "^0.2.0",
+                "pocketmine/nbt": "^0.2.1",
                 "pocketmine/raklib": "^0.12.0",
                 "pocketmine/snooze": "^0.1.0",
                 "pocketmine/spl": "^0.3.0"
@@ -232,10 +232,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.1.3",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.2.2",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2018-08-04T15:41:16+00:00"
+            "time": "2018-09-04T10:51:28+00:00"
         },
         {
             "name": "pocketmine/raklib",

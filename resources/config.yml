@@ -2,7 +2,7 @@ version: 23
 # Do not change version above!
 # Texter config file
 
-# set language (eng or jpn)
+# set language (eng, jpn or ces)
 language: eng
 
 # set timezone, if unnecessary, set it to nothing

@@ -28,6 +28,7 @@ declare(strict_types = 1);
 namespace tokyo\pmmp\Texter\i18n;
 
 use tokyo\pmmp\Texter\Core;
+use tokyo\pmmp\Texter\data\ConfigData;
 
 /**
  * Class Lang
@@ -43,6 +44,8 @@ class Lang {
   private static $instance;
   /** @var Language[] */
   public static $language;
+  /** @var string */
+  public static $consoleLang = self::FALLBACK;
   /** @var string[] */
   private static $available = [
     "en_US",
@@ -51,8 +54,9 @@ class Lang {
 
   public function __construct(Core $core) {
     self::$instance = $this;
+    self::$consoleLang = ConfigData::make()->getLocale();
     foreach (self::$available as $lang) {
-      $core->saveResource(Lang::DIR.DIRECTORY_SEPARATOR.$lang.".ini");
+      $core->saveResource(Lang::DIR . DIRECTORY_SEPARATOR . $lang . ".ini");
       $this->register(new Language($lang));
     }
   }
@@ -73,6 +77,10 @@ class Lang {
     }else {
       return self::$language[self::FALLBACK];
     }
+  }
+
+  public static function fromConsole(): Language {
+    return self::fromLocale(self::$consoleLang);
   }
 
   public static function get(): self {

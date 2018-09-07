@@ -28,6 +28,9 @@ declare(strict_types = 1);
 namespace tokyo\pmmp\Texter;
 
 use pocketmine\plugin\PluginBase;
+use tokyo\pmmp\Texter\data\ConfigData;
+use tokyo\pmmp\Texter\data\FloatingTextData;
+use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
 use tokyo\pmmp\Texter\i18n\Lang;
 
 class Core extends PluginBase {
@@ -38,9 +41,9 @@ class Core extends PluginBase {
   public function onLoad(): void {
     self::$core = $this;
     $this
-      ->checkOldDirectives() // check old config file
+      ->checkOldDirectives()// Migrate 2.x.y series files
       ->loadResources()
-      ->initLanguage();
+      ->loadLanguage();
   }
 
   public function onEnable(): void {
@@ -49,14 +52,24 @@ class Core extends PluginBase {
 
   private function checkOldDirectives(): self {
     $dir = $this->getDataFolder();
+    if (file_exists("{$dir}crfts.json")) {
+      rename("{$dir}crfts.json", "{$dir}uft.json");
+    }
+    if (file_exists("{$dir}fts.json")) {
+      rename("{$dir}fts.json", "{$dir}ft.json");
+    }
     return $this;
   }
 
   private function loadResources(): self {
+    $dir = $this->getDataFolder();
+    new ConfigData($this, "{$dir}config.yml");
+    new UnremovableFloatingTextData($this, "{$dir}uft.json");
+    new FloatingTextData($this, "{$dir}ft.json");
     return $this;
   }
 
-  private function initLanguage(): self {
+  private function loadLanguage(): self {
     new Lang($this);
     return $this;
   }

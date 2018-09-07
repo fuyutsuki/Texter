@@ -25,19 +25,37 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\i18n;
+namespace tokyo\pmmp\Texter\data;
 
-use pocketmine\lang\BaseLang;
-use tokyo\pmmp\Texter\Core;
+use pocketmine\plugin\Plugin;
+use pocketmine\utils\Config;
 
 /**
- * Class Language - simple wrapper for BaseLang
- * @package tokyo\pmmp\Texter\language
+ * Class ConfigData
+ * @package tokyo\pmmp\Texter\data
  */
-class Language extends BaseLang {
+class ConfigData extends Config implements Data {
 
-  public function __construct(string $lang) {
-    $path = Core::get()->getDataFolder().Lang::DIR.DIRECTORY_SEPARATOR;
-    parent::__construct($lang, $path, Lang::FALLBACK);
+  /** @var ConfigData */
+  private static $instance;
+
+  public function __construct(Plugin $plugin, string $file) {
+    $plugin->saveResource($file);
+    parent::__construct($file, Config::YAML);
+    self::$instance = $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getLocale(): string {
+    return (string)$this->get("locale", "en_US");// Improvement required for pmmp
+  }
+
+  /**
+   * @return ConfigData
+   */
+  public static function make(): ConfigData {
+    return self::$instance;
   }
 }

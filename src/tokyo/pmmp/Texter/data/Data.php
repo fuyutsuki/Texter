@@ -25,19 +25,19 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\i18n;
-
-use pocketmine\lang\BaseLang;
-use tokyo\pmmp\Texter\Core;
+namespace tokyo\pmmp\Texter\data;
 
 /**
- * Class Language - simple wrapper for BaseLang
- * @package tokyo\pmmp\Texter\language
+ * Interface Data
+ * @package tokyo\pmmp\Texter\data
  */
-class Language extends BaseLang {
+interface Data {
 
-  public function __construct(string $lang) {
-    $path = Core::get()->getDataFolder().Lang::DIR.DIRECTORY_SEPARATOR;
-    parent::__construct($lang, $path, Lang::FALLBACK);
-  }
+  /** @var int */
+  public const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+
+  /**
+   * @return Data
+   */
+  public static function make();
 }

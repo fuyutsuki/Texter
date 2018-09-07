@@ -25,19 +25,31 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\i18n;
+namespace tokyo\pmmp\Texter\data;
 
-use pocketmine\lang\BaseLang;
-use tokyo\pmmp\Texter\Core;
+use pocketmine\plugin\Plugin;
+use pocketmine\utils\Config;
 
 /**
- * Class Language - simple wrapper for BaseLang
- * @package tokyo\pmmp\Texter\language
+ * Class FloatingTextData
+ * @package tokyo\pmmp\Texter\data
  */
-class Language extends BaseLang {
+class FloatingTextData extends Config implements Data {
 
-  public function __construct(string $lang) {
-    $path = Core::get()->getDataFolder().Lang::DIR.DIRECTORY_SEPARATOR;
-    parent::__construct($lang, $path, Lang::FALLBACK);
+  /** @var FloatingTextData */
+  private static $instance;
+
+  public function __construct(Plugin $plugin, string $file) {
+    $plugin->saveResource($file);
+    parent::__construct($file, Config::JSON);
+    $this->enableJsonOption(Data::JSON_OPTIONS);
+    self::$instance = $this;
+  }
+
+  /**
+   * @return FloatingTextData
+   */
+  public static function make(): FloatingTextData {
+    return self::$instance;
   }
 }

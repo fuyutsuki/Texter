@@ -61,6 +61,10 @@ class Lang {
     }
   }
 
+  /**
+   * @param Language $language
+   * @return Lang
+   */
   public function register(Language $language): self {
     self::$language[$language->getLang()] = $language;
     return self::$instance;
@@ -79,10 +83,16 @@ class Lang {
     }
   }
 
+  /**
+   * @return Language
+   */
   public static function fromConsole(): Language {
     return self::fromLocale(self::$consoleLang);
   }
 
+  /**
+   * @return Lang
+   */
   public static function get(): self {
     return self::$instance;
   }

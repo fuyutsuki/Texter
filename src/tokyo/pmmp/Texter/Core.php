@@ -27,13 +27,20 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter;
 
+use pocketmine\event\Listener;
+use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
 use tokyo\pmmp\Texter\i18n\Lang;
+use tokyo\pmmp\Texter\text\FloatingText;
 
-class Core extends PluginBase {
+/**
+ * Class Core
+ * @package tokyo\pmmp\Texter
+ */
+class Core extends PluginBase implements Listener {
 
   /** @var Core */
   private static $core;
@@ -41,16 +48,17 @@ class Core extends PluginBase {
   public function onLoad(): void {
     self::$core = $this;
     $this
-      ->checkOldDirectives()// Migrate 2.x.y series files
+      ->checkOldDirectories()// Rename 2.x.y series files
       ->loadResources()
       ->loadLanguage();
   }
 
   public function onEnable(): void {
-    // TODO
+    $listener = new EventListener;
+    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
 
-  private function checkOldDirectives(): self {
+  private function checkOldDirectories(): self {
     $dir = $this->getDataFolder();
     if (file_exists("{$dir}crfts.json")) {
       rename("{$dir}crfts.json", "{$dir}uft.json");

@@ -25,34 +25,52 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\data;
+namespace tokyo\pmmp\Texter\text;
 
-use pocketmine\plugin\Plugin;
-use pocketmine\utils\Config;
+use pocketmine\level\Level;
+use pocketmine\Player;
 
 /**
- * Class FloatingTextData
- * @package tokyo\pmmp\Texter\data
+ * Interface Text
+ * @package tokyo\pmmp\Texter\text
  */
-class FloatingTextData extends Config implements Data {
+interface Text {
 
-  /** @var string */
-  public const KEY_OWNER = "OWNER";
-
-  /** @var FloatingTextData */
-  private static $instance;
-
-  public function __construct(Plugin $plugin, string $file) {
-    $plugin->saveResource($file);
-    parent::__construct($file, Config::JSON);
-    $this->enableJsonOption(Data::JSON_OPTIONS);
-    self::$instance = $this;
-  }
+  /** @var int */
+  public const SEND_TYPE_ADD = 0;
+  public const SEND_TYPE_EDIT = 1;
+  public const SEND_TYPE_MOVE = 2;
+  public const SEND_TYPE_REMOVE = 3;
 
   /**
-   * @return FloatingTextData
+   * @param Player $player
+   * @param int $type
+   * @return mixed
    */
-  public static function make(): FloatingTextData {
-    return self::$instance;
-  }
+  public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD);
+
+  /**
+   * @param Player[] $players
+   * @param int $type
+   * @return mixed
+   */
+  public function sendToPlayers(array $players, int $type = Text::SEND_TYPE_ADD);
+
+  /**
+   * @param Level $level
+   * @param int $type
+   * @return mixed
+   */
+  public function sendToLevel(Level $level, int $type = Text::SEND_TYPE_ADD);
+
+  /**
+   * @return array
+   */
+  public function format(): array;
+
+  /**
+   * @return string
+   */
+  public function __toString(): string;
+
 }

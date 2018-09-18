@@ -19,15 +19,15 @@ website: https://github.com/fuyutsuki/Texter
 permissions:
  texter.*:
   default: op
-  description: "permission that allows player to use texter"
+  description: permission that allows player to use texter
   children:
    texter.command.*:
     default: op
-    description: "permission that allows player to use texter"
+    description: permission that allows player to use texter
     children:
       texter.command.txt:
         default: true # もしopのみ実行させたい場合は op と記述してください
-        description: "permission that allows player to use /txt"
+        description: permission that allows player to use /txt
       texter.command.txtadm:
         default: op
-        description: "permission that allows player to use /txtadm"
+        description: permission that allows player to use /txtadm

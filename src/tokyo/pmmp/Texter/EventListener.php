@@ -25,34 +25,24 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\data;
+namespace tokyo\pmmp\Texter;
 
-use pocketmine\plugin\Plugin;
-use pocketmine\utils\Config;
+use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\Player;
 
-/**
- * Class FloatingTextData
- * @package tokyo\pmmp\Texter\data
- */
-class FloatingTextData extends Config implements Data {
+class EventListener implements Listener {
 
-  /** @var string */
-  public const KEY_OWNER = "OWNER";
+  public function onJoin(PlayerJoinEvent $ev): void {
+    $p = $ev->getPlayer();
 
-  /** @var FloatingTextData */
-  private static $instance;
-
-  public function __construct(Plugin $plugin, string $file) {
-    $plugin->saveResource($file);
-    parent::__construct($file, Config::JSON);
-    $this->enableJsonOption(Data::JSON_OPTIONS);
-    self::$instance = $this;
   }
 
-  /**
-   * @return FloatingTextData
-   */
-  public static function make(): FloatingTextData {
-    return self::$instance;
+  public function onLevelChange(EntityLevelChangeEvent $ev): void {
+    $p = $ev->getEntity();
+    if ($p instanceof Player) {
+      // TODO
+    }
   }
 }

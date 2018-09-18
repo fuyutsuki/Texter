@@ -33,6 +33,13 @@ namespace tokyo\pmmp\Texter\data;
  */
 interface Data {
 
+  /** @var string */
+  public const KEY_X = "Xvec";
+  public const KEY_Y = "Yvec";
+  public const KEY_Z = "Zvec";
+  public const KEY_TITLE = "TITLE";
+  public const KEY_TEXT = "TEXT";
+
   /** @var int */
   public const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 

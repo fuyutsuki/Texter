@@ -38,7 +38,7 @@ use tokyo\pmmp\Texter\data\Data;
 class UnremovableFloatingText extends FloatingText implements Text {
 
   /** @var string */
-  private $owner = "uft.json";
+  protected $owner = "uft.json";
 
   public function __construct(string $name, Position $pos, string $title = "", string $text = "", int $eid = 0) {
     parent::__construct($name, $pos, $title, $text, $this->owner, $eid);
@@ -61,7 +61,6 @@ class UnremovableFloatingText extends FloatingText implements Text {
   }
 
   public function __toString(): string {
-    $p = $this->getPosition();
-    return "UnremovableFloatingText(name=\"{$this->text}\", pos=\"x:{$p->x};y:{$p->y};z:{$p->z}\", title=\"{$this->title}\", text=\"{$this->text}\", eid=\"{$this->eid}\")";
+    return "UnremovableFloatingText(name=\"{$this->text}\", pos=\"x:{$this->x};y:{$this->y};z:{$this->z};level:{$this->level->getFolderName()}\", title=\"{$this->title}\", text=\"{$this->text}\", eid=\"{$this->eid}\")";
   }
 }

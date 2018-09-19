@@ -45,12 +45,10 @@ use tokyo\pmmp\Texter\data\FloatingTextData;
  * Class FloatingText
  * @package tokyo\pmmp\Texter\text
  */
-class FloatingText implements Text {
+class FloatingText extends Position implements Text {
 
   /** @var string */
   protected $name;
-  /** @var Position */
-  protected $pos;
   /** @var string */
   protected $title;
   /** @var string */
@@ -89,19 +87,12 @@ class FloatingText implements Text {
     return $this;
   }
 
-  /**
-   * @return Position
-   */
   public function getPosition(): Position {
-    return $this->pos;
+    return $this->asPosition();
   }
 
-  /**
-   * @param Position $pos
-   * @return FloatingText
-   */
   public function setPosition(Position $pos): FloatingText {
-    $this->pos = $pos;
+    parent::__construct($pos->x, $pos->y, $pos->z, $pos->level);
     return $this;
   }
 

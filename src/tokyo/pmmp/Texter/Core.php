@@ -28,13 +28,12 @@ declare(strict_types = 1);
 namespace tokyo\pmmp\Texter;
 
 use pocketmine\event\Listener;
-use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
 use tokyo\pmmp\Texter\i18n\Lang;
-use tokyo\pmmp\Texter\text\FloatingText;
+use tokyo\pmmp\Texter\task\AsyncPrepareTextsTask;
 
 /**
  * Class Core
@@ -50,7 +49,8 @@ class Core extends PluginBase implements Listener {
     $this
       ->checkOldDirectories()// Rename 2.x.y series files
       ->loadResources()
-      ->loadLanguage();
+      ->loadLanguage()
+      ->prepareTexts();
   }
 
   public function onEnable(): void {
@@ -79,6 +79,15 @@ class Core extends PluginBase implements Listener {
 
   private function loadLanguage(): self {
     new Lang($this);
+    return $this;
+  }
+
+  private function prepareTexts(): self {
+    $uftd = UnremovableFloatingTextData::make()->getAll();
+    $ftd = FloatingTextData::make()->getAll();
+    $pool = $this->getServer()->getAsyncPool();
+    $pool->submitTask(new AsyncPrepareTextsTask($uftd, AsyncPrepareTextsTask::TYPE_UNREMOVABLE));
+    $pool->submitTask(new AsyncPrepareTextsTask($ftd, AsyncPrepareTextsTask::TYPE_REMOVABLE));
     return $this;
   }
 

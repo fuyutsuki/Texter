@@ -18,20 +18,18 @@ Select Language: [English](#eng), [日本語](#jpn)
 <a name="eng"></a>
 # English
 
-<!--
-## !! Caution !!
-This branch is under development.
-It may have many bugs.
--->
+**This branch is under development. It may have many bugs.**  
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **2.5.0** _Phyllorhiza punctata_  
+Latest: ver **3.0.0**  
 
 ### Supporting
 - [x] Minecraft(Bedrock) v1.6.x
 - [x] Multi-language (English, 日本語)
 - [x] Multi-world display
+- [ ] Text Events
+- [ ] API 4.0.0 (for Altay)
 
 ### Download
 You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
@@ -59,7 +57,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 **Please use `#` for line breaks.**
 
 ### json notation
-- crfts.json
+- uft.json
 ```json
 {
   "LevelFolderName": {
@@ -73,7 +71,7 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
   }
 }
 ```
-- fts.json
+- ft.json
 ```json
 {
   "LevelFolderName": {
@@ -93,19 +91,18 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 <a name="jpn"></a>
 # 日本語
 
-<!--
-## !! 注意 !!
-このブランチは開発中です。多くのバグを含む可能性があります。
--->
+**このブランチは開発中です。多くのバグを含む可能性があります。**  
 
 ## Texter
-TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除ができるプラグインです。  
-最新バージョン: **2.5.0** _Phyllorhiza punctata_  
+TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
+最新バージョン: **3.0.0**  
 
 ### 対応状況
 - [x] Minecraft(Bedrockエンジン) v1.6.x
 - [x] 複数言語 (English, 日本語)
 - [x] 複数ワールドの表示
+- [ ] テキスト関係イベント
+- [ ] API 4.0.0対応 (Altay向け)
 
 ### ダウンロード
 ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  
@@ -134,7 +131,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
 **改行の際には `#` を使用してください。**
 
 ### json 記法
-- crfts.json
+- uft.json
 ```json
 {
   "ワールドフォルダ名": {
@@ -148,7 +145,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、削除がで
   }
 }
 ```
-- fts.json
+- ft.json
 ```json
 {
   "ワールドフォルダ名": {

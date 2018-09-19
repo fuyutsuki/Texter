@@ -27,8 +27,10 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\data;
 
+use pocketmine\level\Level;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
+use tokyo\pmmp\Texter\text\FloatingText;
 
 /**
  * Class FloatingTextData
@@ -47,6 +49,34 @@ class FloatingTextData extends Config implements Data {
     parent::__construct($file, Config::JSON);
     $this->enableJsonOption(Data::JSON_OPTIONS);
     self::$instance = $this;
+  }
+
+  public function saveFtChange(FloatingText $ft): bool {
+    if ($bool = $this->exists($ft->level->getFolderName())) {
+      $this->setNested("{$ft->level->getFolderName()}.{$ft->getName()}", $ft->format());
+      return true;
+    }
+    return false;
+  }
+
+  public function removeFtsByLevel(Level $level): bool {
+    return $this->removeFtsByLevelName($level->getFolderName());
+  }
+
+  public function removeFtsByLevelName(string $levelName): bool {
+    if ($bool = $this->exists($levelName))
+      $this->remove($levelName);
+    return $bool;
+  }
+
+  public function removeFtByLevel(Level $level, string $name): void {
+    $this->removeFtByLevelName($level->getFolderName(), $name);
+  }
+
+  public function removeFtByLevelName(string $levelName, string $name): void {
+    if ($bool = $this->exists($levelName)) {
+      $this->removeNested("{$levelName}.{$name}");
+    }
   }
 
   /**

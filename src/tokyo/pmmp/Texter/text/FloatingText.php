@@ -83,7 +83,7 @@ class FloatingText extends Position implements Text {
    * @return FloatingText
    */
   public function setName(string $name): FloatingText {
-    $this->name = strtolower($name);
+    $this->name = $name;
     return $this;
   }
 
@@ -256,9 +256,9 @@ class FloatingText extends Position implements Text {
 
   public function format(): array {
     return [
-      Data::KEY_X => sprintf('%0.1f', $this->pos->x),
-      Data::KEY_Y => sprintf('%0.1f', $this->pos->y),
-      Data::KEY_Z => sprintf('%0.1f', $this->pos->z),
+      Data::KEY_X => sprintf('%0.1f', $this->x),
+      Data::KEY_Y => sprintf('%0.1f', $this->y),
+      Data::KEY_Z => sprintf('%0.1f', $this->z),
       Data::KEY_TITLE => $this->title,
       Data::KEY_TEXT => $this->text,
       FloatingTextData::KEY_OWNER => $this->owner
@@ -267,6 +267,6 @@ class FloatingText extends Position implements Text {
 
   public function __toString(): string {
     $p = $this->getPosition();
-    return "FloatingText(name=\"{$this->name}\", pos=\"x:{$p->x};y:{$p->y};z:{$p->z}\", title=\"{$this->title}\", text=\"{$this->text}\", owner=\"{$this->owner}\", eid=\"{$this->eid}\")";
+    return "FloatingText(name=\"{$this->name}\", pos=\"x:{$p->x};y:{$p->y};z:{$p->z};level:{$p->getLevel()->getFolderName()}\", title=\"{$this->title}\", text=\"{$this->text}\", owner=\"{$this->owner}\", eid=\"{$this->eid}\")";
   }
 }

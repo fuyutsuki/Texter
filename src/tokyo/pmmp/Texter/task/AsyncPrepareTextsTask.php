@@ -34,6 +34,7 @@ use tokyo\pmmp\Texter\data\Data;
 use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\text\FloatingText;
 use tokyo\pmmp\Texter\text\UnremovableFloatingText;
+use tokyo\pmmp\Texter\TexterApi;
 
 /**
  * Class AsyncPrepareTextsTask
@@ -95,16 +96,25 @@ class AsyncPrepareTextsTask extends AsyncTask {
 
   public function onCompletion(Server $server) {
     $result = $this->getResult();
-    $this->loadLevels($server, $result);
-    var_dump($result);
-    // register to TexterApi
+    $this
+      ->loadLevels($server, $result)
+      ->registerTexts($result);
   }
 
-  private function loadLevels(Server $server, array $uftd): void {
-    foreach ($uftd as $levelName => $ufts) {
-      foreach ($ufts as $name => $uft) {
+  private function loadLevels(Server $server, array $data): self {
+    foreach ($data as $levelName => $fts) {
+      foreach ($fts as $name => $ft) {
         if (!$server->isLevelLoaded($levelName)) $server->loadLevel($levelName);
-        $uft->level = $server->getLevelByName($levelName);
+        $ft->level = $server->getLevelByName($levelName);
+      }
+    }
+    return $this;
+  }
+
+  private function registerTexts(array $result): void {
+    foreach ($result as $fts) {
+      foreach ($fts as $ft) {
+        TexterApi::registerText($ft);
       }
     }
   }

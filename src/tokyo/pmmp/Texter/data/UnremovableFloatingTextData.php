@@ -39,9 +39,9 @@ class UnremovableFloatingTextData extends Config implements Data {
   /** @var UnremovableFloatingTextData */
   private static $instance;
 
-  public function __construct(Plugin $plugin, string $file) {
+  public function __construct(Plugin $plugin, string $path, string $file) {
     $plugin->saveResource($file);
-    parent::__construct($file, Config::JSON);
+    parent::__construct($path.$file, Config::JSON);
     $this->enableJsonOption(Data::JSON_OPTIONS);
     self::$instance = $this;
   }

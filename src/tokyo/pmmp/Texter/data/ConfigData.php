@@ -39,9 +39,9 @@ class ConfigData extends Config implements Data {
   /** @var ConfigData */
   private static $instance;
 
-  public function __construct(Plugin $plugin, string $file) {
+  public function __construct(Plugin $plugin, string $path, string $file) {
     $plugin->saveResource($file);
-    parent::__construct($file, Config::YAML);
+    parent::__construct($path.$file, Config::YAML);
     self::$instance = $this;
   }
 
@@ -50,6 +50,69 @@ class ConfigData extends Config implements Data {
    */
   public function getLocale(): string {
     return (string)$this->get("locale", "en_US");// Improvement required for pmmp
+  }
+
+  /**
+   * @return bool
+   */
+  public function canUseCommands(): bool {
+    return (bool) $this->get("can.use.commands", true);
+  }
+
+  /**
+   * @param string $text
+   * @return bool
+   */
+  public function checkCharLimit(string $text): bool {
+    $limit = $this->getCharLimit();
+    if ($limit === -1)
+      return true;
+    $length = mb_strlen($text);
+    return $limit >= $length;
+  }
+
+  /**
+   * @return int
+   */
+  public function getCharLimit(): int {
+    return (int) $this->get("char", -1);
+  }
+
+  /**
+   * @param string $text
+   * @return bool
+   */
+  public function checkFeedLimit(string $text): bool {
+    $limit = $this->getFeedLimit();
+    if ($limit === -1)
+      return true;
+    $feed = mb_substr_count($text, "#");
+    return $limit >= $feed;
+  }
+
+  /**
+   * @return int
+   */
+  public function getFeedLimit(): int {
+    return (int) $this->get("feed", -1);
+  }
+
+  /**
+   * @param string $levelName
+   * @return bool
+   */
+  public function checkWorldLimit(string $levelName): bool {
+    if ($this->exists("world")) {
+      $limited = $this->get("world", []);
+      if (is_array($limited)) {
+        $flip = array_flip($limited);
+        return !isset($flip[$levelName]);
+      }
+      if (is_string($limited)) {
+        return $limited !== $levelName;
+      }
+    }
+    return true;// isn't limited
   }
 
   /**

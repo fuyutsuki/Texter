@@ -44,19 +44,17 @@ class FloatingTextData extends Config implements Data {
   /** @var FloatingTextData */
   private static $instance;
 
-  public function __construct(Plugin $plugin, string $file) {
+  public function __construct(Plugin $plugin, string $path, string $file) {
     $plugin->saveResource($file);
-    parent::__construct($file, Config::JSON);
+    parent::__construct($path.$file, Config::JSON);
     $this->enableJsonOption(Data::JSON_OPTIONS);
     self::$instance = $this;
   }
 
   public function saveFtChange(FloatingText $ft): bool {
-    if ($bool = $this->exists($ft->level->getFolderName())) {
-      $this->setNested("{$ft->level->getFolderName()}.{$ft->getName()}", $ft->format());
-      return true;
-    }
-    return false;
+    $this->setNested("{$ft->level->getFolderName()}.{$ft->getName()}", $ft->format());
+    $this->save();
+    return true;
   }
 
   public function removeFtsByLevel(Level $level): bool {
@@ -66,6 +64,7 @@ class FloatingTextData extends Config implements Data {
   public function removeFtsByLevelName(string $levelName): bool {
     if ($bool = $this->exists($levelName))
       $this->remove($levelName);
+      $this->save();
     return $bool;
   }
 
@@ -76,6 +75,7 @@ class FloatingTextData extends Config implements Data {
   public function removeFtByLevelName(string $levelName, string $name): void {
     if ($bool = $this->exists($levelName)) {
       $this->removeNested("{$levelName}.{$name}");
+      $this->save();
     }
   }
 

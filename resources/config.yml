@@ -5,10 +5,6 @@ version: 30
 # set language (en_US or ja_JP)
 locale: en_US
 
-# set timezone, if unnecessary, set it to nothing
-# cf) http://php.net/manual/ja/timezones.php
-timezone:
-
 # When set to true, update notification is displayed at startup
 check.update: true
 

@@ -64,6 +64,7 @@ class TexterApi {
 
       case $text instanceof FloatingText:
         self::$fts[$text->getLevel()->getFolderName()][$text->getName()] = $text;
+        FloatingTextData::make()->saveFtChange($text);
         break;
     }
   }
@@ -140,7 +141,7 @@ class TexterApi {
    * @return null|FloatingText
    */
   public static function getFtByLevel(Level $level, string $name): ?FloatingText {
-    $fts = self::getUftsByLevel($level);
+    $fts = self::getFtsByLevel($level);
     return $fts[$name] ?? null;
   }
 
@@ -150,7 +151,7 @@ class TexterApi {
    * @return null|FloatingText
    */
   public static function getFtByLevelName(string $levelName, string $name): ?FloatingText {
-    $fts = self::getUftsByLevelName($levelName);
+    $fts = self::getFtsByLevelName($levelName);
     return $fts[$name] ?? null;
   }
 

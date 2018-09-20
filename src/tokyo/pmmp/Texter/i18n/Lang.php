@@ -43,9 +43,9 @@ class Lang {
   /** @var Lang */
   private static $instance;
   /** @var Language[] */
-  public static $language;
+  private static $language;
   /** @var string */
-  public static $consoleLang = self::FALLBACK;
+  private static $consoleLang = self::FALLBACK;
   /** @var string[] */
   private static $available = [
     "en_US",

@@ -100,7 +100,7 @@ class FloatingText extends Position implements Text {
    * @return string
    */
   public function getTitle(): string {
-    return $this->title;
+    return str_replace("\n", "#", $this->title);
   }
 
   /**
@@ -116,7 +116,7 @@ class FloatingText extends Position implements Text {
    * @return string
    */
   public function getText(): string {
-    return $this->text;
+    return str_replace("\n", "#", $this->text);
   }
 
   /**
@@ -196,7 +196,7 @@ class FloatingText extends Position implements Text {
         $pk->uuid = UUID::fromRandom();
         $pk->entityRuntimeId = $this->eid;
         $pk->entityUniqueId = $this->eid;
-        $pk->position = $this->pos;
+        $pk->position = $this;
         $pk->item = Item::get(Item::AIR);
         $flags =
           1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG |
@@ -205,15 +205,15 @@ class FloatingText extends Position implements Text {
         $flags |= $this->isInvisible ?
           1 << Entity::DATA_FLAG_INVISIBLE : 1;
         $pk->metadata = [
-          Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG => $flags],
-          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT => 0.01]
+          Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
+          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0.01]
         ];
         break;
 
       case Text::SEND_TYPE_MOVE:
         $pk = new MoveEntityAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
-        $pk->position = $this->pos;
+        $pk->position = $this;
         $pk->xRot = 0;
         $pk->yRot = 0;
         $pk->zRot = 0;

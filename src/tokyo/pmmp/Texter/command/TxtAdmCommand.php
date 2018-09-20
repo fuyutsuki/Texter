@@ -25,34 +25,24 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter;
+namespace tokyo\pmmp\Texter\command;
 
-use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
-use pocketmine\Player;
 
-class EventListener implements Listener {
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+use tokyo\pmmp\Texter\i18n\Lang;
 
-  public function onJoin(PlayerJoinEvent $ev): void {
-    $p = $ev->getPlayer();
-    $p->getLevel();
+class TxtAdmCommand extends Command {
+
+  public function __construct() {
+    $this->setPermission("texter.command.txtadm");
+    $cl = Lang::fromConsole();
+    $description = $cl->translateString("command.txtadm.description");
+    $usage = $cl->translateString("command.txtadm.usage");
+    parent::__construct("txtadm", $description, $usage);
   }
 
-  public function onLevelChange(EntityLevelChangeEvent $ev): void {
-    $p = $ev->getEntity();
-    if ($p instanceof Player) {
-      // TODO
-    }
-  }
-
-  public function onSendPacket(DataPacketSendEvent $ev): void {
-    $pk = $ev->getPacket();
-    if ($pk instanceof AvailableCommandsPacket) {// TODO: pid
-      $txt = $pk->commandData["txt"];
-      $txtAdm = $pk->commandData["txtadm"];
-    }
+  public function execute(CommandSender $sender, string $commandLabel, array $args) {
+    // TODO: Implement execute() method.
   }
 }

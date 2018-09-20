@@ -29,6 +29,10 @@ namespace tokyo\pmmp\Texter;
 
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
+use tokyo\pmmp\libform\FormApi;
+use tokyo\pmmp\Texter\command\TxtAdmCommand;
+use tokyo\pmmp\Texter\command\TxtCommand;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
@@ -50,10 +54,12 @@ class Core extends PluginBase implements Listener {
       ->checkOldDirectories()// Rename 2.x.y series files
       ->loadResources()
       ->loadLanguage()
+      ->registerCommands()
       ->prepareTexts();
   }
 
   public function onEnable(): void {
+    FormApi::register($this);
     $listener = new EventListener;
     $this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
@@ -66,19 +72,37 @@ class Core extends PluginBase implements Listener {
     if (file_exists("{$dir}fts.json")) {
       rename("{$dir}fts.json", "{$dir}ft.json");
     }
+    // TODO: message?
     return $this;
   }
 
   private function loadResources(): self {
     $dir = $this->getDataFolder();
-    new ConfigData($this, "{$dir}config.yml");
-    new UnremovableFloatingTextData($this, "{$dir}uft.json");
-    new FloatingTextData($this, "{$dir}ft.json");
+    new ConfigData($this, $dir, "config.yml");
+    new UnremovableFloatingTextData($this, $dir, "uft.json");
+    new FloatingTextData($this, $dir, "ft.json");
     return $this;
   }
 
   private function loadLanguage(): self {
     new Lang($this);
+    // TODO: message?
+    return $this;
+  }
+
+  private function registerCommands(): self {
+    if ($canUse = ConfigData::make()->canUseCommands()) {
+      $map = $this->getServer()->getCommandMap();
+      $commands = [
+        new TxtCommand,
+        new TxtAdmCommand
+      ];
+      $map->registerAll($this->getName(), $commands);
+      $message = Lang::fromConsole()->translateString("on.load.commands.on");
+    }else {
+      $message = Lang::fromConsole()->translateString("on.load.commands.off");
+    }
+    $this->getLogger()->info(($canUse ? TextFormat::GREEN : TextFormat::RED) . $message);
     return $this;
   }
 

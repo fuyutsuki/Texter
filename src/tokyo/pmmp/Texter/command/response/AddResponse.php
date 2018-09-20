@@ -25,34 +25,14 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter;
+namespace tokyo\pmmp\Texter\command\response;
 
-use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
-use pocketmine\Player;
-
-class EventListener implements Listener {
-
-  public function onJoin(PlayerJoinEvent $ev): void {
-    $p = $ev->getPlayer();
-    $p->getLevel();
-  }
-
-  public function onLevelChange(EntityLevelChangeEvent $ev): void {
-    $p = $ev->getEntity();
-    if ($p instanceof Player) {
-      // TODO
-    }
-  }
-
-  public function onSendPacket(DataPacketSendEvent $ev): void {
-    $pk = $ev->getPacket();
-    if ($pk instanceof AvailableCommandsPacket) {// TODO: pid
-      $txt = $pk->commandData["txt"];
-      $txtAdm = $pk->commandData["txtadm"];
-    }
-  }
+/**
+ * Class AddResponse
+ * @package tokyo\pmmp\Texter\command\response
+ */
+final class AddResponse {
+  public const NAME = 1;
+  public const TITLE = 3;
+  public const TEXT = 4;
 }

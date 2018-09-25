@@ -36,6 +36,9 @@ use pocketmine\utils\Config;
  */
 class ConfigData extends Config implements Data {
 
+  /** @var int */
+  public const VERSION = 30;
+
   /** @var ConfigData */
   private static $instance;
 

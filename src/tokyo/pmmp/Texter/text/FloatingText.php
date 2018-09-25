@@ -137,6 +137,10 @@ class FloatingText extends Position implements Text {
     return $texts . ($owned ? TextFormat::GRAY."\n[{$this->name}]" : "");
   }
 
+  public function isOwner(Player $player): bool {
+    return $player->isOp() || strtolower($player->getName()) === $this->owner;
+  }
+
   public function getOwner(): string {
     return $this->owner;
   }
@@ -230,10 +234,6 @@ class FloatingText extends Position implements Text {
         break;
     }
     return $pk;
-  }
-
-  public function isOwner(Player $player): bool {
-    return $player->isOp() || strtolower($player->getName()) === $this->owner;
   }
 
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): FloatingText {

@@ -45,6 +45,9 @@ use tokyo\pmmp\Texter\task\AsyncPrepareTextsTask;
  */
 class Core extends PluginBase implements Listener {
 
+  /** @var string */
+  public const PREFIX = "[Texter] ";
+
   /** @var Core */
   private static $core;
 

@@ -137,6 +137,13 @@ class FloatingText extends Position implements Text {
     return $texts . ($owned ? TextFormat::GRAY."\n[{$this->name}]" : "");
   }
 
+  /**
+   * @return string
+   */
+  public function getTextsForCheck(): string {
+    return TextFormat::clean(str_replace("\n", "", $this->title.$this->text));
+  }
+
   public function isOwner(Player $player): bool {
     return $player->isOp() || strtolower($player->getName()) === $this->owner;
   }

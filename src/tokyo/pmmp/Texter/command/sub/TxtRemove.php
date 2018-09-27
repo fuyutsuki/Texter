@@ -25,14 +25,10 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\command\response;
+namespace tokyo\pmmp\Texter\command\sub;
 
-/**
- * Class ListResponse
- * @package tokyo\pmmp\Texter\command\response
- */
-final class ListResponse {
-  public const EDIT = 0;
-  public const MOVE = 1;
-  public const REMOVE = 2;
+
+class TxtRemove
+{
+
 }

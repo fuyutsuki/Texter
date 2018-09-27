@@ -25,14 +25,28 @@
 
 declare(strict_types = 1);
 
-namespace tokyo\pmmp\Texter\command\response;
+namespace tokyo\pmmp\Texter\command\sub;
+
+use pocketmine\Player;
+use tokyo\pmmp\Texter\i18n\Lang;
+use tokyo\pmmp\Texter\i18n\Language;
 
 /**
- * Class AddResponse
- * @package tokyo\pmmp\Texter\command\response
+ * Class TexterSubCommand
+ * @package tokyo\pmmp\Texter\command\sub
  */
-final class AddResponse {
-  public const NAME = 1;
-  public const TITLE = 3;
-  public const TEXT = 4;
+abstract class TexterSubCommand {
+
+  /** @var Player */
+  protected $player;
+  /** @var Language */
+  protected $lang;
+
+  public function __construct(Player $player, string $default = "") {
+    $this->player = $player;
+    $this->lang = Lang::fromLocale($player->getLocale());
+    $this->execute($default);
+  }
+
+  abstract public function execute(string $default = ""): void;
 }

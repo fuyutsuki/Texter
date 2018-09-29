@@ -47,6 +47,10 @@ use tokyo\pmmp\Texter\data\FloatingTextData;
  */
 class FloatingText extends Position implements Text {
 
+  /** @var int */
+  public const CHECK_CHAR = 0;
+  public const CHECK_FEED = 1;
+
   /** @var string */
   protected $name;
   /** @var string */
@@ -138,10 +142,21 @@ class FloatingText extends Position implements Text {
   }
 
   /**
+   * @param int $mode
    * @return string
    */
-  public function getTextsForCheck(): string {
-    return TextFormat::clean(str_replace("\n", "", $this->title.$this->text));
+  public function getTextsForCheck(int $mode = self::CHECK_CHAR): string {
+    switch ($mode) {
+      case self::CHECK_CHAR:
+        $str = str_replace("\n", "", TextFormat::clean($this->title.$this->text));
+        break;
+      case self::CHECK_FEED:
+        $str = TextFormat::clean($this->title.$this->text);
+        break;
+      default:
+        throw new \InvalidArgumentException("The value of mode must be 0(FloatingText::CHECK_CHAR) to 1(FloatingText::CHECK_FEED)");
+    }
+    return $str;
   }
 
   public function isOwner(Player $player): bool {

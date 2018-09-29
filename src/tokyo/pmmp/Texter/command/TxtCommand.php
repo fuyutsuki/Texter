@@ -88,22 +88,23 @@ class TxtCommand extends Command {
 
             default:
               $message = $lang->translateString("command.txt.usage");
+              $sender->sendMessage(Core::PREFIX . $message);
               break;
           }
         }else {
           $message = $lang->translateString("command.txt.usage");
+          $sender->sendMessage(Core::PREFIX . $message);
         }
       }else {
         $message = $lang->translateString("error.config.limit.world", [
           $sender->getLevel()->getName()
         ]);
+        $sender->sendMessage(TextFormat::RED . Core::PREFIX . $message);
       }
     }else {
       $info = Lang::fromConsole()->translateString("error.console");
       Core::get()->getLogger()->info(TextFormat::RED.$info);
     }
-    if (isset($message))
-      $sender->sendMessage(Core::PREFIX . $message);
     return true;
   }
 }

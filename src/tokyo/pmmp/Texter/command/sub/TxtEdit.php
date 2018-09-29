@@ -35,6 +35,8 @@ use tokyo\pmmp\libform\element\Label;
 use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\data\ConfigData;
+use tokyo\pmmp\Texter\data\FloatingTextData;
+use tokyo\pmmp\Texter\text\Text;
 use tokyo\pmmp\Texter\TexterApi;
 
 /**
@@ -59,27 +61,62 @@ class TxtEdit extends TexterSubCommand {
     $tips = $this->lang->translateString("command.txt.usage.indent");
     $content = $this->lang->translateString("form.edit.content");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) {
+    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($title, $text) {
       if (!FormApi::formCancelled($response)) {
         $level = $player->getLevel();
         if (!empty($response[self::FT_NAME])) {
           $ft = TexterApi::getFtByLevel($level, $response[self::FT_NAME]);
           if ($ft !== null) {
-            $cd = ConfigData::make();
-            switch ($response[self::TYPE]) {
-              case self::TITLE:
-                if ($cd->checkCharLimit(TextFormat::clean($response[self::TITLE].$ft->getText()))) {
-                  // TODO
-                }
-                break;
-              case self::TEXT:
-                break;
+            if ($ft->isOwner($player)) {
+              $cd = ConfigData::make();
+              switch ($response[self::TYPE]) {
+                case self::TITLE:
+                  $test = TextFormat::clean($response[self::TITLE].$ft->getText());
+                  if ($cd->checkCharLimit(str_replace("\n", "", $test))) {
+                    if ($cd->checkFeedLimit($test)) {
+                      $ft
+                        ->setTitle($response[self::TITLE])
+                        ->sendToLevel($level);
+                      FloatingTextData::make()->saveFtChange($ft);
+                      $message = $this->lang->translateString("command.txt.edit.success", [
+                        $ft->getName(),
+                        $title
+                      ]);
+                      $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+                    }
+                  }
+                  break;
+
+                case self::TEXT:
+                  $test = TextFormat::clean($ft->getTitle().$response[self::TEXT]);
+                  if ($cd->checkCharLimit(str_replace("\n", "", $test))) {
+                    if ($cd->checkFeedLimit($test)) {
+                      $ft
+                        ->setTitle($response[self::TEXT])
+                        ->sendToLevel($level, Text::SEND_TYPE_EDIT);
+                      FloatingTextData::make()->saveFtChange($ft);
+                      $message = $this->lang->translateString("command.txt.edit.success", [
+                        $ft->getName(),
+                        $text
+                      ]);
+                      $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+                    }
+                  }
+                  break;
+              }
+            }else {
+              $message = $this->lang->translateString("error.permission");
+              $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
             }
           }else {
-            // なかったら
+            $message = $this->lang->translateString("error.ftname.not.exists", [
+              $response[self::FT_NAME]
+            ]);
+            $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
           }
         }else {
-          // 文字列からなら
+          $message = $this->lang->translateString("error.ftname.not.specified");
+          $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
         }
       }
     });

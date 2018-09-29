@@ -52,7 +52,7 @@ class TexterApi {
   /**
    * Register text in the Texter plugin and enable management using TexterApi
    * If you don't do this registration,
-   * you can operate with the function of Text class
+   * you need to manage FloatingText manually with the Text class.
    * @link tokyo\pmmp\Texter\text\{Text, FloatingText}
    * @param Text $text
    */

@@ -64,33 +64,36 @@ class TxtAdd extends TexterSubCommand {
             $text = $player->isOp() ? $response[self::TEXT] : TextFormat::clean($response[self::TEXT]);
             $ft = new FloatingText($response[self::NAME], Position::fromObject($player->add(0, 1, 0), $level), $title, $text, $player->getName());
             $cd = ConfigData::make();
-            if ($cd->checkCharLimit($ft->getTextsForCheck())) {
-              if ($cd->checkFeedLimit($ft->getTextsForCheck())) {
+            if ($cd->checkCharLimit($ft->getTextsForCheck(FloatingText::CHECK_CHAR))) {
+              if ($cd->checkFeedLimit($ft->getTextsForCheck(FloatingText::CHECK_FEED))) {
                 $ft->sendToLevel($level);
                 TexterApi::registerText($ft);
                 $message = $this->lang->translateString("command.txt.add.success", [
                   TextFormat::clean($response[self::NAME])
                 ]);
+                $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
               }else {
                 $message = $this->lang->translateString("error.config.limit.feed", [
                   $cd->getFeedLimit()
                 ]);
+                $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
               }
             }else {
               $message = $this->lang->translateString("error.config.limit.char", [
                 $cd->getCharLimit()
               ]);
+              $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
             }
           }else {
             $message = $this->lang->translateString("error.ftname.exists", [
               $response[self::NAME]
             ]);
+            $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
+          $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
         }
-        if (isset($message))
-          $player->sendMessage(Core::PREFIX . $message);
       }
     });
 

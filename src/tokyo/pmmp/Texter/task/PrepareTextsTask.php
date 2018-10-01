@@ -119,12 +119,14 @@ class PrepareTextsTask extends Task {
   }
 
   private function onSuccess(): void {
-    $message = Lang::fromConsole()->translateString("on.enable.prepared", [
-      count(TexterApi::getUfts(), COUNT_RECURSIVE) - count(TexterApi::getUfts()),
-      count(TexterApi::getFts(), COUNT_RECURSIVE) - count(TexterApi::getFts())
-    ]);
-    $core = Core::get();
-    $core->getLogger()->info(TextFormat::GREEN . $message);
-    $core->getScheduler()->cancelTask($this->getTaskId());
+    if (Core::get()->isEnabled()) {
+      $message = Lang::fromConsole()->translateString("on.enable.prepared", [
+        count(TexterApi::getUfts(), COUNT_RECURSIVE) - count(TexterApi::getUfts()),
+        count(TexterApi::getFts(), COUNT_RECURSIVE) - count(TexterApi::getFts())
+      ]);
+      $core = Core::get();
+      $core->getLogger()->info(TextFormat::GREEN . $message);
+      $core->getScheduler()->cancelTask($this->getTaskId());
+    }
   }
 }

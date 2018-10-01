@@ -58,7 +58,7 @@ class CheckUpdateTask extends AsyncTask {
 
   public function onCompletion(Server $server){
     $core = Core::get();
-    if ($core !== null) {
+    if ($core->isEnabled()) {
       $data = $this->getResult();
       if (isset($data[0])) {
         $ver = new VersionString($data[0]["name"]);

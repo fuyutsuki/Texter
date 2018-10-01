@@ -65,19 +65,17 @@ class TxtList extends TexterSubCommand {
         ]);
         $list2 = FormApi::makeListForm(function (Player $player, ?int $key) use ($target) {
           if (!FormApi::formCancelled($key)) {
-            $sub = "";
             switch ($key) {
               case self::EDIT:
-                $sub = "TxtEdit";
+                new TxtEdit($player, $target->getName());
                 break;
               case self::MOVE:
-                $sub = "TxtMove";
+                new TxtMove($player, $target->getName());
                 break;
               case self::REMOVE:
-                $sub = "TxtRemove";
+                new TxtRemove($player, $target->getName());
                 break;
             }
-            new $sub($player, $target->getName());
           }
         });
 

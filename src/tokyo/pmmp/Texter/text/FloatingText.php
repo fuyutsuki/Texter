@@ -138,7 +138,7 @@ class FloatingText extends Position implements Text {
    */
   public function getIndentedTexts(bool $owned): string {
     $texts = "{$this->title}".TextFormat::RESET.TextFormat::WHITE."\n{$this->text}";
-    return $texts . ($owned ? TextFormat::GRAY."\n[{$this->name}]" : "");
+    return $texts . ($owned ? "\n".TextFormat::GRAY."[{$this->name}]" : "");
   }
 
   /**
@@ -232,7 +232,7 @@ class FloatingText extends Position implements Text {
           1 << Entity::DATA_FLAG_INVISIBLE : 1;
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
-          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0.01]
+          Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
         break;
 

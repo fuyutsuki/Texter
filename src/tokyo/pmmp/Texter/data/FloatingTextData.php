@@ -79,6 +79,26 @@ class FloatingTextData extends Config implements Data {
     }
   }
 
+  public function getData(): array {
+    $data = [];
+    $fts = $this->getAll();
+    foreach ($fts as $levelName => $texts) {
+      foreach ($texts as $textName => $val) {
+        $data[] = [
+          "NAME" => $textName,
+          "LEVEL" => $levelName,
+          Data::KEY_X => $val["Xvec"],
+          Data::KEY_Y => $val["Yvec"],
+          Data::KEY_Z => $val["Zvec"],
+          Data::KEY_TITLE => $val["TITLE"],
+          Data::KEY_TEXT => $val["TEXT"],
+          FloatingTextData::KEY_OWNER => $val["OWNER"]
+        ];
+      }
+    }
+    return $data;
+  }
+
   /**
    * @return FloatingTextData
    */

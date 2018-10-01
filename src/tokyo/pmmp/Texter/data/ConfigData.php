@@ -36,9 +36,6 @@ use pocketmine\utils\Config;
  */
 class ConfigData extends Config implements Data {
 
-  /** @var int */
-  public const VERSION = 30;
-
   /** @var ConfigData */
   private static $instance;
 
@@ -52,7 +49,14 @@ class ConfigData extends Config implements Data {
    * @return string
    */
   public function getLocale(): string {
-    return (string)$this->get("locale", "en_US");// Improvement required for pmmp
+    return (string) $this->get("locale", "en_US");// Improvement required for pmmp
+  }
+
+  /**
+   * @return bool
+   */
+  public function checkUpdate(): bool {
+    return (bool) $this->get("check.update", true);
   }
 
   /**

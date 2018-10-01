@@ -71,12 +71,12 @@ class TxtEdit extends TexterSubCommand {
               $cd = ConfigData::make();
               switch ($response[self::TYPE]) {
                 case self::TITLE:
-                  $test = TextFormat::clean($response[self::TITLE].$ft->getText());
+                  $test = TextFormat::clean($response[self::CONTENT].$ft->getText());
                   if ($cd->checkCharLimit(str_replace("\n", "", $test))) {
                     if ($cd->checkFeedLimit($test)) {
                       $ft
-                        ->setTitle($response[self::TITLE])
-                        ->sendToLevel($level);
+                        ->setTitle($response[self::CONTENT])
+                        ->sendToLevel($level, Text::SEND_TYPE_EDIT);
                       FloatingTextData::make()->saveFtChange($ft);
                       $message = $this->lang->translateString("command.txt.edit.success", [
                         $ft->getName(),
@@ -88,11 +88,11 @@ class TxtEdit extends TexterSubCommand {
                   break;
 
                 case self::TEXT:
-                  $test = TextFormat::clean($ft->getTitle().$response[self::TEXT]);
+                  $test = TextFormat::clean($ft->getTitle().$response[self::CONTENT]);
                   if ($cd->checkCharLimit(str_replace("\n", "", $test))) {
                     if ($cd->checkFeedLimit($test)) {
                       $ft
-                        ->setTitle($response[self::TEXT])
+                        ->setText($response[self::CONTENT])
                         ->sendToLevel($level, Text::SEND_TYPE_EDIT);
                       FloatingTextData::make()->saveFtChange($ft);
                       $message = $this->lang->translateString("command.txt.edit.success", [

@@ -30,22 +30,17 @@ namespace tokyo\pmmp\Texter;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\VersionString;
 use tokyo\pmmp\libform\FormApi;
-use tokyo\pmmp\Texter\command\TxtAdmCommand;
 use tokyo\pmmp\Texter\command\TxtCommand;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
 use tokyo\pmmp\Texter\i18n\Lang;
-use tokyo\pmmp\Texter\task\AsyncPrepareTextsTask;
+use tokyo\pmmp\Texter\task\CheckUpdateTask;
+use tokyo\pmmp\Texter\task\PrepareTextsTask;
 
 /**
- * TODO
- * 自動データアプデ
- * アップデート通知送信
- * アプデ内容を出力できるように
- * 表示関連実装
- *
  * Class Core
  * @package tokyo\pmmp\Texter
  */
@@ -64,7 +59,8 @@ class Core extends PluginBase implements Listener {
       ->loadResources()
       ->loadLanguage()
       ->registerCommands()
-      ->prepareTexts();
+      ->prepareTexts()
+      ->checkUpdate();
   }
 
   public function onEnable(): void {
@@ -81,7 +77,6 @@ class Core extends PluginBase implements Listener {
     if (file_exists("{$dir}fts.json")) {
       rename("{$dir}fts.json", "{$dir}ft.json");
     }
-    // TODO: message?
     return $this;
   }
 
@@ -95,7 +90,12 @@ class Core extends PluginBase implements Listener {
 
   private function loadLanguage(): self {
     new Lang($this);
-    // TODO: message?
+    $cl = Lang::fromConsole();
+    $message = $cl->translateString("language.selected", [
+      $cl->getName(),
+      $cl->getLang()
+    ]);
+    $this->getLogger()->info(TextFormat::GREEN . $message);
     return $this;
   }
 
@@ -103,8 +103,7 @@ class Core extends PluginBase implements Listener {
     if ($canUse = ConfigData::make()->canUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
-        new TxtCommand,
-        new TxtAdmCommand
+        new TxtCommand
       ];
       $map->registerAll($this->getName(), $commands);
       $message = Lang::fromConsole()->translateString("on.load.commands.on");
@@ -116,12 +115,54 @@ class Core extends PluginBase implements Listener {
   }
 
   private function prepareTexts(): self {
-    $uftd = UnremovableFloatingTextData::make()->getAll();
-    $ftd = FloatingTextData::make()->getAll();
-    $pool = $this->getServer()->getAsyncPool();
-    $pool->submitTask(new AsyncPrepareTextsTask($uftd, AsyncPrepareTextsTask::TYPE_UNREMOVABLE));
-    $pool->submitTask(new AsyncPrepareTextsTask($ftd, AsyncPrepareTextsTask::TYPE_REMOVABLE));
+    $prepare = new PrepareTextsTask;
+    $this->getScheduler()->scheduleDelayedRepeatingTask($prepare, 20, 1);
     return $this;
+  }
+
+  private function checkUpdate(): self {
+    if (ConfigData::make()->checkUpdate()) {
+      try {
+        $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask);
+      } catch (\Exception $ex) {
+        $this->getLogger()->warning($ex->getMessage());
+      }
+    }
+    return $this;
+  }
+
+  public function compareVersion(bool $success, ?VersionString $new = null, string $url = "") {
+    $cl = Lang::fromConsole();
+    if ($success) {
+      $current = new VersionString($this->getDescription()->getVersion());
+      switch ($current->compare($new)) {
+        case -1:// new: older
+          $message = $cl->translateString("on.load.version.dev");
+          $this->getLogger()->warning($message);
+          break;
+
+        case 0:// same
+          $message = $cl->translateString("on.load.update.nothing", [
+            $current->getFullVersion()
+          ]);
+          $this->getLogger()->notice($message);
+          break;
+
+        case 1:// new: newer
+          $messages[] = $cl->translateString("on.load.update.available.1", [
+            $new->getFullVersion(),
+            $current->getFullVersion()
+          ]);
+          $messages[] = $cl->translateString("on.load.update.available.2");
+          $messages[] = $cl->translateString("on.load.update.available.3", [
+            $url
+          ]);
+          foreach ($messages as $message) $this->getLogger()->notice($message);
+      }
+    }else {
+      $message = $cl->translateString("on.load.update.offline");
+      $this->getLogger()->notice($message);
+    }
   }
 
   /**

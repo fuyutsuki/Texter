@@ -28,6 +28,3 @@ permissions:
       texter.command.txt:
         default: true # もしopのみ実行させたい場合は op と記述してください
         description: permission that allows player to use /txt
-      texter.command.txtadm:
-        default: op
-        description: permission that allows player to use /txtadm

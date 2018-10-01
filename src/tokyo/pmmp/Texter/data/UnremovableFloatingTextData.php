@@ -46,6 +46,25 @@ class UnremovableFloatingTextData extends Config implements Data {
     self::$instance = $this;
   }
 
+  public function getData(): array {
+    $data = [];
+    $ufts = $this->getAll();
+    foreach ($ufts as $levelName => $texts) {
+      foreach ($texts as $textName => $val) {
+        $data[] = [
+          "NAME" => $textName,
+          "LEVEL" => $levelName,
+          Data::KEY_X => $val["Xvec"],
+          Data::KEY_Y => $val["Yvec"],
+          Data::KEY_Z => $val["Zvec"],
+          Data::KEY_TITLE => $val["TITLE"],
+          Data::KEY_TEXT => $val["TEXT"]
+        ];
+      }
+    }
+    return $data;
+  }
+
   /**
    * @return UnremovableFloatingTextData
    */

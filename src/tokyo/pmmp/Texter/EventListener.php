@@ -31,28 +31,40 @@ use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\Player;
+use tokyo\pmmp\Texter\i18n\Lang;
+use tokyo\pmmp\Texter\task\SendTextsTask;
+use tokyo\pmmp\Texter\text\Text;
 
 class EventListener implements Listener {
 
   public function onJoin(PlayerJoinEvent $ev): void {
     $p = $ev->getPlayer();
-    $p->getLevel();
+    $l = $p->getLevel();
+    $add = new SendTextsTask($p, $l);
+    Core::get()->getScheduler()->scheduleDelayedRepeatingTask($add, 20, 1);
   }
 
   public function onLevelChange(EntityLevelChangeEvent $ev): void {
-    $p = $ev->getEntity();
-    if ($p instanceof Player) {
-      // TODO
+    $ent = $ev->getEntity();
+    if ($ent instanceof Player) {
+      $from = $ev->getOrigin();
+      $to = $ev->getTarget();
+      $core = Core::get();
+      $remove = new SendTextsTask($ent, $from, Text::SEND_TYPE_REMOVE);
+      $core->getScheduler()->scheduleDelayedRepeatingTask($remove, 20, 1);
+      $add = new SendTextsTask($ent, $to);
+      $core->getScheduler()->scheduleDelayedRepeatingTask($add, 20, 1);
     }
   }
 
   public function onSendPacket(DataPacketSendEvent $ev): void {
     $pk = $ev->getPacket();
-    if ($pk instanceof AvailableCommandsPacket) {// TODO: pid
+    if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
+      $p = $ev->getPlayer();
       $txt = $pk->commandData["txt"];
-      $txtAdm = $pk->commandData["txtadm"];
+      $txt->commandDescription = Lang::fromLocale($p->getLocale())->translateString("command.txt.description");
     }
   }
 }

@@ -28,7 +28,6 @@ Latest: ver **3.0.0**
 - [x] Minecraft(Bedrock) v1.6.x
 - [x] Multi-language (English, 日本語)
 - [x] Multi-world display
-- [ ] Text Events
 - [ ] API 4.0.0 (for Altay)
 
 ### Download
@@ -44,15 +43,6 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 |Remove text|`/txt remove`|`/txt r`|
 |Listup texts|`/txt list`|`/txt l`|
 |Help|`/txt or /txt help`|`/txt ?`|
-
-#### Management command
-| \ |command|argument|alias|
-|:--:|:--:|:--:|:--:|
-|Remove all|`/txtadm allremove`|`none`|`/tadm ar`|
-|Remove texts/user|`/txtadm userremove`|`<userName>`|`/tadm ur`|
-|Remove texts/level|`/txtadm levelremove`|`<worldName>`|`/tadm lr`|
-|Info|`/txtadm info`|`none`|`/tadm i`|
-|Help|`/txtadm or /txtadm help`|`none`|`/tadm ?`|
 
 **Please use `#` for line breaks.**
 
@@ -101,7 +91,6 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移
 - [x] Minecraft(Bedrockエンジン) v1.6.x
 - [x] 複数言語 (English, 日本語)
 - [x] 複数ワールドの表示
-- [ ] テキスト関係イベント
 - [ ] API 4.0.0対応 (Altay向け)
 
 ### ダウンロード
@@ -118,15 +107,6 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移
 |浮き文字削除|`/txt remove`|`/txt r`|
 |浮き文字リスト|`/txt list`|`txt l`|
 |ヘルプ|`/txt or /txt help`|`/txt ?`|
-
-#### 管理用コマンド
-| \ |コマンド|引数|エイリアス|
-|:--:|:--:|:--:|:--:|
-|浮き文字すべて削除|`/txtadm allremove`|`なし`|`/tadm ar`|
-|ユーザーの浮き文字を削除|`/txtadm userremove`|`<ユーザー名>`|`/tadm ur`|
-|ワールドの浮き文字を削除|`/txtadm levelremove`|`<ワールド名>`|`/tadm lr`|
-|浮き文字の各種情報を見る|`/txtadm info`|`なし`|`/tadm i`|
-|ヘルプ|`/txtadm or /txtadm help`|`なし`|`/tadm ?`|
 
 **改行の際には `#` を使用してください。**
 

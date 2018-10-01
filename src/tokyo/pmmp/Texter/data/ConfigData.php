@@ -29,6 +29,7 @@ namespace tokyo\pmmp\Texter\data;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
+use tokyo\pmmp\Texter\Core;
 
 /**
  * Class ConfigData
@@ -40,7 +41,7 @@ class ConfigData extends Config implements Data {
   private static $instance;
 
   public function __construct(Plugin $plugin, string $path, string $file) {
-    $plugin->saveResource($file);
+    $plugin->saveResource($file, Core::isUpdater());
     parent::__construct($path.$file, Config::YAML);
     self::$instance = $this;
   }

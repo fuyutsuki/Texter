@@ -56,7 +56,7 @@ class Lang {
     self::$instance = $this;
     self::$consoleLang = ConfigData::make()->getLocale();
     foreach (self::$available as $lang) {
-      $core->saveResource(Lang::DIR . DIRECTORY_SEPARATOR . $lang . ".ini");
+      $core->saveResource(Lang::DIR . DIRECTORY_SEPARATOR . $lang . ".ini", Core::isUpdater());
       $this->register(new Language($lang));
     }
   }

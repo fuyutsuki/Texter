@@ -51,6 +51,8 @@ class Core extends PluginBase implements Listener {
 
   /** @var Core */
   private static $core;
+  /** @var bool */
+  private static $isUpdater = false;
 
   public function onLoad(): void {
     self::$core = $this;
@@ -64,17 +66,21 @@ class Core extends PluginBase implements Listener {
   }
 
   public function onEnable(): void {
-    FormApi::register($this);
-    $listener = new EventListener;
-    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    if ($this->checkPackaged()) {
+      FormApi::register($this);
+      $listener = new EventListener;
+      $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    }
   }
 
   private function checkOldDirectories(): self {
     $dir = $this->getDataFolder();
     if (file_exists("{$dir}crfts.json")) {
+      self::$isUpdater = true;
       rename("{$dir}crfts.json", "{$dir}uft.json");
     }
     if (file_exists("{$dir}fts.json")) {
+      self::$isUpdater = true;
       rename("{$dir}fts.json", "{$dir}ft.json");
     }
     return $this;
@@ -163,6 +169,36 @@ class Core extends PluginBase implements Listener {
       $message = $cl->translateString("on.load.update.offline");
       $this->getLogger()->notice($message);
     }
+  }
+
+  private function checkPackaged(): bool {
+    $cl = Lang::fromConsole();
+    if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
+      if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
+        return true;// developer
+      }else {
+        $message = $cl->translateString("error.on.enable.not.found.libform");
+        $this->getLogger()->critical($message);
+        $this->getServer()->getPluginManager()->disablePlugin($this);
+        return false;
+      }
+    }else {
+      if ($this->isPhar()) {
+        return true;// PoggitCI
+      }else {
+        $message = $cl->translateString("error.on.enable.not.packaged");
+        $this->getLogger()->critical($message);
+        $this->getServer()->getPluginManager()->disablePlugin($this);
+        return false;
+      }
+    }
+  }
+
+  /**
+   * @return bool
+   */
+  public static function isUpdater(): bool {
+    return self::$isUpdater;
   }
 
   /**

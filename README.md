@@ -18,7 +18,9 @@ Select Language: [English](#eng), [日本語](#jpn)
 <a name="eng"></a>
 # English
 
+<!--
 **This branch is under development. It may have many bugs.**  
+-->
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
@@ -81,7 +83,9 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 <a name="jpn"></a>
 # 日本語
 
+<!--
 **このブランチは開発中です。多くのバグを含む可能性があります。**  
+-->
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  

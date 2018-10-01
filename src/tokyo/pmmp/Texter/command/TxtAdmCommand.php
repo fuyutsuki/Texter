@@ -27,12 +27,19 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command;
 
-
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\Player;
+use pocketmine\utils\TextFormat;
+use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\i18n\Lang;
+use tokyo\pmmp\Texter\task\SafetyTimerTask;
+use tokyo\pmmp\Texter\TexterApi;
 
 class TxtAdmCommand extends Command {
+
+  /** @var bool */
+  private $safety = true;
 
   public function __construct() {
     $this->setPermission("texter.command.txtadm");
@@ -43,6 +50,61 @@ class TxtAdmCommand extends Command {
   }
 
   public function execute(CommandSender $sender, string $commandLabel, array $args) {
-    // TODO: Implement execute() method.
+    if (Core::get()->isDisabled() || !$this->testPermission($sender)) return false;
+    if ($sender instanceof Player) {
+      $message = Lang::fromLocale($sender->getLocale())->translateString("error.player");
+      $sender->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+    }else {
+      $lang = Lang::fromConsole();
+      if (isset($args[0])) {
+        $logger = Core::get()->getLogger();
+        switch ($args[0]) {
+          case "allremove":
+          case "ar":
+            if ($this->safety) {
+              // TODO: confirmを打たせる
+              $message = $lang->translateString();
+              $logger->warning($message);
+            }else {
+              $fts = TexterApi::getFts();
+              foreach ($fts as $levelName => $levelFts) {
+                TexterApi::removeFtsByLevelName($levelName);
+              }
+              $message = $lang->translateString("command.txtadm.ar.success");
+            }
+            break;
+
+          case "userremove":
+          case "ur":
+            break;
+
+          case "levelremove":
+          case "lr":
+            break;
+
+          case "confirm":
+            // TODO: セーフティを解除した旨のメッセージ
+            Core::get()->getScheduler()->scheduleDelayedTask(new SafetyTimerTask($this), 20);
+            $this->safety = false;
+            break;
+
+          case "info":
+          case "i":
+            break;
+
+          default:
+            $message = $lang->translateString("command.txtadm.usage.console");
+            Core::get()->getLogger()->info($message);
+            break;
+        }
+      }else {
+        $message = $lang->translateString("command.txtadm.usage.console");
+        Core::get()->getLogger()->info($message);
+      }
+    }
+  }
+
+  public function reLockSafety(): void {
+    $this->safety = true;
   }
 }

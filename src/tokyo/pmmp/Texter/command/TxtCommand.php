@@ -34,6 +34,7 @@ use pocketmine\utils\TextFormat;
 use tokyo\pmmp\Texter\command\sub\TxtAdd;
 use tokyo\pmmp\Texter\command\sub\TxtEdit;
 use tokyo\pmmp\Texter\command\sub\TxtList;
+use tokyo\pmmp\Texter\command\sub\TxtMove;
 use tokyo\pmmp\Texter\command\sub\TxtRemove;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\data\ConfigData;

@@ -40,6 +40,12 @@ use tokyo\pmmp\Texter\i18n\Lang;
 use tokyo\pmmp\Texter\task\AsyncPrepareTextsTask;
 
 /**
+ * TODO
+ * 自動データアプデ
+ * アップデート通知送信
+ * アプデ内容を出力できるように
+ * 表示関連実装
+ *
  * Class Core
  * @package tokyo\pmmp\Texter
  */

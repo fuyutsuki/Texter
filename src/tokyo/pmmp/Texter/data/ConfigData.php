@@ -27,9 +27,10 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\data;
 
-use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use tokyo\pmmp\Texter\Core;
+use tokyo\pmmp\Texter\i18n\Lang;
 
 /**
  * Class ConfigData
@@ -40,7 +41,7 @@ class ConfigData extends Config implements Data {
   /** @var ConfigData */
   private static $instance;
 
-  public function __construct(Plugin $plugin, string $path, string $file) {
+  public function __construct(PluginBase $plugin, string $path, string $file) {
     $plugin->saveResource($file, Core::isUpdater());
     parent::__construct($path.$file, Config::YAML);
     self::$instance = $this;
@@ -50,7 +51,7 @@ class ConfigData extends Config implements Data {
    * @return string
    */
   public function getLocale(): string {
-    return (string) $this->get("locale", "en_US");// Improvement required for pmmp
+    return strtolower($this->get("locale", Lang::FALLBACK));
   }
 
   /**

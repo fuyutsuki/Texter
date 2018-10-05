@@ -48,15 +48,15 @@ class Lang {
   private static $consoleLang = self::FALLBACK;
   /** @var string[] */
   private static $available = [
-    "en_US",
-    "ja_JP"
+    "en_us",
+    "ja_jp"
   ];
 
   public function __construct(Core $core) {
     self::$instance = $this;
     self::$consoleLang = ConfigData::make()->getLocale();
     foreach (self::$available as $lang) {
-      $core->saveResource(Lang::DIR . DIRECTORY_SEPARATOR . $lang . ".ini", Core::isUpdater());
+      $core->saveResource(Lang::DIR . DIRECTORY_SEPARATOR . $lang . ".ini", true);
       $this->register(new Language($lang));
     }
   }

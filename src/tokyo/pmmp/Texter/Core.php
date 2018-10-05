@@ -184,10 +184,10 @@ class Core extends PluginBase implements Listener {
       }
     }else {
       if ($this->isPhar()) {
-        if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
+        if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform")) {
           return true;// PoggitCI
         }else {
-          $message = $cl->translateString("error.on.enable.not.found.libform");
+          $message = $cl->translateString("error.on.enable.not.packaged");
           $this->getLogger()->critical($message);
           $this->getServer()->getPluginManager()->disablePlugin($this);
           return false;

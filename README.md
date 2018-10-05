@@ -24,13 +24,13 @@ Select Language: [English](#eng), [日本語](#jpn)
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **3.0.0**  
+Latest: ver **3.0.2**  
 
 ### Supporting
 - [x] Minecraft(Bedrock) v1.6.x
 - [x] Multi-language (English, 日本語)
 - [x] Multi-world display
-- [ ] API 4.0.0 (for Altay)
+- [x] API 4.0.0
 
 ### Download
 You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archive/master.zip), or download the latest .phar from [Poggit](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter).  
@@ -89,13 +89,13 @@ You may grab the plugin from [Source](https://github.com/fuyutsuki/Texter/archiv
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.0.0**  
+最新バージョン: **3.0.2**  
 
 ### 対応状況
 - [x] Minecraft(Bedrockエンジン) v1.6.x
 - [x] 複数言語 (English, 日本語)
 - [x] 複数ワールドの表示
-- [ ] API 4.0.0対応 (Altay向け)
+- [x] API 4.0.0対応 (Altay向け)
 
 ### ダウンロード
 ソースファイル群は [こちら](https://github.com/fuyutsuki/Texter/archive/master.zip)  

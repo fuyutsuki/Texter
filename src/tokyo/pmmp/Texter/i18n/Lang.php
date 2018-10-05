@@ -38,7 +38,7 @@ class Lang {
 
   /** @var string */
   public const DIR = "language";
-  public const FALLBACK = "en_US";
+  public const FALLBACK = "en_us";
 
   /** @var Lang */
   private static $instance;

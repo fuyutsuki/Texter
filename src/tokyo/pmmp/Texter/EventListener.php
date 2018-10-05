@@ -31,6 +31,7 @@ use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketSendEvent;
+use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\Player;
 use tokyo\pmmp\Texter\i18n\Lang;
@@ -62,6 +63,7 @@ class EventListener implements Listener {
   public function onSendPacket(DataPacketSendEvent $ev): void {
     $pk = $ev->getPacket();
     if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
+      /** @var AvailableCommandsPacket $pk */
       $p = $ev->getPlayer();
       $txt = $pk->commandData["txt"];
       $txt->commandDescription = Lang::fromLocale($p->getLocale())->translateString("command.txt.description");

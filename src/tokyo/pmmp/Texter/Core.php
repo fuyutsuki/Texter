@@ -184,9 +184,12 @@ class Core extends PluginBase implements Listener {
       }
     }else {
       if ($this->isPhar()) {
+        var_dump("is_phar");
         if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform")) {
+          var_dump("packaged");
           return true;// PoggitCI
         }else {
+          var_dump("not_packaged");
           $message = $cl->translateString("error.on.enable.not.packaged");
           $this->getLogger()->critical($message);
           $this->getServer()->getPluginManager()->disablePlugin($this);

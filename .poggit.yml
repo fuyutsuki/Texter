@@ -1,6 +1,8 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fuyutsuki/Texter
 branches:
   - master
+  - develop
+  - 4.0
 projects:
   Texter:
     path: ""

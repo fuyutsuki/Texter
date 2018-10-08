@@ -173,24 +173,23 @@ class Core extends PluginBase implements Listener {
 
   private function checkPackaged(): bool {
     $cl = Lang::fromConsole();
-    if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
-      if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
-        return true;// developer
+    if ($this->isPhar()) {
+      if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform")) {
+        var_dump("packaged");
+        return true;// PoggitCI
       }else {
-        $message = $cl->translateString("error.on.enable.not.found.libform");
+        var_dump("not_packaged");
+        $message = $cl->translateString("error.on.enable.not.packaged");
         $this->getLogger()->critical($message);
         $this->getServer()->getPluginManager()->disablePlugin($this);
         return false;
       }
     }else {
-      if ($this->isPhar()) {
-        var_dump("is_phar");
-        if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform")) {
-          var_dump("packaged");
-          return true;// PoggitCI
+      if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
+        if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
+          return true;// developer
         }else {
-          var_dump("not_packaged");
-          $message = $cl->translateString("error.on.enable.not.packaged");
+          $message = $cl->translateString("error.on.enable.not.found.libform");
           $this->getLogger()->critical($message);
           $this->getServer()->getPluginManager()->disablePlugin($this);
           return false;

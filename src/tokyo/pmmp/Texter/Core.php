@@ -173,21 +173,21 @@ class Core extends PluginBase implements Listener {
 
   private function checkPackaged(): bool {
     $cl = Lang::fromConsole();
-    if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
-      if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
-        return true;// developer
+    if ($this->isPhar()) {
+      if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform\\FormApi")) {
+        return true;// PoggitCI
       }else {
-        $message = $cl->translateString("error.on.enable.not.found.libform");
+        $message = $cl->translateString("error.on.enable.not.packaged");
         $this->getLogger()->critical($message);
         $this->getServer()->getPluginManager()->disablePlugin($this);
         return false;
       }
     }else {
-      if ($this->isPhar()) {
-        if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform")) {
-          return true;// PoggitCI
+      if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
+        if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
+          return true;// developer
         }else {
-          $message = $cl->translateString("error.on.enable.not.packaged");
+          $message = $cl->translateString("error.on.enable.not.found.libform");
           $this->getLogger()->critical($message);
           $this->getServer()->getPluginManager()->disablePlugin($this);
           return false;

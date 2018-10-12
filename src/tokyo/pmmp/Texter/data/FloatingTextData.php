@@ -52,7 +52,14 @@ class FloatingTextData extends Config implements Data {
   }
 
   public function saveFtChange(FloatingText $ft): bool {
-    $this->setNested("{$ft->level->getFolderName()}.{$ft->getName()}", $ft->format());
+    $levelName = $ft->level->getFolderName();
+    $levelFts = $this->get($levelName, []);
+    if (!empty($levelFts)) {
+      $levelFts[$ft->getName()] = $ft->format();
+      $this->set($levelName, $levelFts);
+    }else {
+      $this->set($levelName, [$ft->getName() => $ft->format()]);
+    }
     $this->save();
     return true;
   }
@@ -62,9 +69,10 @@ class FloatingTextData extends Config implements Data {
   }
 
   public function removeFtsByLevelName(string $levelName): bool {
-    if ($bool = $this->exists($levelName))
+    if ($bool = $this->exists($levelName)) {
       $this->remove($levelName);
       $this->save();
+    }
     return $bool;
   }
 
@@ -74,8 +82,12 @@ class FloatingTextData extends Config implements Data {
 
   public function removeFtByLevelName(string $levelName, string $name): void {
     if ($bool = $this->exists($levelName)) {
-      $this->removeNested("{$levelName}.{$name}");
-      $this->save();
+      if ($bool) {
+        $levelFts = $this->get($levelName);
+        unset($levelFts[$name]);
+        $this->set($levelName, $levelFts);
+        $this->save();
+      }
     }
   }
 

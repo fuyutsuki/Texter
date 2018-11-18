@@ -27,17 +27,19 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command\sub;
 
-
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use tokyo\pmmp\libform\element\Input;
 use tokyo\pmmp\libform\element\Label;
 use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
-use tokyo\pmmp\Texter\data\FloatingTextData;
 use tokyo\pmmp\Texter\text\Text;
 use tokyo\pmmp\Texter\TexterApi;
 
+/**
+ * Class TxtRemove
+ * @package tokyo\pmmp\Texter\command\sub
+ */
 class TxtRemove extends TexterSubCommand {
 
   /** @var int response key */
@@ -55,7 +57,7 @@ class TxtRemove extends TexterSubCommand {
           if ($ft !== null) {
             if ($ft->isOwner($player)) {
               $ft->sendToLevel($level, Text::SEND_TYPE_REMOVE);
-              FloatingTextData::make()->removeFtByLevel($level, $ft->getName());
+              TexterApi::removeFtByLevel($level, $ft->getName());
               $message = $this->lang->translateString("command.txt.remove.success", [
                 $ft->getName()
               ]);

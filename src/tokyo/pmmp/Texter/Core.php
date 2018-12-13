@@ -70,6 +70,8 @@ class Core extends PluginBase implements Listener {
       FormApi::register($this);
       $listener = new EventListener;
       $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    }else {
+      $this->getServer()->getPluginManager()->disablePlugin($this);
     }
   }
 
@@ -179,7 +181,6 @@ class Core extends PluginBase implements Listener {
       }else {
         $message = $cl->translateString("error.on.enable.not.packaged");
         $this->getLogger()->critical($message);
-        $this->getServer()->getPluginManager()->disablePlugin($this);
         return false;
       }
     }else {
@@ -189,13 +190,11 @@ class Core extends PluginBase implements Listener {
         }else {
           $message = $cl->translateString("error.on.enable.not.found.libform");
           $this->getLogger()->critical($message);
-          $this->getServer()->getPluginManager()->disablePlugin($this);
           return false;
         }
       }else {
         $message = $cl->translateString("error.on.enable.not.packaged");
         $this->getLogger()->critical($message);
-        $this->getServer()->getPluginManager()->disablePlugin($this);
         return false;
       }
     }

@@ -21,13 +21,14 @@
     "ext-yaml": ">=2.0.0",
     "ext-zip": "*",
     "ext-zlib": ">=1.2.11",
-    "pocketmine/pocketmine-mp": "^3.0",
+    "pocketmine/pocketmine-mp": "^3.5",
     "pocketmine/raklib": "^0.12.0",
     "pocketmine/spl": "^0.3.0",
     "pocketmine/binaryutils": "^0.1.0",
     "pocketmine/nbt": "^0.2.0",
     "pocketmine/math": "^0.2.0",
     "pocketmine/snooze": "^0.1.0",
+    "daverandom/callback-validator": "dev-master",
     "fuyutsuki/libform": "^0.4"
   },
   "autoload": {

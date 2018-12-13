@@ -224,12 +224,10 @@ class FloatingText extends Position implements Text {
         $pk->entityUniqueId = $this->eid;
         $pk->position = $this;
         $pk->item = Item::get(Item::AIR);
-        $flags =
-          1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG |
-          1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG |
-          1 << Entity::DATA_FLAG_IMMOBILE;
-        $flags |= $this->isInvisible ?
-          1 << Entity::DATA_FLAG_INVISIBLE : 1;
+        $flags = 1 << Entity::DATA_FLAG_IMMOBILE;
+        if ($this->isInvisible) {
+          $flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
+        }
         $pk->metadata = [
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]

@@ -4,11 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cdce27cde4903028c45eb52ec211f73",
+    "content-hash": "99e726c8c679f2dbd814c968ef875b07",
     "packages": [
         {
+            "name": "daverandom/callback-validator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DaveRandom/CallbackValidator.git",
+                "reference": "d87a08cddbc6099816ed01e50ce25cdfc43b542f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DaveRandom/CallbackValidator/zipball/d87a08cddbc6099816ed01e50ce25cdfc43b542f",
+                "reference": "d87a08cddbc6099816ed01e50ce25cdfc43b542f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-reflection": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DaveRandom\\CallbackValidator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Wright",
+                    "email": "cw@daverandom.com"
+                }
+            ],
+            "description": "Tools for validating callback signatures",
+            "time": "2017-04-03T15:22:41+00:00"
+        },
+        {
             "name": "fuyutsuki/libform",
-            "version": "v0.4.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuyutsuki/libform.git",
@@ -134,19 +174,20 @@
         },
         {
             "name": "pocketmine/nbt",
-            "version": "0.2.1",
+            "version": "0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/NBT.git",
-                "reference": "a4ee39f313c6870153fb7c7e513b211217f7daf8"
+                "reference": "291bf5cc2a94500eada1edbda51d15bed25a1e1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/NBT/zipball/a4ee39f313c6870153fb7c7e513b211217f7daf8",
-                "reference": "a4ee39f313c6870153fb7c7e513b211217f7daf8",
+                "url": "https://api.github.com/repos/pmmp/NBT/zipball/291bf5cc2a94500eada1edbda51d15bed25a1e1c",
+                "reference": "291bf5cc2a94500eada1edbda51d15bed25a1e1c",
                 "shasum": ""
             },
             "require": {
+                "ext-zlib": "*",
                 "php": ">=7.2.0",
                 "php-64bit": "*",
                 "pocketmine/binaryutils": "^0.1.0"
@@ -167,26 +208,27 @@
             ],
             "description": "PHP library for working with Named Binary Tags",
             "support": {
-                "source": "https://github.com/pmmp/NBT/tree/0.2.1",
+                "source": "https://github.com/pmmp/NBT/tree/0.2.3",
                 "issues": "https://github.com/pmmp/NBT/issues"
             },
-            "time": "2018-09-04T10:36:02+00:00"
+            "time": "2018-12-03T16:08:28+00:00"
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "3.2.4",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "a66dd4a7d95c49792d39c7e70442b1ee4b855988"
+                "reference": "2323601f98bf5f48901cd57b96d0e680a7d5e56e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/a66dd4a7d95c49792d39c7e70442b1ee4b855988",
-                "reference": "a66dd4a7d95c49792d39c7e70442b1ee4b855988",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/2323601f98bf5f48901cd57b96d0e680a7d5e56e",
+                "reference": "2323601f98bf5f48901cd57b96d0e680a7d5e56e",
                 "shasum": ""
             },
             "require": {
+                "daverandom/callback-validator": "dev-master",
                 "ext-bcmath": "*",
                 "ext-ctype": "*",
                 "ext-curl": "*",
@@ -232,10 +274,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.2.4",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.5.0",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2018-10-07T18:32:04+00:00"
+            "time": "2018-12-12T19:03:07+00:00"
         },
         {
             "name": "pocketmine/raklib",
@@ -349,7 +391,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ext-pthreads": 20
+        "ext-pthreads": 20,
+        "daverandom/callback-validator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

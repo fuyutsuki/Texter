@@ -1,6 +1,6 @@
 name: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.0.4
+version: 3.0.5
 api: 3.0.0 # pmmp/PocketMine-MP
 softdepend:
   - DEVirion

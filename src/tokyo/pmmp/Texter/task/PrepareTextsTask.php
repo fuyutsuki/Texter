@@ -75,16 +75,16 @@ class PrepareTextsTask extends Task {
         $this->onSuccess();
       }else {
         $data = $this->fts[$this->ftsCount];
-        $textName = $data["NAME"];
-        $loaded = Server::getInstance()->isLevelLoaded($data["LEVEL"]);
+        $textName = $data[Data::KEY_NAME];
+        $loaded = Server::getInstance()->isLevelLoaded($data[Data::KEY_LEVEL]);
         $canLoad = true;
-        if (!$loaded) $canLoad = $this->server->loadLevel($data["LEVEL"]);
+        if (!$loaded) $canLoad = $this->server->loadLevel($data[Data::KEY_LEVEL]);
         if ($canLoad) {
-          $level = $this->server->getLevelByName($data["LEVEL"]);
+          $level = $this->server->getLevelByName($data[Data::KEY_LEVEL]);
           if ($level !== null) {
-            $x = (float)$data[Data::KEY_X];
-            $y = (float)$data[Data::KEY_Y];
-            $z = (float)$data[Data::KEY_Z];
+            $x = $data[Data::KEY_X];
+            $y = $data[Data::KEY_Y];
+            $z = $data[Data::KEY_Z];
             $pos = new Position($x, $y, $z, $level);
             $title = $data[Data::KEY_TITLE];
             $text = $data[Data::KEY_TEXT];
@@ -97,16 +97,16 @@ class PrepareTextsTask extends Task {
       }
     }else {
       $data = $this->ufts[$this->uftsCount];
-      $textName = $data["NAME"];
-      $loaded = $this->server->isLevelLoaded($data["LEVEL"]);
+      $textName = $data[Data::KEY_NAME];
+      $loaded = $this->server->isLevelLoaded($data[Data::KEY_LEVEL]);
       $canLoad = true;
-      if (!$loaded) $canLoad = $this->server->loadLevel($data["LEVEL"]);
+      if (!$loaded) $canLoad = $this->server->loadLevel($data[Data::KEY_LEVEL]);
       if ($canLoad) {
-        $level = $this->server->getLevelByName($data["LEVEL"]);
+        $level = $this->server->getLevelByName($data[Data::KEY_LEVEL]);
         if ($level !== null) {
-          $x = (float)$data[Data::KEY_X];
-          $y = (float)$data[Data::KEY_Y];
-          $z = (float)$data[Data::KEY_Z];
+          $x = $data[Data::KEY_X];
+          $y = $data[Data::KEY_Y];
+          $z = $data[Data::KEY_Z];
           $pos = new Position($x, $y, $z, $level);
           $title = $data[Data::KEY_TITLE];
           $text = $data[Data::KEY_TEXT];
@@ -119,7 +119,8 @@ class PrepareTextsTask extends Task {
   }
 
   private function onSuccess(): void {
-    if (Core::get()->isEnabled()) {
+    $plugin = $this->server->getPluginManager()->getPlugin("Texter");
+    if ($plugin !== null && $plugin->isEnabled()) {
       $message = Lang::fromConsole()->translateString("on.enable.prepared", [
         count(TexterApi::getUfts(), COUNT_RECURSIVE) - count(TexterApi::getUfts()),
         count(TexterApi::getFts(), COUNT_RECURSIVE) - count(TexterApi::getFts())

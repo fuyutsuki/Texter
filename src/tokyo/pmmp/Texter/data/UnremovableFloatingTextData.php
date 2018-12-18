@@ -52,13 +52,13 @@ class UnremovableFloatingTextData extends Config implements Data {
     foreach ($ufts as $levelName => $texts) {
       foreach ($texts as $textName => $val) {
         $data[] = [
-          "NAME" => $textName,
-          "LEVEL" => $levelName,
-          Data::KEY_X => $val["Xvec"],
-          Data::KEY_Y => $val["Yvec"],
-          Data::KEY_Z => $val["Zvec"],
-          Data::KEY_TITLE => $val["TITLE"],
-          Data::KEY_TEXT => $val["TEXT"]
+          Data::KEY_NAME => (string) $textName,
+          Data::KEY_LEVEL => (string) $levelName,
+          Data::KEY_X => (float) $val[Data::KEY_X],
+          Data::KEY_Y => (float) $val[Data::KEY_Y],
+          Data::KEY_Z => (float) $val[Data::KEY_Z],
+          Data::KEY_TITLE => (string) $val[Data::KEY_TITLE],
+          Data::KEY_TEXT => (string) $val[Data::KEY_TEXT]
         ];
       }
     }

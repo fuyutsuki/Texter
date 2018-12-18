@@ -74,10 +74,12 @@ class ConfigData extends Config implements Data {
    */
   public function checkCharLimit(string $text): bool {
     $limit = $this->getCharLimit();
-    if ($limit === -1)
+    if ($limit === -1) {
       return true;
-    $length = mb_strlen($text);
-    return $limit >= $length;
+    }else {
+      $length = mb_strlen($text);
+      return $limit >= $length;
+    }
   }
 
   /**

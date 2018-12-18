@@ -34,6 +34,8 @@ namespace tokyo\pmmp\Texter\data;
 interface Data {
 
   /** @var string */
+  public const KEY_NAME = "NAME";
+  public const KEY_LEVEL = "LEVEL";
   public const KEY_X = "Xvec";
   public const KEY_Y = "Yvec";
   public const KEY_Z = "Zvec";

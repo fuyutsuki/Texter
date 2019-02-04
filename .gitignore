@@ -5,7 +5,7 @@
 /.history
 
 # Composer
-/vendor
+vendor/*
 
 # for old-plugin data
 /language

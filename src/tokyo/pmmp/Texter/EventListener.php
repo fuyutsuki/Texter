@@ -64,9 +64,11 @@ class EventListener implements Listener {
     $pk = $ev->getPacket();
     if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
       /** @var AvailableCommandsPacket $pk */
-      $p = $ev->getPlayer();
-      $txt = $pk->commandData["txt"];
-      $txt->commandDescription = Lang::fromLocale($p->getLocale())->translateString("command.txt.description");
+      if (isset($pk->commandData["txt"])) {
+        $p = $ev->getPlayer();
+        $txt = $pk->commandData["txt"];
+        $txt->commandDescription = Lang::fromLocale($p->getLocale())->translateString("command.txt.description");
+      }
     }
   }
 }

@@ -34,7 +34,6 @@ use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\Player;
-use tokyo\pmmp\Texter\command\TxtCommand;
 use tokyo\pmmp\Texter\i18n\Lang;
 use tokyo\pmmp\Texter\task\SendTextsTask;
 use tokyo\pmmp\Texter\text\Text;

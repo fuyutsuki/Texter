@@ -52,9 +52,9 @@ class UnremovableFloatingText extends FloatingText implements Text {
 
   public function format(): array {
     return [
-      Data::KEY_X => sprintf('%0.1f', $this->pos->x),
-      Data::KEY_Y => sprintf('%0.1f', $this->pos->y),
-      Data::KEY_Z => sprintf('%0.1f', $this->pos->z),
+      Data::KEY_X => sprintf('%0.1f', $this->x),
+      Data::KEY_Y => sprintf('%0.1f', $this->y),
+      Data::KEY_Z => sprintf('%0.1f', $this->z),
       Data::KEY_TITLE => $this->title,
       Data::KEY_TEXT => $this->text
     ];

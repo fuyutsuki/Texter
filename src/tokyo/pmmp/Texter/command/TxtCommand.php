@@ -57,6 +57,7 @@ class TxtCommand extends Command {
   public function execute(CommandSender $sender, string $commandLabel, array $args) {
     if (Core::get()->isDisabled() || !$this->testPermission($sender)) return false;
     if ($sender instanceof Player) {
+      $pluginDescription = Core::get()->getDescription();
       $cd = ConfigData::make();
       $lang = Lang::fromLocale($sender->getLocale());
       if ($cd->checkWorldLimit($sender->getLevel()->getName())) {
@@ -89,18 +90,18 @@ class TxtCommand extends Command {
 
             default:
               $message = $lang->translateString("command.txt.usage");
-              $sender->sendMessage(Core::PREFIX . $message);
+              $sender->sendMessage($pluginDescription->getPrefix() . $message);
               break;
           }
         }else {
           $message = $lang->translateString("command.txt.usage");
-          $sender->sendMessage(Core::PREFIX . $message);
+          $sender->sendMessage($pluginDescription->getPrefix() . $message);
         }
       }else {
         $message = $lang->translateString("error.config.limit.world", [
           $sender->getLevel()->getName()
         ]);
-        $sender->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+        $sender->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
       }
     }else {
       $info = Lang::fromConsole()->translateString("error.console");

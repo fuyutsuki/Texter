@@ -46,6 +46,7 @@ class TxtList extends TexterSubCommand {
   public const REMOVE = 2;
 
   public function execute(string $default = ""): void {
+    $pluginDescription = Core::get()->getDescription();
     $description = $this->lang->translateString("form.list.description.1");
 
     $fts = TexterApi::getFtsByLevel($this->player->getLevel());
@@ -57,7 +58,7 @@ class TxtList extends TexterSubCommand {
       }
     }
 
-    $list1 = FormApi::makeListForm(function (Player $player, ?int $key) use ($search) {
+    $list1 = FormApi::makeListForm(function (Player $player, ?int $key) use ($pluginDescription, $search) {
       if (!FormApi::formCancelled($key)) {
         $target = $search[$key];
         $description = $this->lang->translateString("form.list.description.2", [
@@ -84,14 +85,14 @@ class TxtList extends TexterSubCommand {
           ->addButton(new Button("edit"))
           ->addButton(new Button("move"))
           ->addButton(new Button("remove"))
-          ->setTitle(Core::PREFIX . "/txt list")
+          ->setTitle($pluginDescription->getPrefix() . "/txt list")
           ->sendToPlayer($player);
       }
     });
 
     $list1
       ->setContent($description)
-      ->setTitle(Core::PREFIX . "/txt list");
+      ->setTitle($pluginDescription->getPrefix() . "/txt list");
     foreach ($search as $ft) $list1->addButton(new Button($ft->getName()));
     $list1->sendToPlayer($this->player);
   }

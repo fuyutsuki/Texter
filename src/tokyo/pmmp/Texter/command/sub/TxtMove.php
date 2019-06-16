@@ -48,10 +48,11 @@ class TxtMove extends TexterSubCommand {
   public const FT_NAME = 1;
 
   public function execute(string $default = ""): void {
+    $pluginDescription = Core::get()->getDescription();
     $description = $this->lang->translateString("form.move.description");
     $ftName = $this->lang->translateString("form.ftname");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) {
+    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
       if (!FormApi::formCancelled($response)) {
         $level = $player->getLevel();
         if (!empty($response[self::FT_NAME])) {
@@ -66,20 +67,20 @@ class TxtMove extends TexterSubCommand {
                 $ft->getName(),
                 $this->lang->translateString("form.move.here")// TODO: xyz specification
               ]);
-              $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+              $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
             }else {
               $message = $this->lang->translateString("error.permission");
-              $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+              $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
             }
           }else {
             $message = $this->lang->translateString("error.ftname.not.exists", [
               $response[self::FT_NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+            $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+          $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
         }
       }
     });
@@ -87,7 +88,7 @@ class TxtMove extends TexterSubCommand {
     $custom
       ->addElement(new Label($description))
       ->addElement(new Input($ftName, $ftName, $default))
-      ->setTitle(Core::PREFIX . "/txt remove")
+      ->setTitle($pluginDescription->getPrefix() . "/txt remove")
       ->sendToPlayer($this->player);
   }
 }

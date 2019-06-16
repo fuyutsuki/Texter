@@ -50,11 +50,12 @@ class TxtAdd extends TexterSubCommand {
   public const TEXT = 4;
 
   public function execute(string $default = ""): void {
+    $pluginDescription = Core::get()->getDescription();
     $ftName = $this->lang->translateString("form.ftname.unique");
     $title = $this->lang->translateString("form.title");
     $text = $this->lang->translateString("form.text");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) {
+    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
       if (!FormApi::formCancelled($response)) {
         $level = $player->getLevel();
         if (!empty($response[self::NAME])) {
@@ -71,28 +72,28 @@ class TxtAdd extends TexterSubCommand {
                 $message = $this->lang->translateString("command.txt.add.success", [
                   TextFormat::clean($response[self::NAME])
                 ]);
-                $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+                $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
               }else {
                 $message = $this->lang->translateString("error.config.limit.feed", [
                   $cd->getFeedLimit()
                 ]);
-                $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+                $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
               }
             }else {
               $message = $this->lang->translateString("error.config.limit.char", [
                 $cd->getCharLimit()
               ]);
-              $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+              $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
             }
           }else {
             $message = $this->lang->translateString("error.ftname.exists", [
               $response[self::NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+            $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+          $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
         }
       }
     });
@@ -103,7 +104,7 @@ class TxtAdd extends TexterSubCommand {
       ->addElement(new Label($this->lang->translateString("command.txt.usage.indent")))
       ->addElement(new Input($title, $title))
       ->addElement(new Input($text, $text))
-      ->setTitle(Core::PREFIX . "/txt add")
+      ->setTitle($pluginDescription->getPrefix() . "/txt add")
       ->sendToPlayer($this->player);
   }
 }

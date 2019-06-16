@@ -47,7 +47,8 @@ use tokyo\pmmp\Texter\i18n\Lang;
 class TxtCommand extends Command {
 
   public function __construct() {
-    $this->setPermission("texter.command.txt");
+    $permission = ConfigData::make()->canUseOnlyOp() ? "texter.command.*" : "texter.command.txt";
+    $this->setPermission($permission);
     $cl = Lang::fromConsole();
     $description = $cl->translateString("command.txt.description");
     $usage = $cl->translateString("command.txt.usage");
@@ -90,18 +91,18 @@ class TxtCommand extends Command {
 
             default:
               $message = $lang->translateString("command.txt.usage");
-              $sender->sendMessage($pluginDescription->getPrefix() . $message);
+              $sender->sendMessage("[{$pluginDescription->getPrefix()}] $message");
               break;
           }
         }else {
           $message = $lang->translateString("command.txt.usage");
-          $sender->sendMessage($pluginDescription->getPrefix() . $message);
+          $sender->sendMessage("[{$pluginDescription->getPrefix()}] $message");
         }
       }else {
         $message = $lang->translateString("error.config.limit.world", [
           $sender->getLevel()->getName()
         ]);
-        $sender->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+        $sender->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
       }
     }else {
       $info = Lang::fromConsole()->translateString("error.console");

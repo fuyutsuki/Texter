@@ -51,10 +51,9 @@ class Core extends PluginBase implements Listener {
   /** @var bool */
   private static $isUpdater = false;
 
-  public function onLoad(): void {
+  public function onLoad() {
     self::$core = $this;
     $this
-      ->checkOldDirectories()// Rename 2.x.y series files
       ->loadResources()
       ->loadLanguage()
       ->registerCommands()
@@ -62,7 +61,7 @@ class Core extends PluginBase implements Listener {
       ->checkUpdate();
   }
 
-  public function onEnable(): void {
+  public function onEnable() {
     if ($this->checkPackaged()) {
       FormApi::register($this);
       $listener = new EventListener;
@@ -70,19 +69,6 @@ class Core extends PluginBase implements Listener {
     }else {
       $this->getServer()->getPluginManager()->disablePlugin($this);
     }
-  }
-
-  private function checkOldDirectories(): self {
-    $dir = $this->getDataFolder();
-    if (file_exists("{$dir}crfts.json")) {
-      self::$isUpdater = true;
-      rename("{$dir}crfts.json", "{$dir}uft.json");
-    }
-    if (file_exists("{$dir}fts.json")) {
-      self::$isUpdater = true;
-      rename("{$dir}fts.json", "{$dir}ft.json");
-    }
-    return $this;
   }
 
   private function loadResources(): self {
@@ -96,11 +82,15 @@ class Core extends PluginBase implements Listener {
   private function loadLanguage(): self {
     new Lang($this);
     $cl = Lang::fromConsole();
-    $message = $cl->translateString("language.selected", [
+    $message1 = $cl->translateString("language.selected", [
       $cl->getName(),
       $cl->getLang()
     ]);
-    $this->getLogger()->info(TextFormat::GREEN . $message);
+    $this->getLogger()->info(TextFormat::GREEN . $message1);
+    if (self::isUpdater()) {
+      $message2 = $cl->translateString("on.load.is.updater");
+      $this->getLogger()->notice($message2);
+    }
     return $this;
   }
 
@@ -197,16 +187,14 @@ class Core extends PluginBase implements Listener {
     }
   }
 
-  /**
-   * @return bool
-   */
   public static function isUpdater(): bool {
     return self::$isUpdater;
   }
 
-  /**
-   * @return Core
-   */
+  public static function setIsUpdater(bool $bool = true) {
+    self::$isUpdater = $bool;
+  }
+
   public static function get(): Core {
     return self::$core;
   }

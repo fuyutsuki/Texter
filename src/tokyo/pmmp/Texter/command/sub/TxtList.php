@@ -85,14 +85,14 @@ class TxtList extends TexterSubCommand {
           ->addButton(new Button("edit"))
           ->addButton(new Button("move"))
           ->addButton(new Button("remove"))
-          ->setTitle($pluginDescription->getPrefix() . "/txt list")
+          ->setTitle("[{$pluginDescription->getPrefix()}] /txt list")
           ->sendToPlayer($player);
       }
     });
 
     $list1
       ->setContent($description)
-      ->setTitle($pluginDescription->getPrefix() . "/txt list");
+      ->setTitle("[{$pluginDescription->getPrefix()}] /txt list");
     foreach ($search as $ft) $list1->addButton(new Button($ft->getName()));
     $list1->sendToPlayer($this->player);
   }

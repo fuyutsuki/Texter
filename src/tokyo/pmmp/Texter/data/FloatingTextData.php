@@ -38,7 +38,6 @@ use tokyo\pmmp\Texter\text\FloatingText;
  */
 class FloatingTextData extends Config implements Data {
 
-  /** @var string */
   public const KEY_OWNER = "OWNER";
 
   /** @var FloatingTextData */

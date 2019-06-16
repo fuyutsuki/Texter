@@ -9,6 +9,9 @@ check.update: true
 # If you want to disable the command, please set it to false
 can.use.commands: true
 
+# If you only want op to use the command, please set it to true
+can.use.only.op: false
+
 # To limit the number of characters, set it to that, if unnecessary, set it to -1
 char: 50
 

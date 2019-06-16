@@ -33,7 +33,6 @@ namespace tokyo\pmmp\Texter\data;
  */
 interface Data {
 
-  /** @var string */
   public const KEY_NAME = "NAME";
   public const KEY_LEVEL = "LEVEL";
   public const KEY_X = "Xvec";
@@ -42,11 +41,7 @@ interface Data {
   public const KEY_TITLE = "TITLE";
   public const KEY_TEXT = "TEXT";
 
-  /** @var int */
   public const JSON_OPTIONS = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
 
-  /**
-   * @return Data
-   */
   public static function make();
 }

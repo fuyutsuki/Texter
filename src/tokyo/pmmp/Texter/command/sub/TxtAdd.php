@@ -72,28 +72,28 @@ class TxtAdd extends TexterSubCommand {
                 $message = $this->lang->translateString("command.txt.add.success", [
                   TextFormat::clean($response[self::NAME])
                 ]);
-                $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
+                $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
               }else {
                 $message = $this->lang->translateString("error.config.limit.feed", [
                   $cd->getFeedLimit()
                 ]);
-                $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+                $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
               }
             }else {
               $message = $this->lang->translateString("error.config.limit.char", [
                 $cd->getCharLimit()
               ]);
-              $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+              $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
             }
           }else {
             $message = $this->lang->translateString("error.ftname.exists", [
               $response[self::NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+            $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+          $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
         }
       }
     });
@@ -104,7 +104,7 @@ class TxtAdd extends TexterSubCommand {
       ->addElement(new Label($this->lang->translateString("command.txt.usage.indent")))
       ->addElement(new Input($title, $title))
       ->addElement(new Input($text, $text))
-      ->setTitle($pluginDescription->getPrefix() . "/txt add")
+      ->setTitle("[{$pluginDescription->getPrefix()}] /txt add")
       ->sendToPlayer($this->player);
   }
 }

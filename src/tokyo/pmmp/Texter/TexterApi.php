@@ -70,7 +70,7 @@ class TexterApi {
   }
 
   /**
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUfts(): array {
     return self::$ufts;
@@ -78,7 +78,7 @@ class TexterApi {
 
   /**
    * @param Level $level
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUftsByLevel(Level $level): array {
     return self::getUftsByLevelName($level->getFolderName());
@@ -86,7 +86,7 @@ class TexterApi {
 
   /**
    * @param string $levelName
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUftsByLevelName(string $levelName): array {
     return self::$ufts[$levelName] ?? [];
@@ -113,7 +113,7 @@ class TexterApi {
   }
 
   /**
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFts(): array {
     return self::$fts;
@@ -121,7 +121,7 @@ class TexterApi {
 
   /**
    * @param Level $level
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFtsByLevel(Level $level): array {
     return self::getFtsByLevelName($level->getFolderName());
@@ -129,7 +129,7 @@ class TexterApi {
 
   /**
    * @param string $levelName
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFtsByLevelName(string $levelName): array {
     return self::$fts[$levelName] ?? [];

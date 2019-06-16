@@ -42,36 +42,32 @@ class ConfigData extends Config implements Data {
   private static $instance;
 
   public function __construct(PluginBase $plugin, string $path, string $file) {
-    $plugin->saveResource($file, Core::isUpdater());
+    $plugin->saveResource($file);
     parent::__construct($path.$file, Config::YAML);
     self::$instance = $this;
+    $this->checkIsUpdater();
   }
 
-  /**
-   * @return string
-   */
+  private function checkIsUpdater() {
+    Core::setIsUpdater(!$this->exists("can.use.only.op"));
+  }
+
   public function getLocale(): string {
     return strtolower($this->get("locale", Lang::FALLBACK));
   }
 
-  /**
-   * @return bool
-   */
   public function checkUpdate(): bool {
     return (bool) $this->get("check.update", true);
   }
 
-  /**
-   * @return bool
-   */
   public function canUseCommands(): bool {
     return (bool) $this->get("can.use.commands", true);
   }
 
-  /**
-   * @param string $text
-   * @return bool
-   */
+  public function canUseOnlyOp(): bool {
+    return (bool) $this->get("can.use.only.op", false);
+  }
+
   public function checkCharLimit(string $text): bool {
     $limit = $this->getCharLimit();
     if ($limit === -1) {
@@ -82,17 +78,10 @@ class ConfigData extends Config implements Data {
     }
   }
 
-  /**
-   * @return int
-   */
   public function getCharLimit(): int {
     return (int) $this->get("char", -1);
   }
 
-  /**
-   * @param string $text
-   * @return bool
-   */
   public function checkFeedLimit(string $text): bool {
     $limit = $this->getFeedLimit();
     if ($limit === -1)
@@ -101,17 +90,10 @@ class ConfigData extends Config implements Data {
     return $limit >= $feed;
   }
 
-  /**
-   * @return int
-   */
   public function getFeedLimit(): int {
     return (int) $this->get("feed", -1);
   }
 
-  /**
-   * @param string $levelName
-   * @return bool
-   */
   public function checkWorldLimit(string $levelName): bool {
     if ($this->exists("world")) {
       $limited = $this->get("world", []);
@@ -126,9 +108,6 @@ class ConfigData extends Config implements Data {
     return true;// isn't limited
   }
 
-  /**
-   * @return ConfigData
-   */
   public static function make(): ConfigData {
     return self::$instance;
   }

@@ -65,22 +65,22 @@ class TxtMove extends TexterSubCommand {
               FloatingTextData::make()->saveFtChange($ft);
               $message = $this->lang->translateString("command.txt.move.success", [
                 $ft->getName(),
-                $this->lang->translateString("form.move.here")// TODO: xyz specification
+                $this->lang->translateString("form.move.here")// TODO: xyz specification(3.2.0~)
               ]);
-              $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
+              $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
             }else {
               $message = $this->lang->translateString("error.permission");
-              $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+              $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
             }
           }else {
             $message = $this->lang->translateString("error.ftname.not.exists", [
               $response[self::FT_NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+            $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+          $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
         }
       }
     });
@@ -88,7 +88,7 @@ class TxtMove extends TexterSubCommand {
     $custom
       ->addElement(new Label($description))
       ->addElement(new Input($ftName, $ftName, $default))
-      ->setTitle($pluginDescription->getPrefix() . "/txt remove")
+      ->setTitle("[{$pluginDescription->getPrefix()}] /txt remove")
       ->sendToPlayer($this->player);
   }
 }

@@ -83,7 +83,7 @@ class TxtEdit extends TexterSubCommand {
                         $ft->getName(),
                         $title
                       ]);
-                      $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
+                      $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
                     }
                   }
                   break;
@@ -100,24 +100,24 @@ class TxtEdit extends TexterSubCommand {
                         $ft->getName(),
                         $text
                       ]);
-                      $player->sendMessage(TextFormat::GREEN . $pluginDescription->getPrefix() . $message);
+                      $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
                     }
                   }
                   break;
               }
             }else {
               $message = $this->lang->translateString("error.permission");
-              $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+              $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
             }
           }else {
             $message = $this->lang->translateString("error.ftname.not.exists", [
               $response[self::FT_NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+            $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . $pluginDescription->getPrefix() . $message);
+          $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
         }
       }
     });
@@ -128,7 +128,7 @@ class TxtEdit extends TexterSubCommand {
       ->addElement(new Dropdown($type, [$title, $text]))
       ->addElement(new Label($tips))
       ->addElement(new Input($content, $content))
-      ->setTitle($pluginDescription->getPrefix() . "/txt edit")
+      ->setTitle("[{$pluginDescription->getPrefix()}] /txt edit")
       ->sendToPlayer($this->player);
   }
 }

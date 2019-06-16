@@ -36,7 +36,6 @@ use pocketmine\Player;
  */
 interface Text {
 
-  /** @var int */
   public const SEND_TYPE_ADD = 0;
   public const SEND_TYPE_EDIT = 1;
   public const SEND_TYPE_MOVE = 2;
@@ -64,13 +63,10 @@ interface Text {
   public function sendToLevel(Level $level, int $type = Text::SEND_TYPE_ADD);
 
   /**
-   * @return array
+   * @return array[string key] = value
    */
   public function format(): array;
 
-  /**
-   * @return string
-   */
   public function __toString(): string;
 
 }

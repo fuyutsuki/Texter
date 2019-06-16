@@ -24,7 +24,7 @@ permissions:
   children:
    texter.command.*:
     default: op
-    description: permission that allows player to use texter
+    description: permission that allows player to use texter commands
     children:
       texter.command.txt:
         default: true

@@ -1,7 +1,4 @@
 <img src="/assets/Texter.png" width="400px">  
-<!-- for poggit
-<img src="https://raw.githubusercontent.com/fuyutsuki/Texter/master/assets/Texter.png" width="400px">  
--->
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
 [![](https://poggit.pmmp.io/shield.state/Texter)](https://poggit.pmmp.io/p/Texter)

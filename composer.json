@@ -3,7 +3,7 @@
   "description": "This is a PocketMine-MP plugin that can add, edit, move and remove FloatingTextParticle.",
   "type": "project",
   "homepage": "https://github.com/fuyutsuki/Texter",
-  "license": "MIT",
+  "license": "NCSA",
   "require": {
     "php": ">=7.2.0",
     "ext-bcmath": "*",

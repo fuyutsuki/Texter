@@ -1,6 +1,7 @@
 name: Texter
+prefix: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.0.8
+version: 3.1.0
 api: 3.0.0 # pmmp/PocketMine-MP
 softdepend:
   - DEVirion
@@ -23,8 +24,8 @@ permissions:
   children:
    texter.command.*:
     default: op
-    description: permission that allows player to use texter
+    description: permission that allows player to use texter commands
     children:
       texter.command.txt:
-        default: true # もしopのみ実行させたい場合は op と記述してください
+        default: true
         description: permission that allows player to use /txt

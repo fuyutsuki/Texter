@@ -4,23 +4,23 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * This software is distributed under "MIT license".
+ * This software is distributed under "NCSA license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
- * < https://opensource.org/licenses/mit-license >.
+ * < https://opensource.org/licenses/NCSA >.
  *
  * ---------------------------------------------------------------------
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
- * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
- * < https://opensource.org/licenses/mit-license >
+ * < https://opensource.org/licenses/NCSA >
  */
 
 declare(strict_types = 1);
@@ -46,18 +46,14 @@ use tokyo\pmmp\Texter\task\PrepareTextsTask;
  */
 class Core extends PluginBase implements Listener {
 
-  /** @var string */
-  public const PREFIX = "[Texter] ";
-
   /** @var Core */
   private static $core;
   /** @var bool */
   private static $isUpdater = false;
 
-  public function onLoad(): void {
+  public function onLoad() {
     self::$core = $this;
     $this
-      ->checkOldDirectories()// Rename 2.x.y series files
       ->loadResources()
       ->loadLanguage()
       ->registerCommands()
@@ -65,7 +61,7 @@ class Core extends PluginBase implements Listener {
       ->checkUpdate();
   }
 
-  public function onEnable(): void {
+  public function onEnable() {
     if ($this->checkPackaged()) {
       FormApi::register($this);
       $listener = new EventListener;
@@ -73,19 +69,6 @@ class Core extends PluginBase implements Listener {
     }else {
       $this->getServer()->getPluginManager()->disablePlugin($this);
     }
-  }
-
-  private function checkOldDirectories(): self {
-    $dir = $this->getDataFolder();
-    if (file_exists("{$dir}crfts.json")) {
-      self::$isUpdater = true;
-      rename("{$dir}crfts.json", "{$dir}uft.json");
-    }
-    if (file_exists("{$dir}fts.json")) {
-      self::$isUpdater = true;
-      rename("{$dir}fts.json", "{$dir}ft.json");
-    }
-    return $this;
   }
 
   private function loadResources(): self {
@@ -99,11 +82,15 @@ class Core extends PluginBase implements Listener {
   private function loadLanguage(): self {
     new Lang($this);
     $cl = Lang::fromConsole();
-    $message = $cl->translateString("language.selected", [
+    $message1 = $cl->translateString("language.selected", [
       $cl->getName(),
       $cl->getLang()
     ]);
-    $this->getLogger()->info(TextFormat::GREEN . $message);
+    $this->getLogger()->info(TextFormat::GREEN . $message1);
+    if (self::isUpdater()) {
+      $message2 = $cl->translateString("on.load.is.updater");
+      $this->getLogger()->notice($message2);
+    }
     return $this;
   }
 
@@ -200,16 +187,14 @@ class Core extends PluginBase implements Listener {
     }
   }
 
-  /**
-   * @return bool
-   */
   public static function isUpdater(): bool {
     return self::$isUpdater;
   }
 
-  /**
-   * @return Core
-   */
+  public static function setIsUpdater(bool $bool = true) {
+    self::$isUpdater = $bool;
+  }
+
   public static function get(): Core {
     return self::$core;
   }

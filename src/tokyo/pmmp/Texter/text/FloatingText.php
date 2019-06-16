@@ -4,23 +4,23 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * This software is distributed under "MIT license".
+ * This software is distributed under "NCSA license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
- * < https://opensource.org/licenses/mit-license >.
+ * < https://opensource.org/licenses/NCSA >.
  *
  * ---------------------------------------------------------------------
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
- * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
- * < https://opensource.org/licenses/mit-license >
+ * < https://opensource.org/licenses/NCSA >
  */
 
 declare(strict_types = 1);
@@ -47,7 +47,6 @@ use tokyo\pmmp\Texter\data\FloatingTextData;
  */
 class FloatingText extends Position implements Text {
 
-  /** @var int */
   public const CHECK_CHAR = 0;
   public const CHECK_FEED = 1;
 
@@ -75,17 +74,10 @@ class FloatingText extends Position implements Text {
       ->setEid($eid);
   }
 
-  /**
-   * @return string
-   */
   public function getName(): string {
     return $this->name;
   }
 
-  /**
-   * @param string $name
-   * @return FloatingText
-   */
   public function setName(string $name): FloatingText {
     $this->name = $name;
     return $this;
@@ -100,51 +92,29 @@ class FloatingText extends Position implements Text {
     return $this;
   }
 
-  /**
-   * @return string
-   */
   public function getTitle(): string {
     return str_replace("\n", "#", $this->title);
   }
 
-  /**
-   * @param string $title
-   * @return FloatingText
-   */
   public function setTitle(string $title): FloatingText {
     $this->title = str_replace("#", "\n", $title);
     return $this;
   }
 
-  /**
-   * @return string
-   */
   public function getText(): string {
     return str_replace("\n", "#", $this->text);
   }
 
-  /**
-   * @param string $text
-   * @return FloatingText
-   */
   public function setText(string $text): FloatingText {
     $this->text = str_replace("#", "\n", $text);
     return $this;
   }
 
-  /**
-   * @param bool $owned
-   * @return string
-   */
   public function getIndentedTexts(bool $owned): string {
     $texts = "{$this->title}".TextFormat::RESET.TextFormat::WHITE."\n{$this->text}";
     return $texts . ($owned ? "\n".TextFormat::GRAY."[{$this->name}]" : "");
   }
 
-  /**
-   * @param int $mode
-   * @return string
-   */
   public function getTextsForCheck(int $mode = self::CHECK_CHAR): string {
     switch ($mode) {
       case self::CHECK_CHAR:
@@ -167,52 +137,29 @@ class FloatingText extends Position implements Text {
     return $this->owner;
   }
 
-  /**
-   * @param string $owner
-   * @return FloatingText
-   */
   public function setOwner(string $owner): FloatingText {
     $this->owner = strtolower($owner);
     return $this;
   }
 
-  /**
-   * @return int
-   */
   public function getEid(): int {
     return $this->eid;
   }
 
-  /**
-   * @param int $eid
-   * @return FloatingText
-   */
   public function setEid(int $eid): FloatingText {
     $this->eid = $eid === 0 ? Entity::$entityCount++ : $eid;
     return $this;
   }
 
-  /**
-   * @return bool
-   */
   public function isInvisible(): bool {
     return $this->isInvisible;
   }
 
-  /**
-   * @param bool $value
-   * @return FloatingText
-   */
   public function setInvisible(bool $value): FloatingText {
     $this->isInvisible = $value;
     return $this;
   }
 
-  /**
-   * @param int $type
-   * @param bool $owned
-   * @return DataPacket
-   */
   public function asPacket(int $type = Text::SEND_TYPE_ADD, bool $owned = false): DataPacket {
     switch ($type) {
       case Text::SEND_TYPE_ADD:

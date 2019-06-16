@@ -4,23 +4,23 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * This software is distributed under "MIT license".
+ * This software is distributed under "NCSA license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
- * < https://opensource.org/licenses/mit-license >.
+ * < https://opensource.org/licenses/NCSA >.
  *
  * ---------------------------------------------------------------------
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
- * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
- * < https://opensource.org/licenses/mit-license >
+ * < https://opensource.org/licenses/NCSA >
  */
 
 declare(strict_types = 1);
@@ -47,7 +47,8 @@ use tokyo\pmmp\Texter\i18n\Lang;
 class TxtCommand extends Command {
 
   public function __construct() {
-    $this->setPermission("texter.command.txt");
+    $permission = ConfigData::make()->canUseOnlyOp() ? "texter.command.*" : "texter.command.txt";
+    $this->setPermission($permission);
     $cl = Lang::fromConsole();
     $description = $cl->translateString("command.txt.description");
     $usage = $cl->translateString("command.txt.usage");
@@ -57,6 +58,7 @@ class TxtCommand extends Command {
   public function execute(CommandSender $sender, string $commandLabel, array $args) {
     if (Core::get()->isDisabled() || !$this->testPermission($sender)) return false;
     if ($sender instanceof Player) {
+      $pluginDescription = Core::get()->getDescription();
       $cd = ConfigData::make();
       $lang = Lang::fromLocale($sender->getLocale());
       if ($cd->checkWorldLimit($sender->getLevel()->getName())) {
@@ -89,18 +91,18 @@ class TxtCommand extends Command {
 
             default:
               $message = $lang->translateString("command.txt.usage");
-              $sender->sendMessage(Core::PREFIX . $message);
+              $sender->sendMessage("[{$pluginDescription->getPrefix()}] $message");
               break;
           }
         }else {
           $message = $lang->translateString("command.txt.usage");
-          $sender->sendMessage(Core::PREFIX . $message);
+          $sender->sendMessage("[{$pluginDescription->getPrefix()}] $message");
         }
       }else {
         $message = $lang->translateString("error.config.limit.world", [
           $sender->getLevel()->getName()
         ]);
-        $sender->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+        $sender->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
       }
     }else {
       $info = Lang::fromConsole()->translateString("error.console");

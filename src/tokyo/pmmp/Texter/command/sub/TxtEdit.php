@@ -4,23 +4,23 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * This software is distributed under "MIT license".
+ * This software is distributed under "NCSA license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
- * < https://opensource.org/licenses/mit-license >.
+ * < https://opensource.org/licenses/NCSA >.
  *
  * ---------------------------------------------------------------------
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
- * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
- * < https://opensource.org/licenses/mit-license >
+ * < https://opensource.org/licenses/NCSA >
  */
 
 declare(strict_types = 1);
@@ -53,6 +53,7 @@ class TxtEdit extends TexterSubCommand {
   public const CONTENT = 4;
 
   public function execute(string $default = ""): void {
+    $pluginDescription = Core::get()->getDescription();
     $description = $this->lang->translateString("form.edit.description");
     $ftName = $this->lang->translateString("form.ftname");
     $type = $this->lang->translateString("form.edit.type");
@@ -61,7 +62,7 @@ class TxtEdit extends TexterSubCommand {
     $tips = $this->lang->translateString("command.txt.usage.indent");
     $content = $this->lang->translateString("form.edit.content");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($title, $text) {
+    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription, $title, $text) {
       if (!FormApi::formCancelled($response)) {
         $level = $player->getLevel();
         if (!empty($response[self::FT_NAME])) {
@@ -82,7 +83,7 @@ class TxtEdit extends TexterSubCommand {
                         $ft->getName(),
                         $title
                       ]);
-                      $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+                      $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
                     }
                   }
                   break;
@@ -99,24 +100,24 @@ class TxtEdit extends TexterSubCommand {
                         $ft->getName(),
                         $text
                       ]);
-                      $player->sendMessage(TextFormat::GREEN . Core::PREFIX . $message);
+                      $player->sendMessage(TextFormat::GREEN . "[{$pluginDescription->getPrefix()}] $message");
                     }
                   }
                   break;
               }
             }else {
               $message = $this->lang->translateString("error.permission");
-              $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+              $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
             }
           }else {
             $message = $this->lang->translateString("error.ftname.not.exists", [
               $response[self::FT_NAME]
             ]);
-            $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+            $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
           }
         }else {
           $message = $this->lang->translateString("error.ftname.not.specified");
-          $player->sendMessage(TextFormat::RED . Core::PREFIX . $message);
+          $player->sendMessage(TextFormat::RED . "[{$pluginDescription->getPrefix()}] $message");
         }
       }
     });
@@ -127,7 +128,7 @@ class TxtEdit extends TexterSubCommand {
       ->addElement(new Dropdown($type, [$title, $text]))
       ->addElement(new Label($tips))
       ->addElement(new Input($content, $content))
-      ->setTitle(Core::PREFIX . "/txt edit")
+      ->setTitle("[{$pluginDescription->getPrefix()}] /txt edit")
       ->sendToPlayer($this->player);
   }
 }

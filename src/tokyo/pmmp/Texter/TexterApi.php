@@ -4,23 +4,23 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * This software is distributed under "MIT license".
+ * This software is distributed under "NCSA license".
  * You should have received a copy of the MIT license
  * along with this program.  If not, see
- * < https://opensource.org/licenses/mit-license >.
+ * < https://opensource.org/licenses/NCSA >.
  *
  * ---------------------------------------------------------------------
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2018 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"MITライセンス"下で配布されています。
- * あなたはこのプログラムと共にMITライセンスのコピーを受け取ったはずです。
+ * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
- * < https://opensource.org/licenses/mit-license >
+ * < https://opensource.org/licenses/NCSA >
  */
 
 declare(strict_types = 1);
@@ -70,7 +70,7 @@ class TexterApi {
   }
 
   /**
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUfts(): array {
     return self::$ufts;
@@ -78,7 +78,7 @@ class TexterApi {
 
   /**
    * @param Level $level
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUftsByLevel(Level $level): array {
     return self::getUftsByLevelName($level->getFolderName());
@@ -86,7 +86,7 @@ class TexterApi {
 
   /**
    * @param string $levelName
-   * @return array
+   * @return array[string FolderName][string TextName] = UnremovableFloatingText
    */
   public static function getUftsByLevelName(string $levelName): array {
     return self::$ufts[$levelName] ?? [];
@@ -113,7 +113,7 @@ class TexterApi {
   }
 
   /**
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFts(): array {
     return self::$fts;
@@ -121,7 +121,7 @@ class TexterApi {
 
   /**
    * @param Level $level
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFtsByLevel(Level $level): array {
     return self::getFtsByLevelName($level->getFolderName());
@@ -129,7 +129,7 @@ class TexterApi {
 
   /**
    * @param string $levelName
-   * @return array
+   * @return array[string FolderName][string TextName] = FloatingText
    */
   public static function getFtsByLevelName(string $levelName): array {
     return self::$fts[$levelName] ?? [];

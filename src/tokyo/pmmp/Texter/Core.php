@@ -118,7 +118,7 @@ class Core extends PluginBase implements Listener {
   private function checkUpdate(): self {
     if (ConfigData::make()->checkUpdate()) {
       try {
-        $this->getServer()->getAsyncPool()->subNCSATask(new CheckUpdateTask);
+        $this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask);
       } catch (\Exception $ex) {
         $this->getLogger()->warning($ex->getMessage());
       }

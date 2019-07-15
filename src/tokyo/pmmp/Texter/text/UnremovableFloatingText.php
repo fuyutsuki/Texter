@@ -7,7 +7,7 @@
  * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * This software is distributed under "NCSA license".
- * You should have received a copy of the MIT license
+ * You should have received a copy of the NCSA license
  * along with this program.  If not, see
  * < https://opensource.org/licenses/NCSA >.
  *
@@ -17,7 +17,7 @@
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
  * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * このソフトウェアは"MITライセンス"下で配布されています。
+ * このソフトウェアは"NCSAライセンス"下で配布されています。
  * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
  * < https://opensource.org/licenses/NCSA >
@@ -46,7 +46,7 @@ class UnremovableFloatingText extends FloatingText implements Text {
 
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): FloatingText {
     $pk = $this->asPacket($type);
-    $player->dataPacket($pk);
+    $player->sendDataPacket($pk);
     return $this;
   }
 

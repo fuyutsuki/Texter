@@ -7,7 +7,7 @@
  * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * This software is distributed under "NCSA license".
- * You should have received a copy of the MIT license
+ * You should have received a copy of the NCSA license
  * along with this program.  If not, see
  * < https://opensource.org/licenses/NCSA >.
  *
@@ -17,7 +17,7 @@
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
  * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
- * このソフトウェアは"MITライセンス"下で配布されています。
+ * このソフトウェアは"NCSAライセンス"下で配布されています。
  * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。
  * 受け取っていない場合、下記のURLからご覧ください。
  * < https://opensource.org/licenses/NCSA >
@@ -33,8 +33,8 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
-use pocketmine\network\mcpe\protocol\MoveEntityAbsolutePacket;
-use pocketmine\network\mcpe\protocol\RemoveEntityPacket;
+use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
+use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
@@ -130,7 +130,7 @@ class FloatingText extends Position implements Text {
   }
 
   public function isOwner(Player $player): bool {
-    return $player->isOp() || strtolower($player->getName()) === $this->owner;
+    return $player->isOp() || strtolower($player->getName()) === $this->owner || !$this instanceof UnremovableFloatingText;
   }
 
   public function getOwner(): string {
@@ -182,7 +182,7 @@ class FloatingText extends Position implements Text {
         break;
 
       case Text::SEND_TYPE_MOVE:
-        $pk = new MoveEntityAbsolutePacket;
+        $pk = new MoveActorAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
         $pk->position = $this;
         $pk->xRot = 0;
@@ -191,7 +191,7 @@ class FloatingText extends Position implements Text {
         break;
 
       case Text::SEND_TYPE_REMOVE:
-        $pk = new RemoveEntityPacket;
+        $pk = new RemoveActorPacket;
         $pk->entityUniqueId = $this->eid;
         break;
 
@@ -205,7 +205,7 @@ class FloatingText extends Position implements Text {
 
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): FloatingText {
     $pk = $this->asPacket($type, $this->isOwner($player));
-    $player->dataPacket($pk);
+    $player->sendDataPacket($pk);
     return $this;
   }
 

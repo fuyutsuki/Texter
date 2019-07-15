@@ -95,7 +95,7 @@
             "version": "0.4.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:fuyutsuki/libform.git",
+                "url": "https://github.com/fuyutsuki/libform.git",
                 "reference": "d4d45f5dcc267d5359fe78a072bdf66d1d234a3d"
             },
             "dist": {
@@ -259,16 +259,16 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "3.8.4",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "a42f68d3cf368535d205d35d4bf7d1c201fbb3d8"
+                "reference": "aaa01bb6f87082fc4cf4c251c06f1a590d886f2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/a42f68d3cf368535d205d35d4bf7d1c201fbb3d8",
-                "reference": "a42f68d3cf368535d205d35d4bf7d1c201fbb3d8",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/aaa01bb6f87082fc4cf4c251c06f1a590d886f2e",
+                "reference": "aaa01bb6f87082fc4cf4c251c06f1a590d886f2e",
                 "shasum": ""
             },
             "require": {
@@ -319,10 +319,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.8.4",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.9.1",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2019-06-10T16:55:50+00:00"
+            "time": "2019-07-14T18:10:29+00:00"
         },
         {
             "name": "pocketmine/raklib",
@@ -370,7 +370,7 @@
             "version": "0.1.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:pmmp/Snooze.git",
+                "url": "https://github.com/pmmp/Snooze.git",
                 "reference": "b7bd231bdb75e69300cac89ccd515fc731c38c40"
             },
             "dist": {

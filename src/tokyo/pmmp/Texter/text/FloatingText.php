@@ -33,8 +33,8 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
-use pocketmine\network\mcpe\protocol\MoveEntityAbsolutePacket;
-use pocketmine\network\mcpe\protocol\RemoveEntityPacket;
+use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
+use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
@@ -182,7 +182,7 @@ class FloatingText extends Position implements Text {
         break;
 
       case Text::SEND_TYPE_MOVE:
-        $pk = new MoveEntityAbsolutePacket;
+        $pk = new MoveActorAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
         $pk->position = $this;
         $pk->xRot = 0;
@@ -191,7 +191,7 @@ class FloatingText extends Position implements Text {
         break;
 
       case Text::SEND_TYPE_REMOVE:
-        $pk = new RemoveEntityPacket;
+        $pk = new RemoveActorPacket;
         $pk->entityUniqueId = $this->eid;
         break;
 

@@ -1,7 +1,7 @@
 name: Texter
 prefix: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.2.0
+version: 3.2.1
 api: 3.9.0 # pmmp/PocketMine-MP
 mcpe-protocol: 361 # for the future
 softdepend:

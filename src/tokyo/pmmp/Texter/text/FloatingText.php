@@ -130,7 +130,7 @@ class FloatingText extends Position implements Text {
   }
 
   public function isOwner(Player $player): bool {
-    return $player->isOp() || strtolower($player->getName()) === $this->owner || !$this instanceof UnremovableFloatingText;
+    return ($player->isOp() || strtolower($player->getName()) === $this->owner) && !$this instanceof UnremovableFloatingText;
   }
 
   public function getOwner(): string {

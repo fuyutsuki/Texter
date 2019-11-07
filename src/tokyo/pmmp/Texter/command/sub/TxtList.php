@@ -27,9 +27,8 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command\sub;
 
+use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
-use tokyo\pmmp\libform\element\Button;
-use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\text\FloatingText;
 use tokyo\pmmp\Texter\TexterApi;
@@ -58,14 +57,14 @@ class TxtList extends TexterSubCommand {
       }
     }
 
-    $list1 = FormApi::makeListForm(function (Player $player, ?int $key) use ($pluginDescription, $search) {
-      if (!FormApi::formCancelled($key)) {
+    $list1 = new SimpleForm(function (Player $player, ?int $key) use ($pluginDescription, $search) {
+      if ($key !== null) {
         $target = $search[$key];
         $description = $this->lang->translateString("form.list.description.2", [
           $target->getName()
         ]);
-        $list2 = FormApi::makeListForm(function (Player $player, ?int $key) use ($target) {
-          if (!FormApi::formCancelled($key)) {
+        $list2 = new SimpleForm(function (Player $player, ?int $key) use ($target) {
+          if ($key !== null) {
             switch ($key) {
               case self::EDIT:
                 new TxtEdit($player, $target->getName());
@@ -80,20 +79,18 @@ class TxtList extends TexterSubCommand {
           }
         });
 
-        $list2
-          ->setContent($description)
-          ->addButton(new Button("edit"))
-          ->addButton(new Button("move"))
-          ->addButton(new Button("remove"))
-          ->setTitle("[{$pluginDescription->getPrefix()}] /txt list")
-          ->sendToPlayer($player);
+        $list2->setTitle("[{$pluginDescription->getPrefix()}] /txt list");
+        $list2->setContent($description);
+        $list2->addButton("edit");
+        $list2->addButton("move");
+        $list2->addButton("remove");
+        $player->sendForm($list2);
       }
     });
 
-    $list1
-      ->setContent($description)
-      ->setTitle("[{$pluginDescription->getPrefix()}] /txt list");
-    foreach ($search as $ft) $list1->addButton(new Button($ft->getName()));
-    $list1->sendToPlayer($this->player);
+    $list1->setTitle("[{$pluginDescription->getPrefix()}] /txt list");
+    $list1->setContent($description);
+    foreach ($search as $ft) $list1->addButton($ft->getName());
+    $this->player->sendForm($list1);
   }
 }

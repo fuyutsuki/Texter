@@ -5,7 +5,5 @@ projects:
   Texter:
     path: ""
     icon: "/assets/Logo.png"
-    libs:
-      - src: fuyutsuki/libform/libform
-        version: 0.4.0
+    libs: []
 ...

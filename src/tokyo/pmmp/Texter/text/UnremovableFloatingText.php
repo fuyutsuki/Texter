@@ -45,8 +45,10 @@ class UnremovableFloatingText extends FloatingText implements Text {
   }
 
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): FloatingText {
-    $pk = $this->asPacket($type);
-    $player->sendDataPacket($pk);
+    $pks = $this->asPackets($type);
+    foreach ($pks as $pk) {
+      $player->sendDataPacket($pk);
+    }
     return $this;
   }
 

@@ -28,14 +28,19 @@ declare(strict_types = 1);
 namespace tokyo\pmmp\Texter\text;
 
 use pocketmine\entity\Entity;
+use pocketmine\entity\Skin;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
+use pocketmine\network\mcpe\protocol\PlayerListPacket;
+use pocketmine\network\mcpe\protocol\PlayerSkinPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
+use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
 use pocketmine\Player;
+use pocketmine\utils\SerializedImage;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use tokyo\pmmp\Texter\data\Data;
@@ -160,13 +165,31 @@ class FloatingText extends Position implements Text {
     return $this;
   }
 
-  public function asPacket(int $type = Text::SEND_TYPE_ADD, bool $owned = false): DataPacket {
+  /**
+   * @param int $type
+   * @param bool $owned
+   * @return DataPacket[]
+   */
+  public function asPackets(int $type = Text::SEND_TYPE_ADD, bool $owned = false): array {
     switch ($type) {
+      #BLAMEMOJANG 1.13
       case Text::SEND_TYPE_ADD:
       case Text::SEND_TYPE_EDIT:
+        $uuid = UUID::fromRandom();
+        $skinData = str_repeat("\x00", 8192);
+
+        $apk = new PlayerListPacket;
+        $apk->type = PlayerListPacket::TYPE_ADD;
+        $apk->entries = [PlayerListEntry::createAdditionEntry(
+          $uuid,
+          $this->eid,
+          $this->getIndentedTexts($owned),
+          Skin::null()
+        )];
+
         $pk = new AddPlayerPacket;
         $pk->username = $this->getIndentedTexts($owned);
-        $pk->uuid = UUID::fromRandom();
+        $pk->uuid = $uuid;
         $pk->entityRuntimeId = $this->eid;
         $pk->entityUniqueId = $this->eid;
         $pk->position = $this;
@@ -179,6 +202,19 @@ class FloatingText extends Position implements Text {
           Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
+
+        $spk = new PlayerSkinPacket;
+        $spk->uuid = $uuid;
+        $spk->skin = new Skin(
+          hash("md5", $skinData),
+          Skin::convertLegacyGeometryName("geometry.humanoid.custom"),
+          SerializedImage::fromLegacy($skinData)
+        );
+
+        $rpk = new PlayerListPacket;
+        $rpk->type = PlayerListPacket::TYPE_REMOVE;
+        $rpk->entries = [PlayerListEntry::createRemovalEntry($uuid)];
+        $pks = [$apk, $pk, $spk, $rpk];
         break;
 
       case Text::SEND_TYPE_MOVE:
@@ -188,11 +224,13 @@ class FloatingText extends Position implements Text {
         $pk->xRot = 0;
         $pk->yRot = 0;
         $pk->zRot = 0;
+        $pks = [$pk];
         break;
 
       case Text::SEND_TYPE_REMOVE:
         $pk = new RemoveActorPacket;
         $pk->entityUniqueId = $this->eid;
+        $pks = [$pk];
         break;
 
       // for developers
@@ -200,12 +238,14 @@ class FloatingText extends Position implements Text {
         throw new \InvalidArgumentException("The type must be an integer value between 0 to 3");
         break;
     }
-    return $pk;
+    return $pks;
   }
 
   public function sendToPlayer(Player $player, int $type = Text::SEND_TYPE_ADD): FloatingText {
-    $pk = $this->asPacket($type, $this->isOwner($player));
-    $player->sendDataPacket($pk);
+    $pks = $this->asPackets($type, $this->isOwner($player));
+    foreach ($pks as $pk) {
+      $player->sendDataPacket($pk);
+    }
     return $this;
   }
 

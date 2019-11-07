@@ -31,7 +31,6 @@ use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
-use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\command\TxtCommand;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
@@ -62,13 +61,8 @@ class Core extends PluginBase implements Listener {
   }
 
   public function onEnable() {
-    if ($this->checkPackaged()) {
-      FormApi::register($this);
-      $listener = new EventListener;
-      $this->getServer()->getPluginManager()->registerEvents($listener, $this);
-    }else {
-      $this->getServer()->getPluginManager()->disablePlugin($this);
-    }
+    $listener = new EventListener;
+    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
   }
 
   private function loadResources(): self {
@@ -128,62 +122,43 @@ class Core extends PluginBase implements Listener {
 
   public function compareVersion(bool $success, ?VersionString $new = null, string $url = "") {
     $cl = Lang::fromConsole();
+    $logger = $this->getLogger();
     if ($success) {
       $current = new VersionString($this->getDescription()->getVersion());
-      switch ($current->compare($new)) {
-        case -1:// new: older
-          $message = $cl->translateString("on.load.version.dev");
-          $this->getLogger()->warning($message);
-          break;
+      $result = $current->compare($new);
+      if ($result !== -1 && !$this->isPhar()) {
+        $message = $cl->translateString("error.on.enable.not.packaged");
+        $logger->error($message);
+        $this->getServer()->getPluginManager()->disablePlugin($this);
+      }else {
+        switch ($result) {
+          case -1:// new: older
+            $message = $cl->translateString("on.load.version.dev");
+            $logger->warning($message);
+            break;
 
-        case 0:// same
-          $message = $cl->translateString("on.load.update.nothing", [
-            $current->getFullVersion()
-          ]);
-          $this->getLogger()->notice($message);
-          break;
+          case 0:// same
+            $message = $cl->translateString("on.load.update.nothing", [
+              $current->getFullVersion()
+            ]);
+            $logger->notice($message);
+            break;
 
-        case 1:// new: newer
-          $messages[] = $cl->translateString("on.load.update.available.1", [
-            $new->getFullVersion(),
-            $current->getFullVersion()
-          ]);
-          $messages[] = $cl->translateString("on.load.update.available.2");
-          $messages[] = $cl->translateString("on.load.update.available.3", [
-            $url
-          ]);
-          foreach ($messages as $message) $this->getLogger()->notice($message);
+          case 1:// new: newer
+            $messages[] = $cl->translateString("on.load.update.available.1", [
+              $new->getFullVersion(),
+              $current->getFullVersion()
+            ]);
+            $messages[] = $cl->translateString("on.load.update.available.2");
+            $messages[] = $cl->translateString("on.load.update.available.3", [
+              $url
+            ]);
+            foreach ($messages as $message) $logger->notice($message);
+        }
       }
     }else {
       $message = $cl->translateString("on.load.update.offline");
-      $this->getLogger()->notice($message);
-    }
-  }
-
-  private function checkPackaged(): bool {
-    $cl = Lang::fromConsole();
-    if ($this->isPhar()) {
-      if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\tokyo\\pmmp\\libform\\FormApi")) {
-        return true;// PoggitCI
-      }else {
-        $message = $cl->translateString("error.on.enable.not.packaged");
-        $this->getLogger()->critical($message);
-        return false;
-      }
-    }else {
-      if ($this->getServer()->getPluginManager()->getPlugin("DEVirion") !== null) {
-        if (class_exists("\\tokyo\\pmmp\\libform\\FormApi")) {
-          return true;// developer
-        }else {
-          $message = $cl->translateString("error.on.enable.not.found.libform");
-          $this->getLogger()->critical($message);
-          return false;
-        }
-      }else {
-        $message = $cl->translateString("error.on.enable.not.packaged");
-        $this->getLogger()->critical($message);
-        return false;
-      }
+      $logger->notice($message);
     }
   }
 

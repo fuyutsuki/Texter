@@ -5,7 +5,7 @@
   "homepage": "https://github.com/fuyutsuki/Texter",
   "license": "NCSA",
   "require": {
-    "php": ">=7.2.0",
+    "php": ">=7.3.0",
     "ext-bcmath": "*",
     "ext-curl": "*",
     "ext-hash": "*",
@@ -21,7 +21,7 @@
     "ext-yaml": ">=2.0.0",
     "ext-zip": "*",
     "ext-zlib": ">=1.2.11",
-    "pocketmine/pocketmine-mp": "^3.0.0",
+    "pocketmine/pocketmine-mp": "dev-bedrock-1.13",
     "pocketmine/raklib": "^0.12.0",
     "pocketmine/spl": "^0.3.0",
     "pocketmine/binaryutils": "^0.1.0",
@@ -29,8 +29,7 @@
     "pocketmine/math": "^0.2.0",
     "pocketmine/snooze": "^0.1.0",
     "daverandom/callback-validator": "dev-master",
-    "adhocore/json-comment": "^0.0.7",
-    "fuyutsuki/libform": "^0.4"
+    "adhocore/json-comment": "^0.0.7"
   },
   "autoload": {
     "psr-4": {
@@ -40,7 +39,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/pmmp/PocketMine-MP"
+      "url": "https://github.com/NetherGamesMC/PocketMine-MP"
     },
     {
       "type": "vcs",
@@ -65,10 +64,6 @@
     {
       "type": "vcs",
       "url": "https://github.com/pmmp/Snooze"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/fuyutsuki/libform"
     }
   ]
 }

@@ -27,12 +27,10 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command\sub;
 
+use jojoe77777\FormAPI\CustomForm;
 use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use tokyo\pmmp\libform\element\Input;
-use tokyo\pmmp\libform\element\Label;
-use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\text\FloatingText;
@@ -51,12 +49,14 @@ class TxtAdd extends TexterSubCommand {
 
   public function execute(string $default = ""): void {
     $pluginDescription = Core::get()->getDescription();
+    $description = $this->lang->translateString("form.add.description");
     $ftName = $this->lang->translateString("form.ftname.unique");
+    $indent = $this->lang->translateString("command.txt.usage.indent");
     $title = $this->lang->translateString("form.title");
     $text = $this->lang->translateString("form.text");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
-      if (!FormApi::formCancelled($response)) {
+    $custom = new CustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
+      if ($response !== null) {
         $level = $player->getLevel();
         if (!empty($response[self::NAME])) {
           $exists = TexterApi::getFtByLevel($level, $response[self::NAME]);
@@ -98,13 +98,12 @@ class TxtAdd extends TexterSubCommand {
       }
     });
 
-    $custom
-      ->addElement(new Label($this->lang->translateString("form.add.description")))
-      ->addElement(new Input($ftName, $ftName))
-      ->addElement(new Label($this->lang->translateString("command.txt.usage.indent")))
-      ->addElement(new Input($title, $title))
-      ->addElement(new Input($text, $text))
-      ->setTitle("[{$pluginDescription->getPrefix()}] /txt add")
-      ->sendToPlayer($this->player);
+    $custom->setTitle("[{$pluginDescription->getPrefix()}] /txt add");
+    $custom->addLabel($description);
+    $custom->addInput($ftName, $ftName);
+    $custom->addLabel($indent);
+    $custom->addInput($title, $title);
+    $custom->addInput($text, $text);
+    $this->player->sendForm($custom);
   }
 }

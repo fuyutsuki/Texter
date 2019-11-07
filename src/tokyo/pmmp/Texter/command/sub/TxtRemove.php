@@ -27,11 +27,9 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command\sub;
 
+use jojoe77777\FormAPI\CustomForm;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use tokyo\pmmp\libform\element\Input;
-use tokyo\pmmp\libform\element\Label;
-use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\text\Text;
 use tokyo\pmmp\Texter\TexterApi;
@@ -50,8 +48,8 @@ class TxtRemove extends TexterSubCommand {
     $description = $this->lang->translateString("form.remove.description");
     $ftName = $this->lang->translateString("form.ftname");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
-      if (!FormApi::formCancelled($response)) {
+    $custom = new CustomForm(function (Player $player, ?array $response) use ($pluginDescription) {
+      if ($response !== null) {
         $level = $player->getLevel();
         if (!empty($response[self::FT_NAME])) {
           $ft = TexterApi::getFtByLevel($level, $response[self::FT_NAME]);
@@ -80,10 +78,9 @@ class TxtRemove extends TexterSubCommand {
       }
     });
 
-    $custom
-      ->addElement(new Label($description))
-      ->addElement(new Input($ftName, $ftName, $default))
-      ->setTitle("[{$pluginDescription->getPrefix()}] /txt remove")
-      ->sendToPlayer($this->player);
+    $custom->setTitle("[{$pluginDescription->getPrefix()}] /txt remove");
+    $custom->addLabel($description);
+    $custom->addInput($ftName, $ftName, $default);
+    $this->player->sendForm($custom);
   }
 }

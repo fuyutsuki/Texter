@@ -27,12 +27,9 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command\sub;
 
+use jojoe77777\FormAPI\CustomForm;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
-use tokyo\pmmp\libform\element\Dropdown;
-use tokyo\pmmp\libform\element\Input;
-use tokyo\pmmp\libform\element\Label;
-use tokyo\pmmp\libform\FormApi;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\data\ConfigData;
 use tokyo\pmmp\Texter\data\FloatingTextData;
@@ -62,8 +59,8 @@ class TxtEdit extends TexterSubCommand {
     $tips = $this->lang->translateString("command.txt.usage.indent");
     $content = $this->lang->translateString("form.edit.content");
 
-    $custom = FormApi::makeCustomForm(function (Player $player, ?array $response) use ($pluginDescription, $title, $text) {
-      if (!FormApi::formCancelled($response)) {
+    $custom = new CustomForm(function (Player $player, ?array $response) use ($pluginDescription, $title, $text) {
+      if ($response !== null) {
         $level = $player->getLevel();
         if (!empty($response[self::FT_NAME])) {
           $ft = TexterApi::getFtByLevel($level, $response[self::FT_NAME]);
@@ -122,13 +119,12 @@ class TxtEdit extends TexterSubCommand {
       }
     });
 
-    $custom
-      ->addElement(new Label($description))
-      ->addElement(new Input($ftName, $ftName, $default))
-      ->addElement(new Dropdown($type, [$title, $text]))
-      ->addElement(new Label($tips))
-      ->addElement(new Input($content, $content))
-      ->setTitle("[{$pluginDescription->getPrefix()}] /txt edit")
-      ->sendToPlayer($this->player);
+    $custom->setTitle("[{$pluginDescription->getPrefix()}] /txt edit");
+    $custom->addLabel($description);
+    $custom->addInput($ftName, $ftName, $default);
+    $custom->addDropdown($type, [$title, $text]);
+    $custom->addLabel($tips);
+    $custom->addInput($content, $content);
+    $this->player->sendForm($custom);
   }
 }

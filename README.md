@@ -15,13 +15,11 @@ Select Language: [English](#eng), [日本語](#jpn)
 <a name="eng"></a>
 # English
 
-<!--
 **This branch is under development. It may have many bugs.**  
--->
 
 ## Texter
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **3.3.0**  
+Latest: ver **3.3.1**  
 
 ### Supporting
 - [x] Minecraft(Bedrock)
@@ -79,13 +77,11 @@ Latest: ver **3.3.0**
 <a name="jpn"></a>
 # 日本語
 
-<!--
 **このブランチは開発中です。多くのバグを含む可能性があります。**  
--->
 
 ## Texter
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.3.0**  
+最新バージョン: **3.3.1**  
 
 ### 対応状況
 - [x] Minecraft(Bedrock)

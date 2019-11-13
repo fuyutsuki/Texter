@@ -61,8 +61,12 @@ class Core extends PluginBase implements Listener {
   }
 
   public function onEnable() {
-    $listener = new EventListener;
-    $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    if ($this->checkPackaged()) {
+      $listener = new EventListener;
+      $this->getServer()->getPluginManager()->registerEvents($listener, $this);
+    }else {
+      $this->getServer()->getPluginManager()->disablePlugin($this);
+    }
   }
 
   private function loadResources(): self {
@@ -125,40 +129,62 @@ class Core extends PluginBase implements Listener {
     $logger = $this->getLogger();
     if ($success) {
       $current = new VersionString($this->getDescription()->getVersion());
-      $result = $current->compare($new);
-      if ($result !== -1 && !$this->isPhar()) {
-        $message = $cl->translateString("error.on.enable.not.packaged");
-        $logger->error($message);
-        $this->getServer()->getPluginManager()->disablePlugin($this);
-      }else {
-        switch ($result) {
-          case -1:// new: older
-            $message = $cl->translateString("on.load.version.dev");
-            $logger->warning($message);
-            break;
+      switch ($current->compare($new)) {
+        case -1:// new: older
+          $message = $cl->translateString("on.load.version.dev");
+          $logger->warning($message);
+          break;
 
-          case 0:// same
-            $message = $cl->translateString("on.load.update.nothing", [
-              $current->getFullVersion()
-            ]);
-            $logger->notice($message);
-            break;
+        case 0:// same
+          $message = $cl->translateString("on.load.update.nothing", [
+            $current->getFullVersion()
+          ]);
+          $logger->notice($message);
+          break;
 
-          case 1:// new: newer
-            $messages[] = $cl->translateString("on.load.update.available.1", [
-              $new->getFullVersion(),
-              $current->getFullVersion()
-            ]);
-            $messages[] = $cl->translateString("on.load.update.available.2");
-            $messages[] = $cl->translateString("on.load.update.available.3", [
-              $url
-            ]);
-            foreach ($messages as $message) $logger->notice($message);
-        }
+        case 1:// new: newer
+          $messages[] = $cl->translateString("on.load.update.available.1", [
+            $new->getFullVersion(),
+            $current->getFullVersion()
+          ]);
+          $messages[] = $cl->translateString("on.load.update.available.2");
+          $messages[] = $cl->translateString("on.load.update.available.3", [
+            $url
+          ]);
+          foreach ($messages as $message) $logger->notice($message);
       }
     }else {
       $message = $cl->translateString("on.load.update.offline");
       $logger->notice($message);
+    }
+  }
+
+  private function checkPackaged(): bool {
+    $cl = Lang::fromConsole();
+    $logger = $this->getLogger();
+    if ($this->isPhar()) {
+      if (class_exists("\\tokyo\\pmmp\\Texter\\libs\\jojoe77777\\FormAPI\\FormAPI")) {
+        return true;// PoggitCI
+      }else {
+        $message = $cl->translateString("error.on.enable.not.packaged");
+        $logger->critical($message);
+        return false;
+      }
+    }else {
+      $plugins = $this->getServer()->getPluginManager()->getPlugins();
+      if (isset($plugins["DEVirion"]) || isset($plugins["FormAPI"])) {
+        if (class_exists("\\jojoe77777\\FormAPI\\FormAPI")) {
+          return true;// developer
+        }else {
+          $message = $cl->translateString("error.on.enable.not.found.libformapi");
+          $logger->critical($message);
+          return false;
+        }
+      }else {
+        $message = $cl->translateString("error.on.enable.not.packaged");
+        $logger->critical($message);
+        return false;
+      }
     }
   }
 

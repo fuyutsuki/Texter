@@ -1,11 +1,13 @@
 name: Texter
 prefix: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.3.0
+version: 3.3.1
 api: 3.9.0 # pmmp/PocketMine-MP
 mcpe-protocol: 388 # for the future
-depend:
+softdepend:
   - FormAPI # jojoe77777/FormAPI
+virions:
+  - libFormAPI # jojoe77777/libFormAPI
 author: yuko_fuyutsuki
 authors:
 # SpecialThanks(敬称略)

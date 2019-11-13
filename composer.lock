@@ -205,12 +205,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NetherGamesMC/PocketMine-MP.git",
-                "reference": "dc72b813674da8b6ac05257529a3b1ad2d7f1252"
+                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NetherGamesMC/PocketMine-MP/zipball/dc72b813674da8b6ac05257529a3b1ad2d7f1252",
-                "reference": "dc72b813674da8b6ac05257529a3b1ad2d7f1252",
+                "url": "https://api.github.com/repos/NetherGamesMC/PocketMine-MP/zipball/ff2288e2fe678857eb5f53330a8aee45327744e2",
+                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2",
                 "shasum": ""
             },
             "require": {
@@ -267,7 +267,7 @@
             "support": {
                 "source": "https://github.com/NetherGamesMC/PocketMine-MP/tree/bedrock-1.13"
             },
-            "time": "2019-11-07T11:39:17+00:00"
+            "time": "2019-11-11T23:36:47+00:00"
         },
         {
             "name": "pocketmine/raklib",

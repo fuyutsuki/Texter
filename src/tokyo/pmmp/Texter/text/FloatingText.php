@@ -172,11 +172,16 @@ class FloatingText extends Position implements Text {
    */
   public function asPackets(int $type = Text::SEND_TYPE_ADD, bool $owned = false): array {
     switch ($type) {
-      #BLAMEMOJANG 1.13
+      #BLAME "MOJUNCROSOFT" on 1.13
       case Text::SEND_TYPE_ADD:
       case Text::SEND_TYPE_EDIT:
         $uuid = UUID::fromRandom();
         $skinData = str_repeat("\x00", 8192);
+        $transparentSkin = new Skin(
+          hash("md5", $skinData),
+          Skin::convertLegacyGeometryName("geometry.humanoid.custom"),
+          SerializedImage::fromLegacy($skinData)
+        );
 
         $apk = new PlayerListPacket;
         $apk->type = PlayerListPacket::TYPE_ADD;
@@ -184,7 +189,7 @@ class FloatingText extends Position implements Text {
           $uuid,
           $this->eid,
           $this->getIndentedTexts($owned),
-          Skin::null()
+          $transparentSkin
         )];
 
         $pk = new AddPlayerPacket;
@@ -205,11 +210,7 @@ class FloatingText extends Position implements Text {
 
         $spk = new PlayerSkinPacket;
         $spk->uuid = $uuid;
-        $spk->skin = new Skin(
-          hash("md5", $skinData),
-          Skin::convertLegacyGeometryName("geometry.humanoid.custom"),
-          SerializedImage::fromLegacy($skinData)
-        );
+        $spk->skin = $transparentSkin;
 
         $rpk = new PlayerListPacket;
         $rpk->type = PlayerListPacket::TYPE_REMOVE;

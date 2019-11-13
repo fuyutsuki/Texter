@@ -5,5 +5,7 @@ projects:
   Texter:
     path: ""
     icon: "/assets/Logo.png"
-    libs: []
+    libs:
+      - src: jojoe77777\libFormAPI\libFormAPI
+        version: 1.3.0
 ...

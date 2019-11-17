@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a55a821a062674e24046bb37c4297a6",
+    "content-hash": "9f96e72b532125e5d8115310ddbfc1f2",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -201,16 +201,16 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "dev-pmmp-1.13",
+            "version": "dev-bedrock-1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NetherGamesMC/PocketMine-MP.git",
-                "reference": "6e6d15b75a98fdc7d606a8e2e3b267d91cb347df"
+                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NetherGamesMC/PocketMine-MP/zipball/6e6d15b75a98fdc7d606a8e2e3b267d91cb347df",
-                "reference": "6e6d15b75a98fdc7d606a8e2e3b267d91cb347df",
+                "url": "https://api.github.com/repos/NetherGamesMC/PocketMine-MP/zipball/ff2288e2fe678857eb5f53330a8aee45327744e2",
+                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2",
                 "shasum": ""
             },
             "require": {
@@ -265,9 +265,9 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/NetherGamesMC/PocketMine-MP/tree/pmmp-1.13"
+                "source": "https://github.com/NetherGamesMC/PocketMine-MP/tree/bedrock-1.13"
             },
-            "time": "2019-11-15T11:28:53+00:00"
+            "time": "2019-11-11T23:36:47+00:00"
         },
         {
             "name": "pocketmine/raklib",

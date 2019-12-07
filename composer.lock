@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f96e72b532125e5d8115310ddbfc1f2",
+    "content-hash": "f4651b7229fbf4c3ff766b492bb5cfc8",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -160,16 +160,16 @@
         },
         {
             "name": "pocketmine/nbt",
-            "version": "0.2.11",
+            "version": "0.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/NBT.git",
-                "reference": "78784b93632c51f0fad0719b2d6ffe072529db6d"
+                "reference": "b5777265329753b74dd40bb105eedabeefb98724"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/NBT/zipball/78784b93632c51f0fad0719b2d6ffe072529db6d",
-                "reference": "78784b93632c51f0fad0719b2d6ffe072529db6d",
+                "url": "https://api.github.com/repos/pmmp/NBT/zipball/b5777265329753b74dd40bb105eedabeefb98724",
+                "reference": "b5777265329753b74dd40bb105eedabeefb98724",
                 "shasum": ""
             },
             "require": {
@@ -194,23 +194,23 @@
             ],
             "description": "PHP library for working with Named Binary Tags",
             "support": {
-                "source": "https://github.com/pmmp/NBT/tree/0.2.11",
+                "source": "https://github.com/pmmp/NBT/tree/0.2.12",
                 "issues": "https://github.com/pmmp/NBT/issues"
             },
-            "time": "2019-10-21T14:50:43+00:00"
+            "time": "2019-12-01T08:20:26+00:00"
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "dev-bedrock-1.13",
+            "version": "3.10.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/NetherGamesMC/PocketMine-MP.git",
-                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2"
+                "url": "https://github.com/pmmp/PocketMine-MP.git",
+                "reference": "4eb59c03723566f859e9c433287af440008574a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NetherGamesMC/PocketMine-MP/zipball/ff2288e2fe678857eb5f53330a8aee45327744e2",
-                "reference": "ff2288e2fe678857eb5f53330a8aee45327744e2",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/4eb59c03723566f859e9c433287af440008574a2",
+                "reference": "4eb59c03723566f859e9c433287af440008574a2",
                 "shasum": ""
             },
             "require": {
@@ -265,22 +265,23 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/NetherGamesMC/PocketMine-MP/tree/bedrock-1.13"
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.10.1",
+                "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2019-11-11T23:36:47+00:00"
+            "time": "2019-12-07T16:41:41+00:00"
         },
         {
             "name": "pocketmine/raklib",
-            "version": "0.12.5",
+            "version": "0.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/RakLib.git",
-                "reference": "874db2d3c24117db2221c1e4550380478aeea852"
+                "reference": "18450e01185e6064790bda563ac672e7141c6992"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/RakLib/zipball/874db2d3c24117db2221c1e4550380478aeea852",
-                "reference": "874db2d3c24117db2221c1e4550380478aeea852",
+                "url": "https://api.github.com/repos/pmmp/RakLib/zipball/18450e01185e6064790bda563ac672e7141c6992",
+                "reference": "18450e01185e6064790bda563ac672e7141c6992",
                 "shasum": ""
             },
             "require": {
@@ -305,10 +306,10 @@
             ],
             "description": "A RakNet server implementation written in PHP",
             "support": {
-                "source": "https://github.com/pmmp/RakLib/tree/0.12.5",
+                "source": "https://github.com/pmmp/RakLib/tree/0.12.6",
                 "issues": "https://github.com/pmmp/RakLib/issues"
             },
-            "time": "2019-07-22T14:38:20+00:00"
+            "time": "2019-12-07T13:43:34+00:00"
         },
         {
             "name": "pocketmine/snooze",
@@ -380,7 +381,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "ext-pthreads": 20,
-        "pocketmine/pocketmine-mp": 20,
         "daverandom/callback-validator": 20
     },
     "prefer-stable": false,

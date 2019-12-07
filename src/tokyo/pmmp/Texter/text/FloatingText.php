@@ -39,8 +39,8 @@ use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\PlayerSkinPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
+use pocketmine\network\mcpe\protocol\types\SkinAdapterSingleton;
 use pocketmine\Player;
-use pocketmine\utils\SerializedImage;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use tokyo\pmmp\Texter\data\Data;
@@ -176,12 +176,6 @@ class FloatingText extends Position implements Text {
       case Text::SEND_TYPE_ADD:
       case Text::SEND_TYPE_EDIT:
         $uuid = UUID::fromRandom();
-        $skinData = str_repeat("\x00", 8192);
-        $transparentSkin = new Skin(
-          hash("md5", $skinData),
-          Skin::convertLegacyGeometryName("geometry.humanoid.custom"),
-          SerializedImage::fromLegacy($skinData)
-        );
 
         $apk = new PlayerListPacket;
         $apk->type = PlayerListPacket::TYPE_ADD;
@@ -189,7 +183,12 @@ class FloatingText extends Position implements Text {
           $uuid,
           $this->eid,
           $this->getIndentedTexts($owned),
-          $transparentSkin
+          SkinAdapterSingleton::get()->toSkinData(new Skin(
+            "Standard_Custom",
+            str_repeat("\x00", 8192),
+            "",
+            "geometry.humanoid.custom"
+          ))
         )];
 
         $pk = new AddPlayerPacket;
@@ -208,14 +207,10 @@ class FloatingText extends Position implements Text {
           Entity::DATA_SCALE => [Entity::DATA_TYPE_FLOAT, 0]
         ];
 
-        $spk = new PlayerSkinPacket;
-        $spk->uuid = $uuid;
-        $spk->skin = $transparentSkin;
-
         $rpk = new PlayerListPacket;
         $rpk->type = PlayerListPacket::TYPE_REMOVE;
         $rpk->entries = [PlayerListEntry::createRemovalEntry($uuid)];
-        $pks = [$apk, $pk, $spk, $rpk];
+        $pks = [$apk, $pk, $rpk];
         break;
 
       case Text::SEND_TYPE_MOVE:

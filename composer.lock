@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4651b7229fbf4c3ff766b492bb5cfc8",
+    "content-hash": "f17be3b629534feb9e55ce0717c4bb9a",
     "packages": [
         {
             "name": "adhocore/json-comment",
@@ -201,16 +201,16 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "3.10.1",
+            "version": "3.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "4eb59c03723566f859e9c433287af440008574a2"
+                "reference": "40a2211a5a93af7a587debb4efed2332f564193c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/4eb59c03723566f859e9c433287af440008574a2",
-                "reference": "4eb59c03723566f859e9c433287af440008574a2",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/40a2211a5a93af7a587debb4efed2332f564193c",
+                "reference": "40a2211a5a93af7a587debb4efed2332f564193c",
                 "shasum": ""
             },
             "require": {
@@ -265,10 +265,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.10.1",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.11.1",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2019-12-07T16:41:41+00:00"
+            "time": "2019-12-11T20:20:26+00:00"
         },
         {
             "name": "pocketmine/raklib",

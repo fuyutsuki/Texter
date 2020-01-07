@@ -1,7 +1,7 @@
 # Texter config file
 
-# set language (en_US or ja_JP)
-locale: en_US
+# set language (en_us, ja_jp or ru_ru)
+locale: en_us
 
 # When set to true, update notification is displayed at startup
 check.update: true

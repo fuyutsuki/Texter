@@ -9,10 +9,13 @@
 [![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
 ### Overview
-Select Language: [English](#eng), [日本語](#jpn)
+
+Select Language: [English](#eng), [日本語](#jpn), [русский](#rus)
 
 ***
+
 <a name="eng"></a>
+
 # English
 
 <!--
@@ -20,19 +23,24 @@ Select Language: [English](#eng), [日本語](#jpn)
 -->
 
 ## Texter
+
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **3.4.1**  
+Latest: ver **3.4.2**  
 
 ### Supporting
+
 - [x] Minecraft(Bedrock)
-- [x] Multi-language (English, Japanese)
+- [x] Multi-language (English, Japanese, Russian)
 - [x] Multi-world display
 
 ### Download
+
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
 ### Commands
+
 #### General command
+
 | \ |command|alias|
 |:--:|:--:|:--:|
 |Add text|`/txt add`|`/txt a`|
@@ -45,6 +53,7 @@ Latest: ver **3.4.1**
 **Please use `#` for line breaks.**
 
 ### json notation
+
 - uft.json
 ```json
 {
@@ -59,6 +68,7 @@ Latest: ver **3.4.1**
   }
 }
 ```
+
 - ft.json
 ```json
 {
@@ -76,7 +86,9 @@ Latest: ver **3.4.1**
 ```
 
 ***
+
 <a name="jpn"></a>
+
 # 日本語
 
 <!--
@@ -84,19 +96,24 @@ Latest: ver **3.4.1**
 -->
 
 ## Texter
+
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.4.1**  
+最新バージョン: **3.4.2**  
 
 ### 対応状況
+
 - [x] Minecraft(Bedrock)
 - [x] 複数言語 (英語, 日本語)
 - [x] 複数ワールドの表示
 
 ### ダウンロード
+
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
 ### コマンド
+
 #### 一般用コマンド
+
 | \ |コマンド|エイリアス|
 |:--:|:--:|:--:|
 |浮き文字追加|`/txt add`|`/txt a`|
@@ -109,6 +126,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移
 **改行の際には `#` を使用してください。**
 
 ### json 記法
+
 - uft.json
 ```json
 {
@@ -123,6 +141,7 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移
   }
 }
 ```
+
 - ft.json
 ```json
 {
@@ -134,6 +153,77 @@ TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移
       "TITLE": "タイトル",
       "TEXT": "テキスト(改行は #)",
       "OWNER": "Steve"
+    }
+  }
+}
+```
+
+***
+
+<a name="rus"></a>
+
+# Японский
+
+**Эта отрасль находится в стадии разработки. Может содержать много ошибок.**
+
+## Текстер
+
+Texter - это плагин, который позволяет вам просматривать, редактировать, перемещать и удалять FloatingTextPerticle в нескольких мирах.
+Последняя версия: **3.4.2**
+
+### Статус поддержки
+
+- [x] Minecraft (основа)
+- [x] Несколько языков (английский, японский, Японский)
+- [x] Показать несколько миров
+
+### Скачать
+
+* [Поггит](https://poggit.pmmp.io/p/Texter)
+
+### команда
+
+#### Общая команда
+
+| \ | Команда | псевдоним |
+|: -: |: -: |: -: |
+| Добавить плавающие символы | `/ txt add` |` / txt a` |
+| Плавающее редактирование символов | `/ txt edit` |` / txt e` |
+| Переместить плавающие символы | `/ txt move` |` / txt m` |
+| Удалить плавающие символы | `/ txt remove` |` / txt r` |
+| Плавающий список символов | `/ txt list` |` txt l` |
+| Помощь | `/ txt или / txt help` |` / txt? `|
+
+**Используйте `#` для разрывов строк.**
+
+### json нотация
+
+- uft.json
+```json
+{
+  "Имя мировой папки": {
+    "Плавающее имя персонажа (уникальное)": {
+      "Xvec": 128,
+      "Yvec": 90,
+      "Zvec": 128,
+      "TITLE": "Заголовок",
+      "ТEXT": "текст (новая строка #)"
+    }
+  }
+}
+```
+
+- ft.json
+```json
+{
+  "Имя мировой папки": {
+    "Плавающее имя персонажа (уникальное)": {
+      "Xvec": 128,
+      "Yvec": 90,
+      "Zvec": 128,
+      "TITLE": "Заголовок",
+      "TEXT": "текст (перевод строки - #)",
+      "OWNER": "Стив"
     }
   }
 }

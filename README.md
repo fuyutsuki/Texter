@@ -10,7 +10,7 @@
 
 ### Overview
 
-Select Language: [English](#eng), [日本語](#jpn), [русский](#rus)
+Select Language: [English](#eng), [日本語](#jpn), [русский](#rus), [中文](#chs)
 
 ***
 
@@ -224,6 +224,77 @@ Texter - это плагин, который позволяет вам прос�
       "TITLE": "Заголовок",
       "TEXT": "текст (перевод строки - #)",
       "OWNER": "Стив"
+    }
+  }
+}
+```
+
+<a name="chs"></a>
+
+# 中文
+
+<!--
+**这个插件仍在开发中。它可能有很多bug。**  
+-->
+
+## Texter
+
+Texter是一个插件，显示和删除浮动的文本且支持多世界。
+最新版本: ver **3.4.2**  
+
+### 支持
+
+- [x] Minecraft(Bedrock)
+- [x] 多语言 (英文, 日语, 俄罗斯语，中文)
+- [x] 多世界显示
+
+### 下载
+
+* [Poggit](https://poggit.pmmp.io/p/Texter)
+
+### 指令
+
+#### 常规指令
+
+| \ |指令|缩写|
+|:--:|:--:|:--:|
+|新增文本|`/txt add`|`/txt a`|
+|编辑文本|`/txt edit`|`/txt e`|
+|移动文本|`/txt move`|`/txt m`|
+|移除文本|`/txt remove`|`/txt r`|
+|陈列文本|`/txt list`|`/txt l`|
+|帮助|`/txt or /txt help`|`/txt ?`|
+
+**请使用 `#` 换行**
+
+### json注释
+
+- uft.json
+```json
+{
+  "地图文件夹名称": {
+    "文本名称1(唯一)": {
+      "Xvec": 128,
+      "Yvec": 90,
+      "Zvec": 128,
+      "TITLE": "标题",
+      "TEXT": "文本(使用“#”换行)"
+    }
+  }
+}
+```
+
+- ft.json
+```json
+{
+  "地图文件夹名称": {
+    "文本名称1(唯一)": {
+      "Xvec": 128,
+      "Yvec": 90,
+      "Zvec": 128,
+      "TITLE": "标题",
+      "TEXT": "文本(使用“#”换行)",
+      "OWNER": "史蒂夫"
     }
   }
 }

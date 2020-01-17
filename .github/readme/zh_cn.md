@@ -10,22 +10,21 @@
 
 ### 概要
 
-您可以通过在 [config.yml](./../../resources/config.yml) 中更改 `locale` 来更改控制台上的语言。  
+您可以通过在 [config.yml](/resources/config.yml) 中更改 `locale` 来更改控制台上的语言。  
 支持的语言会根据每个播放器语言设置自动翻译。
 
 其他语言:
-[English](./../../README.md),
+[English](/README.md),
 [日本語](./ja_jp.md),
-[русский](./ru_ru.md)
+[русский](./ru_ru.md),
+[Türk](./tr_tr.md)
 
 ## Texter
 
 Texter是一个插件，显示和删除浮动的文本且支持多世界。
-最新版本: **3.4.3**  
+最新版本: **3.4.4**  
 
-<!--
 **这个插件仍在开发中。它可能有很多瑕疵。**
--->
 
 ### 支持
 

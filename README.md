@@ -10,24 +10,23 @@
 
 ### Overview
 
-You can set the plugin language by changing the `locale` in [config.yml](./resources/config.yml)  
+You can set the plugin language by changing the `locale` in [config.yml](/resources/config.yml)  
 also, supported languages are automatically displayed according to the locale of the client.
 
 Select another language:
 [日本語](./.github/readme/ja_jp.md),
 [русский](./.github/readme/ru_ru.md),
-[中文](./.github/readme/zh_cn.md)
+[中文](./.github/readme/zh_cn.md),
+[Türk](./.github/readme/tr_tr.md)
 
 ***
 
 ## Texter
 
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
-Latest: ver **3.4.3**  
+Latest: ver **3.4.4**  
 
-<!--
 **This branch is under development. It may have many bugs.**  
--->
 
 ### Supporting
 

@@ -26,7 +26,9 @@ Select another language:
 Texter is plugin that displays and deletes FloatingTextPerticle supported to multi-world.  
 Latest: ver **3.4.4**  
 
+<!--
 **This branch is under development. It may have many bugs.**  
+-->
 
 ### Supporting
 

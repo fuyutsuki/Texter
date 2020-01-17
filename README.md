@@ -31,7 +31,7 @@ Latest: ver **3.4.4**
 ### Supporting
 
 - [x] Minecraft(Bedrock)
-- [x] Multi-language (English, Japanese, Russian, Chinese)
+- [x] Multi-language (English, Japanese, Russian, Chinese, Turkish)
 - [x] Multi-world display
 
 ### Download

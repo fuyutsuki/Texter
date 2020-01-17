@@ -1,8 +1,8 @@
 <img src="/assets/Texter.png" width="400px">
 
 [![GitHub lisansı](https://img.shields.io/badge/license-UIUC/NCSA-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
-[![](Https://poggit.pmmp.io/shield.state/Texter)](https://poggit.pmmp.io/p/Texter)
-[![](Https://poggit.pmmp.io/shield.api/Texter)](https://poggit.pmmp.io/p/Texter)
+[![](https://poggit.pmmp.io/shield.state/Texter)](https://poggit.pmmp.io/p/Texter)
+[![](https://poggit.pmmp.io/shield.api/Texter)](https://poggit.pmmp.io/p/Texter)
 
 [![](https://poggit.pmmp.io/shield.dl/Texter)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter)](https://poggit.pmmp.io/p/Texter)
 

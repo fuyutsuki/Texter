@@ -17,7 +17,7 @@ Select another language:
 [日本語](./.github/readme/ja_jp.md),
 [русский](./.github/readme/ru_ru.md),
 [中文](./.github/readme/zh_cn.md),
-[Türk](./.github/readme/tr_tr.md)
+[Türkçe](./.github/readme/tr_tr.md)
 
 ***
 

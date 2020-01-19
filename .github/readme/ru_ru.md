@@ -17,7 +17,7 @@
 [English](/README.md),
 [日本語](./ja_jp.md),
 [中文](./zh_cn.md),
-[Türk](./tr_tr.md)
+[Türkçe](./tr_tr.md)
 
 ***
 

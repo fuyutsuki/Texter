@@ -201,16 +201,16 @@
         },
         {
             "name": "pocketmine/pocketmine-mp",
-            "version": "3.11.3",
+            "version": "3.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmmp/PocketMine-MP.git",
-                "reference": "0d5704b156faf19be1d8f47a44ea8cf9a3b4c3fe"
+                "reference": "13f28d8454fc499e1869190ccbbad077bff5853f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/0d5704b156faf19be1d8f47a44ea8cf9a3b4c3fe",
-                "reference": "0d5704b156faf19be1d8f47a44ea8cf9a3b4c3fe",
+                "url": "https://api.github.com/repos/pmmp/PocketMine-MP/zipball/13f28d8454fc499e1869190ccbbad077bff5853f",
+                "reference": "13f28d8454fc499e1869190ccbbad077bff5853f",
                 "shasum": ""
             },
             "require": {
@@ -240,7 +240,7 @@
                 "pocketmine/nbt": "^0.2.10",
                 "pocketmine/raklib": "^0.12.5",
                 "pocketmine/snooze": "^0.1.0",
-                "pocketmine/spl": "^0.3.0"
+                "pocketmine/spl": "^0.3.5"
             },
             "type": "project",
             "autoload": {
@@ -250,6 +250,7 @@
                     ]
                 },
                 "files": [
+                    "src/pocketmine/CoreConstants.php",
                     "src/pocketmine/GlobalConstants.php",
                     "src/pocketmine/VersionInfo.php"
                 ]
@@ -265,10 +266,10 @@
             "description": "A server software for Minecraft: Pocket Edition written in PHP",
             "homepage": "https://pmmp.io",
             "support": {
-                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.11.3",
+                "source": "https://github.com/pmmp/PocketMine-MP/tree/3.11.4",
                 "issues": "https://github.com/pmmp/PocketMine-MP/issues"
             },
-            "time": "2020-01-04T16:46:55+00:00"
+            "time": "2020-01-20T18:06:46+00:00"
         },
         {
             "name": "pocketmine/raklib",
@@ -370,7 +371,7 @@
             ],
             "description": "Standard library files required by PocketMine-MP and related projects",
             "support": {
-                "source": "https://github.com/pmmp/SPL/tree/0.3.5",
+                "source": "https://github.com/pmmp/SPL/tree/0.3",
                 "issues": "https://github.com/pmmp/SPL/issues"
             },
             "time": "2020-01-14T16:23:26+00:00"

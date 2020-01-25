@@ -17,7 +17,7 @@
 [English](/README.md),
 [日本語](./ja_jp.md),
 [русский](./ru_ru.md),
-[Türk](./tr_tr.md)
+[Türkçe](./tr_tr.md)
 
 ## Texter
 

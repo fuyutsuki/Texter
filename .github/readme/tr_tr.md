@@ -33,7 +33,7 @@ En son: ver **3.4.4**
 ### Destekleyici
 
 - [x] Minecraft (Ana kaya)
-- [x] Çok dilli (İngilizce, Japonca, Rusça, Çince, Türk)
+- [x] Çok dilli (İngilizce, Japonca, Rusça, Çince, Türkçe)
 - [x] Çok dünyalı ekran
 
 ### İndir

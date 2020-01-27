@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.5
+
+- Translated by @SuperAdam47: Modified Turkish
+
 ### 3.4.4
 
 - Added `changelogs` for each language

@@ -4,7 +4,7 @@
  * // English
  *
  * Texter, the display FloatingTextPerticle plugin for PocketMine-MP
- * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019-2020 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * This software is distributed under "NCSA license".
  * You should have received a copy of the NCSA license
@@ -15,7 +15,7 @@
  * // 日本語
  *
  * TexterはPocketMine-MP向けのFloatingTextPerticleを表示するプラグインです
- * Copyright (c) 2019 yuko fuyutsuki < https://github.com/fuyutsuki >
+ * Copyright (c) 2019-2020 yuko fuyutsuki < https://github.com/fuyutsuki >
  *
  * このソフトウェアは"NCSAライセンス"下で配布されています。
  * あなたはこのプログラムと共にNCSAライセンスのコピーを受け取ったはずです。

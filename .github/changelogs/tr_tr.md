@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.5
+
+- Çeviri @SuperAdam47: Değiştirilmiş Türkçe
+
 ### 3.4.4
 
 - Her dil için `changelogs` eklendi

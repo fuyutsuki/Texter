@@ -29,6 +29,7 @@ namespace tokyo\pmmp\Texter\i18n;
 
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\data\ConfigData;
+use function strtolower;
 
 /**
  * Class Lang

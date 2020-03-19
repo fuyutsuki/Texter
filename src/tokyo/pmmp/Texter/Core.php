@@ -38,6 +38,7 @@ use tokyo\pmmp\Texter\data\UnremovableFloatingTextData;
 use tokyo\pmmp\Texter\i18n\Lang;
 use tokyo\pmmp\Texter\task\CheckUpdateTask;
 use tokyo\pmmp\Texter\task\PrepareTextsTask;
+use function class_exists;
 
 /**
  * Class Core

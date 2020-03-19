@@ -36,8 +36,8 @@ use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
-use pocketmine\network\mcpe\protocol\PlayerSkinPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
+use pocketmine\network\mcpe\protocol\SetActorDataPacket;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
 use pocketmine\network\mcpe\protocol\types\SkinAdapterSingleton;
 use pocketmine\Player;
@@ -45,6 +45,10 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use tokyo\pmmp\Texter\data\Data;
 use tokyo\pmmp\Texter\data\FloatingTextData;
+use function str_replace;
+use function strtolower;
+use function str_repeat;
+use function sprintf;
 
 /**
  * Class FloatingText
@@ -174,7 +178,6 @@ class FloatingText extends Position implements Text {
     switch ($type) {
       #BLAME "MOJUNCROSOFT" on 1.13
       case Text::SEND_TYPE_ADD:
-      case Text::SEND_TYPE_EDIT:
         $uuid = UUID::fromRandom();
 
         $apk = new PlayerListPacket;
@@ -213,9 +216,19 @@ class FloatingText extends Position implements Text {
         $pks = [$apk, $pk, $rpk];
         break;
 
+      case Text::SEND_TYPE_EDIT:
+        $pk = new SetActorDataPacket;
+        $pk->entityRuntimeId = $this->eid;
+        $pk->metadata = [
+          Entity::DATA_NAMETAG => [Entity::DATA_NAMETAG, $this->getIndentedTexts($owned)]
+        ];
+        $pks = [$pk];
+        break;
+
       case Text::SEND_TYPE_MOVE:
         $pk = new MoveActorAbsolutePacket;
         $pk->entityRuntimeId = $this->eid;
+        $pk->flags = MoveActorAbsolutePacket::FLAG_TELEPORT;
         $pk->position = $this;
         $pk->xRot = 0;
         $pk->yRot = 0;

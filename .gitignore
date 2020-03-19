@@ -4,9 +4,6 @@
 # VisualStudio Code
 /.history
 
-# Composer
-vendor/*
-
 # for old-plugin data
 /language
 /config.yml

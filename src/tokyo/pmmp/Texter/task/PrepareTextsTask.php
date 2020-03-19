@@ -39,6 +39,7 @@ use tokyo\pmmp\Texter\i18n\Lang;
 use tokyo\pmmp\Texter\text\FloatingText;
 use tokyo\pmmp\Texter\text\UnremovableFloatingText;
 use tokyo\pmmp\Texter\TexterApi;
+use function count;
 
 /**
  * Class PrepareTextsTask

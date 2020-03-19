@@ -30,6 +30,7 @@ namespace tokyo\pmmp\Texter\text;
 use pocketmine\level\Position;
 use pocketmine\Player;
 use tokyo\pmmp\Texter\data\Data;
+use function sprintf;
 
 /**
  * Class UnremovableFloatingText

@@ -31,6 +31,12 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use tokyo\pmmp\Texter\Core;
 use tokyo\pmmp\Texter\i18n\Lang;
+use function strtolower;
+use function mb_strlen;
+use function mb_substr_count;
+use function is_array;
+use function array_flip;
+use function is_string;
 
 /**
  * Class ConfigData

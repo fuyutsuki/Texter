@@ -45,6 +45,10 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use tokyo\pmmp\Texter\data\Data;
 use tokyo\pmmp\Texter\data\FloatingTextData;
+use function str_replace;
+use function strtolower;
+use function str_repeat;
+use function sprintf;
 
 /**
  * Class FloatingText

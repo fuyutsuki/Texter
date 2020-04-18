@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.6
+
+- 通过Minecraft的最新版本确认了 [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP)的操作：Bedrock Edition 1.14.60版本
+
 ### 3.4.5
 
 - @SuperAdam47翻译： 简体土耳其语

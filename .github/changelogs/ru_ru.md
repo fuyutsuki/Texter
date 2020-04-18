@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.6
+
+- Подтверждена работа [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) с последним выпуском `3.12.0` выпуска Minecraft: Bedrock Edition 1.14.60
+
 ### 3.4.5
 
 - Перевод @SuperAdam47: модифицированный турецкий

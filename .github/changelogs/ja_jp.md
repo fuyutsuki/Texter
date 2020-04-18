@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.6
+
+- Minecraft: Bedrock Edition 1.14.60 hotfix リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.12.0` での動作確認を行いました
+
 ### 3.4.5
 
 - @SuperAdam47による翻訳: トルコ語 の修正

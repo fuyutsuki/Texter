@@ -6,6 +6,7 @@ api: 3.10.0 # pmmp/PocketMine-MP
 mcpe-protocol:
   - 388 # 1.13.x
   - 389 # 1.14.x
+  - 390 # 1.14.60
 softdepend:
   - FormAPI # jojoe77777/FormAPI
 virions:

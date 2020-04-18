@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.6
+
+- Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.12.0` of Minecraft: Bedrock Edition 1.14.60 hotfix release
+
 ### 3.4.5
 
 - Translated by @SuperAdam47: Modified Turkish
@@ -18,7 +22,7 @@
 
 ### 3.4.2
 
-- Translation by @ No4NaMe: Added Russian
+- Translation by @No4NaMe: Added Russian
 
 ### 3.4.1
 

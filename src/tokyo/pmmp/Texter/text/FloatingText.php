@@ -245,7 +245,6 @@ class FloatingText extends Position implements Text {
       // for developers
       default:
         throw new \InvalidArgumentException("The type must be an integer value between 0 to 3");
-        break;
     }
     return $pks;
   }

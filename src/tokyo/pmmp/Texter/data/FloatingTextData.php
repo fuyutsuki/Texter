@@ -80,13 +80,11 @@ class FloatingTextData extends Config implements Data {
   }
 
   public function removeFtByLevelName(string $levelName, string $name): void {
-    if ($bool = $this->exists($levelName)) {
-      if ($bool) {
-        $levelFts = $this->get($levelName);
-        unset($levelFts[$name]);
-        $this->set($levelName, $levelFts);
-        $this->save();
-      }
+    if ($this->exists($levelName)) {
+      $levelFts = $this->get($levelName);
+      unset($levelFts[$name]);
+      $this->set($levelName, $levelFts);
+      $this->save();
     }
   }
 

@@ -37,7 +37,6 @@ use function strtolower;
  */
 class Lang {
 
-  /** @var string */
   public const DIR = "language";
   public const FALLBACK = "en_us";
 
@@ -53,7 +52,8 @@ class Lang {
     "ja_jp",
     "ru_ru",
     "tr_tr",
-    "zh_cn"
+    "zh_cn",
+    "ko_kr",
   ];
 
   public function __construct(Core $core) {

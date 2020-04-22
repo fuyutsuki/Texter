@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.7
+
+- Translated by @minijaham: Added Korean
+
 ### 3.4.6
 
 - Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.12.0` of Minecraft: Bedrock Edition 1.14.60 hotfix release

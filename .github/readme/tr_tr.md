@@ -25,7 +25,7 @@ Başka bir dil seçin:
 ## Texter
 
 Texter, çoklu dünya için desteklenen FloatingTextPerticle'ı görüntüleyen ve silen eklentidir.
-En son: ver **3.4.7**
+En son: ver **3.4.8**
 
 
 <!--

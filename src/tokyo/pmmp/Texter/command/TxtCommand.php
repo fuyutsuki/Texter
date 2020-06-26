@@ -29,7 +29,9 @@ namespace tokyo\pmmp\Texter\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 use pocketmine\utils\TextFormat;
 use tokyo\pmmp\Texter\command\sub\TxtAdd;
 use tokyo\pmmp\Texter\command\sub\TxtEdit;
@@ -44,7 +46,7 @@ use tokyo\pmmp\Texter\i18n\Lang;
  * Class TxtCommand
  * @package tokyo\pmmp\Texter\command
  */
-class TxtCommand extends Command {
+class TxtCommand extends Command implements PluginIdentifiableCommand {
 
   public function __construct() {
     $permission = ConfigData::make()->canUseOnlyOp() ? "texter.command.*" : "texter.command.txt";
@@ -109,5 +111,9 @@ class TxtCommand extends Command {
       Core::get()->getLogger()->info(TextFormat::RED.$info);
     }
     return true;
+  }
+
+  public function getPlugin(): Plugin {
+    return Core::get();
   }
 }

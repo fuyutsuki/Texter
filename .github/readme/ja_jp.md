@@ -18,14 +18,15 @@
 [русский](./ru_ru.md),
 [中文](./zh_cn.md),
 [Türkçe](./tr_tr.md),
-[한국어](./ko_kr.md)
+[한국어](./ko_kr.md),
+[Indonesia](./id_id.md)
 
 ***
 
 ## Texter
 
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.4.8**  
+最新バージョン: **3.4.9**  
 
 
 <!--

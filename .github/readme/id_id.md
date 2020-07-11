@@ -8,56 +8,56 @@
 
 [![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
-### Overview
+### Gambaran
 
-You can set the plugin language by changing the `locale` in [config.yml](/resources/config.yml)  
-also, supported languages are automatically displayed according to the locale of the client.
+Anda dapat mengatur bahasa plugin dengan mengubah `locale` di [config.yml](/resources/config.yml)
+juga, bahasa yang didukung akan ditampilkan secara otomatis sesuai dengan lokal klien.
 
-Select another language:
+Pilih bahasa lain:
+[English](/README.md),
 [日本語](./.github/readme/ja_jp.md),
 [русский](./.github/readme/ru_ru.md),
 [中文](./.github/readme/zh_cn.md),
 [Türkçe](./.github/readme/tr_tr.md),
-[한국어](./.github/readme/ko_kr.md),
-[Indonesia](./.github/readme/id_id.md)
+[한국어](./.github/readme/ko_kr.md)
 
 ***
 
 ## Texter
 
-Texter is plugin that displays and deletes FloatingTextParticle supported to multi-world.  
-Latest: ver **3.4.9**  
+Texter adalah plugin yang menampilkan dan menghapus FloatingTextParticle yang didukung untuk multi-dunia.  
+Terbaru: ver **3.4.9**
 
 
 <!--
-**This branch is under development. It may have many bugs.**  
+**Cabang ini sedang dikembangkan. Mungkin ada banyak bug.**  
 -->
 
 
-### Supporting
+### Mendukung
 
-- [x] Minecraft(Bedrock)
-- [x] Multi-language (English, Japanese, Russian, Chinese, Turkish)
-- [x] Multi-world display
+- [x] Minecraft (Batuan Dasar)
+- [x] Multi-bahasa (Inggris, Jepang, Rusia, Cina, Turki, Korea, Indonesia)
+- [x] Layar multi-dunia
 
-### Download
+### Unduh
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
-### Commands
+### Perintah
 
-#### General command
+#### Perintah umum
 
 | \ |command|alias|
 |:--:|:--:|:--:|
-|Add text|`/txt add`|`/txt a`|
-|Edit text|`/txt edit`|`/txt e`|
-|Move text|`/txt move`|`/txt m`|
-|Remove text|`/txt remove`|`/txt r`|
-|Listup texts|`/txt list`|`/txt l`|
-|Help|`/txt or /txt help`|`/txt ?`|
+|Menambahkan teks|`/txt add`|`/txt a`|
+|Sunting teks|`/txt edit`|`/txt e`|
+|Memindahkan teks|`/txt move`|`/txt m`|
+|hapus teks|`/txt remove`|`/txt r`|
+|teks daftar|`/txt list`|`/txt l`|
+|Tolong|`/txt or /txt help`|`/txt ?`|
 
-**Please use `#` for line breaks.**
+**Silakan gunakan `#` untuk jeda baris.**
 
 ### json notation
 

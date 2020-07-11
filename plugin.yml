@@ -1,7 +1,7 @@
 name: Texter
 prefix: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.4.8
+version: 3.4.9
 api: 3.10.0 # pmmp/PocketMine-MP
 mcpe-protocol:
   - 388 # 1.13.x
@@ -26,6 +26,7 @@ authors:
 - SuperYYT # Chinese translation
 - SuperAdam47 # Turkish translation
 - minijaham # Korean translation
+- VicoSilalahi # Indonesian translation
 website: https://github.com/fuyutsuki/Texter
 
 permissions:

@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.9
+
+- @VicoSilalahiによる翻訳: インドネシア語 を追加しました
+
 ### 3.4.8
 
 - Minecraft: Bedrock Edition 1.16.0.20 リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.14.0` での動作確認を行いました

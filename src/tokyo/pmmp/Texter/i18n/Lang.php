@@ -54,6 +54,7 @@ class Lang {
     "tr_tr",
     "zh_cn",
     "ko_kr",
+    "id_id",
   ];
 
   public function __construct(Core $core) {

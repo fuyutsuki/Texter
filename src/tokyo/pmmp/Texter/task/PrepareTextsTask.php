@@ -47,20 +47,15 @@ use function count;
  */
 class PrepareTextsTask extends Task {
 
-  /** @var Server */
-  private $server;
-  /** @var array */
-  private $ufts;
-  /** @var int */
-  private $uftsCount = 0;
-  /** @var int */
-  private $uftsMax;
-  /** @var array */
-  private $fts;
-  /** @var int */
-  private $ftsCount = 0;
-  /** @var int */
-  private $ftsMax;
+  private Server $server;
+
+  private array $ufts;
+  private int $uftsCount = 0;
+  private int $uftsMax;
+
+  private array $fts;
+  private int $ftsCount = 0;
+  private int $ftsMax;
 
   public function __construct() {
     $this->server = Server::getInstance();

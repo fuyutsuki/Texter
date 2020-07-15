@@ -44,8 +44,7 @@ use function is_string;
  */
 class ConfigData extends Config implements Data {
 
-  /** @var ConfigData */
-  private static $instance;
+  private static self $instance;
 
   public function __construct(PluginBase $plugin, string $path, string $file) {
     $plugin->saveResource($file);

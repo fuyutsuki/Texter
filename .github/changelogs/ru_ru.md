@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.10
+
+- Подтвердил работу [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) с последней версией `3.15.0` выпуска исправлений Minecraft: Bedrock Edition 1.16.20
+
 ### 3.4.9
 
 - Перевод @VicoSilalahi: добавлен индонезийский

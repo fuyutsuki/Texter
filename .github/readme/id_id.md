@@ -26,7 +26,7 @@ Pilih bahasa lain:
 ## Texter
 
 Texter adalah plugin yang menampilkan dan menghapus FloatingTextParticle yang didukung untuk multi-dunia.  
-Terbaru: ver **3.4.9**
+Terbaru: ver **3.4.10**
 
 
 <!--

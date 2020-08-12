@@ -97,7 +97,7 @@ class Core extends PluginBase implements Listener {
     if ($canUse = ConfigData::make()->canUseCommands()) {
       $map = $this->getServer()->getCommandMap();
       $commands = [
-        new TxtCommand
+        new TxtCommand($this),
       ];
       $map->registerAll($this->getName(), $commands);
       $message = Lang::fromConsole()->translateString("on.load.commands.on");

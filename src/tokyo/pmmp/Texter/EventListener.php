@@ -34,6 +34,7 @@ use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\Player;
+use tokyo\pmmp\Texter\command\TxtCommand;
 use tokyo\pmmp\Texter\i18n\Lang;
 use tokyo\pmmp\Texter\task\SendTextsTask;
 use tokyo\pmmp\Texter\text\Text;
@@ -64,9 +65,9 @@ class EventListener implements Listener {
     $pk = $ev->getPacket();
     if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
       /** @var AvailableCommandsPacket $pk */
-      if (isset($pk->commandData["txt"])) {
+      if (isset($pk->commandData[TxtCommand::NAME])) {
         $p = $ev->getPlayer();
-        $txt = $pk->commandData["txt"];
+        $txt = $pk->commandData[TxtCommand::NAME];
         $txt->commandDescription = Lang::fromLocale($p->getLocale())->translateString("command.txt.description");
       }
     }

@@ -27,11 +27,9 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter\command;
 
-use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
+use pocketmine\command\PluginCommand;
 use pocketmine\Player;
-use pocketmine\plugin\Plugin;
 use pocketmine\utils\TextFormat;
 use tokyo\pmmp\Texter\command\sub\TxtAdd;
 use tokyo\pmmp\Texter\command\sub\TxtEdit;
@@ -46,15 +44,19 @@ use tokyo\pmmp\Texter\i18n\Lang;
  * Class TxtCommand
  * @package tokyo\pmmp\Texter\command
  */
-class TxtCommand extends Command implements PluginIdentifiableCommand {
+class TxtCommand extends PluginCommand {
 
-  public function __construct() {
-    $permission = ConfigData::make()->canUseOnlyOp() ? "texter.command.*" : "texter.command.txt";
-    $this->setPermission($permission);
+  public const NAME = "txt";
+
+  public function __construct(Core $plugin) {
     $cl = Lang::fromConsole();
+    $permission = ConfigData::make()->canUseOnlyOp() ? "texter.command.*" : "texter.command.txt";
     $description = $cl->translateString("command.txt.description");
     $usage = $cl->translateString("command.txt.usage");
-    parent::__construct("txt", $description, $usage);
+    $this->setPermission($permission);
+    $this->setDescription($description);
+    $this->setUsage($usage);
+    parent::__construct(self::NAME, $plugin);
   }
 
   public function execute(CommandSender $sender, string $commandLabel, array $args) {
@@ -113,7 +115,4 @@ class TxtCommand extends Command implements PluginIdentifiableCommand {
     return true;
   }
 
-  public function getPlugin(): Plugin {
-    return Core::get();
-  }
 }

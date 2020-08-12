@@ -2,13 +2,17 @@
 
 ## 3.4.x
 
+### 3.4.10
+
+- Mengonfirmasi operasi [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.15.0` dari Minecraft: Bedrock Edition 1.16.20 rilis perbaikan terbaru
+
 ### 3.4.9
 
 - Diterjemahkan oleh @VicoSilalahi: Ditambahkan bahasa Indonesia
 
 ### 3.4.8
 
-- Mengonfirmasi operasi [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.14.0` dari Minecraft: Bedrock Edition 1.16.0.20 rilis perbaikan terbaru
+- Mengonfirmasi operasi [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.14.0` dari Minecraft: Bedrock Edition 1.16.0.20 rilis perbaikan terbaru
 
 ### 3.4.7
 
@@ -16,7 +20,7 @@
 
 ### 3.4.6
 
-- Mengonfirmasi pengoperasian [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.12.0` dari Minecraft: Bedrock Edition 1.14.60 rilis perbaikan terbaru
+- Mengonfirmasi pengoperasian [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.12.0` dari Minecraft: Bedrock Edition 1.14.60 rilis perbaikan terbaru
 
 ### 3.4.5
 
@@ -38,11 +42,11 @@
 
 ### 3.4.1
 
-- Mengonfirmasi pengoperasian [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.11.1` dari Minecraft: Bedrock Edition 1.14.0 rilis
+- Mengonfirmasi pengoperasian [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) dengan rilis terbaru `3.11.1` dari Minecraft: Bedrock Edition 1.14.0 rilis
 
 ### 3.4.0
 
-- [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP) didukung. Bersamaan dengan itu, garpu yang tidak mengikuti perubahan pmmp tidak akan berfungsi dalam rilis ini
+- [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) didukung. Bersamaan dengan itu, garpu yang tidak mengikuti perubahan pmmp tidak akan berfungsi dalam rilis ini
 
 ***
 

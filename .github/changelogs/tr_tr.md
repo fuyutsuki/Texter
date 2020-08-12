@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.10
+
+- [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) çalışmasını en son Minecraft: Bedrock Edition 1.16.20 sürümü ile onayladı
+
 ### 3.4.9
 
 - Çeviri @VicoSilalahi: Endonezce eklendi

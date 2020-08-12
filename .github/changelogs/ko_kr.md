@@ -2,47 +2,51 @@
 
 ## 3.4.x
 
+### 3.4.10
+
+- Minecraft : Bedrock Edition 1.16.20 핫픽스 릴리스의 최신 릴리스 `3.15.0` 에서 [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) 의 작동을 확인했습니다.
+
 ### 3.4.9
 
 - @VicoSilalahi의 번역: 인도네시아어 추가
 
 ### 3.4.8
 
--Minecraft : Bedrock Edition 1.16.0.20 핫픽스 릴리스의 최신 릴리스 '3.14.0'에서 [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)의 작동을 확인했습니다.
+- Minecraft : Bedrock Edition 1.16.0.20 핫픽스 릴리스의 최신 릴리스 `3.14.0` 에서 [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)의 작동을 확인했습니다.
 
 ### 3.4.7
 
--@minijaham 번역 : 한국어 추가
+- @minijaham 번역 : 한국어 추가
 
 ### 3.4.6
 
--Minecraft : Bedrock Edition 1.14.60 핫픽스 릴리스의 최신 릴리스 '3.12.0'에서 [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)의 작동을 확인했습니다.
+- Minecraft : Bedrock Edition 1.14.60 핫픽스 릴리스의 최신 릴리스 `3.12.0` 에서 [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)의 작동을 확인했습니다.
 
 ### 3.4.5
 
--@ SuperAdam47 번역 : 터키어 수정
+- @ SuperAdam47 번역 : 터키어 수정
 
 ### 3.4.4
 
--언어별로 '변경 로그'추가
--@ SuperAdam47 번역 : 터키어 추가
--@SuperYYT 번역 : 중국어 수정
+- 언어별로 '변경 로그'추가
+- @SuperAdam47 번역 : 터키어 추가
+- @SuperYYT 번역 : 중국어 수정
 
 ### 3.4.3
 
--@SuperYYT 번역 : 중국어 추가
+- @SuperYYT 번역 : 중국어 추가
 
 ### 3.4.2
 
--@ No4NaMe 번역 : 러시아어 추가
+- @No4NaMe 번역 : 러시아어 추가
 
 ### 3.4.1
 
--Minecraft : Bedrock Edition 1.14.0 릴리스의 최신 릴리스 '3.11.1'에서 [pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)의 작동을 확인했습니다.
+- Minecraft : Bedrock Edition 1.14.0 릴리스의 최신 릴리스 '3.11.1'에서 [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) 의 작동을 확인했습니다.
 
 ### 3.4.0
 
--[pmmp / PocketMine-MP] (https://github.com/pmmp/PocketMine-MP)가 지원됩니다. 이와 함께 pmmp 변경 사항을 따르지 않는 포크는이 릴리스에서 작동하지 않습니다.
+- [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) 가 지원됩니다. 이와 함께 pmmp 변경 사항을 따르지 않는 포크는이 릴리스에서 작동하지 않습니다.
 
 ***
 

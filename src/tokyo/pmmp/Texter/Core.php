@@ -46,10 +46,8 @@ use function class_exists;
  */
 class Core extends PluginBase implements Listener {
 
-  /** @var Core */
-  private static $core;
-  /** @var bool */
-  private static $isUpdater = false;
+  private static Core $core;
+  private static bool $isUpdater = false;
 
   public function onLoad() {
     self::$core = $this;

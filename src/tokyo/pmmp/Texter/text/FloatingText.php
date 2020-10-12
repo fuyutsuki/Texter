@@ -59,21 +59,21 @@ class FloatingText extends Position implements Text {
   public const CHECK_CHAR = 0;
   public const CHECK_FEED = 1;
 
-  /** @var string */
-  protected $name;
-  /** @var string */
-  protected $title;
-  /** @var string */
-  protected $text;
-  /** @var string */
-  protected $owner;
-  /** @var int */
-  protected $eid;
+  protected string $name;
+  protected string $title;
+  protected string $text;
+  protected string $owner;
+  protected int $eid;
+  protected bool $isInvisible = false;
 
-  /** @var bool */
-  protected $isInvisible = false;
-
-  public function __construct(string $name, Position $pos, string $title = "", string $text = "", string $owner = "unknown", int $eid = 0) {
+  public function __construct(
+    string $name,
+    Position $pos,
+    string $title = "",
+    string $text = "",
+    string $owner = "unknown",
+    int $eid = 0
+  ) {
     $this
       ->setName($name)
       ->setPosition($pos)

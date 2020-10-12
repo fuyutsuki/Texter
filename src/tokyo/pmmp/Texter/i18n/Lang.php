@@ -40,14 +40,13 @@ class Lang {
   public const DIR = "language";
   public const FALLBACK = "en_us";
 
-  /** @var Lang */
-  private static $instance;
+  private static Lang $instance;
   /** @var Language[] */
-  private static $language;
-  /** @var string */
-  private static $consoleLang = self::FALLBACK;
-  /** @var string[] */
-  private static $available = [
+  private static array $language;
+
+  private static string $consoleLang = self::FALLBACK;
+
+  private static array $available = [
     "en_us",
     "ja_jp",
     "ru_ru",

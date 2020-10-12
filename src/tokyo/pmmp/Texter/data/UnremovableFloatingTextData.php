@@ -36,8 +36,7 @@ use pocketmine\utils\Config;
  */
 class UnremovableFloatingTextData extends Config implements Data {
 
-  /** @var UnremovableFloatingTextData */
-  private static $instance;
+  private static self $instance;
 
   public function __construct(Plugin $plugin, string $path, string $file) {
     $plugin->saveResource($file);

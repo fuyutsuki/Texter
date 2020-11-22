@@ -27,7 +27,6 @@ declare(strict_types = 1);
 
 namespace tokyo\pmmp\Texter;
 
-use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
@@ -44,7 +43,7 @@ use function class_exists;
  * Class Core
  * @package tokyo\pmmp\Texter
  */
-class Core extends PluginBase implements Listener {
+class Core extends PluginBase {
 
   private static Core $core;
   private static bool $isUpdater = false;

@@ -23,11 +23,9 @@ Select another language:
 Texter is plugin that displays and deletes FloatingTextParticle supported to multi-world.  
 Latest: ver **3.4.11**  
 
-
 <!--
 **This branch is under development. It may have many bugs.**  
 -->
-
 
 ### Supporting
 

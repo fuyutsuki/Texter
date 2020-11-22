@@ -4,6 +4,8 @@
 
 ### 3.4.11
 
+- PocketMine-MP >= 3.15.0 is required
+- PHP >= 7.4 is required
 - Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.16.0` of Minecraft: Bedrock Edition 1.16.100 release
 
 ### 3.4.10

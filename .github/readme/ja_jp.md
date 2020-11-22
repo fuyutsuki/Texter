@@ -14,19 +14,14 @@
 また、対応している言語に関してはそれぞれのプレイヤーのクライアントの言語設定に応じて自動的に翻訳されます。
 
 他の言語:
-[English](/README.md),
-[русский](./ru_ru.md),
-[中文](./zh_cn.md),
-[Türkçe](./tr_tr.md),
-[한국어](./ko_kr.md),
-[Indonesia](./id_id.md)
+[English](/README.md)
 
 ***
 
 ## Texter
 
 TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.4.10**  
+最新バージョン: **3.4.11**  
 
 
 <!--

@@ -1,7 +1,7 @@
 name: Texter
 prefix: Texter
 main: tokyo\pmmp\Texter\Core
-version: 3.4.10
+version: 3.4.11
 api: 3.10.0 # pmmp/PocketMine-MP
 mcpe-protocol:
   - 388 # 1.13.x
@@ -9,6 +9,7 @@ mcpe-protocol:
   - 390 # 1.14.60
   - 407 # 1.16.x
   - 408 # 1.16.20
+  - 419 # 1.16.100
 softdepend:
   - FormAPI # jojoe77777/FormAPI
 virions:

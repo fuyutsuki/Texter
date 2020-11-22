@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.11
+
+- Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.16.0` of Minecraft: Bedrock Edition 1.16.100 release
+
 ### 3.4.10
 
 - Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.15.0` of Minecraft: Bedrock Edition 1.16.20 release

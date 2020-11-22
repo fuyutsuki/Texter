@@ -14,19 +14,14 @@ You can set the plugin language by changing the `locale` in [config.yml](/resour
 also, supported languages are automatically displayed according to the locale of the client.
 
 Select another language:
-[日本語](./.github/readme/ja_jp.md),
-[русский](./.github/readme/ru_ru.md),
-[中文](./.github/readme/zh_cn.md),
-[Türkçe](./.github/readme/tr_tr.md),
-[한국어](./.github/readme/ko_kr.md),
-[Indonesia](./.github/readme/id_id.md)
+[日本語](./.github/readme/ja_jp.md)
 
 ***
 
 ## Texter
 
 Texter is plugin that displays and deletes FloatingTextParticle supported to multi-world.  
-Latest: ver **3.4.10**  
+Latest: ver **3.4.11**  
 
 
 <!--

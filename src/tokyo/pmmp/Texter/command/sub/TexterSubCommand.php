@@ -37,8 +37,10 @@ use tokyo\pmmp\Texter\i18n\Language;
  */
 abstract class TexterSubCommand {
 
-  protected Player $player;
-  protected Language $lang;
+  /** @var Player */
+  protected $player;
+  /** @var Language */
+  protected $lang;
 
   public function __construct(Player $player, string $default = "") {
     $this->player = $player;

@@ -40,7 +40,8 @@ class FloatingTextData extends Config implements Data {
 
   public const KEY_OWNER = "OWNER";
 
-  private static self $instance;
+  /** @var FloatingTextData */
+  private static $instance;
 
   public function __construct(Plugin $plugin, string $path, string $file) {
     $plugin->saveResource($file);

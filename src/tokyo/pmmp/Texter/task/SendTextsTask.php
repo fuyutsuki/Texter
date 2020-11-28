@@ -40,16 +40,21 @@ use tokyo\pmmp\Texter\TexterApi;
  */
 class SendTextsTask extends Task {
 
-  private Player $target;
-  private int $type;
+  /** @var Player */
+  private $target;
+  /** @var int */
+  private $type;
 
-  private array $ufts;
-  private int $uftsKey = 0;
-  private int $uftsKeyMax;
-
-  private array $fts;
-  private int $ftsKey = 0;
-  private int $ftsKeyMax;
+  /** @var array */
+  private $ufts;
+  /** @var int */
+  private $uftsKey = 0;
+  private $uftsKeyMax;
+  /** @var array */
+  private $fts;
+  /** @var int */
+  private $ftsKey = 0;
+  private $ftsKeyMax;
 
   public function __construct(Player $target, Level $sendTo, int $type = Text::SEND_TYPE_ADD) {
     $this->target = $target;

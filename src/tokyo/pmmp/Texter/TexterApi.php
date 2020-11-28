@@ -40,8 +40,10 @@ use tokyo\pmmp\Texter\text\UnremovableFloatingText;
  */
 class TexterApi {
 
-  private static array $ufts = [];
-  private static array $fts = [];
+  /** @var array */
+  private static $ufts = [];
+  /** @var array */
+  private static $fts = [];
 
   private function __construct() {
     // DO NOT USE THIS METHOD!

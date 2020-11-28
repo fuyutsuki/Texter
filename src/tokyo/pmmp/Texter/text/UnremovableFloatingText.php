@@ -38,15 +38,10 @@ use function sprintf;
  */
 class UnremovableFloatingText extends FloatingText implements Text {
 
-  protected string $owner = "uft.json";
+  /** @var string */
+  protected $owner = "uft.json";
 
-  public function __construct(
-    string $name,
-    Position $pos,
-    string $title = "",
-    string $text = "",
-    int $eid = 0
-  ) {
+  public function __construct(string $name, Position $pos, string $title = "", string $text = "", int $eid = 0) {
     parent::__construct($name, $pos, $title, $text, $this->owner, $eid);
   }
 

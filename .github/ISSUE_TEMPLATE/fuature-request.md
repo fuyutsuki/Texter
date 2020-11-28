@@ -2,7 +2,7 @@
 name: Fuature request
 about: "✨Let us know if you have any trivial ideas!"
 title: ''
-labels: ''
+labels: 'Category: Enhancement'
 assignees: fuyutsuki
 
 ---

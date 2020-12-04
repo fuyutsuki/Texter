@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.12
+
+- Revert "Property type-hinting", now works if you are in PHP >= 7.3
+
 ### 3.4.11
 
 - PocketMine-MP >= 3.15.0 is required

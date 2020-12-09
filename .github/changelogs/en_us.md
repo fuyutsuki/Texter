@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.13
+
+- Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.17.0` of Minecraft: Bedrock Edition 1.16.200 release
+
 ### 3.4.12
 
 - Revert "Property type-hinting", now works if you are in PHP >= 7.3

@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.13
+
+- Minecraft: Bedrock Edition 1.16.200 リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.17.0` での動作確認を行いました
+
 ### 3.4.12
 
 - プロパティ型ヒントを削除し、PHP >= 7.3 で動作するように戻しました

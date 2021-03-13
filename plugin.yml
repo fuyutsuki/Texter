@@ -7,6 +7,7 @@ mcpe-protocol:
   - 408 # 1.16.20
   - 419 # 1.16.100
   - 422 # 1.16.200
+  - 428 # 1.16.210
 softdepend:
   - FormAPI # jojoe77777/FormAPI
 virions:

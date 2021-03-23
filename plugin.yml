@@ -1,7 +1,7 @@
 name: Texter
 prefix: Texter
-main: jp\mcbe\fuyutsuki\Texter
-version: 3.5.0
+main: jp\mcbe\fuyutsuki\Texter\Main
+version: 4.0.0
 api: 3.15.0 # pmmp/PocketMine-MP
 mcpe-protocol:
   - 408 # 1.16.20
@@ -9,9 +9,11 @@ mcpe-protocol:
   - 422 # 1.16.200
   - 428 # 1.16.210
 softdepend:
-  - FormAPI # jojoe77777/FormAPI
+  # aieuo/Mineflow
+  - Mineflow # >= 1.3
 virions:
-  - libFormAPI # jojoe77777/libFormAPI
+  # jojoe77777/libFormAPI
+  - libFormAPI # >= 1.3
 
 author: yuko_fuyutsuki
 

@@ -1,86 +1,76 @@
-<img src="/assets/Texter.png" width="400px">  
+<div align="center">
 
-[![GitHub license](https://img.shields.io/badge/license-UIUC/NCSA-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
-[![](https://poggit.pmmp.io/shield.state/Texter)](https://poggit.pmmp.io/p/Texter)
-[![](https://poggit.pmmp.io/shield.api/Texter)](https://poggit.pmmp.io/p/Texter)  
+<img src="/assets/Texter.png" width="600px">
 
-[![](https://poggit.pmmp.io/shield.dl/Texter)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter)](https://poggit.pmmp.io/p/Texter)
+<h1>Texter</h1>
+
+Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加、編集、移動、削除ができる[PocketMine-MP](https://github.com/pmmp/PocketMine-MP)用プラグインです。
+
+[![GitHub](https://img.shields.io/github/license/fuyutsuki/Texter?style=flat-square)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
+[![](https://poggit.pmmp.io/shield.state/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
+[![](https://poggit.pmmp.io/shield.api/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
+
+[![](https://poggit.pmmp.io/shield.dl/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
 
 [![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
-### 概要
+</div>
 
-[config.yml](/resources/config.yml) の中の `locale` を変更することでコンソール上の言語を変更できます。  
-また、対応している言語に関してはそれぞれのプレイヤーのクライアントの言語設定に応じて自動的に翻訳されます。
+***
+
+**このブランチは開発中です。多くのバグを含む可能性があります。**
 
 他の言語:
 [English](/README.md)
 
-***
-
-## Texter
-
-TexterはFloatingTextPerticleを複数ワールドに渡り表示、編集、移動、削除ができるプラグインです。  
-最新バージョン: **3.4.13**  
-
-<!--
-**このブランチは開発中です。多くのバグを含む可能性があります。**  
--->
-
-### 対応状況
-
-- [x] Minecraft(Bedrock)
-- [x] 複数言語 (英語, 日本語, ロシア語, 中国語, トルコ語)
-- [x] 複数ワールドの表示
-
-### ダウンロード
+### :inbox_tray: ダウンロード
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
-### コマンド
+### :sparkles: 機能
 
-#### 一般用コマンド
+#### コマンド
 
-| \ |コマンド|エイリアス|
-|:--:|:--:|:--:|
-|浮き文字追加|`/txt add`|`/txt a`|
-|浮き文字編集|`/txt edit`|`/txt e`|
-|浮き文字移動|`/txt move`|`/txt m`|
-|浮き文字削除|`/txt remove`|`/txt r`|
-|浮き文字リスト|`/txt list`|`txt l`|
-|ヘルプ|`/txt or /txt help`|`/txt ?`|
+すべてのコマンドの権限は `texter.command.txt` (OPのみ) に設定してあります。
 
-**改行の際には `#` を使用してください。**
+| \ |コマンド|エイリアス|使い方|
+|:--:|:--:|:--:|:--|
+|浮き文字追加|`/txt add`|`/txt a`|`/txt add [name] [text]`|
+|浮き文字編集|`/txt edit`|`/txt e`|`/txt edit [name] [text]`|
+|浮き文字移動|`/txt move`|`/txt m`|`/txt move [name] [here|x y z]`|
+|浮き文字削除|`/txt remove`|`/txt r`|`/txt remove [name]`|
+|ヘルプ|`/txt`||`/txt`|
 
-### json 記法
+**浮き文字の改行の際には `#` を文中に挿入してください。**
 
-- uft.json
-```json
-{
-  "ワールドフォルダ名": {
-    "浮き文字名(一意)": {
-      "Xvec": 128,
-      "Yvec": 90,
-      "Zvec": 128,
-      "TITLE": "タイトル",
-      "TEXT": "テキスト(改行は #)"
-    }
-  }
-}
-```
+#### 変数
 
-- ft.json
-```json
-{
-  "ワールドフォルダ名": {
-    "浮き文字名(一意)": {
-      "Xvec": 128,
-      "Yvec": 90,
-      "Zvec": 128,
-      "TITLE": "タイトル",
-      "TEXT": "テキスト(改行は #)",
-      "OWNER": "Steve"
-    }
-  }
-}
-```
+[Mineflow >= 1.3](https://poggit.pmmp.io/p/Mineflow)を導入している場合、浮き文字に変数を適用することが出来ます。
+
+|変数名|型|使用できるプロパティ|
+|:----|:-|:----------------|
+|`server_name`|string||
+|`microtime`|number||
+|`time`|string||
+|`date`|string||
+|`default_level`|string||
+|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player))|
+|`ft`|FloatingText|`name(string), pos(Position), spacing(Position)`|
+
+### :symbols: 言語
+
+[config.yml](/resources/config.yml) の中の `locale` を変更することでコンソール上の言語を変更できます。  
+また、対応している言語に関してはそれぞれのプレイヤーのクライアントの言語設定に応じて自動的に翻訳されます。
+
+#### 対応状況
+
+他言語のPRを歓迎します！
+
+ - [x] en_us(英語)
+ - [ ] id_id(インドネシア語)
+ - [x] ja_jp(日本語)
+ - [ ] ko_kr(韓国語)
+ - [ ] ru_ru(ロシア語)
+ - [ ] tr_tr(トルコ語)
+ - [ ] zh_cn(中国語/簡体)
+

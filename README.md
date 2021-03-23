@@ -24,20 +24,22 @@ Other languages:
 [English](/README.md)
 
 ### :inbox_tray: Download
+-----------------------------------------
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
 ### :sparkles: Features
+-----------------------------------------
 
 #### Commands
 
 All commands have permissions set to `texter.command.txt` (OP only).
 
-| \ |Command|aliases|usage|.
+| \ |Command|aliases|usage|
 |:--:|:--:|:--:|:--|
 |Add text|`/txt add`|`/txt a`|`/txt add [name] [text]`|
 |Edit text|`/txt edit`|`/txt e`|`/txt edit [name] [text]`|
-|Move text|`/txt move`|`/txt m`|`/txt move [name] [here|x y z]`|
+|Move text|`/txt move`|`/txt m`|`/txt move [name] [here\|x y z]`|
 |Remove text|`/txt remove`|`/txt r`|`/txt remove [name]`|
 |help|`/txt`||`/txt`|
 
@@ -47,17 +49,18 @@ All commands have permissions set to `texter.command.txt` (OP only).
 
 If you have installed [Mineflow >= 1.3](https://poggit.pmmp.io/p/Mineflow), you can apply variables to floating characters.
 
-|name|type|available properties|.
+|name|type|available properties|
 |:----|:-|:----------------|
 |`server_name`|string||
 |`microtime`|number||
 |`time`|string||
 |`date`|string|||`default_level`|string
 |`default_level`|string||||`player`|Player
-|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player))|
+|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
 |`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
 
 ### :symbols: Language
+-----------------------------------------
 
 You can change the language in the console by changing the `locale` in [config.yml](/resources/config.yml).  
 The supported languages will be automatically translated according to the language settings of each player's client.

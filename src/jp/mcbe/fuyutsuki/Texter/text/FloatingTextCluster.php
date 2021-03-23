@@ -138,10 +138,6 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		return $result;
 	}
 
-	public function __toString(): string {
-		return "FloatingTextCluster(name=\"{$this->name}\",{$this->position},texts=\"[]\",entityRuntimeId=\"{$this->entityRuntimeId}\")";
-	}
-
 	public static function fromArray(string $name, array $arr): self {
 		$spacing = null;
 		if (isset($arr[Data::KEY_SPACING])) {

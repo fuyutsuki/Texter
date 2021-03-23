@@ -1,86 +1,81 @@
-<img src="/assets/Texter.png" width="400px">  
+<div align="center">
 
-[![GitHub license](https://img.shields.io/badge/license-UIUC/NCSA-blue.svg)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
-[![](https://poggit.pmmp.io/shield.state/Texter)](https://poggit.pmmp.io/p/Texter)
-[![](https://poggit.pmmp.io/shield.api/Texter)](https://poggit.pmmp.io/p/Texter)  
+<img src="/assets/Texter.png" width="600px">
 
-[![](https://poggit.pmmp.io/shield.dl/Texter)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter)](https://poggit.pmmp.io/p/Texter)
+<h1>Texter</h1>
+
+Texter is a plugin for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) that supports multiple worlds and allows you to add, edit, move, and delete FloatingText.
+
+[![GitHub](https://img.shields.io/github/license/fuyutsuki/Texter?style=flat-square)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
+[![](https://poggit.pmmp.io/shield.state/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
+[![](https://poggit.pmmp.io/shield.api/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
+
+[![](https://poggit.pmmp.io/shield.dl/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
 
 [![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
-### Overview
-
-You can set the plugin language by changing the `locale` in [config.yml](/resources/config.yml)  
-also, supported languages are automatically displayed according to the locale of the client.
-
-Select another language:
-[日本語](./.github/readme/ja_jp.md)
+</div>
 
 ***
 
-## Texter
+**This branch is under development. It may contain many bugs.**
 
-Texter is plugin that displays and deletes FloatingTextParticle supported to multi-world.  
-Latest: ver **3.4.14**  
+Other languages:
+[Japanese](/.github/readme/ja_jp.md)
 
-<!--
-**This branch is under development. It may have many bugs.**  
--->
 
-### Supporting
-
-- [x] Minecraft(Bedrock)
-- [x] Multi-language (English, Japanese, Russian, Chinese, Turkish)
-- [x] Multi-world display
-
-### Download
+:inbox_tray: Download
+-----------------------------------------
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
-### Commands
 
-#### General command
+:sparkles: Features
+-----------------------------------------
 
-| \ |command|alias|
-|:--:|:--:|:--:|
-|Add text|`/txt add`|`/txt a`|
-|Edit text|`/txt edit`|`/txt e`|
-|Move text|`/txt move`|`/txt m`|
-|Remove text|`/txt remove`|`/txt r`|
-|Listup texts|`/txt list`|`/txt l`|
-|Help|`/txt or /txt help`|`/txt ?`|
+#### Commands
 
-**Please use `#` for line breaks.**
+All commands have permissions set to `texter.command.txt` (OP only).
 
-### json notation
+| \ |Command|aliases|usage|
+|:--:|:--:|:--:|:--|
+|Add text|`/txt add`|`/txt a`|`/txt add [name] [text]`|
+|Edit text|`/txt edit`|`/txt e`|`/txt edit [name] [text]`|
+|Move text|`/txt move`|`/txt m`|`/txt move [name] [here\|x y z]`|
+|Remove text|`/txt remove`|`/txt r`|`/txt remove [name]`|
+|help|`/txt`||`/txt`|
 
-- uft.json
-```json
-{
-  "LevelFolderName": {
-    "TextName(Unique)": {
-      "Xvec": 128,
-      "Yvec": 90,
-      "Zvec": 128,
-      "TITLE": "Title",
-      "TEXT": "Text(New line with #)"
-    }
-  }
-}
-```
+**Please insert `#` for line breaks**.
 
-- ft.json
-```json
-{
-  "LevelFolderName": {
-    "TextName1(Unique)": {
-      "Xvec": 128,
-      "Yvec": 90,
-      "Zvec": 128,
-      "TITLE": "Title",
-      "TEXT": "Text(New line with #)",
-      "OWNER": "Steve"
-    }
-  }
-}
-```
+#### Variables
+
+If you have installed [Mineflow >= 1.3](https://poggit.pmmp.io/p/Mineflow), you can apply variables to floating characters.
+
+|name|type|available properties|
+|:----|:-|:----------------|
+|`server_name`|string||
+|`microtime`|number||
+|`time`|string||
+|`date`|string|||`default_level`|string
+|`default_level`|string||||`player`|Player
+|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
+|`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
+
+
+:symbols: Language
+-----------------------------------------
+
+You can change the language in the console by changing the `locale` in [config.yml](/resources/config.yml).  
+The supported languages will be automatically translated according to the language settings of each player's client.
+
+#### Support status
+
+PR in other languages is welcome!
+
+- [x] en_us(English)
+- [ ] id_id(Indonesian)
+- [x] ja_jp(Japanese)
+- [ ] ko_kr(Korean)
+- [ ] ru_ru(Russian)
+- [ ] tr_tr(Turkish)
+- [ ] zh_cn(Chinese/Simplified)

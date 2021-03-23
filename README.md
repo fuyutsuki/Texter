@@ -23,12 +23,14 @@ Texter is a plugin for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) th
 Other languages:
 [English](/README.md)
 
-### :inbox_tray: Download
+
+:inbox_tray: Download
 -----------------------------------------
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
-### :sparkles: Features
+
+:sparkles: Features
 -----------------------------------------
 
 #### Commands
@@ -59,7 +61,8 @@ If you have installed [Mineflow >= 1.3](https://poggit.pmmp.io/p/Mineflow), you 
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
 |`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
 
-### :symbols: Language
+
+:symbols: Language
 -----------------------------------------
 
 You can change the language in the console by changing the `locale` in [config.yml](/resources/config.yml).  

@@ -23,12 +23,14 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 他の言語:
 [English](/README.md)
 
-### :inbox_tray: ダウンロード
+
+:inbox_tray: ダウンロード
 -----------------------------------------
 
 * [Poggit](https://poggit.pmmp.io/p/Texter)
 
-### :sparkles: 機能
+
+:sparkles: 機能
 -----------------------------------------
 
 #### コマンド
@@ -59,7 +61,8 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
 |`ft`|FloatingText|`name(string), pos(Position), spacing(Position)`|
 
-### :symbols: 言語
+
+:symbols: 言語
 -----------------------------------------
 
 [config.yml](/resources/config.yml) の中の `locale` を変更することでコンソール上の言語を変更できます。  

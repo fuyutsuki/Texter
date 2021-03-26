@@ -30,6 +30,9 @@ class MineflowLang extends BaseLang {
 		return $this->lang;
 	}
 
+	/**
+	 * @return self[]
+	 */
 	public static function all(): array {
 		return self::$instances;
 	}

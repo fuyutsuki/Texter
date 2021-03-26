@@ -152,11 +152,12 @@ class Main extends PluginBase {
 		$worldsPath = $this->findWorldsPath();
 		foreach ($worldsPath as $worldPath) {
 			$folderName = $this->getFileName($worldPath);
-			if (FloatingTextData::getInstance($folderName) !== null) {
+			$floatingTextData = FloatingTextData::getInstance($folderName);
+			if ($floatingTextData === null) {
 				$floatingTextData = new FloatingTextData($this, $folderName);
-				$floatingTextData->generateFloatingTexts($this);
 			}
-			$this->getLogger()->debug("Loaded FloatingTextCluster file: {$folderName}.json");
+			$floatingTextData->generateFloatingTexts($this);
+			$this->getLogger()->debug("Loaded FloatingText file: {$folderName}.json");
 		}
 	}
 
@@ -213,9 +214,10 @@ class Main extends PluginBase {
 		if ($mineflow !== null) {
 			/** @var MineflowMain $mineflow */
 			Mineflow::setAvailable();
+
 			$variableHelper = $mineflow::getVariableHelper();
-			foreach (DefaultVariables::getServerVariables() as $defaultVariable) {
-				$variableHelper->add($defaultVariable);
+			foreach (DefaultVariables::getServerVariables() as $varName => $defaultVariable) {
+				$variableHelper->add($varName, $defaultVariable);
 			}
 			Mineflow::setVariableHelper($variableHelper);
 		}

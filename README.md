@@ -59,7 +59,7 @@ If you have installed [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), you 
 |`date`|string||
 |`default_world`|string||
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
+|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
 
 
 :symbols: Language

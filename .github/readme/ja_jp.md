@@ -59,7 +59,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 |`date`|string||
 |`default_world`|string||
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Position), spacing(Position)`|
+|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
 
 
 :symbols: 言語

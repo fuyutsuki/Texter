@@ -51,7 +51,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 
 #### 変数
 
-[Mineflow >= 1.3](https://poggit.pmmp.io/p/Mineflow)を導入している場合、浮き文字に変数を適用することが出来ます。
+[Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow)を導入している場合、浮き文字に変数を適用することが出来ます。
 
 |変数名|型|使用できるプロパティ|
 |:----|:-|:----------------|
@@ -59,7 +59,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 |`microtime`|number||
 |`time`|string||
 |`date`|string||
-|`default_level`|string||
+|`default_world`|string||
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
 |`ft`|FloatingText|`name(string), pos(Position), spacing(Position)`|
 

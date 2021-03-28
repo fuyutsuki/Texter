@@ -2,6 +2,10 @@
 
 ## 3.4.x
 
+### 3.4.14
+
+- Minecraft: Bedrock Edition 1.16.210 リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.18.0` での動作確認を行いました
+
 ### 3.4.13
 
 - Minecraft: Bedrock Edition 1.16.200 リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.17.0` での動作確認を行いました

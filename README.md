@@ -18,7 +18,9 @@ Texter is a plugin for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) th
 
 ***
 
+<!--
 **This branch is under development. It may contain many bugs.**
+-->
 
 Other languages:
 [日本語](/.github/readme/ja_jp.md)

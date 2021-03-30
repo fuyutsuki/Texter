@@ -23,7 +23,8 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 -->
 
 他の言語:
-[English](/README.md)
+- [English](/README.md)
+- [Tiếng Việt](/.github/readme/vi_vn.md)
 
 
 :inbox_tray: ダウンロード
@@ -61,7 +62,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 |`date`|string||
 |`default_world`|string||
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Position), spacing(Position)`|
+|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
 
 
 :symbols: 言語
@@ -74,11 +75,11 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 
 他言語のPRを歓迎します！
 
- - [x] en_us(英語)
- - [ ] id_id(インドネシア語)
- - [x] ja_jp(日本語)
- - [ ] ko_kr(韓国語)
- - [ ] ru_ru(ロシア語)
- - [ ] tr_tr(トルコ語)
- - [ ] zh_cn(中国語/簡体)
-
+- [x] en_us(英語)
+- [ ] id_id(インドネシア語)
+- [x] ja_jp(日本語)
+- [ ] ko_kr(韓国語)
+- [ ] ru_ru(ロシア語)
+- [ ] tr_tr(トルコ語)
+- [ ] zh_cn(中国語/簡体)
+- [x] vi_vn(ベトナム語)

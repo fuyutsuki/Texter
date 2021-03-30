@@ -23,7 +23,8 @@ Texter is a plugin for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) th
 -->
 
 Other languages:
-[日本語](/.github/readme/ja_jp.md)
+- [日本語](/.github/readme/ja_jp.md)
+- [Tiếng Việt](/.github/readme/vi_vn.md)
 
 
 :inbox_tray: Download
@@ -61,7 +62,7 @@ If you have installed [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), you 
 |`date`|string||
 |`default_world`|string||
 |`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
+|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
 
 
 :symbols: Language
@@ -81,3 +82,4 @@ PR in other languages is welcome!
 - [ ] ru_ru(Russian)
 - [ ] tr_tr(Turkish)
 - [ ] zh_cn(Chinese/Simplified)
+- [x] vi_vn(Vietnamese)

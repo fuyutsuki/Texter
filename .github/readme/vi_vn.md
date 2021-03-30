@@ -23,7 +23,8 @@ Texter là plugin cho [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) h�
 -->
 
 Ngôn ngữ khác:
-[日本語](/.github/readme/ja_jp.md)
+- [English](/README.md)
+- [日本語](/.github/readme/ja_jp.md)
 
 
 :inbox_tray: Tải về

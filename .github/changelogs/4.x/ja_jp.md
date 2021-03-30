@@ -2,6 +2,13 @@
 
 ## 4.0.x
 
+### 4.0.1
+
+#### :globe_with_meridians: 国際化
+
+- @TobyDev265による翻訳: ベトナム語 を追加しました
+
+
 ### 4.0.0
 
 #### ✨ 新機能
@@ -10,7 +17,7 @@
 
 - 浮き文字に挿入できる変数を導入しました  
   記法はMineflowと同様、`{変数名}`です。
-  - [MineFlow >= 1.3](https://poggit.pmmp.io/p/Mineflow) が必要です。
+  - [MineFlow >= 2.0](https://poggit.pmmp.io/p/Mineflow) が必要です。
   - Mineflowの[一部の変数](/.github/readme/ja_jp.md#変数)を扱うことが出来ます。
     - Mineflowを用いた浮き文字の操作は要望があれば4.1以降に実装するかもしれません。
 

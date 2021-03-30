@@ -2,6 +2,13 @@
 
 ## 4.0.x
 
+### 4.0.1
+
+#### :globe_with_meridians: More i18n
+
+- Translated by @TobyDev265: Added Vietnamese
+
+
 ### 4.0.0
 
 #### :sparkles: New Features
@@ -10,7 +17,7 @@
 
 - Introduced a variable that can be inserted into FloatingTexts.  
   The notation is same as Mineflow; `{variable_name}`.
-  - Requires [MineFlow >= 1.3](https://poggit.pmmp.io/p/Mineflow).
+  - Requires [MineFlow >= 2.0](https://poggit.pmmp.io/p/Mineflow).
   - It can handle [some variables](/README.md#variables) of Mineflow.
     - Manipulation of floating characters using Mineflow may be implemented in 4.1 or later if requested.
 

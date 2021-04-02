@@ -2,6 +2,12 @@
 
 ## 4.0.x
 
+### 4.0.2
+
+#### :bug: Bug fix
+
+- Fixed a bug that caused players to be blocked when performing certain command operations.
+
 ### 4.0.1
 
 #### :globe_with_meridians: More i18n

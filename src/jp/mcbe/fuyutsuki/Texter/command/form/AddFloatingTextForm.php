@@ -84,7 +84,7 @@ class AddFloatingTextForm extends CustomForm {
 
 		$this->processData($data);
 
-		$newName = $data[FormLabels::NAME];
+		$this->session->setName($data[FormLabels::NAME]);
 		$texts = $this->session->texts();
 		$this->session->setTexts([]);
 
@@ -121,14 +121,14 @@ class AddFloatingTextForm extends CustomForm {
 			$folderName = $level->getFolderName();
 			$floatingTextData = FloatingTextData::getInstance($folderName);
 
-			if ($floatingTextData->notExistsFloatingText($newName) || $this->session->isEdit()) {
+			if ($floatingTextData->notExistsFloatingText($this->session->name()) || $this->session->isEdit()) {
 				$pos = $player->up();
 				if ($this->session->isEdit()) {
 					$floatingText = $floatingTextData->floatingText($this->session->name());
 					$floatingText->sendToLevel($level, new SendType(SendType::REMOVE));
 					$pos = $floatingText->position();
 				}
-				$floatingText = new FloatingTextCluster($pos, $newName, $spacing, $this->session->texts());
+				$floatingText = new FloatingTextCluster($pos, $this->session->name(), $spacing, $this->session->texts());
 				$floatingText->sendToLevel($level, new SendType(SendType::ADD));
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();

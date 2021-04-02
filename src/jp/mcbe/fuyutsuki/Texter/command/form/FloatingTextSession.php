@@ -40,6 +40,7 @@ class FloatingTextSession {
 	public function __construct(string $key, TexterLang $lang) {
 		$this->stringArrayMultitonConstruct($key);
 		$this->lang = $lang;
+		$this->setSpacing();
 	}
 
 	public function lang(): TexterLang {

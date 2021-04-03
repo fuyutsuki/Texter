@@ -39,7 +39,7 @@ class SendTextsTask extends Task {
 		$this->sendTo = $sendTo;
 		$this->type = $type;
 		$data = FloatingTextData::getInstance($sendTo->getFolderName());
-		$this->remain = $data->floatingTexts();
+		$this->remain = $data !== null ? $data->floatingTexts() : [];
 	}
 
 	public function onRun(int $currentTick) {

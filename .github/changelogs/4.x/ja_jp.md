@@ -2,6 +2,13 @@
 
 ## 4.0.x
 
+### 4.0.3
+
+#### :bug: バグ修正
+
+- 特定の操作をした際にサーバーがクラッシュするバグを修正しました  
+  クレジット: BlitzGames(UK), MCBEPU(CN), OneMine Хаб(RU), Sulfuritium(FR), YukioLifeServer(JP), GrieferSucht(DE), HayalCraft
+  
 ### 4.0.2
 
 #### :bug: バグ修正
@@ -13,7 +20,6 @@
 #### :globe_with_meridians: 国際化
 
 - @TobyDev265による翻訳: ベトナム語 を追加しました
-
 
 ### 4.0.0
 

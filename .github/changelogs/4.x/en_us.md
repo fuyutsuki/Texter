@@ -2,6 +2,13 @@
 
 ## 4.0.x
 
+### 4.0.3
+
+#### :bug: Bug fix
+
+- Fixed a bug that caused the server to crash when performing certain operations.  
+  Credits: BlitzGames(UK), MCBEPU(CN), OneMine Хаб(RU), Sulfuritium(FR), YukioLifeServer(JP), GrieferSucht(DE), HayalCraft
+
 ### 4.0.2
 
 #### :bug: Bug fix
@@ -13,7 +20,6 @@
 #### :globe_with_meridians: More i18n
 
 - Translated by @TobyDev265: Added Vietnamese
-
 
 ### 4.0.0
 

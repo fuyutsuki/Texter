@@ -27,22 +27,20 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter;
 
-use jp\mcbe\fuyutsuki\Texter\{
-	command\TexterCommand,
-	data\FloatingTextData,
-	i18n\TexterLang,
-	task\SendTextsTask,
-	text\SendType};
-use pocketmine\{
-	event\entity\EntityLevelChangeEvent,
-	event\level\LevelInitEvent,
-	event\Listener,
-	event\player\PlayerJoinEvent,
-	event\server\DataPacketSendEvent,
-	network\mcpe\protocol\AvailableCommandsPacket,
-	network\mcpe\protocol\ProtocolInfo,
-	Player,
-	plugin\Plugin};
+use jp\mcbe\fuyutsuki\Texter\command\TexterCommand;
+use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
+use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
+use jp\mcbe\fuyutsuki\Texter\task\SendTextsTask;
+use jp\mcbe\fuyutsuki\Texter\text\SendType;
+use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\server\DataPacketSendEvent;
+use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
+use pocketmine\network\mcpe\protocol\ProtocolInfo;
+use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 
 /**
  * Class EventListener
@@ -64,11 +62,13 @@ class EventListener implements Listener {
 		$this->plugin->getScheduler()->scheduleDelayedRepeatingTask($sendTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 	}
 
-	public function onInitLevel(LevelInitEvent $ev) {
+	public function onLoadLevel(LevelLoadEvent $ev) {
 		$folderName = $ev->getLevel()->getFolderName();
-		$floatingTextData = new FloatingTextData($this->plugin, $folderName);
-		$floatingTextData->generateFloatingTexts($this->plugin);
-		$this->plugin->getLogger()->debug("Loaded FloatingTextCluster file: {$folderName}.json");
+		if (FloatingTextData::getInstance($folderName) === null) {
+			$floatingTextData = new FloatingTextData($this->plugin, $folderName);
+			$floatingTextData->generateFloatingTexts($this->plugin);
+			$this->plugin->getLogger()->debug("Loaded FloatingTextCluster file: {$folderName}.json");
+		}
 	}
 
 	public function onEntityLevelChange(EntityLevelChangeEvent $ev) {

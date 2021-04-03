@@ -50,10 +50,12 @@ class PrepareTextsTask extends Task {
 		if (empty($this->remain)) {
 			$this->onSuccess();
 		}else {
-			$name = array_shift($this->names);
+			$name = (string) array_shift($this->names);
 			$value = array_shift($this->remain);
-			$floatingText = FloatingTextCluster::fromArray($name, $value);
-			$this->data->store($floatingText, true);
+			if (is_array($value)) {
+				$floatingText = FloatingTextCluster::fromArray($name, $value);
+				$this->data->store($floatingText, true);
+			}
 		}
 	}
 

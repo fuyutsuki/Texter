@@ -8,6 +8,7 @@ mcpe-protocol:
   - 419 # 1.16.100
   - 422 # 1.16.200
   - 428 # 1.16.210
+  - 431 # 1.16.220
 softdepend:
   # aieuo/Mineflow
   - Mineflow # >= 2.0

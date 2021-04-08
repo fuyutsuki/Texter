@@ -2,6 +2,17 @@
 
 ## 4.0.x
 
+### 4.0.4
+
+#### :arrow_heading_up: Follow pmmp updates
+
+- Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.19.0` of Minecraft: Bedrock Edition 1.16.220 release
+- Corresponds for changing item stacks (#111)
+
+#### :warning: BCBreak
+
+- Texter now requires PocketMine-MP >= 3.19.0
+
 ### 4.0.3
 
 #### :bug: Bug fix

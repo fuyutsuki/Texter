@@ -2,6 +2,17 @@
 
 ## 4.0.x
 
+### 4.0.4
+
+#### :arrow_heading_up: PMMPの変更に追従
+
+- Minecraft: Bedrock Edition 1.16.220 リリースに伴う [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) の最新リリース `3.19.0` での動作確認を行いました
+- アイテムスタックの変更に対応 (#111)
+
+#### :warning: 後方互換性を損なう変更
+
+- TexterはPocketMine-MP 3.19.0以上が必要になりました
+
 ### 4.0.3
 
 #### :bug: バグ修正

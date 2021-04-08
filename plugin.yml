@@ -1,13 +1,9 @@
 name: Texter
 prefix: Texter
 main: jp\mcbe\fuyutsuki\Texter\Main
-version: 4.0.3
-api: 3.15.0 # pmmp/PocketMine-MP
+version: 4.0.4
+api: 3.19.0 # pmmp/PocketMine-MP
 mcpe-protocol:
-  - 408 # 1.16.20
-  - 419 # 1.16.100
-  - 422 # 1.16.200
-  - 428 # 1.16.210
   - 431 # 1.16.220
 softdepend:
   # aieuo/Mineflow

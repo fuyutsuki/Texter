@@ -19,6 +19,7 @@ use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
+use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
 use pocketmine\network\mcpe\protocol\types\SkinAdapterSingleton;
 use pocketmine\Player;
@@ -128,7 +129,7 @@ class FloatingText implements Sendable {
 				$pk->entityRuntimeId = $this->entityRuntimeId;
 				$pk->entityUniqueId = $this->entityRuntimeId;
 				$pk->position = $this->position;
-				$pk->item = Item::get(ItemIds::AIR);
+				$pk->item = ItemStackWrapper::legacy(Item::get(ItemIds::AIR));
 				$pk->metadata = [
 					Entity::DATA_FLAGS => [
 						Entity::DATA_TYPE_LONG, 1 << Entity::DATA_FLAG_IMMOBILE

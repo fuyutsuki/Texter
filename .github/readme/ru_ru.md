@@ -4,7 +4,7 @@
 
 <h1>Texter</h1>
 
-Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) с поддержкой мультимиров и возможностью добавлять, изменить, перемещать и удалять летающий текст.
+Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) с поддержкой мультимиров и возможностью добавлять, изменять, перемещать и удалять летающий текст.
 
 [![GitHub](https://img.shields.io/github/license/fuyutsuki/Texter?style=flat-square)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
 [![](https://poggit.pmmp.io/shield.state/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
@@ -12,7 +12,7 @@ Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/Pock
 
 [![](https://poggit.pmmp.io/shield.dl/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
 
-[![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
+[![значок PoggitCI](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
 </div>
 
@@ -48,11 +48,11 @@ Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/Pock
 |Удалить текст|`/txt remove`|`/txt r`|`/txt remove [название]`|
 |Помощь|`/txt`||`/txt`|
 
-**Пожалуйста, вставьте `#` для переноса строк**.
+**Пожалуйста, используйте `#` для переноса строк**.
 
 #### Переменные
 
-Если у Вас установлен [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), вы сможете использовать переменные в летающем тексте.
+Если у Вас установлен [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), то появится возможность использовать переменные в летающем тексте.
 
 |название|тип|доступные свойства|
 |:----|:-|:----------------|

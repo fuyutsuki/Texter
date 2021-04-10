@@ -2,6 +2,12 @@
 
 ## 4.0.x
 
+### 4.0.5
+
+#### :bug: Bug fix
+
+- Fixed a bug that caused the server to crash due to type inconsistency when migrating data from the previous version if the FloatingText name was only a number (#115)
+
 ### 4.0.4
 
 #### :arrow_heading_up: Follow pmmp updates

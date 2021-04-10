@@ -65,7 +65,7 @@ class OldFloatingTextData extends Config {
 						$val[Data::KEY_OLD_TITLE] . "#" . $val[Data::KEY_OLD_TEXT]
 					],
 				];
-				$floatingTextCluster = FloatingTextCluster::fromArray($textName, $arr);
+				$floatingTextCluster = FloatingTextCluster::fromArray((string)$textName, $arr);
 				$floatingTextData->store($floatingTextCluster);
 			}
 

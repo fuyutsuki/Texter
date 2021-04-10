@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\task;
 
-use jp\mcbe\fuyutsuki\Texter\data\Data;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;

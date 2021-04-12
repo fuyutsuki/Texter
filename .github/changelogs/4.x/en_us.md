@@ -2,6 +2,13 @@
 
 ## 4.0.x
 
+### 4.0.6
+
+#### :globe_with_meridians: More i18n
+
+- Translated by @iteplenky: Added Russian
+- Removed some unused texts
+
 ### 4.0.5
 
 #### :bug: Bug fix

@@ -23,6 +23,7 @@ Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/Pock
 -->
 
 Другие языки:
+- [English](/README.md)
 - [日本語](/.github/readme/ja_jp.md)
 - [Tiếng Việt](/.github/readme/vi_vn.md)
 

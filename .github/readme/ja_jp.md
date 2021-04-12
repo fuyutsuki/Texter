@@ -24,6 +24,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 
 他の言語:
 - [English](/README.md)
+- [Русский](/.github/readme/ru_ru.md)
 - [Tiếng Việt](/.github/readme/vi_vn.md)
 
 
@@ -79,7 +80,7 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 - [ ] id_id(インドネシア語)
 - [x] ja_jp(日本語)
 - [ ] ko_kr(韓国語)
-- [ ] ru_ru(ロシア語)
+- [x] ru_ru(ロシア語)
 - [ ] tr_tr(トルコ語)
 - [ ] zh_cn(中国語/簡体)
 - [x] vi_vn(ベトナム語)

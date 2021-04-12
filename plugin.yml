@@ -13,9 +13,8 @@ virions:
   - libFormAPI # >= 1.3
 
 author: yuko_fuyutsuki
-
-# SpecialThanks
 authors:
+  # SpecialThanks
   - mfmfnek0
   - onebone
   - ogiwara
@@ -23,12 +22,21 @@ authors:
   - Toganon
   - ShadowArt
   - Marron0421
-  - No4NaMe # Russian translation
-  - SuperYYT # Chinese translation
-  - SuperAdam47 # Turkish translation
-  - minijaham # Korean translation
-  - VicoSilalahi # Indonesian translation
-  - TobyDev265 # Vietnamese translation
+
+  # Russian translation
+  - No4NaMe
+  - iteplenky
+  # Chinese translation
+  - SuperYYT
+  # Turkish translation
+  - SuperAdam47
+  # Korean translation
+  - minijaham
+  # Indonesian translation
+  - VicoSilalahi
+  # Vietnamese translation
+  - TobyDev265
+
 website: https://github.com/fuyutsuki/Texter
 
 permissions:

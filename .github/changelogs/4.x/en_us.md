@@ -2,6 +2,12 @@
 
 ## 4.0.x
 
+### 4.0.7
+
+#### :bug: Bug fix
+
+- Fixed a corruption in the Russian translation file
+
 ### 4.0.6
 
 #### :globe_with_meridians: More i18n

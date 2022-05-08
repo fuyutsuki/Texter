@@ -13,10 +13,6 @@ use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class ListFloatingTextForm
- * @package jp\mcbe\fuyutsuki\Texter\command\form
- */
 class ListFloatingTextForm extends SimpleForm {
 
 	/** @var TexterLang */

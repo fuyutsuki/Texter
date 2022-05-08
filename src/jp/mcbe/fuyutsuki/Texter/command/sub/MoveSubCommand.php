@@ -12,10 +12,6 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class MoveSubCommand
- * @package jp\mcbe\fuyutsuki\Texter\command\sub
- */
 class MoveSubCommand extends TexterSubCommand {
 
 	public const NAME = "move";

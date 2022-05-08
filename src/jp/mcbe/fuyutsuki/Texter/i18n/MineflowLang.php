@@ -8,10 +8,6 @@ use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
 use pocketmine\lang\BaseLang;
 use SplFileInfo;
 
-/**
- * Class MineflowLang
- * @package jp\mcbe\fuyutsuki\Texter\i18n
- */
 class MineflowLang extends BaseLang {
 
 	use StringArrayMultiton {

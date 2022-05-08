@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\util;
 
-/**
- * Trait StringArrayMultiton
- * @package jp\mcbe\fuyutsuki\Texter\util
- */
 trait StringArrayMultiton {
 
 	/** @var static[] */

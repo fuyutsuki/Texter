@@ -7,10 +7,6 @@ namespace jp\mcbe\fuyutsuki\Texter\util\dependencies;
 use aieuo\mineflow\variable\VariableHelper;
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 
-/**
- * Class Mineflow
- * @package jp\mcbe\fuyutsuki\Texter\util\dependencies
- */
 final class Mineflow {
 
 	use Imconstructable;

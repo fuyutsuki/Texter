@@ -33,10 +33,6 @@ use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 
-/**
- * Class FloatingTextData
- * @package jp\mcbe\fuyutsuki\Texter\data
- */
 class FloatingTextData extends Config {
 
 	use StringArrayMultiton {

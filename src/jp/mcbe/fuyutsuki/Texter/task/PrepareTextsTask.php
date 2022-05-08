@@ -14,10 +14,6 @@ use pocketmine\utils\TextFormat;
 use function array_shift;
 use function count;
 
-/**
- * Class PrepareTextsTask
- * @package jp\mcbe\fuyutsuki\Texter\task
- */
 class PrepareTextsTask extends Task {
 
 	public const TICKING_PERIOD = 2;

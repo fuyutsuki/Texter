@@ -12,10 +12,6 @@ use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 
-/**
- * Class MoveFloatingTextToPositionForm
- * @package jp\mcbe\fuyutsuki\Texter\command\form
- */
 class MoveFloatingTextToPositionForm extends CustomForm {
 
 	/** @var TexterLang */

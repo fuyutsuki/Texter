@@ -14,10 +14,6 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class AddFloatingTextForm
- * @package jp\mcbe\fuyutsuki\Texter\command\form
- */
 class AddFloatingTextForm extends CustomForm {
 
 	/** @var ?FloatingTextSession */

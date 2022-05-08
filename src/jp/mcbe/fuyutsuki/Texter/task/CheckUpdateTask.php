@@ -19,10 +19,6 @@ use function curl_error;
 use function curl_close;
 use function json_decode;
 
-/**
- * Class CheckUpdateTask
- * @package jp\mcbe\fuyutsuki\Texter\task
- */
 class CheckUpdateTask extends AsyncTask {
 
 	/**

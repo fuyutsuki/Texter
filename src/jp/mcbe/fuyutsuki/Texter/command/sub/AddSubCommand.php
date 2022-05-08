@@ -36,10 +36,6 @@ use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class AddSubCommand
- * @package jp\mcbe\fuyutsuki\Texter\command\sub
- */
 class AddSubCommand extends TexterSubCommand {
 
 	public const NAME = "add";

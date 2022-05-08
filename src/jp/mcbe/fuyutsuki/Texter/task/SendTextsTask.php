@@ -12,10 +12,6 @@ use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\Task;
 
-/**
- * Class SendTextsTask
- * @package jp\mcbe\fuyutsuki\Texter\task
- */
 class SendTextsTask extends Task {
 
 	public const DELAY_TICKS = 5;// 0.25s

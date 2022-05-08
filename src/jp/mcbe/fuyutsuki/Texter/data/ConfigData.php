@@ -35,10 +35,6 @@ use pocketmine\{
 	utils\Config};
 use function strtolower;
 
-/**
- * Class ConfigData
- * @package jp\mcbe\fuyutsuki\Texter\data
- */
 class ConfigData extends Config {
 
 	use Singleton {

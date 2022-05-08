@@ -8,10 +8,6 @@ use pocketmine\{
 	level\Level,
 	Player};
 
-/**
- * Interface Send-able
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 interface Sendable {
 
 	public function sendToPlayer(Player $player, SendType $type);

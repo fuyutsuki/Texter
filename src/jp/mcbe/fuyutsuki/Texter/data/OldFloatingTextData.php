@@ -31,10 +31,6 @@ use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 
-/**
- * Class OldFloatingTextData
- * @package jp\mcbe\fuyutsuki\Texter\data\old
- */
 class OldFloatingTextData extends Config {
 
 	public const FILE_FT = "ft.json";

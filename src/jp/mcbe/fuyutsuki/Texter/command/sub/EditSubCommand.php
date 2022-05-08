@@ -12,10 +12,6 @@ use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class EditSubCommand
- * @package jp\mcbe\fuyutsuki\Texter\command\sub
- */
 class EditSubCommand extends TexterSubCommand {
 
 	public const NAME = "edit";

@@ -8,10 +8,6 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
 use pocketmine\math\Vector3;
 
-/**
- * Class FloatingTextSession
- * @package jp\mcbe\fuyutsuki\Texter\command\session
- */
 class FloatingTextSession {
 
 	use StringArrayMultiton {

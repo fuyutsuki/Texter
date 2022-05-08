@@ -10,10 +10,6 @@ use pocketmine\math\Vector3;
 use JsonSerializable;
 use pocketmine\Player;
 
-/**
- * Class FloatingTextCluster
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 class FloatingTextCluster implements Sendable, JsonSerializable {
 
 	use Nameable {

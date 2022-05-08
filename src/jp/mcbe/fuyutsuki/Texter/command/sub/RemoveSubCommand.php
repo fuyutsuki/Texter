@@ -11,10 +11,6 @@ use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class RemoveSubCommand
- * @package jp\mcbe\fuyutsuki\Texter\command\sub
- */
 class RemoveSubCommand extends TexterSubCommand {
 
 	public const NAME = "remove";

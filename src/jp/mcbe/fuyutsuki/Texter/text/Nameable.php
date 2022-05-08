@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
-/**
- * Trait Nameable
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 trait Nameable {
 
 	/** @var string */

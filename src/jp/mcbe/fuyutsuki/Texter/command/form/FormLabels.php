@@ -6,10 +6,6 @@ namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 
-/**
- * Class FormLabels
- * @package jp\mcbe\fuyutsuki\Texter\command\form
- */
 final class FormLabels {
 
 	use Imconstructable;

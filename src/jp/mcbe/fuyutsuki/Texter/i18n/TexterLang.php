@@ -10,10 +10,6 @@ use pocketmine\{
 use SplFileInfo;
 use function strtolower;
 
-/**
- * Class TexterLang
- * @package jp\mcbe\fuyutsuki\Texter\i18n
- */
 class TexterLang extends BaseLang {
 
 	use StringArrayMultiton {

@@ -25,10 +25,6 @@ use pocketmine\network\mcpe\protocol\types\SkinAdapterSingleton;
 use pocketmine\Player;
 use pocketmine\utils\UUID;
 
-/**
- * Class FloatingText
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 class FloatingText implements Sendable {
 
 	/** @var Vector3 */

@@ -12,10 +12,6 @@ use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class SelectActionForm
- * @package jp\mcbe\fuyutsuki\Texter\command\form
- */
 class SelectActionForm extends SimpleForm {
 
 	/** @var string */

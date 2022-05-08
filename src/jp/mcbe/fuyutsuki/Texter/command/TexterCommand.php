@@ -41,10 +41,6 @@ use pocketmine\command\utils\InvalidCommandSyntaxException;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class TexterCommand
- * @package jp\mcbe\fuyutsuki\Texter\command
- */
 class TexterCommand extends PluginCommand {
 
 	public const NAME = "txt";

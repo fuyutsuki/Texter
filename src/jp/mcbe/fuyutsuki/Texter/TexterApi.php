@@ -32,10 +32,6 @@ use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 use pocketmine\level\Level;
 
-/**
- * Class TexterApi
- * @package jp\mcbe\fuyutsuki\Texter
- */
 final class TexterApi {
 
 	use Imconstructable;

@@ -42,10 +42,6 @@ use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 
-/**
- * Class EventListener
- * @package jp\mcbe\fuyutsuki\Texter
- */
 class EventListener implements Listener {
 
 	/** @var Plugin */

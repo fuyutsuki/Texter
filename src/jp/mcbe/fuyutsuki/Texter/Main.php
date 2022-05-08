@@ -49,10 +49,6 @@ use function file_exists;
 use function glob;
 use function mkdir;
 
-/**
- * Class Main
- * @package jp\mcbe\fuyutsuki\Texter
- */
 class Main extends PluginBase {
 
 	/** @var string */

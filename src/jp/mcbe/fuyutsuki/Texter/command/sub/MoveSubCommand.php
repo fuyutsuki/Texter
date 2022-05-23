@@ -9,25 +9,19 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
-/**
- * Class MoveSubCommand
- * @package jp\mcbe\fuyutsuki\Texter\command\sub
- */
 class MoveSubCommand extends TexterSubCommand {
 
 	public const NAME = "move";
 	public const ALIAS = "m";
 
-	/** @var string */
-	private $name;
-	/** @var Vector3 */
-	private $position;
+	private Vector3 $position;
 
-	public function __construct(string $name) {
-		$this->name = $name;
+	public function __construct(
+		private string $name
+	) {
 	}
 
 	public function setPosition(Vector3 $position) {
@@ -39,8 +33,8 @@ class MoveSubCommand extends TexterSubCommand {
 	}
 
 	public function execute(Player $player) {
-		$level = $player->getLevel();
-		$folderName = $level->getFolderName();
+		$world = $player->getWorld();
+		$folderName = $world->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 		$lang = TexterLang::fromLocale($player->getLocale());
 
@@ -49,18 +43,18 @@ class MoveSubCommand extends TexterSubCommand {
 			$floatingText = $floatingTextData->floatingText($this->name);
 			$floatingText->setPosition($position);
 			$floatingText->recalculatePosition();
-			$floatingText->sendToLevel($level, new SendType(SendType::MOVE));
+			$floatingText->sendToWorld($world, SendType::MOVE());
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.move.success", [
 				$this->name,
-				"x: {$position->x}, y: {$position->y}, z: {$position->z}"
+				"x: $position->x, y: $position->y, z: $position->z"
 			]);
 		}else {
 			$message = TextFormat::RED . $lang->translateString("error.ft.name.not.exists", [
 				$this->name
 			]);
 		}
-		$player->sendMessage(Main::prefix() . " {$message}");
+		$player->sendMessage(Main::prefix() . " $message");
 	}
 }

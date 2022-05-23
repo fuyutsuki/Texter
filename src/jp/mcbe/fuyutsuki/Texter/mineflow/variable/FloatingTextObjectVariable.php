@@ -12,10 +12,6 @@ use aieuo\mineflow\variable\StringVariable;
 use aieuo\mineflow\variable\Variable;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 
-/**
- * Class FloatingTextObjectVariable
- * @package jp\mcbe\fuyutsuki\Texter\mineflow\variable
- */
 class FloatingTextObjectVariable extends ObjectVariable {
 
 	public const DEFAULT_NAME = "ft";

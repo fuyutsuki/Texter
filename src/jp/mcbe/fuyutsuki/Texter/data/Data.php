@@ -6,10 +6,6 @@ namespace jp\mcbe\fuyutsuki\Texter\data;
 
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 
-/**
- * Class Data
- * @package jp\mcbe\fuyutsuki\Texter\data
- */
 final class Data {
 
 	use Imconstructable;

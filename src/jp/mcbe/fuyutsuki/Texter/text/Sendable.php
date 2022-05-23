@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
-use pocketmine\{
-	level\Level,
-	Player};
+use pocketmine\player\Player;
+use pocketmine\world\World;
 
-/**
- * Interface Send-able
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 interface Sendable {
 
-	public function sendToPlayer(Player $player, SendType $type);
+	public function sendToPlayer(Player $player, SendType $type): void;
 
-	public function sendToPlayers(array $players, SendType $type);
+	public function sendToPlayers(array $players, SendType $type): void;
 
-	public function sendToLevel(Level $level, SendType $type);
+	public function sendToWorld(World $world, SendType $type): void;
 
 }

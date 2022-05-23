@@ -5,35 +5,27 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
 use jp\mcbe\fuyutsuki\Texter\data\Data;
-use pocketmine\level\Level;
+use pocketmine\world\World;
 use pocketmine\math\Vector3;
 use JsonSerializable;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
-/**
- * Class FloatingTextCluster
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 class FloatingTextCluster implements Sendable, JsonSerializable {
 
 	use Nameable {
 		Nameable::__construct as nameableConstruct;
 	}
 
-	/** @var Vector3 */
-	private $position;
-	/** @var Vector3 */
-	private $spacing;
+	private Vector3 $spacing;
 	/** @var FloatingText[] */
-	private $floatingTexts = [];
+	private array $floatingTexts = [];
 
 	public function __construct(
-		Vector3 $position,
+		private Vector3 $position,
 		string $name,
 		?Vector3 $spacing = null,
 		array $texts = []
 	) {
-		$this->setPosition($position);
 		$this->nameableConstruct($name);
 		$this->setSpacing($spacing);
 		$this->generateFloatingText($texts);
@@ -52,11 +44,11 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 	}
 
 	public function setSpacing(?Vector3 $spacing = null) {
-		$this->spacing = $spacing ?? new Vector3;
+		$this->spacing = $spacing ?? Vector3::zero();
 	}
 
 	public function calculateSpacing(int $index): Vector3 {
-		return $this->position->add($this->spacing->multiply($index));
+		return $this->position->addVector($this->spacing->multiply($index));
 	}
 
 	public function recalculatePosition() {
@@ -99,21 +91,21 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		$this->floatingTexts = array_values($this->floatingTexts);
 	}
 
-	public function sendToPlayer(Player $player, SendType $type) {
+	public function sendToPlayer(Player $player, SendType $type): void {
 		foreach ($this->floatingTexts as $floatingText) {
 			$floatingText->sendToPlayer($player, $type);
 		}
 	}
 
-	public function sendToPlayers(array $players, SendType $type) {
+	public function sendToPlayers(array $players, SendType $type): void {
 		foreach ($this->floatingTexts as $floatingText) {
 			$floatingText->sendToPlayers($players, $type);
 		}
 	}
 
-	public function sendToLevel(Level $level, SendType $type) {
+	public function sendToWorld(World $world, SendType $type): void {
 		foreach ($this->floatingTexts as $floatingText) {
-			$floatingText->sendToLevel($level, $type);
+			$floatingText->sendToWorld($world, $type);
 		}
 	}
 

@@ -7,24 +7,18 @@ namespace jp\mcbe\fuyutsuki\Texter\util\dependencies;
 use aieuo\mineflow\variable\VariableHelper;
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 
-/**
- * Class Mineflow
- * @package jp\mcbe\fuyutsuki\Texter\util\dependencies
- */
 final class Mineflow {
 
 	use Imconstructable;
 
-	/** @var bool */
-	private static $isAvailable = false;
-	/** @var VariableHelper */
-	private static $variableHelper;
+	private static bool $isAvailable = false;
+	private static VariableHelper $variableHelper;
 
 	public static function isAvailable(): bool {
 		return self::$isAvailable;
 	}
 
-	public static function setAvailable(bool $value = true) {
+	public static function setAvailable(bool $value = true): void {
 		self::$isAvailable = $value;
 	}
 
@@ -32,7 +26,7 @@ final class Mineflow {
 		return self::$variableHelper;
 	}
 
-	public static function setVariableHelper(VariableHelper $helper) {
+	public static function setVariableHelper(VariableHelper $helper): void {
 		self::$variableHelper = $helper;
 	}
 

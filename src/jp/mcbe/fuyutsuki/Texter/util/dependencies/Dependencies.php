@@ -6,10 +6,6 @@ namespace jp\mcbe\fuyutsuki\Texter\util\dependencies;
 
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
 
-/**
- * Class Dependencies
- * @package jp\mcbe\fuyutsuki\Texter\util\dependencies
- */
 final class Dependencies {
 
 	use Imconstructable;

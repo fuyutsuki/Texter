@@ -33,10 +33,6 @@ use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Config;
 
-/**
- * Class FloatingTextData
- * @package jp\mcbe\fuyutsuki\Texter\data
- */
 class FloatingTextData extends Config {
 
 	use StringArrayMultiton {
@@ -45,17 +41,16 @@ class FloatingTextData extends Config {
 
 	public const FLOATING_TEXT_DIRECTORY = "floating_text" . DIRECTORY_SEPARATOR;
 
-	/** @var string */
-	private $folderName;
+	private string $folderName;
 	/** @var FloatingTextCluster[] */
-	private $floatingTexts = [];
+	private array $floatingTexts = [];
 
-	public function __construct(Plugin $plugin, string $levelFolderName) {
+	public function __construct(Plugin $plugin, string $worldFolderName) {
 		$floatingTextDir = $plugin->getDataFolder() . self::FLOATING_TEXT_DIRECTORY;
-		parent::__construct($floatingTextDir . "{$levelFolderName}.json", Config::JSON);
+		parent::__construct($floatingTextDir . "$worldFolderName.json", Config::JSON);
 		$this->setJsonOptions(Data::JSON_OPTIONS);
-		$this->stringArrayMultitonConstruct($levelFolderName);
-		$this->folderName = $levelFolderName;
+		$this->stringArrayMultitonConstruct($worldFolderName);
+		$this->folderName = $worldFolderName;
 	}
 
 	public function generateFloatingTexts(Plugin $plugin) {

@@ -8,48 +8,46 @@ use aieuo\mineflow\variable\DefaultVariables;
 use http\Exception\InvalidArgumentException;
 use jp\mcbe\fuyutsuki\Texter\mineflow\variable\FloatingTextObjectVariable;
 use jp\mcbe\fuyutsuki\Texter\util\dependencies\Mineflow;
+use JsonException;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Skin;
-use pocketmine\item\Item;
-use pocketmine\item\ItemIds;
-use pocketmine\level\Level;
+use pocketmine\network\mcpe\convert\SkinAdapterSingleton;
+use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
+use pocketmine\network\mcpe\protocol\ClientboundPacket;
+use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
+use pocketmine\network\mcpe\protocol\types\DeviceOS;
+use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
+use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
+use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
+use pocketmine\player\GameMode;
+use pocketmine\world\World;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
-use pocketmine\network\mcpe\protocol\DataPacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
-use pocketmine\network\mcpe\protocol\types\SkinAdapterSingleton;
-use pocketmine\Player;
-use pocketmine\utils\UUID;
+use pocketmine\player\Player;
+use Ramsey\Uuid\Uuid;
 
-/**
- * Class FloatingText
- * @package jp\mcbe\fuyutsuki\Texter\text
- */
 class FloatingText implements Sendable {
 
-	/** @var Vector3 */
-	private $position;
-	/** @var string */
-	private $text;
-	/** @var FloatingTextCluster */
-	private $parent;
-	/** @var int */
-	private $entityRuntimeId;
+	private string $text;
+	private int $actorRuntimeId;
 
 	public function __construct(
-		Vector3 $position,
+		private Vector3 $position,
 		string $text,
-		FloatingTextCluster $parent,
-		int $entityRuntimeId = 0
+		private FloatingTextCluster $parent,
+		int $actorRuntimeId = 0
 	) {
-		$this->setPosition($position);
 		$this->setText($text);
 		$this->setParent($parent);
-		$this->setEntityRuntimeId($entityRuntimeId);
+		$this->setActorRuntimeId($actorRuntimeId);
 	}
 
 	public function position(): Vector3 {
@@ -68,12 +66,12 @@ class FloatingText implements Sendable {
 		$this->text = str_replace("#", "\n", $text);
 	}
 
-	public function entityRuntimeId(): int {
-		return $this->entityRuntimeId;
+	public function actorRuntimeId(): int {
+		return $this->actorRuntimeId;
 	}
 
-	public function setEntityRuntimeId(int $entityRuntimeId) {
-		$this->entityRuntimeId = $entityRuntimeId === 0 ? Entity::$entityCount++ : $entityRuntimeId;
+	public function setActorRuntimeId(int $actorRuntimeId) {
+		$this->actorRuntimeId = $actorRuntimeId === 0 ? Entity::nextRuntimeId() : $actorRuntimeId;
 	}
 
 	public function parent(): FloatingTextCluster {
@@ -100,79 +98,85 @@ class FloatingText implements Sendable {
 	/**
 	 * @param Player $player
 	 * @param SendType $type
-	 * @return DataPacket[]
+	 * @return ClientboundPacket[]
+	 * @throws JsonException
 	 */
 	public function asPackets(Player $player, SendType $type): array {
-		switch ($type->value()) {
+		switch ($type) {
 			# BLAME "MOJUNCROSOFT" on 1.13
-			case SendType::ADD:
-			case SendType::MOVE:
-				$uuid = UUID::fromRandom();
+			case SendType::ADD():
+				$uuid = Uuid::uuid4();
 
-				$apk = new PlayerListPacket;
-				$apk->type = PlayerListPacket::TYPE_ADD;
-				$apk->entries = [PlayerListEntry::createAdditionEntry(
-					$uuid,
-					$this->entityRuntimeId,
-					"",
-					SkinAdapterSingleton::get()->toSkinData(new Skin(
-						"Standard_Custom",
-						str_repeat("\x00", 8192),
+				$apk = PlayerListPacket::add([
+					PlayerListEntry::createAdditionEntry(
+						$uuid,
+						$this->actorRuntimeId,
 						"",
-						"geometry.humanoid.custom"
-					))
-				)];
+						SkinAdapterSingleton::get()->toSkinData(new Skin(
+							"Standard_Custom",
+							str_repeat("\x00", 8192),
+							"",
+							"geometry.humanoid.custom"
+						))
+					)
+				]);
 
-				$pk = new AddPlayerPacket;
-				$pk->username = $this->replaceVariables($player);
-				$pk->uuid = $uuid;
-				$pk->entityRuntimeId = $this->entityRuntimeId;
-				$pk->entityUniqueId = $this->entityRuntimeId;
-				$pk->position = $this->position;
-				$pk->item = ItemStackWrapper::legacy(Item::get(ItemIds::AIR));
-				$pk->metadata = [
-					Entity::DATA_FLAGS => [
-						Entity::DATA_TYPE_LONG, 1 << Entity::DATA_FLAG_IMMOBILE
+				$pk = AddPlayerPacket::create(
+					$uuid,
+					$this->replaceVariables($player),
+					$this->actorRuntimeId,
+					$this->actorRuntimeId,
+					"",
+					$this->position,
+					null,
+					0.0,
+					0.0,
+					0.0,
+					ItemStackWrapper::legacy(ItemStack::null()),
+					GameMode::ADVENTURE()->id(),
+					[
+						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
+							EntityMetadataFlags::IMMOBILE,
+						]),
+						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0),
 					],
-					Entity::DATA_SCALE => [
-						Entity::DATA_TYPE_FLOAT, 0
-					]
-				];
+					AdventureSettingsPacket::create(0, 0, 0, 0, 0, $this->actorRuntimeId),
+					[],
+					"",
+					DeviceOS::UNKNOWN
+				);
 
-				$rpk = new PlayerListPacket;
-				$rpk->type = PlayerListPacket::TYPE_REMOVE;
-				$rpk->entries = [PlayerListEntry::createRemovalEntry($uuid)];
+				$rpk = PlayerListPacket::remove([
+					PlayerListEntry::createRemovalEntry($uuid),
+				]);
 				$pks = [$apk, $pk, $rpk];
 				break;
 
-			case SendType::EDIT:
-				$pk = new SetActorDataPacket;
-				$pk->entityRuntimeId = $this->entityRuntimeId;
-				$pk->metadata = [
-					Entity::DATA_NAMETAG => [
-						Entity::DATA_NAMETAG, $this->replaceVariables($player)
-					]
-				];
+			case SendType::EDIT():
+				$pk = SetActorDataPacket::create(
+					$this->actorRuntimeId,
+					[
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->replaceVariables($player)),
+					],
+					0
+				);
 				$pks = [$pk];
 				break;
 
-			/*
-			# BLAME "MOJUNCROSOFT"
-			case SendType::MOVE:
-				$pk = new MoveActorAbsolutePacket;
-				$pk->entityRuntimeId = $this->entityRuntimeId;
-				$pk->flags = MoveActorAbsolutePacket::FLAG_TELEPORT;
-				$pk->position = $this->position;
-				$pk->xRot = 0;
-				$pk->yRot = 0;
-				$pk->zRot = 0;
+			case SendType::MOVE():
+				$pk = MoveActorAbsolutePacket::create(
+					$this->actorRuntimeId,
+					$this->position,
+					0.0,
+					0.0,
+					0.0,
+					MoveActorAbsolutePacket::FLAG_TELEPORT
+				);
 				$pks = [$pk];
 				break;
-			 */
 
-			case SendType::REMOVE:
-				$pk = new RemoveActorPacket;
-				$pk->entityUniqueId = $this->entityRuntimeId;
+			case SendType::REMOVE():
+				$pk = RemoveActorPacket::create($this->actorRuntimeId);
 				$pks = [$pk];
 				break;
 
@@ -182,21 +186,21 @@ class FloatingText implements Sendable {
 		return $pks;
 	}
 
-	public function sendToPlayer(Player $player, SendType $type) {
+	public function sendToPlayer(Player $player, SendType $type): void {
 		$pks = $this->asPackets($player, $type);
 		foreach ($pks as $pk) {
-			$player->dataPacket($pk);
+			$player->getNetworkSession()->sendDataPacket($pk);
 		}
 	}
 
-	public function sendToPlayers(array $players, SendType $type) {
+	public function sendToPlayers(array $players, SendType $type): void {
 		foreach ($players as $player) {
 			$this->sendToPlayer($player, $type);
 		}
 	}
 
-	public function sendToLevel(Level $level, SendType $type) {
-		$this->sendToPlayers($level->getPlayers(), $type);
+	public function sendToWorld(World $world, SendType $type): void {
+		$this->sendToPlayers($world->getPlayers(), $type);
 	}
 
 }

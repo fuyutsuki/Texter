@@ -27,18 +27,12 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\data;
 
-use jp\mcbe\fuyutsuki\Texter\{
-	i18n\TexterLang,
-	util\Singleton};
-use pocketmine\{
-	plugin\PluginBase,
-	utils\Config};
+use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
+use jp\mcbe\fuyutsuki\Texter\util\Singleton;
+use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 use function strtolower;
 
-/**
- * Class ConfigData
- * @package jp\mcbe\fuyutsuki\Texter\data
- */
 class ConfigData extends Config {
 
 	use Singleton {

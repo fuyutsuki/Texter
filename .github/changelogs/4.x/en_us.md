@@ -1,5 +1,16 @@
 # 4.x changelog
 
+## 4.1.x
+
+### 4.1.0
+
+#### :arrow_heading_up: following PMMP changes
+
+- Following up on PMMP 4.x changes
+- Just in.
+
+***
+
 ## 4.0.x
 
 ### 4.0.7

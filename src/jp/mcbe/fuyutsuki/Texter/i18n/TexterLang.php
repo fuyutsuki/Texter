@@ -5,16 +5,11 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\i18n;
 
 use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
-use pocketmine\{
-	lang\BaseLang};
+use pocketmine\lang\Language;
 use SplFileInfo;
 use function strtolower;
 
-/**
- * Class TexterLang
- * @package jp\mcbe\fuyutsuki\Texter\i18n
- */
-class TexterLang extends BaseLang {
+class TexterLang extends Language {
 
 	use StringArrayMultiton {
 		StringArrayMultiton::__construct as stringArrayMultitonConstruct;
@@ -23,8 +18,7 @@ class TexterLang extends BaseLang {
 	public const LANGUAGE_EXTENSION = "ini";
 	public const FALLBACK_LANGUAGE = "en_us";
 
-	/** @var string */
-	private static $consoleLocale = self::FALLBACK_LANGUAGE;
+	private static string $consoleLocale = self::FALLBACK_LANGUAGE;
 
 	public function __construct(SplFileInfo $file) {
 		$locale = $file->getBasename("." . TexterLang::LANGUAGE_EXTENSION);

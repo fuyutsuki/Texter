@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\util;
 
-/**
- * Trait Singleton
- * @package jp\mcbe\fuyutsuki\Texter\util
- */
 trait Singleton {
 
 	/** @var static|null $instance */
@@ -17,14 +13,11 @@ trait Singleton {
 		static::$instance = $this;
 	}
 
-	/**
-	 * @return static|null
-	 */
-	final public static function getInstance(): ?self {
+	final public static function getInstance(): ?static {
 		return static::$instance ?? null;
 	}
 
-	final public static function removeInstance() {
+	final public static function removeInstance(): void {
 		static::$instance = null;
 	}
 

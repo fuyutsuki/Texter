@@ -9,7 +9,7 @@ use jp\mcbe\fuyutsuki\Texter\command\form\FloatingTextSession;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 class EditSubCommand extends TexterSubCommand {
@@ -17,22 +17,20 @@ class EditSubCommand extends TexterSubCommand {
 	public const NAME = "edit";
 	public const ALIAS = "e";
 
-	/** @var string */
-	private $name;
-
-	public function __construct(string $name) {
-		$this->name = $name;
+	public function __construct(
+		private string $name
+	) {
 	}
 
 	public function execute(Player $player) {
-		$level = $player->getLevel();
-		$folderName = $level->getFolderName();
+		$world = $player->getWorld();
+		$folderName = $world->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 		$lang = TexterLang::fromLocale($player->getLocale());
 
 		if ($floatingTextData !== null && $floatingTextData->existsFloatingText($this->name)) {
 			$floatingText = $floatingTextData->floatingText($this->name);
-			$session = new FloatingTextSession($player->getLowerCaseName(), $lang);
+			$session = new FloatingTextSession(strtolower($player->getName()), $lang);
 			$session->setName($floatingText->name());
 			$session->setSpacing($floatingText->spacing());
 			foreach ($floatingText->all() as $text) {

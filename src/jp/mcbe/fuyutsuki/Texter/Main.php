@@ -29,7 +29,7 @@ namespace jp\mcbe\fuyutsuki\Texter;
 
 use aieuo\mineflow\Main as MineflowMain;
 use aieuo\mineflow\variable\DefaultVariables;
-use http\Exception;
+use Exception;
 use jp\mcbe\fuyutsuki\Texter\command\TexterCommand;
 use jp\mcbe\fuyutsuki\Texter\data\ConfigData;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
@@ -51,15 +51,14 @@ use function mkdir;
 
 class Main extends PluginBase {
 
-	/** @var string */
-	private static $prefix;
+	private const PHAR_HEADER = "phar://";
 
-	/** @var ConfigData */
-	private $config;
-	/** @var TexterLang */
-	private $lang;
+	private static string $prefix;
 
-	public function onLoad() {
+	private ConfigData $config;
+	private TexterLang $lang;
+
+	public function onLoad(): void {
 		self::setPrefix();
 		$this->loadResources();
 		$this->registerCommands();
@@ -67,7 +66,7 @@ class Main extends PluginBase {
 		$this->checkUpdate();
 	}
 
-	public function onEnable() {
+	public function onEnable(): void {
 		$pluginManager = $this->getServer()->getPluginManager();
 		if ($this->isPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
@@ -220,7 +219,7 @@ class Main extends PluginBase {
 	}
 
 	private function isPackaged(): bool {
-		if ($this->isPhar()) {
+		if (str_starts_with($this->getFile(), self::PHAR_HEADER)) {
 			if (class_exists(Dependencies::PACKAGED_LIBRARY_NAMESPACE . Dependencies::LIB_FORM_API)) {
 				return true;// PoggitCI
 			}else {

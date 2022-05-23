@@ -32,34 +32,32 @@ use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\task\SendTextsTask;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\server\DataPacketSendEvent;
+use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
 
 class EventListener implements Listener {
 
-	/** @var Plugin */
-	private $plugin;
-
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
+	public function __construct(
+		private Plugin $plugin
+	) {
 	}
 
 	public function onJoinPlayer(PlayerJoinEvent $ev) {
 		$player = $ev->getPlayer();
-		$level = $player->getLevel();
-		$sendTask = new SendTextsTask($this->plugin, $player, $level, new SendType(SendType::ADD));
+		$world = $player->getWorld();
+		$sendTask = new SendTextsTask($player, $world, SendType::ADD());
 		$this->plugin->getScheduler()->scheduleDelayedRepeatingTask($sendTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 	}
 
-	public function onLoadLevel(LevelLoadEvent $ev) {
-		$folderName = $ev->getLevel()->getFolderName();
+	public function onLoadLevel(WorldLoadEvent $ev) {
+		$folderName = $ev->getWorld()->getFolderName();
 		if (FloatingTextData::getInstance($folderName) === null) {
 			$floatingTextData = new FloatingTextData($this->plugin, $folderName);
 			$floatingTextData->generateFloatingTexts($this->plugin);
@@ -67,13 +65,13 @@ class EventListener implements Listener {
 		}
 	}
 
-	public function onEntityLevelChange(EntityLevelChangeEvent $ev) {
+	public function onEntityLevelChange(EntityTeleportEvent $ev) {
 		$entity = $ev->getEntity();
 		if ($entity instanceof Player) {
-			$from = $ev->getOrigin();
-			$to = $ev->getTarget();
-			$removeTask = new SendTextsTask($this->plugin, $entity, $from, new SendType(SendType::REMOVE));
-			$addTask = new SendTextsTask($this->plugin, $entity, $to, new SendType(SendType::ADD));
+			$from = $ev->getFrom()->getWorld();
+			$to = $ev->getTo()->getWorld();
+			$removeTask = new SendTextsTask($entity, $from, SendType::REMOVE());
+			$addTask = new SendTextsTask($entity, $to, SendType::ADD());
 			$scheduler = $this->plugin->getScheduler();
 			$scheduler->scheduleDelayedRepeatingTask($removeTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 			$scheduler->scheduleDelayedRepeatingTask($addTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
@@ -81,13 +79,14 @@ class EventListener implements Listener {
 	}
 
 	public function onSendPacket(DataPacketSendEvent $ev) {
-		$pk = $ev->getPacket();
-		if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
-			/** @var AvailableCommandsPacket $pk */
-			if (isset($pk->commandData[TexterCommand::NAME])) {
-				$locale = $ev->getPlayer()->getLocale();
-				$texterCommand = $pk->commandData[TexterCommand::NAME];
-				$texterCommand->commandDescription = TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION);
+		foreach ($ev->getPackets() as $pk) {
+			if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
+				/** @var AvailableCommandsPacket $pk */
+				if (isset($pk->commandData[TexterCommand::NAME])) {
+					$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
+					$texterCommand = $pk->commandData[TexterCommand::NAME];
+					$texterCommand->commandDescription = TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION);
+				}
 			}
 		}
 	}

@@ -16,26 +16,20 @@ class FloatingTextSession {
 		StringArrayMultiton::removeInstance as remove;
 	}
 
-	/** @var TexterLang */
-	private $lang;
-
-	/** @var string */
-	private $name = "";
-	/** @var Vector3 */
-	private $spacing;
+	private string $name = "";
+	private Vector3 $spacing;
 	/** @var string[] */
-	private $texts = [];
+	private array $texts = [];
 
-	/** @var bool */
-	private $hasNoTexts = false;
-	/** @var bool */
-	private $isDuplicateName = false;
-	/** @var bool */
-	private $isEdit = false;
+	private bool $hasNoTexts = false;
+	private bool $isDuplicateName = false;
+	private bool $isEdit = false;
 
-	public function __construct(string $key, TexterLang $lang) {
+	public function __construct(
+		string $key,
+		private TexterLang $lang
+	) {
 		$this->stringArrayMultitonConstruct($key);
-		$this->lang = $lang;
 		$this->setSpacing();
 	}
 
@@ -47,7 +41,7 @@ class FloatingTextSession {
 		return $this->name;
 	}
 
-	public function setName(string $name) {
+	public function setName(string $name): void {
 		$this->name = $name;
 	}
 
@@ -55,19 +49,19 @@ class FloatingTextSession {
 		return $this->spacing;
 	}
 
-	public function setSpacing(?Vector3 $spacing = null) {
-		$this->spacing = $spacing ?? new Vector3;
+	public function setSpacing(?Vector3 $spacing = null): void {
+		$this->spacing = $spacing ?? Vector3::zero();
 	}
 
 	public function texts(): array {
 		return $this->texts;
 	}
 
-	public function addText(string $text) {
+	public function addText(string $text): void {
 		$this->texts[] = $text;
 	}
 
-	public function setTexts(array $texts) {
+	public function setTexts(array $texts): void {
 		$this->texts = $texts;
 	}
 
@@ -75,7 +69,7 @@ class FloatingTextSession {
 		return $this->hasNoTexts;
 	}
 
-	public function setNoTexts(bool $value = true) {
+	public function setNoTexts(bool $value = true): void {
 		$this->hasNoTexts = $value;
 	}
 
@@ -83,7 +77,7 @@ class FloatingTextSession {
 		return $this->isDuplicateName;
 	}
 
-	public function setDuplicateName(bool $value = true) {
+	public function setDuplicateName(bool $value = true): void {
 		$this->isDuplicateName = $value;
 	}
 
@@ -91,7 +85,7 @@ class FloatingTextSession {
 		return $this->isEdit;
 	}
 
-	public function setEdit(bool $value = true) {
+	public function setEdit(bool $value = true): void {
 		$this->isEdit = $value;
 	}
 

@@ -2,9 +2,9 @@ name: Texter
 prefix: Texter
 main: jp\mcbe\fuyutsuki\Texter\Main
 version: 4.1.0
-api: 3.19.0 # pmmp/PocketMine-MP
+api: 4.3.0
 mcpe-protocol:
-  - 431 # 1.16.220
+  - 503 # 1.18.31
 softdepend:
   # aieuo/Mineflow
   - Mineflow # >= 2.0
@@ -12,7 +12,7 @@ virions:
   # jojoe77777/libFormAPI
   - libFormAPI # >= 1.3
 
-author: yuko_fuyutsuki
+author: yuko fuyutsuki
 authors:
   # SpecialThanks
   - mfmfnek0
@@ -40,14 +40,6 @@ authors:
 website: https://github.com/fuyutsuki/Texter
 
 permissions:
-  texter.*:
+  texter.command.txt:
     default: op
-    description: permission that allows player to use texter
-    children:
-      texter.command.*:
-        default: op
-        description: permission that allows player to use texter commands
-        children:
-          texter.command.txt:
-            default: op
-            description: permission that allows player to use /txt
+    description: permission that allows player to use /txt

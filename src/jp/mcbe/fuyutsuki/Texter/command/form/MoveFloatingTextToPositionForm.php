@@ -10,23 +10,16 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 class MoveFloatingTextToPositionForm extends CustomForm {
 
-	/** @var TexterLang */
-	private $lang;
-	/** @var string */
-	private $name;
-
 	public function __construct(
-		TexterLang $lang,
-		string $name,
+		private TexterLang $lang,
+		private string $name,
 		bool $isNotValid = false
 	) {
 		parent::__construct(null);
-		$this->lang = $lang;
-		$this->name = $name;
 		$inputX = $lang->translateString("form.move.position.x");
 		$inputY = $lang->translateString("form.move.position.y");
 		$inputZ = $lang->translateString("form.move.position.z");
@@ -50,20 +43,20 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 				floatval($data[FormLabels::Y]),
 				floatval($data[FormLabels::Z])
 			);
-			$level = $player->getLevel();
-			$folderName = $level->getFolderName();
+			$world = $player->getWorld();
+			$folderName = $world->getFolderName();
 			$floatingTextData = FloatingTextData::getInstance($folderName);
 
 			if ($floatingTextData->existsFloatingText($this->name)) {
 				$floatingText = $floatingTextData->floatingText($this->name);
 				$floatingText->setPosition($position);
 				$floatingText->recalculatePosition();
-				$floatingText->sendToLevel($level, new SendType(SendType::MOVE));
+				$floatingText->sendToWorld($world, SendType::MOVE());
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();
 				$player->sendMessage(Main::prefix() . " " . $this->lang->translateString("command.txt.move.success", [
 					$this->name,
-					"x: {$position->x}, y: {$position->y}, z: {$position->z}"
+					"x: $position->x, y: $position->y, z: $position->z"
 				]));
 			}
 		}else {

@@ -36,8 +36,7 @@ class OldFloatingTextData extends Config {
 	public const FILE_FT = "ft.json";
 	public const FILE_UFT = "uft.json";
 
-	/** @var Plugin */
-	private $plugin;
+	private Plugin $plugin;
 
 	public function __construct(Plugin $plugin, string $path, string $file) {
 		parent::__construct($path.$file, Config::JSON);
@@ -46,10 +45,10 @@ class OldFloatingTextData extends Config {
 
 	public function convert() {
 		$fts = $this->getAll();
-		foreach ($fts as $levelName => $texts) {
-			$floatingTextData = FloatingTextData::getInstance($levelName);
+		foreach ($fts as $worldName => $texts) {
+			$floatingTextData = FloatingTextData::getInstance($worldName);
 			if ($floatingTextData === null) {
-				$floatingTextData = new FloatingTextData($this->plugin, $levelName);
+				$floatingTextData = new FloatingTextData($this->plugin, $worldName);
 			}
 
 			foreach ($texts as $textName => $val) {

@@ -9,18 +9,16 @@ use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\RemoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 class SelectActionForm extends SimpleForm {
 
-	/** @var string */
-	private $name;
-
-	public function __construct(TexterLang $lang, string $name) {
+	public function __construct(
+		TexterLang $lang,
+		private string $name
+	) {
 		parent::__construct(null);
-		$this->name = $name;
-
 		$edit = TextFormat::BOLD . $lang->translateString("form.edit")."\n".TextFormat::RESET;
 		$move = TextFormat::BOLD . $lang->translateString("form.move")."\n".TextFormat::RESET;
 		$remove = TextFormat::BOLD . $lang->translateString("form.remove")."\n".TextFormat::RESET;
@@ -37,7 +35,7 @@ class SelectActionForm extends SimpleForm {
 
 	public function handleResponse(Player $player, $data): void {
 		$this->processData($data);
-		if ($data === null || !is_string($data)) return;
+		if (!is_string($data)) return;
 
 		switch ($data) {
 			case FormLabels::EDIT:

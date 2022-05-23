@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\task;
 
 use Exception;
-use jp\mcbe\fuyutsuki\Texter\{
-	Main};
-use pocketmine\{
-	scheduler\AsyncTask,
-	Server,
-	utils\VersionString};
+use jp\mcbe\fuyutsuki\Texter\Main;
+use pocketmine\scheduler\AsyncTask;
+use pocketmine\Server;
+use pocketmine\utils\VersionString;
 use function curl_init;
 use function curl_setopt_array;
 use function curl_exec;
@@ -24,7 +22,7 @@ class CheckUpdateTask extends AsyncTask {
 	/**
 	 * @throws Exception
 	 */
-	public function onRun() {
+	public function onRun(): void {
 		$curl = curl_init();
 		curl_setopt_array($curl, [
 			CURLOPT_URL => "https://api.github.com/repos/fuyutsuki/Texter/releases/latest",
@@ -43,8 +41,8 @@ class CheckUpdateTask extends AsyncTask {
 		$this->setResult($data);
 	}
 
-	public function onCompletion(Server $server) {
-		$plugin = $server->getPluginManager()->getPlugin("Texter");
+	public function onCompletion(): void {
+		$plugin = Server::getInstance()->getPluginManager()->getPlugin("Texter");
 		if ($plugin !== null && $plugin->isEnabled()) {
 			/** @var Main $plugin */
 			$data = $this->getResult();

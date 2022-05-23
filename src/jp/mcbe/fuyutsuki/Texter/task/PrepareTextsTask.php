@@ -7,9 +7,8 @@ namespace jp\mcbe\fuyutsuki\Texter\task;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
-use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\Task;
-use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use function array_shift;
 use function count;
@@ -18,30 +17,24 @@ class PrepareTextsTask extends Task {
 
 	public const TICKING_PERIOD = 2;
 
-	/** @var Plugin */
-	private $plugin;
-	/** @var Server */
-	private $server;
-	/** @var FloatingTextData */
-	private $data;
-	/** @var array */
-	private $remain;
+	private array $remain;
 	/** @var string[] */
-	private $names;
+	private array $names;
 
-	public function __construct(Plugin $plugin, FloatingTextData $floatingTextData) {
-		$this->plugin = $plugin;
-		$this->server = $plugin->getServer();
-		$this->data = $floatingTextData;
-		$folderName = $floatingTextData->folderName();
-		if (!$this->server->isLevelLoaded($folderName)) {
-			$this->server->loadLevel($folderName);
+	public function __construct(
+		private PluginBase $plugin,
+		private FloatingTextData $data
+	) {
+		$worldManager = $this->plugin->getServer()->getWorldManager();
+		$folderName = $this->data->folderName();
+		if (!$worldManager->isWorldLoaded($folderName)) {
+			$worldManager->loadWorld($folderName);
 		}
-		$this->remain = $floatingTextData->getAll();
-		$this->names = $floatingTextData->getAll(true);
+		$this->remain = $this->data->getAll();
+		$this->names = $this->data->getAll(true);
 	}
 
-	public function onRun(int $currentTick) {
+	public function onRun(): void {
 		if (empty($this->remain)) {
 			$this->onSuccess();
 		}else {
@@ -61,7 +54,7 @@ class PrepareTextsTask extends Task {
 				count($this->data->floatingTexts())
 			]);
 			$this->plugin->getLogger()->info(TextFormat::GREEN . $message);
-			$this->plugin->getScheduler()->cancelTask($this->getTaskId());
+			$this->getHandler()->cancel();
 		}
 	}
 }

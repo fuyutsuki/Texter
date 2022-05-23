@@ -35,21 +35,25 @@ use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\RemoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginCommand;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use pocketmine\utils\TextFormat;
 
-class TexterCommand extends PluginCommand {
+class TexterCommand extends Command implements PluginOwned {
 
 	public const NAME = "txt";
 	public const DESCRIPTION = "command.txt.description";
 	public const USAGE = "command.txt.usage";
 	public const PERMISSION = "texter.command.txt";
 
-	public function __construct(Main $plugin) {
-		parent::__construct(self::NAME, $plugin);
+	public function __construct(
+		private Main $plugin
+	) {
+		parent::__construct(self::NAME);
 		$consoleLang = TexterLang::fromConsole();
 		$description = $consoleLang->translateString(self::DESCRIPTION);
 		$usage = $consoleLang->translateString(self::USAGE);
@@ -59,10 +63,11 @@ class TexterCommand extends PluginCommand {
 	}
 
 	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
-		$plugin = $this->getPlugin();
+		$plugin = $this->getOwningPlugin();
 		if ($plugin->isDisabled() || !$this->testPermission($sender)) return false;
 
 		if ($sender instanceof Player) {
+			/** @var Player $sender */
 			$serverLang = $sender->getServer()->getLanguage();
 			$playerLang = TexterLang::fromLocale($sender->getLocale());
 			if (isset($args[0])) {
@@ -79,7 +84,7 @@ class TexterCommand extends PluginCommand {
 								$message = $serverLang->translateString("commands.generic.usage", [
 									$playerLang->translateString("command.txt.add.usage")
 								]);
-								$sender->sendMessage(Main::prefix() . " {$message}");
+								$sender->sendMessage(Main::prefix() . " $message");
 							}
 						}else {
 							AddFloatingTextForm::send($sender);
@@ -118,7 +123,7 @@ class TexterCommand extends PluginCommand {
 							$message = $serverLang->translateString("commands.generic.usage", [
 								$playerLang->translateString("command.txt.move.usage")
 							]);
-							$sender->sendMessage(Main::prefix() . " {$message}");
+							$sender->sendMessage(Main::prefix() . " $message");
 						}else {
 							ListFloatingTextForm::send($sender, $subCommandLabel);
 						}
@@ -134,7 +139,7 @@ class TexterCommand extends PluginCommand {
 							$message = $serverLang->translateString("commands.generic.usage", [
 								$playerLang->translateString("command.txt.remove.usage")
 							]);
-							$sender->sendMessage(Main::prefix() . " {$message}");
+							$sender->sendMessage(Main::prefix() . " $message");
 						}
 						break;
 
@@ -149,6 +154,10 @@ class TexterCommand extends PluginCommand {
 			$plugin->getLogger()->info(TextFormat::RED . $message);
 		}
 		return true;
+	}
+
+	public function getOwningPlugin(): Plugin {
+		return $this->plugin;
 	}
 
 }

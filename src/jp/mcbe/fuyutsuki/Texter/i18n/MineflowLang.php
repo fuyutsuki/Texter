@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\i18n;
 
 use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
-use pocketmine\lang\BaseLang;
+use pocketmine\lang\Language;
 use SplFileInfo;
 
-class MineflowLang extends BaseLang {
+class MineflowLang extends Language {
 
 	use StringArrayMultiton {
 		StringArrayMultiton::__construct as stringArrayMultitonConstruct;
@@ -27,7 +27,7 @@ class MineflowLang extends BaseLang {
 	}
 
 	/**
-	 * @return self[]
+	 * @return static[]
 	 */
 	public static function all(): array {
 		return self::$instances;

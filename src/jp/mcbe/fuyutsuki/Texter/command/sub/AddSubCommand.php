@@ -33,7 +33,7 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 class AddSubCommand extends TexterSubCommand {
@@ -41,28 +41,24 @@ class AddSubCommand extends TexterSubCommand {
 	public const NAME = "add";
 	public const ALIAS = "a";
 
-	/** @var string */
-	private $name;
-	/** @var string */
-	private $text;
-
-	public function __construct(string $name, string $text) {
-		$this->name = $name;
-		$this->text = $text;
+	public function __construct(
+		private string $name,
+		private string $text
+	) {
 	}
 
 	public function execute(Player $player) {
-		$level = $player->getLevel();
-		$folderName = $level->getFolderName();
+		$world = $player->getWorld();
+		$folderName = $world->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 		$lang = TexterLang::fromLocale($player->getLocale());
 
 		if ($floatingTextData->notExistsFloatingText($this->name)) {
-			$floatingText = new FloatingTextCluster($player->up(), $this->name, null, [$this->text]);
-			$floatingText->sendToLevel($level, new SendType(SendType::ADD));
+			$floatingText = new FloatingTextCluster($player->getPosition()->up(), $this->name, null, [$this->text]);
+			$floatingText->sendToWorld($world, SendType::ADD());
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
-			FloatingTextSession::remove($player->getLowerCaseName());
+			FloatingTextSession::remove(strtolower($player->getName()));
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.add.success", [
 				$this->name
 			]);
@@ -71,7 +67,7 @@ class AddSubCommand extends TexterSubCommand {
 				$this->name
 			]);
 		}
-		$player->sendMessage(Main::prefix() . " {$message}");
+		$player->sendMessage(Main::prefix() . " $message");
 	}
 
 }

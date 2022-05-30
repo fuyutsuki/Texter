@@ -10,7 +10,7 @@ softdepend:
   - Mineflow # >= 2.0
 virions:
   # jojoe77777/libFormAPI
-  - libFormAPI # >= 1.3
+  - libFormAPI # >= 2.1
 
 author: yuko fuyutsuki
 authors:

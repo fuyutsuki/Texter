@@ -74,7 +74,7 @@ The supported languages will be automatically translated according to the langua
 
 #### Support status
 
-PR in other languages is welcome!
+issue or PR in other languages is welcome!
 
 - [x] en_us(English)
 - [ ] id_id(Indonesian)
@@ -83,4 +83,4 @@ PR in other languages is welcome!
 - [ ] ru_ru(Russian)
 - [ ] tr_tr(Turkish)
 - [ ] zh_cn(Chinese/Simplified)
-- [x] vi_vn(Vietnamese)
+- [ ] vi_vn(Vietnamese)

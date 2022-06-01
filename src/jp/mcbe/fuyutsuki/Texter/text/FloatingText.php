@@ -137,9 +137,9 @@ class FloatingText implements Sendable {
 					GameMode::ADVENTURE()->id(),
 					[
 						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
-							EntityMetadataFlags::IMMOBILE,
+							EntityMetadataFlags::IMMOBILE => true,
 						]),
-						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0),
+						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
 					],
 					AdventureSettingsPacket::create(0, 0, 0, 0, 0, $this->actorRuntimeId),
 					[],

@@ -61,7 +61,7 @@ class EventListener implements Listener {
 		if (FloatingTextData::getInstance($folderName) === null) {
 			$floatingTextData = new FloatingTextData($this->plugin, $folderName);
 			$floatingTextData->generateFloatingTexts($this->plugin);
-			$this->plugin->getLogger()->debug("Loaded FloatingTextCluster file: {$folderName}.json");
+			$this->plugin->getLogger()->debug("Loaded FloatingTextCluster file: $folderName.json");
 		}
 	}
 

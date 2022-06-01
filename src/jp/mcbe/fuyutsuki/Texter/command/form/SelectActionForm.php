@@ -4,40 +4,52 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jojoe77777\FormAPI\SimpleForm;
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\RemoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use Ramsey\Uuid\Uuid;
 
-class SelectActionForm extends SimpleForm {
+class SelectActionForm extends MenuForm {
+
+	/** @var string[] */
+	private array $keys;
 
 	public function __construct(
 		TexterLang $lang,
 		private string $name
 	) {
-		parent::__construct(null);
 		$edit = TextFormat::BOLD . $lang->translateString("form.edit")."\n".TextFormat::RESET;
 		$move = TextFormat::BOLD . $lang->translateString("form.move")."\n".TextFormat::RESET;
 		$remove = TextFormat::BOLD . $lang->translateString("form.remove")."\n".TextFormat::RESET;
 
-		$this->setTitle(Main::prefix() . " txt > list > select action");
-		$this->setContent($lang->translateString("form.list.description.2", [
-			$name
-		]));
-		$this->addButton($edit . $lang->translateString("form.edit.description"), -1, "", FormLabels::EDIT);
-		$this->addButton($move . $lang->translateString("form.move.description"), -1, "", FormLabels::MOVE);
-		$this->addButton($remove . $lang->translateString("form.remove.description"), -1, "", FormLabels::REMOVE);
-		$this->addButton(TextFormat::DARK_RED . $lang->translateString("form.close"));
+		$options = [
+			FormLabels::EDIT => new MenuOption($edit . $lang->translateString("form.edit.description")),
+			FormLabels::MOVE => new MenuOption($move . $lang->translateString("form.move.description")),
+			FormLabels::REMOVE => new MenuOption($remove . $lang->translateString("form.remove.description")),
+			Uuid::uuid4()->getBytes() => new MenuOption(TextFormat::DARK_RED . $lang->translateString("form.close")),
+		];
+
+		$this->keys = array_keys($options);
+		parent::__construct(
+			Main::prefix() . " txt > list > select action",
+			$lang->translateString("form.list.description.2", [
+				$name
+			]),
+			$options,
+			function(Player $player, int $selected): void {
+				$this->handleSubmit($player, $selected);
+			}
+		);
 	}
 
-	public function handleResponse(Player $player, $data): void {
-		$this->processData($data);
-		if (!is_string($data)) return;
-
-		switch ($data) {
+	public function handleSubmit(Player $player, int $selected): void {
+		$label = $this->keys[$selected];
+		switch ($label) {
 			case FormLabels::EDIT:
 				$subCommand = new EditSubCommand($this->name);
 				$subCommand->execute($player);

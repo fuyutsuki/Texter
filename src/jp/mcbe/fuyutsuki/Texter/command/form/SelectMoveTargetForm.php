@@ -4,31 +4,44 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jojoe77777\FormAPI\SimpleForm;
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use Ramsey\Uuid\Uuid;
 
-class SelectMoveTargetForm extends SimpleForm {
+class SelectMoveTargetForm extends MenuForm {
+
+	/** @var string[] */
+	private array $keys;
 
 	public function __construct(
 		private TexterLang $lang,
 		private string $name
 	) {
-		parent::__construct(null);
-		$this->setTitle(Main::prefix() . " txt > move > select target");
-		$this->setContent($lang->translateString("form.move.select.target.description"));
-		$this->addButton($lang->translateString("form.move.here"), -1, "", FormLabels::HERE);
-		$this->addButton($lang->translateString("form.move.position"), -1, "", FormLabels::POSITION);
-		$this->addButton(TextFormat::DARK_RED . $lang->translateString("form.close"));
+		$options = [
+			FormLabels::HERE => new MenuOption($lang->translateString("form.move.here")),
+			FormLabels::POSITION => new MenuOption($lang->translateString("form.move.position")),
+			Uuid::uuid4()->getBytes() => new MenuOption(TextFormat::DARK_RED . $lang->translateString("form.close"))
+		];
+
+		$this->keys = array_keys($options);
+		parent::__construct(
+			Main::prefix() . " txt > move > select target",
+			$lang->translateString("form.move.select.target.description"),
+			$options,
+			function(Player $player, int $selected): void {
+				$this->handleSubmit($player, $selected);
+			}
+		);
 	}
 
-	public function handleResponse(Player $player, $data): void {
-		$this->processData($data);
-		if (!is_string($data)) return;
-		switch ($data) {
+	private function handleSubmit(Player $player, int $selected): void {
+		$label = $this->keys[$selected];
+		switch ($label) {
 			case FormLabels::HERE:
 				$subCommand = new MoveSubCommand($this->name);
 				$subCommand->setPosition($player->getPosition());

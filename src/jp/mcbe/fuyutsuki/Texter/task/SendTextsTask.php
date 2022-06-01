@@ -7,9 +7,9 @@ namespace jp\mcbe\fuyutsuki\Texter\task;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\world\World;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
+use pocketmine\world\World;
 
 class SendTextsTask extends Task {
 

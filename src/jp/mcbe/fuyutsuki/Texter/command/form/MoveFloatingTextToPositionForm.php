@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jojoe77777\FormAPI\CustomForm;
+use dktapps\pmforms\CustomForm;
+use dktapps\pmforms\CustomFormResponse;
+use dktapps\pmforms\element\Input;
+use dktapps\pmforms\element\Label;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
+use Ramsey\Uuid\Uuid;
 
 class MoveFloatingTextToPositionForm extends CustomForm {
 
@@ -19,29 +23,36 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 		private string $name,
 		bool $isNotValid = false
 	) {
-		parent::__construct(null);
 		$inputX = $lang->translateString("form.move.position.x");
 		$inputY = $lang->translateString("form.move.position.y");
 		$inputZ = $lang->translateString("form.move.position.z");
 
-		$this->setTitle(Main::prefix() . " txt > move > position");
 		if ($isNotValid) {
-			$this->addLabel($lang->translateString("form.move.position.error.is.not.valid"));
+			$elements[] = new Label(Uuid::uuid4()->toString(), $lang->translateString("form.move.position.error.is.not.valid"));
 		}
-		$this->addLabel($lang->translateString("form.move.position.description"));
-		$this->addInput($inputX, $inputX, null, FormLabels::X);
-		$this->addInput($inputY, $inputY, null, FormLabels::Y);
-		$this->addInput($inputZ, $inputZ, null, FormLabels::Z);
+		$elements[] = new Label(Uuid::uuid4()->toString(), $lang->translateString("form.move.position.description"));
+		$elements[] = new Input(FormLabels::X, $inputX, $inputX);
+		$elements[] = new Input(FormLabels::Y, $inputY, $inputY);
+		$elements[] = new Input(FormLabels::Z, $inputZ, $inputZ);
+
+		parent::__construct(
+			Main::prefix() . " txt > move > position",
+			$elements,
+			function(Player $player, CustomFormResponse $response): void {
+				$this->handleSubmit($player, $response);
+			}
+		);
 	}
 
-	public function handleResponse(Player $player, $data): void {
-		$this->processData($data);
-		if ($data === null) return;
-		if (!empty($data[FormLabels::X]) && !empty($data[FormLabels::Y]) && !empty($data[FormLabels::Z])) {
+	private function handleSubmit(Player $player, CustomFormResponse $response): void {
+		if (!empty($response->getString(FormLabels::X)) &&
+			!empty($response->getString(FormLabels::Y)) &&
+			!empty($response->getString(FormLabels::Z))
+		) {
 			$position = new Vector3(
-				floatval($data[FormLabels::X]),
-				floatval($data[FormLabels::Y]),
-				floatval($data[FormLabels::Z])
+				$response->getFloat(FormLabels::X),
+				$response->getFloat(FormLabels::Y),
+				$response->getFloat(FormLabels::Z)
 			);
 			$world = $player->getWorld();
 			$folderName = $world->getFolderName();

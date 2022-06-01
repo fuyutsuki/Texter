@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jojoe77777\FormAPI\SimpleForm;
+use dktapps\pmforms\MenuForm;
+use dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
@@ -12,56 +13,65 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use Ramsey\Uuid\Uuid;
 
-class ListFloatingTextForm extends SimpleForm {
+class ListFloatingTextForm extends MenuForm {
 
 	private TexterLang $lang;
 
 	private ?FloatingTextData $floatingTextData;
 
+	/** @var string[] */
+	private array $keys;
+
 	public function __construct(
 		Player $player,
 		private string $action = ""
 	) {
-		parent::__construct(null);
 		$this->lang = TexterLang::fromLocale($player->getLocale());
-
-		$this->setTitle(Main::prefix() . " txt > list");
-		$this->setContent($this->lang->translateString("form.list.description.1"));
 
 		$folderName = $player->getWorld()->getFolderName();
 		$this->floatingTextData = FloatingTextData::getInstance($folderName);
 
+		$options = [];
 		$floatingTexts = $this->floatingTextData->floatingTexts();
-		foreach ($floatingTexts as $name => $floatingText) {
+		foreach ($floatingTexts as $floatingText) {
 			if ($player->getPosition()->distanceSquared($floatingText->position()) <= 100) {
 				$text = mb_substr($floatingText->get(0)->text(), 0, 26);
-				$this->addButton("[{$floatingText->name()}]\n" . TextFormat::BOLD . "$text...", -1, "", $name);
+				$options[$floatingText->name()] = new MenuOption("[{$floatingText->name()}]\n" . TextFormat::BOLD . "$text...");
 			}
 		}
-		$this->addButton(TextFormat::DARK_RED . $this->lang->translateString("form.close"));
+		$options[Uuid::uuid4()->getBytes()] = new MenuOption(TextFormat::DARK_RED . $this->lang->translateString("form.close"));
+
+		$this->keys = array_keys($options);
+		parent::__construct(
+			Main::prefix() . " txt > list",
+			$this->lang->translateString("form.list.description.1"),
+			$options,
+			function(Player $player, int $selected): void {
+				$this->handleSubmit($player, $selected);
+			}
+		);
 	}
 
-	public function handleResponse(Player $player, $data): void {
-		$this->processData($data);
-		if (!is_string($data)) return;
-
-		if ($this->floatingTextData->existsFloatingText($data)) {
+	public function handleSubmit(Player $player, int $selected): void {
+		$selected = $this->keys[$selected];
+		if ($this->floatingTextData->existsFloatingText($selected)) {
 			if (!empty($this->action)) {
 				switch ($this->action) {
 					case EditSubCommand::NAME:
 					case EditSubCommand::ALIAS:
-						$subCommand = new EditSubCommand($data);
+						$subCommand = new EditSubCommand($selected);
 						$subCommand->execute($player);
 						return;
 
 					case MoveSubCommand::NAME:
 					case MoveSubCommand::ALIAS:
-						SelectMoveTargetForm::send($player, $data);
+						SelectMoveTargetForm::send($player, $selected);
 						return;
 				}
 			}
-			$form = new SelectActionForm($this->lang, $data);
+			$form = new SelectActionForm($this->lang, $selected);
 			$player->sendForm($form);
 		}
 	}

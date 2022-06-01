@@ -2,6 +2,12 @@
 
 ## 4.1.x
 
+### 4.1.1
+
+#### :bug: Bug fix
+
+- Fixed a crash when using forms
+
 ### 4.1.0
 
 #### :arrow_heading_up: following PMMP changes

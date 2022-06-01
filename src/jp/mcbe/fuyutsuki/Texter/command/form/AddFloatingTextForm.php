@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jojoe77777\FormAPI\CustomForm;
+use dktapps\pmforms\CustomForm;
+use dktapps\pmforms\CustomFormResponse;
+use dktapps\pmforms\element\Input;
+use dktapps\pmforms\element\Label;
+use dktapps\pmforms\element\StepSlider;
+use dktapps\pmforms\element\Toggle;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
@@ -13,13 +18,16 @@ use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
+use Ramsey\Uuid\Uuid;
+use function count;
+use function range;
+use function strtolower;
 
 class AddFloatingTextForm extends CustomForm {
 
 	private ?FloatingTextSession $session;
 
 	public function __construct(Player $player) {
-		parent::__construct(null);
 		$playerName = strtolower($player->getName());
 		$lang = TexterLang::fromLocale($player->getLocale());
 		$this->session = FloatingTextSession::get($playerName);
@@ -27,23 +35,22 @@ class AddFloatingTextForm extends CustomForm {
 			$this->session = new FloatingTextSession($playerName, $lang);
 		}
 
+		$elements = [];
 		$inputName = $lang->translateString("form.ft.name.unique");
-
-		$this->setTitle(Main::prefix() . " txt > " . ($this->session->isEdit() ? "edit" : "add"));
 
 		if ($this->session->hasNoTexts()) {
 			$this->session->setNoTexts(false);
-			$this->addLabel(TextFormat::RED . "[!]" . $lang->translateString("form.add.error.no.texts"));
+			$elements[] = new Label(Uuid::uuid4()->getBytes(), TextFormat::RED . "[!]" . $lang->translateString("form.add.error.no.texts"));
 		}
 		if ($this->session->isDuplicateName()) {
 			$this->session->setDuplicateName(false);
-			$this->addLabel(TextFormat::RED . "[!]" . $lang->translateString("error.ft.name.exists", [
+			$elements[] = new Label(Uuid::uuid4()->getBytes(), TextFormat::RED . "[!]" . $lang->translateString("error.ft.name.exists", [
 				$this->session->name(),
 			]));
 		}
 
-		$this->addLabel($lang->translateString("form.add.description"));
-		$this->addInput($inputName, $inputName, $this->session->name(), FormLabels::NAME);
+		$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("form.add.description"));
+		$elements[] = new Input(FormLabels::NAME, $inputName, $inputName, $this->session->name());
 
 		if (count($this->session->texts()) >= 2) {
 			$spacing = $this->session->spacing()->multiply(10)->add(30, 30, 30);
@@ -51,14 +58,14 @@ class AddFloatingTextForm extends CustomForm {
 			foreach ($range as $k => $v) {
 				$range[$k] = (string)($v/10);
 			}
-			$this->addLabel($lang->translateString("form.add.spacing.description"));
-			$this->addStepSlider($lang->translateString("form.add.spacing.x"), $range, $spacing->getFloorX(), FormLabels::X);
-			$this->addStepSlider($lang->translateString("form.add.spacing.y"), $range, $spacing->getFloorY(), FormLabels::Y);
-			$this->addStepSlider($lang->translateString("form.add.spacing.z"), $range, $spacing->getFloorZ(), FormLabels::Z);
-			$this->addLabel($lang->translateString("command.txt.usage.cluster.remove"));
+			$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("form.add.spacing.description"));
+			$elements[] = new StepSlider(FormLabels::X, $lang->translateString("form.add.spacing.x"), $range, $spacing->getFloorX());
+			$elements[] = new StepSlider(FormLabels::Y, $lang->translateString("form.add.spacing.y"), $range, $spacing->getFloorY());
+			$elements[] = new StepSlider(FormLabels::Z, $lang->translateString("form.add.spacing.z"), $range, $spacing->getFloorZ());
+			$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("command.txt.usage.cluster.remove"));
 		}
 
-		$this->addLabel($lang->translateString("command.txt.usage.new.line"));
+		$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("command.txt.usage.new.line"));
 		if (empty($this->session->texts())) {
 			$this->session->addText("");
 		}
@@ -66,27 +73,32 @@ class AddFloatingTextForm extends CustomForm {
 			$inputText = $lang->translateString("form.add.text", [
 				$key + 1,
 			]);
-			$this->addInput($inputText, $inputText, $text, FormLabels::TEXT . "_$key");
+			$elements[] = new Input(FormLabels::TEXT . "_$key", $inputText, $inputText, $text);
 		}
-		$this->addToggle($lang->translateString("form.add.more.ft"), null, FormLabels::ADD_MORE);
+		$elements[] = new Toggle(FormLabels::ADD_MORE, $lang->translateString("form.add.more.ft"));
+
+		parent::__construct(
+			Main::prefix() . " txt > " . ($this->session->isEdit() ? "edit" : "add"),
+			$elements,
+			function(Player $player, CustomFormResponse $response): void {
+				$this->handleSubmit($player, $response);
+			},
+			function(Player $player): void {
+				FloatingTextSession::remove(strtolower($player->getName()));
+			}
+		);
+
 	}
 
-	public function handleResponse(Player $player, $data): void {
-		if ($data === null) {
-			FloatingTextSession::remove(strtolower($player->getName()));
-			return;
-		}
-
-		$this->processData($data);
-
-		$this->session->setName($data[FormLabels::NAME]);
+	private function handleSubmit(Player $player, CustomFormResponse $response): void {
+		$this->session->setName($response->getString(FormLabels::NAME));
 		$texts = $this->session->texts();
 		$this->session->setTexts([]);
 
 		$empty = 0;
 		foreach ($texts as $key => $text) {
-			if (!empty($data[FormLabels::TEXT . "_$key"])) {
-				$this->session->addText($data[FormLabels::TEXT . "_$key"]);
+			if (!empty($response->getString(FormLabels::TEXT . "_$key"))) {
+				$this->session->addText($response->getString(FormLabels::TEXT . "_$key"));
 			}else {
 				++$empty;
 			}
@@ -104,11 +116,11 @@ class AddFloatingTextForm extends CustomForm {
 
 		$spacing = null;
 		if (count($texts) >= 2) {
-			$spacing = new Vector3($data[FormLabels::X], $data[FormLabels::Y], $data[FormLabels::Z]);
+			$spacing = new Vector3($response->getFloat(FormLabels::X), $response->getFloat(FormLabels::Y), $response->getFloat(FormLabels::Z));
 			$spacing = $spacing->subtract(30, 30, 30)->divide(10);
 		}
 
-		if ($data[FormLabels::ADD_MORE]) {
+		if ($response->getBool(FormLabels::ADD_MORE)) {
 			$this->session->addText("");
 			self::send($player);
 		}else {

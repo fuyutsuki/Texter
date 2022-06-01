@@ -47,7 +47,9 @@ use function class_exists;
 use function explode;
 use function file_exists;
 use function glob;
+use function implode;
 use function mkdir;
+use function str_starts_with;
 
 class Main extends PluginBase {
 
@@ -220,7 +222,7 @@ class Main extends PluginBase {
 
 	private function isPackaged(): bool {
 		if (str_starts_with($this->getFile(), self::PHAR_HEADER)) {
-			if (class_exists(Dependencies::PACKAGED_LIBRARY_NAMESPACE . Dependencies::LIB_FORM_API)) {
+			if (class_exists(Dependencies::PACKAGED_LIBRARY_NAMESPACE . Dependencies::PMFORMS)) {
 				return true;// PoggitCI
 			}else {
 				$message = $this->lang->translateString("error.on.enable.not.packaged");
@@ -230,10 +232,10 @@ class Main extends PluginBase {
 		}else {
 			$plugins = $this->getServer()->getPluginManager()->getPlugins();
 			if (isset($plugins["DEVirion"])) {
-				if (class_exists(Dependencies::LIB_FORM_API)) {
+				if (class_exists(Dependencies::PMFORMS)) {
 					return true;// developer
 				}else {
-					$message = $this->lang->translateString("error.on.enable.not.found.libformapi");
+					$message = $this->lang->translateString("error.on.enable.not.found.virions", [implode(", ", ["pmforms"])]);
 					$this->getLogger()->critical($message);
 					return false;
 				}

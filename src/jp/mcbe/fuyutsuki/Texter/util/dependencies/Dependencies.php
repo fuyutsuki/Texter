@@ -15,6 +15,6 @@ final class Dependencies {
 	public const PLUGIN_NAMESPACE = "\\jp\\mcbe\\fuyutsuki\\Texter";
 
 	public const PACKAGED_LIBRARY_NAMESPACE = self::PLUGIN_NAMESPACE . "\\libs";
-	public const LIB_FORM_API = "\\jojoe77777\\FormAPI\\FormAPI";
+	public const PMFORMS = "\\dktapps\\pmforms\\BaseForm";
 
 }

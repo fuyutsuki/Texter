@@ -9,12 +9,12 @@ use jp\mcbe\fuyutsuki\Texter\Main;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\utils\VersionString;
-use function curl_init;
-use function curl_setopt_array;
-use function curl_exec;
+use function curl_close;
 use function curl_errno;
 use function curl_error;
-use function curl_close;
+use function curl_exec;
+use function curl_init;
+use function curl_setopt_array;
 use function json_decode;
 
 class CheckUpdateTask extends AsyncTask {

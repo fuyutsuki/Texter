@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
 use jp\mcbe\fuyutsuki\Texter\data\Data;
-use pocketmine\world\World;
-use pocketmine\math\Vector3;
 use JsonSerializable;
+use pocketmine\math\Vector3;
 use pocketmine\player\Player;
+use pocketmine\world\World;
 
 class FloatingTextCluster implements Sendable, JsonSerializable {
 

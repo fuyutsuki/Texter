@@ -77,6 +77,7 @@ The supported languages will be automatically translated according to the langua
 issue or PR in other languages is welcome!
 
 - [x] en_us(English)
+- [x] es_mx(Spanish/Mexico)
 - [ ] id_id(Indonesian)
 - [x] ja_jp(Japanese)
 - [ ] ko_kr(Korean)

@@ -24,7 +24,6 @@ use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
 use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
-use pocketmine\network\mcpe\protocol\types\entity\IntMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;

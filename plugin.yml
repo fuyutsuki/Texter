@@ -4,7 +4,7 @@ main: jp\mcbe\fuyutsuki\Texter\Main
 version: 4.1.2
 api: 4.3.0
 mcpe-protocol:
-  - 503 # 1.18.31
+  - 527 # 1.19.0.5
 softdepend:
   # aieuo/Mineflow
   - Mineflow # >= 2.0

@@ -48,7 +48,7 @@ class PrepareTextsTask extends Task {
 	}
 
 	public function onSuccess() {
-		if ($this->plugin !== null && $this->plugin->isEnabled()) {
+		if ($this->plugin?->isEnabled()) {
 			$message = TexterLang::fromConsole()->translateString("on.enable.prepared", [
 				$this->data->folderName(),
 				count($this->data->floatingTexts())

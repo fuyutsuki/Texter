@@ -15,11 +15,6 @@ use pocketmine\utils\EnumTrait;
 final class SendType {
 	use EnumTrait;
 
-	public const ADD = 0;
-	public const EDIT = 1;
-	public const MOVE = 2;
-	public const REMOVE = 3;
-
 	protected static function setup(): void {
 		self::registerAll(
 			new self("add"),

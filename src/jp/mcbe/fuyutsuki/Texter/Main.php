@@ -95,7 +95,7 @@ class Main extends PluginBase {
 
 			if ($folderName === "mineflow") {
 				$lang = new MineflowLang($resource);
-				$this->getLogger()->debug("Loaded language file: {$folderName}\\{$lang->getLang()}.ini");
+				$this->getLogger()->debug("Loaded language file: $folderName\\{$lang->getLang()}.ini");
 			}else {
 				$lang = new TexterLang($resource);
 				$this->getLogger()->debug("Loaded language file: {$lang->getLang()}.ini");
@@ -154,7 +154,7 @@ class Main extends PluginBase {
 				$floatingTextData = new FloatingTextData($this, $folderName);
 			}
 			$floatingTextData->generateFloatingTexts($this);
-			$this->getLogger()->debug("Loaded FloatingText file: {$folderName}.json");
+			$this->getLogger()->debug("Loaded FloatingText file: $folderName.json");
 		}
 	}
 

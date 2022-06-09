@@ -77,6 +77,7 @@ Các ngôn ngữ được hỗ trợ sẽ được dịch tự động theo cài
 PR luôn được mở!
 
 - [x] en_us(Tiếng Anh)
+- [x] es_mx(Tiếng Tây Ban Nha / Mexico)
 - [ ] id_id(Tiếng In-đô-nê-xi-a)
 - [x] ja_jp(Tiếng Nhật)
 - [ ] ko_kr(Tiếng Hàng)

@@ -2,6 +2,22 @@
 
 ## 4.1.x
 
+### 4.1.2
+
+#### :bug: bug fixes
+
+- Fixed a server crash when using `/txt move {text name} here`
+- Fixed a bug that floating text was displayed at different coordinates than the actual coordinates when using `/txt move`
+
+#### :arrow_heading_up: follow PMMP changes
+
+- Added support for PMMP 4.5.x (Minecraft 1.19.0.5~)  
+  The `mcpe-protocol` is no longer used, as the minor version of PMMP represents the protocol (in most cases)
+
+#### :globe_with_meridians: internationalization
+
+- Translated by @IvanCraft623: Added Spanish (Mexico)
+
 ### 4.1.1
 
 #### :bug: Bug fix

@@ -10,6 +10,7 @@ use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\player\Player;
 use pocketmine\scheduler\Task;
 use pocketmine\world\World;
+use function array_shift;
 
 class SendTextsTask extends Task {
 

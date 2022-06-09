@@ -2,9 +2,7 @@ name: Texter
 prefix: Texter
 main: jp\mcbe\fuyutsuki\Texter\Main
 version: 4.1.2
-api: 4.3.0
-mcpe-protocol:
-  - 527 # 1.19.0.5
+api: 4.5.0
 softdepend:
   # aieuo/Mineflow
   - Mineflow # >= 2.0

@@ -2,6 +2,13 @@
 
 ## 4.1.x
 
+### 4.1.3
+
+#### :bug: bug fixes
+
+- Fixed an issue where floating characters would be sent to a non-existent player when the player joined the server and immediately left
+- Fixed an issue where a type mismatch would cause the server to crash when using `/txt move`
+
 ### 4.1.2
 
 #### :bug: bug fixes

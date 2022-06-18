@@ -29,14 +29,14 @@ class SendTextsTask extends Task {
 		$this->remain = $data !== null ? $data->floatingTexts() : [];
 	}
 
-	public function onRun(): void{
+	public function onRun(): void {
 		if (empty($this->remain)) {
 			$this->onSuccess();
-		} else {
+		}else {
 			$floatingText = array_shift($this->remain);
 			if ($this->target->isConnected()) {
 				$floatingText->sendToPlayer($this->target, $this->type);
-			} else {
+			}else {
 				$this->getHandler()->cancel();
 			}
 		}

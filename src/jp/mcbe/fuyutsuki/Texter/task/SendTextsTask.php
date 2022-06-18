@@ -34,7 +34,11 @@ class SendTextsTask extends Task {
 			$this->onSuccess();
 		}else {
 			$floatingText = array_shift($this->remain);
-			$floatingText->sendToPlayer($this->target, $this->type);
+			if ($this->target->isConnected()) {
+				$floatingText->sendToPlayer($this->target, $this->type);
+			}else {
+				$this->getHandler()->cancel();
+			}
 		}
 	}
 

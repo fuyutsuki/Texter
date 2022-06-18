@@ -50,9 +50,9 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 			!empty($response->getString(FormLabels::Z))
 		) {
 			$position = new Vector3(
-				$response->getFloat(FormLabels::X),
-				$response->getFloat(FormLabels::Y),
-				$response->getFloat(FormLabels::Z)
+				(float)$response->getString(FormLabels::X),
+				(float)$response->getString(FormLabels::Y),
+				(float)$response->getString(FormLabels::Z)
 			);
 			$world = $player->getWorld();
 			$folderName = $world->getFolderName();

@@ -72,12 +72,12 @@ class Main extends PluginBase {
 		$pluginManager = $this->getServer()->getPluginManager();
 		$pluginManager->registerEvents(new EventListener($this), $this);
 		$this->mineflowLinkage();
-		/*if ($this->isPackaged()) {
+		if ($this->isPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
 			$this->mineflowLinkage();
 		}else {
 			$pluginManager->disablePlugin($this);
-		}*/
+		}
 	}
 
 	private function loadResources() {

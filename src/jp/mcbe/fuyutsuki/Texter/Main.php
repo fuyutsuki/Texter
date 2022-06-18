@@ -70,12 +70,14 @@ class Main extends PluginBase {
 
 	public function onEnable(): void {
 		$pluginManager = $this->getServer()->getPluginManager();
-		if ($this->isPackaged()) {
+		$pluginManager->registerEvents(new EventListener($this), $this);
+		$this->mineflowLinkage();
+		/*if ($this->isPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
 			$this->mineflowLinkage();
 		}else {
 			$pluginManager->disablePlugin($this);
-		}
+		}*/
 	}
 
 	private function loadResources() {

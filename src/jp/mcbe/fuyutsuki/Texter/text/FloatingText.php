@@ -14,7 +14,6 @@ use pocketmine\entity\Skin;
 use pocketmine\math\Vector3;
 use pocketmine\network\mcpe\convert\SkinAdapterSingleton;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
-use pocketmine\network\mcpe\protocol\AdventureSettingsPacket;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;

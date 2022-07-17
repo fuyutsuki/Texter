@@ -19,6 +19,7 @@ use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
+use pocketmine\network\mcpe\protocol\types\command\CommandPermissions;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
@@ -28,6 +29,7 @@ use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
+use pocketmine\network\mcpe\protocol\types\PlayerPermissions;
 use pocketmine\network\mcpe\protocol\UpdateAbilitiesPacket;
 use pocketmine\player\GameMode;
 use pocketmine\player\Player;
@@ -127,7 +129,7 @@ class FloatingText implements Sendable {
 					$this->actorRuntimeId,
 					"",
 					$this->position,
-					$this->position,
+					null,
 					0.0,
 					0.0,
 					0.0,
@@ -139,7 +141,7 @@ class FloatingText implements Sendable {
 						]),
 						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
 					],
-					UpdateAbilitiesPacket::create(0, 0, $this->actorRuntimeId, []),
+					UpdateAbilitiesPacket::create(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, []),
 					[],
 					"",
 					DeviceOS::UNKNOWN

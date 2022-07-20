@@ -2,6 +2,16 @@
 
 ## 4.1.x
 
+### 4.1.4
+
+#### :globe_with_meridians: More i18n
+
+- Translated by @SuperYYT: Fixed Chinese(Simplified)
+
+#### :arrow_heading_up: follow PMMP changes
+
+- Added support for PMMP 4.6.x (Minecraft 1.19.10~)
+
 ### 4.1.3
 
 #### :bug: bug fixes

@@ -2,6 +2,16 @@
 
 ## 4.1.x
 
+### 4.1.4
+
+#### :globe_with_meridians: 国際化
+
+- @SuperYYTによる翻訳: 中国語(簡体) を修正しました
+
+#### :arrow_heading_up: PMMPの変更に追従
+
+- PMMP 4.6.x (Minecraft 1.19.10~) に対応しました
+
 ### 4.1.3
 
 #### :bug: バグ修正

@@ -50,7 +50,11 @@ class AddFloatingTextForm extends CustomForm {
 		}
 
 		$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("form.add.description"));
-		$elements[] = new Input(FormLabels::NAME, $inputName, $inputName, $this->session->name());
+		if ($this->session->isEdit()) {
+			$elements[] = new Label(Uuid::uuid4()->getBytes(), "$inputName: {$this->session->name()}");
+		}else {
+			$elements[] = new Input(FormLabels::NAME, $inputName, $inputName, $this->session->name());
+		}
 
 		if (count($this->session->texts()) >= 2) {
 			$spacing = $this->session->spacing()->multiply(10)->add(30, 30, 30);

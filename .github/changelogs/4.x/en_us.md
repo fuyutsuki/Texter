@@ -2,6 +2,12 @@
 
 ## 4.1.x
 
+### 4.1.5
+
+#### :bug: bug fixes
+
+- Fixed an issue where unique identifiers could be changed when editing floating texts (#129)
+
 ### 4.1.4
 
 #### :globe_with_meridians: More i18n

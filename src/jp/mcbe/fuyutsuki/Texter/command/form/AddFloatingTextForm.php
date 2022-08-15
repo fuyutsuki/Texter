@@ -78,7 +78,7 @@ class AddFloatingTextForm extends CustomForm {
 		$elements[] = new Toggle(FormLabels::ADD_MORE, $lang->translateString("form.add.more.ft"));
 
 		parent::__construct(
-			Main::prefix() . " txt > " . ($this->session->isEdit() ? "edit" : "add"),
+			Main::prefix() . " txt > " . ($this->session->isEdit() ? SendType::EDIT()->name() : SendType::ADD()->name()),
 			$elements,
 			function(Player $player, CustomFormResponse $response): void {
 				$this->handleSubmit($player, $response);
@@ -140,7 +140,7 @@ class AddFloatingTextForm extends CustomForm {
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();
 				FloatingTextSession::remove(strtolower($player->getName()));
-				$operate = $this->session->isEdit() ? "edit" : "add";
+				$operate = $this->session->isEdit() ? SendType::EDIT()->name() : SendType::ADD()->name();
 				$message = TextFormat::GREEN . $this->session->lang()->translateString("command.txt.$operate.success", [
 					$floatingText->name()
 				]);

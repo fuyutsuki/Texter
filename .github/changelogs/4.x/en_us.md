@@ -2,6 +2,12 @@
 
 ## 4.1.x
 
+### 4.1.6
+
+#### :bug: バグ修正
+
+- Fixed server crash when editing floating texts (#130)
+
 ### 4.1.5
 
 #### :bug: bug fixes

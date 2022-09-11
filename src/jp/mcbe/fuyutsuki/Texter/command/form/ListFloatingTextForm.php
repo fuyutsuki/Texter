@@ -55,23 +55,23 @@ class ListFloatingTextForm extends MenuForm {
 	}
 
 	public function handleSubmit(Player $player, int $selected): void {
-		$selected = $this->keys[$selected];
-		if ($this->floatingTextData->existsFloatingText($selected)) {
+		$selectedKey = (string) $this->keys[$selected];
+		if ($this->floatingTextData->existsFloatingText($selectedKey)) {
 			if (!empty($this->action)) {
 				switch ($this->action) {
 					case EditSubCommand::NAME:
 					case EditSubCommand::ALIAS:
-						$subCommand = new EditSubCommand($selected);
+						$subCommand = new EditSubCommand($selectedKey);
 						$subCommand->execute($player);
 						return;
 
 					case MoveSubCommand::NAME:
 					case MoveSubCommand::ALIAS:
-						SelectMoveTargetForm::send($player, $selected);
+						SelectMoveTargetForm::send($player, $selectedKey);
 						return;
 				}
 			}
-			$form = new SelectActionForm($this->lang, $selected);
+			$form = new SelectActionForm($this->lang, $selectedKey);
 			$player->sendForm($form);
 		}
 	}

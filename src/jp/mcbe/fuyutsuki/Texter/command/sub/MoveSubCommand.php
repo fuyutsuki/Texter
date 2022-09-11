@@ -39,7 +39,7 @@ class MoveSubCommand extends TexterSubCommand {
 		$lang = TexterLang::fromLocale($player->getLocale());
 
 		if ($floatingTextData->existsFloatingText($this->name)) {
-			$position = $this->position->up()->round(1);
+			$position = $player->getPosition()->up()->round(1);
 			$floatingText = $floatingTextData->floatingText($this->name);
 			$floatingText->setPosition($position);
 			$floatingText->recalculatePosition();

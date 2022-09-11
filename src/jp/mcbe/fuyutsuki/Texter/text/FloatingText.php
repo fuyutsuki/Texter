@@ -182,7 +182,7 @@ class FloatingText implements Sendable {
 				break;
 
 			default:
-				throw new InvalidArgumentException("The SendType must be an integer value between 0 to 3");
+				throw new InvalidArgumentException("The SendType must be an enum value SendType::ADD, SendType::EDIT, SendType::MOVE or SendType::REMOVE");
 		}
 		return $pks;
 	}

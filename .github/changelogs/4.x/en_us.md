@@ -2,9 +2,16 @@
 
 ## 4.1.x
 
+### 4.1.7
+
+#### :bug: bug fixes
+
+- Fixed a server crash with type mismatch when editing floating texts ([CrashArchive#7465119](https://crash.pmmp.io/view/7465119))
+- Fixed a server crash when using uninitialized properties when moving floating texts ([CrashArchive#7479342](https://crash.pmmp.io/view/7479342))
+
 ### 4.1.6
 
-#### :bug: バグ修正
+#### :bug: bug fixes
 
 - Fixed server crash when editing floating texts (#130)
 

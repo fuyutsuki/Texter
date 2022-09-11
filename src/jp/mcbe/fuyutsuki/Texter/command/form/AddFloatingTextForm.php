@@ -10,7 +10,6 @@ use dktapps\pmforms\element\Input;
 use dktapps\pmforms\element\Label;
 use dktapps\pmforms\element\StepSlider;
 use dktapps\pmforms\element\Toggle;
-use Exception;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
@@ -96,10 +95,10 @@ class AddFloatingTextForm extends CustomForm {
 	}
 
 	private function handleSubmit(Player $player, CustomFormResponse $response): void {
-		try {
+		if (!$this->session->isEdit()) {
 			$name = $response->getString(FormLabels::NAME);
 			$this->session->setName($name);
-		}catch (Exception $_) {}
+		}
 
 		$texts = $this->session->texts();
 		$this->session->setTexts([]);

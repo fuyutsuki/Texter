@@ -25,6 +25,7 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
 use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
@@ -141,6 +142,7 @@ class FloatingText implements Sendable {
 						]),
 						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
 					],
+					new PropertySyncData([], []),
 					UpdateAbilitiesPacket::create(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, []),
 					[],
 					"",
@@ -159,6 +161,7 @@ class FloatingText implements Sendable {
 					[
 						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->replaceVariables($player)),
 					],
+					new PropertySyncData([], []),
 					0
 				);
 				$pks = [$pk];

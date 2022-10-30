@@ -2,6 +2,12 @@
 
 ## 4.1.x
 
+### 4.1.8
+
+#### :arrow_heading_up: follow PMMP changes
+
+- Added support for PMMP 4.10.x (Minecraft 1.19.40~)
+
 ### 4.1.7
 
 #### :bug: bug fixes

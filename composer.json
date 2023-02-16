@@ -22,7 +22,7 @@
 				},
 				"autoload": {
 					"psr-4": {
-						"aieuo\\mineflow\\": ["src/aieuo/Mineflow"]
+						"aieuo\\mineflow\\": ["src/aieuo/mineflow"]
 					}
 				}
 			}

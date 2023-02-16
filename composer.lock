@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d043f5b2779700c455378d2467d15e62",
+    "content-hash": "947b473e74553d7c19388a1af7f4c775",
     "packages": [
         {
             "name": "dktapps-pm-pl/pmforms",
@@ -96,7 +96,7 @@
             "autoload": {
                 "psr-4": {
                     "aieuo\\mineflow\\": [
-                        "src/aieuo/Mineflow"
+                        "src/aieuo/mineflow"
                     ]
                 }
             }

@@ -60,6 +60,14 @@ class Main extends PluginBase {
 	private ConfigData $config;
 	private TexterLang $lang;
 
+	public static function canLoadDependencyFromComposer(): bool {
+		return file_exists(dirname(__DIR__, 5) . '/vendor/autoload.php');
+	}
+
+	public static function loadDependency(): void {
+		require_once dirname(__DIR__, 5) . '/vendor/autoload.php';
+	}
+
 	public function onLoad(): void {
 		self::setPrefix();
 		$this->loadResources();
@@ -70,7 +78,7 @@ class Main extends PluginBase {
 
 	public function onEnable(): void {
 		$pluginManager = $this->getServer()->getPluginManager();
-		if ($this->isPackaged()) {
+		if ($this->checkPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
 			$this->mineflowLinkage();
 		}else {
@@ -220,10 +228,13 @@ class Main extends PluginBase {
 		}
 	}
 
-	private function isPackaged(): bool {
+	private function checkPackaged(): bool {
 		if (str_starts_with($this->getFile(), self::PHAR_HEADER)) {
 			if (class_exists(Dependencies::PACKAGED_LIBRARY_NAMESPACE . Dependencies::PMFORMS)) {
 				return true;// PoggitCI
+			}elseif (Main::canLoadDependencyFromComposer()) {
+				Main::loadDependency();
+				return true;// GitHubActions
 			}else {
 				$message = $this->lang->translateString("error.on.enable.not.packaged");
 				$this->getLogger()->critical($message);
@@ -234,7 +245,16 @@ class Main extends PluginBase {
 			if (isset($plugins["DEVirion"])) {
 				if (class_exists(Dependencies::PMFORMS)) {
 					return true;// developer
-				}else {
+				} else {
+					$message = $this->lang->translateString("error.on.enable.not.found.virions", [implode(", ", ["pmforms"])]);
+					$this->getLogger()->critical($message);
+					return false;
+				}
+			}elseif (Main::canLoadDependencyFromComposer()) {
+				Main::loadDependency();
+				if (class_exists(Dependencies::PMFORMS)) {
+					return true;// developer
+				} else {
 					$message = $this->lang->translateString("error.on.enable.not.found.virions", [implode(", ", ["pmforms"])]);
 					$this->getLogger()->critical($message);
 					return false;

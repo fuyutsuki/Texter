@@ -94,7 +94,7 @@ jobs:
       - name: Tagging commit
         id: tagging-commit
         env:
-          TAG_NAME: release/v${{ steps.check-texter-version.outputs.VER }}(${{ steps.check-short-sha.outputs.SHA }})
+          TAG_NAME: v${{ steps.check-texter-version.outputs.VER }}(${{ steps.check-short-sha.outputs.SHA }})
         run: |
           git tag ${TAG_NAME}
           git push origin ${TAG_NAME}

@@ -4,25 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de59c2e56ce5543656d96dff935da55b",
+    "content-hash": "d043f5b2779700c455378d2467d15e62",
     "packages": [
-        {
-            "name": "aieuo/mineflow",
-            "version": "2.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aieuo/Mineflow",
-                "reference": "8c69fb5bbcec5def813148be9e8f01184c1c2d8b"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "aieuo\\mineflow\\": [
-                        "src/aieuo/Mineflow"
-                    ]
-                }
-            }
-        },
         {
             "name": "dktapps-pm-pl/pmforms",
             "version": "2.0.0",
@@ -100,6 +83,23 @@
                 }
             ],
             "time": "2022-10-02T11:22:07+00:00"
+        },
+        {
+            "name": "aieuo/mineflow",
+            "version": "2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aieuo/Mineflow",
+                "reference": "8c69fb5bbcec5def813148be9e8f01184c1c2d8b"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "aieuo\\mineflow\\": [
+                        "src/aieuo/Mineflow"
+                    ]
+                }
+            }
         },
         {
             "name": "brick/math",

@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - dev/*
+  pull_request:
+
+jobs:
+  build-php:
+    name: Prepare PHP
+    runs-on: ${{ matrix.image }}
+
+    strategy:
+      matrix:
+        image:
+          - ubuntu-20.04
+        php:
+          - 8.2.1
+
+    steps:
+      - name: Build and prepare PHP cache
+        uses: pmmp/setup-php-action@4d1b890176aa299211f4ccae76ddbf9bd008bbd6
+        with:
+          php-version: ${{ matrix.php }}
+          install-path: "./bin"
+          pm-version-major: "4"
+
+
+  phpstan:
+    name: PHPStan analysis
+    needs: build-php
+    runs-on: ${{ matrix.image }}
+
+    strategy:
+      matrix:
+        image:
+          - ubuntu-20.04
+        php:
+          - 8.2.1
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: pmmp/setup-php-action@4d1b890176aa299211f4ccae76ddbf9bd008bbd6
+        with:
+          php-version: ${{ matrix.php }}
+          install-path: "./bin"
+          pm-version-major: "4"
+
+      - name: Install Composer
+        run: curl -sS https://getcomposer.org/installer | php
+
+      - name: Restore Composer package cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/composer/files
+            ~/.cache/composer/vcs
+          key: "composer-v2-cache-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}"
+          restore-keys: |
+            composer-v2-cache-
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Analyze with PHPStan
+        run: ./vendor/bin/phpstan analyze --no-progress --memory-limit=2G

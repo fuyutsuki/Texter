@@ -1,3 +1,6 @@
+# Composer
+/vendor/
+
 # Intellij IDEA
 /.idea
 

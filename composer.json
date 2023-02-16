@@ -1,0 +1,64 @@
+{
+	"name": "fuyutsuki/texter",
+	"description": "Texter is a plugin for PocketMine-MP that supports multiple worlds and allows you to add, edit, move, and delete FloatingText.",
+	"type": "project",
+	"license": "NCSA",
+	"authors": [
+		{
+			"name": "yuko fuyutsuki",
+			"email": "yukofuyutsuki@gmail.com"
+		}
+	],
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "aieuo/mineflow",
+				"version": "2.12.0",
+				"source": {
+					"type": "git",
+					"url": "https://github.com/aieuo/Mineflow",
+					"reference": "8c69fb5bbcec5def813148be9e8f01184c1c2d8b"
+				},
+				"autoload": {
+					"psr-4": {
+						"aieuo\\mineflow\\": ["src/aieuo/mineflow"]
+					}
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "dktapps-pm-pl/pmforms",
+				"version": "2.0.0",
+				"source": {
+					"type": "git",
+					"url": "https://github.com/dktapps-pm-pl/pmforms",
+					"reference": "93cbd7b97a80d6edc54d9c8c8f58cea09ec3b47f"
+				},
+				"autoload": {
+					"psr-4": {
+						"dktapps\\pmforms\\": ["src/dktapps/pmforms"]
+					}
+				}
+			}
+		}
+	],
+	"require": {
+		"dktapps-pm-pl/pmforms": "^2.0.0"
+	},
+	"require-dev": {
+		"aieuo/mineflow": "^2.12.0",
+		"phpstan/phpstan": "^1.9",
+		"pocketmine/pocketmine-mp": "^4.14"
+	},
+	"autoload": {
+		"psr-4": {
+			"jp\\mcbe\\fuyutsuki\\Texter\\": ["src"]
+		}
+	},
+	"config": {
+		"sort-packages": true
+	}
+}

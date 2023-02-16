@@ -19,6 +19,7 @@ use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
+use pocketmine\network\mcpe\protocol\types\AbilitiesData;
 use pocketmine\network\mcpe\protocol\types\command\CommandPermissions;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
@@ -143,7 +144,7 @@ class FloatingText implements Sendable {
 						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
 					],
 					new PropertySyncData([], []),
-					UpdateAbilitiesPacket::create(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, []),
+					UpdateAbilitiesPacket::create(new AbilitiesData(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, [])),
 					[],
 					"",
 					DeviceOS::UNKNOWN

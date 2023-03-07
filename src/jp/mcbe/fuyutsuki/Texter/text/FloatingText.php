@@ -9,10 +9,13 @@ use http\Exception\InvalidArgumentException;
 use jp\mcbe\fuyutsuki\Texter\mineflow\variable\FloatingTextObjectVariable;
 use jp\mcbe\fuyutsuki\Texter\util\dependencies\Mineflow;
 use JsonException;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Skin;
 use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\convert\RuntimeBlockMapping;
 use pocketmine\network\mcpe\convert\SkinAdapterSingleton;
+use pocketmine\network\mcpe\protocol\AddActorPacket;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
@@ -22,9 +25,12 @@ use pocketmine\network\mcpe\protocol\SetActorDataPacket;
 use pocketmine\network\mcpe\protocol\types\AbilitiesData;
 use pocketmine\network\mcpe\protocol\types\command\CommandPermissions;
 use pocketmine\network\mcpe\protocol\types\DeviceOS;
+use pocketmine\network\mcpe\protocol\types\entity\ByteMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
 use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\IntMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
@@ -109,51 +115,32 @@ class FloatingText implements Sendable {
 		switch ($type) {
 			# HACK: BlameMojuncrosoft
 			case SendType::ADD():
-				$uuid = Uuid::uuid4();
-
-				$apk = PlayerListPacket::add([
-					PlayerListEntry::createAdditionEntry(
-						$uuid,
-						$this->actorRuntimeId,
-						"",
-						SkinAdapterSingleton::get()->toSkinData(new Skin(
-							"Standard_Custom",
-							str_repeat("\x00", 8192),
-							"",
-							"geometry.humanoid.custom"
-						))
-					)
-				]);
-
-				$pk = AddPlayerPacket::create(
-					$uuid,
-					$this->replaceVariables($player),
+				$pk = AddActorPacket::create(
+					Entity::nextRuntimeId(),
 					$this->actorRuntimeId,
-					"",
+					EntityIds::FALLING_BLOCK,
 					$this->position,
 					null,
 					0.0,
 					0.0,
 					0.0,
-					ItemStackWrapper::legacy(ItemStack::null()),
-					GameMode::ADVENTURE()->id(),
+					0.0,
+					[],
 					[
 						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
 							EntityMetadataFlags::IMMOBILE => true,
 						]),
-						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.01), //zero causes problems on debug builds
+						EntityMetadataProperties::BOUNDING_BOX_WIDTH => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::BOUNDING_BOX_HEIGHT => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->replaceVariables($player)),
+						EntityMetadataProperties::VARIANT => new IntMetadataProperty(RuntimeBlockMapping::getInstance()->toRuntimeId(VanillaBlocks::AIR()->getFullId())),
+						EntityMetadataProperties::ALWAYS_SHOW_NAMETAG => new ByteMetadataProperty(1),
 					],
 					new PropertySyncData([], []),
-					UpdateAbilitiesPacket::create(new AbilitiesData(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, [])),
-					[],
-					"",
-					DeviceOS::UNKNOWN
+					[]
 				);
-
-				$rpk = PlayerListPacket::remove([
-					PlayerListEntry::createRemovalEntry($uuid),
-				]);
-				$pks = [$apk, $pk, $rpk];
+				$pks = [$pk];
 				break;
 
 			case SendType::EDIT():

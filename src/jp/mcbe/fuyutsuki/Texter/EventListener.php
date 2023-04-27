@@ -85,7 +85,7 @@ class EventListener implements Listener {
 				if (isset($pk->commandData[TexterCommand::NAME])) {
 					$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
 					$texterCommand = $pk->commandData[TexterCommand::NAME];
-					$texterCommand->commandDescription = TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION);
+					$texterCommand->description = TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION);
 				}
 			}
 		}

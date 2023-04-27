@@ -1,5 +1,15 @@
 # 4.x changelog
 
+### 4.2.x
+
+#### :arrow_heading_up: follow PMMP changes
+
+- Added support for PMMP 4.20.x (Minecraft 1.19.80~)
+
+#### :bug: bug fixes
+
+- Fixed a server crash when a player entered the server.
+
 ## 4.1.x
 
 ### 4.1.9

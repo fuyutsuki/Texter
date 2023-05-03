@@ -1,6 +1,8 @@
 # 4.x changelog
 
-### 4.2.x
+## 4.1.x
+
+### 4.1.10
 
 #### :arrow_heading_up: follow PMMP changes
 
@@ -9,8 +11,6 @@
 #### :bug: bug fixes
 
 - Fixed a server crash when a player entered the server.
-
-## 4.1.x
 
 ### 4.1.9
 

@@ -12,7 +12,7 @@ use JsonException;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Skin;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\convert\SkinAdapterSingleton;
+use pocketmine\network\mcpe\convert\TypeConverter;
 use pocketmine\network\mcpe\protocol\AddPlayerPacket;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
@@ -116,7 +116,7 @@ class FloatingText implements Sendable {
 						$uuid,
 						$this->actorRuntimeId,
 						"",
-						SkinAdapterSingleton::get()->toSkinData(new Skin(
+						TypeConverter::getInstance()->getSkinAdapter()->toSkinData(new Skin(
 							"Standard_Custom",
 							str_repeat("\x00", 8192),
 							"",

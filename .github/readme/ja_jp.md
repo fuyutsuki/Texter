@@ -51,20 +51,6 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 
 **浮き文字の改行の際には `#` を文中に挿入してください。**
 
-#### 変数
-
-[Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow)を導入している場合、浮き文字に変数を適用することが出来ます。
-
-|変数名|型|使用できるプロパティ|
-|:----|:-|:----------------|
-|`server_name`|string||
-|`microtime`|number||
-|`time`|string||
-|`date`|string||
-|`default_world`|string||
-|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
-
 
 :symbols: 言語
 -----------------------------------------

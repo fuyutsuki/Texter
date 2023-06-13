@@ -51,20 +51,6 @@ Tất cả các lệnh điều có quyền đặt thành `texter.command.txt` (c
 
 **Vui lòng thêm `#` để xuống hàng**.
 
-#### Biến
-
-Nếu bạn đã tải [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), bạn có thể thêm biến vào chữ nổi.
-
-|Tên|Kiểu dữ liệu|Có sẵn|
-|:----|:-|:----------------|
-|`server_name`|string||
-|`microtime`|number||
-|`time`|string||
-|`date`|string||
-|`default_world`|string||
-|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Position without world), spacing(Position without world)`|
-
 
 :symbols: Ngôn ngữ
 -----------------------------------------

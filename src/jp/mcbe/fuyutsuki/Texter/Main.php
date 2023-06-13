@@ -27,18 +27,14 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter;
 
-use aieuo\mineflow\Main as MineflowMain;
-use aieuo\mineflow\variable\DefaultVariables;
 use Exception;
 use jp\mcbe\fuyutsuki\Texter\command\TexterCommand;
 use jp\mcbe\fuyutsuki\Texter\data\ConfigData;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\data\OldFloatingTextData;
-use jp\mcbe\fuyutsuki\Texter\i18n\MineflowLang;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\task\CheckUpdateTask;
 use jp\mcbe\fuyutsuki\Texter\util\dependencies\Dependencies;
-use jp\mcbe\fuyutsuki\Texter\util\dependencies\Mineflow;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
@@ -80,7 +76,6 @@ class Main extends PluginBase {
 		$pluginManager = $this->getServer()->getPluginManager();
 		if ($this->checkPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
-			$this->mineflowLinkage();
 		}else {
 			$pluginManager->disablePlugin($this);
 		}
@@ -96,18 +91,13 @@ class Main extends PluginBase {
 
 		$resources = $this->getResources();
 		foreach ($resources as $resource) {
-			$folderName = $this->getFileName($resource->getPath());
 			$fileName = $resource->getFileName();
 			$extension = $this->getFileExtension($fileName);
+
 			if ($extension !== TexterLang::LANGUAGE_EXTENSION) continue;
 
-			if ($folderName === "mineflow") {
-				$lang = new MineflowLang($resource);
-				$this->getLogger()->debug("Loaded language file: $folderName\\{$lang->getLang()}.ini");
-			}else {
-				$lang = new TexterLang($resource);
-				$this->getLogger()->debug("Loaded language file: {$lang->getLang()}.ini");
-			}
+			$lang = new TexterLang($resource);
+			$this->getLogger()->debug("Loaded language file: {$lang->getLang()}.ini");
 		}
 		TexterLang::setConsoleLocale($this->config->getLocale());
 		$this->lang = TexterLang::fromConsole();
@@ -211,20 +201,6 @@ class Main extends PluginBase {
 		}else {
 			$message = $this->lang->translateString("on.load.update.offline");
 			$this->getLogger()->notice($message);
-		}
-	}
-
-	private function mineflowLinkage() {
-		$mineflow = $this->getServer()->getPluginManager()->getPlugin(Dependencies::SOFT_MINEFLOW);
-		if ($mineflow !== null) {
-			/** @var MineflowMain $mineflow */
-			Mineflow::setAvailable();
-
-			$variableHelper = $mineflow::getVariableHelper();
-			foreach (DefaultVariables::getServerVariables() as $varName => $defaultVariable) {
-				$variableHelper->add($varName, $defaultVariable);
-			}
-			Mineflow::setVariableHelper($variableHelper);
 		}
 	}
 

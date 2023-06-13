@@ -52,7 +52,7 @@ class EventListener implements Listener {
 	public function onJoinPlayer(PlayerJoinEvent $ev) {
 		$player = $ev->getPlayer();
 		$world = $player->getWorld();
-		$sendTask = new SendTextsTask($player, $world, SendType::ADD());
+		$sendTask = new SendTextsTask($player, $world, SendType::ADD);
 		$this->plugin->getScheduler()->scheduleDelayedRepeatingTask($sendTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 	}
 
@@ -70,8 +70,8 @@ class EventListener implements Listener {
 		if ($entity instanceof Player) {
 			$from = $ev->getFrom()->getWorld();
 			$to = $ev->getTo()->getWorld();
-			$removeTask = new SendTextsTask($entity, $from, SendType::REMOVE());
-			$addTask = new SendTextsTask($entity, $to, SendType::ADD());
+			$removeTask = new SendTextsTask($entity, $from, SendType::REMOVE);
+			$addTask = new SendTextsTask($entity, $to, SendType::ADD);
 			$scheduler = $this->plugin->getScheduler();
 			$scheduler->scheduleDelayedRepeatingTask($removeTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 			$scheduler->scheduleDelayedRepeatingTask($addTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);

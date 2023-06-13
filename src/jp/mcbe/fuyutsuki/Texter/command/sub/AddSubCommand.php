@@ -55,7 +55,7 @@ class AddSubCommand extends TexterSubCommand {
 
 		if ($floatingTextData->notExistsFloatingText($this->name)) {
 			$floatingText = new FloatingTextCluster($player->getPosition()->up(), $this->name, null, [$this->text]);
-			$floatingText->sendToWorld($world, SendType::ADD());
+			$floatingText->sendToWorld($world, SendType::ADD);
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
 			FloatingTextSession::remove(strtolower($player->getName()));

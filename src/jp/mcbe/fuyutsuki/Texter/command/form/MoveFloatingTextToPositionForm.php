@@ -62,7 +62,7 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 				$floatingText = $floatingTextData->floatingText($this->name);
 				$floatingText->setPosition($position);
 				$floatingText->recalculatePosition();
-				$floatingText->sendToWorld($world, SendType::MOVE());
+				$floatingText->sendToWorld($world, SendType::MOVE);
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();
 				$player->sendMessage(Main::prefix() . " " . $this->lang->translateString("command.txt.move.success", [

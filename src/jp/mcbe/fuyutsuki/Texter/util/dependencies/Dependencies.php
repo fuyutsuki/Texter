@@ -10,8 +10,6 @@ final class Dependencies {
 
 	use Imconstructable;
 
-	public const SOFT_MINEFLOW = "Mineflow";
-
 	public const PLUGIN_NAMESPACE = "\\jp\\mcbe\\fuyutsuki\\Texter";
 
 	public const PACKAGED_LIBRARY_NAMESPACE = self::PLUGIN_NAMESPACE . "\\libs";

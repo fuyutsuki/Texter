@@ -43,7 +43,7 @@ class MoveSubCommand extends TexterSubCommand {
 			$floatingText = $floatingTextData->floatingText($this->name);
 			$floatingText->setPosition($position);
 			$floatingText->recalculatePosition();
-			$floatingText->sendToWorld($world, SendType::MOVE());
+			$floatingText->sendToWorld($world, SendType::MOVE);
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.move.success", [

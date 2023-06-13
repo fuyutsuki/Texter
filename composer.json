@@ -7,35 +7,21 @@
 		{
 			"name": "yuko fuyutsuki",
 			"email": "yukofuyutsuki@gmail.com"
+		},
+		{
+			"name": "xxFLORII"
 		}
 	],
 	"repositories": [
 		{
 			"type": "package",
 			"package": {
-				"name": "aieuo/mineflow",
-				"version": "2.12.0",
-				"source": {
-					"type": "git",
-					"url": "https://github.com/aieuo/Mineflow",
-					"reference": "8c69fb5bbcec5def813148be9e8f01184c1c2d8b"
-				},
-				"autoload": {
-					"psr-4": {
-						"aieuo\\mineflow\\": ["src/aieuo/mineflow"]
-					}
-				}
-			}
-		},
-		{
-			"type": "package",
-			"package": {
 				"name": "dktapps-pm-pl/pmforms",
-				"version": "2.0.0",
+				"version": "dev-master",
 				"source": {
 					"type": "git",
 					"url": "https://github.com/dktapps-pm-pl/pmforms",
-					"reference": "93cbd7b97a80d6edc54d9c8c8f58cea09ec3b47f"
+					"reference": "master"
 				},
 				"autoload": {
 					"psr-4": {
@@ -46,12 +32,11 @@
 		}
 	],
 	"require": {
-		"dktapps-pm-pl/pmforms": "^2.0.0"
+		"dktapps-pm-pl/pmforms": "dev-master"
 	},
 	"require-dev": {
-		"aieuo/mineflow": "^2.12.0",
-		"phpstan/phpstan": "^1.9",
-		"pocketmine/pocketmine-mp": "^5"
+		"phpstan/phpstan": "^1.10",
+		"pocketmine/pocketmine-mp": "^5.1"
 	},
 	"autoload": {
 		"psr-4": {

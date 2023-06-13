@@ -64,7 +64,7 @@ class TexterCommand extends Command implements PluginOwned {
 
 	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
 		$plugin = $this->getOwningPlugin();
-		if ($plugin->isDisabled() || !$this->testPermission($sender)) return false;
+		if (!$this->testPermission($sender)) return false;
 
 		if ($sender instanceof Player) {
 			$serverLang = $sender->getServer()->getLanguage();

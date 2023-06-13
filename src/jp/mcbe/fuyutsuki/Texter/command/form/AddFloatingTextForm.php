@@ -57,15 +57,16 @@ class AddFloatingTextForm extends CustomForm {
 		}
 
 		if (count($this->session->texts()) >= 2) {
-			$spacing = $this->session->spacing()->multiply(10)->add(30, 30, 30);
+			$spacing = $this->session->spacing()->add(0, -0.3, 0);
 			$range = range(-30, 30);
 			foreach ($range as $k => $v) {
 				$range[$k] = (string)($v/10);
 			}
+			$flipedRange = array_flip($range);
 			$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("form.add.spacing.description"));
-			$elements[] = new StepSlider(FormLabels::X, $lang->translateString("form.add.spacing.x"), $range, $spacing->getFloorX());
-			$elements[] = new StepSlider(FormLabels::Y, $lang->translateString("form.add.spacing.y"), $range, $spacing->getFloorY());
-			$elements[] = new StepSlider(FormLabels::Z, $lang->translateString("form.add.spacing.z"), $range, $spacing->getFloorZ());
+			$elements[] = new StepSlider(FormLabels::X, $lang->translateString("form.add.spacing.x"), $range, $flipedRange[(string) $spacing->getX()]);
+			$elements[] = new StepSlider(FormLabels::Y, $lang->translateString("form.add.spacing.y"), $range, $flipedRange[(string) $spacing->getY()]);
+			$elements[] = new StepSlider(FormLabels::Z, $lang->translateString("form.add.spacing.z"), $range, $flipedRange[(string) $spacing->getZ()]);
 			$elements[] = new Label(Uuid::uuid4()->getBytes(), $lang->translateString("command.txt.usage.cluster.remove"));
 		}
 

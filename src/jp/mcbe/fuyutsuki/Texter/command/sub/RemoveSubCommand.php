@@ -29,7 +29,7 @@ class RemoveSubCommand extends TexterSubCommand {
 
 		if ($floatingTextData->existsFloatingText($this->name)) {
 			$floatingText = $floatingTextData->floatingText($this->name);
-			$floatingText->sendToWorld($world, SendType::REMOVE());
+			$floatingText->sendToWorld($world, SendType::REMOVE);
 			$floatingTextData->removeFloatingText($floatingText->name());
 			$floatingTextData->save();
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.remove.success", [

@@ -91,7 +91,7 @@ class FloatingText implements Sendable {
 	public function asPackets(SendType $type): array {
 		switch ($type) {
 			# HACK: BlameMojuncrosoft
-			case SendType::ADD():
+			case SendType::ADD:
 				$uuid = Uuid::uuid4();
 
 				$apk = PlayerListPacket::add([
@@ -151,7 +151,7 @@ class FloatingText implements Sendable {
 				$pks = [$pk];
 				break;
 
-			case SendType::MOVE():
+			case SendType::MOVE:
 				$pk = MoveActorAbsolutePacket::create(
 					$this->actorRuntimeId,
 					$this->position->up()->add(0, 0.6, 0),
@@ -163,7 +163,7 @@ class FloatingText implements Sendable {
 				$pks = [$pk];
 				break;
 
-			case SendType::REMOVE():
+			case SendType::REMOVE:
 				$pk = RemoveActorPacket::create($this->actorRuntimeId);
 				$pks = [$pk];
 				break;

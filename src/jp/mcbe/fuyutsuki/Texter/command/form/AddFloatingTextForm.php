@@ -82,7 +82,7 @@ class AddFloatingTextForm extends CustomForm {
 		$elements[] = new Toggle(FormLabels::ADD_MORE, $lang->translateString("form.add.more.ft"));
 
 		parent::__construct(
-			Main::prefix() . " txt > " . ($this->session->isEdit() ? SendType::EDIT()->name() : SendType::ADD()->name()),
+			Main::prefix() . " txt > " . ($this->session->isEdit() ? SendType::EDIT->value : SendType::ADD->value),
 			$elements,
 			function(Player $player, CustomFormResponse $response): void {
 				$this->handleSubmit($player, $response);
@@ -140,15 +140,15 @@ class AddFloatingTextForm extends CustomForm {
 				$pos = $player->getPosition()->up();
 				if ($this->session->isEdit()) {
 					$floatingText = $floatingTextData->floatingText($this->session->name());
-					$floatingText->sendToWorld($world, SendType::REMOVE());
+					$floatingText->sendToWorld($world, SendType::REMOVE);
 					$pos = $floatingText->position();
 				}
 				$floatingText = new FloatingTextCluster($pos, $this->session->name(), $spacing, $this->session->texts());
-				$floatingText->sendToWorld($world, SendType::ADD());
+				$floatingText->sendToWorld($world, SendType::ADD);
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();
 				FloatingTextSession::remove(strtolower($player->getName()));
-				$operate = $this->session->isEdit() ? SendType::EDIT()->name() : SendType::ADD()->name();
+				$operate = $this->session->isEdit() ? SendType::EDIT->value : SendType::ADD->value;
 				$message = TextFormat::GREEN . $this->session->lang()->translateString("command.txt.$operate.success", [
 					$floatingText->name()
 				]);

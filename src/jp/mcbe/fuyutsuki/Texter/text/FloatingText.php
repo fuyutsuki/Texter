@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
-use aieuo\mineflow\variable\DefaultVariables;
 use http\Exception\InvalidArgumentException;
-use jp\mcbe\fuyutsuki\Texter\mineflow\variable\FloatingTextObjectVariable;
-use jp\mcbe\fuyutsuki\Texter\util\dependencies\Mineflow;
 use JsonException;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Skin;
@@ -86,26 +83,12 @@ class FloatingText implements Sendable {
 		$this->parent = $parent;
 	}
 
-	public function replaceVariables(Player $player): string {
-		$text = $this->text;
-		if (Mineflow::isAvailable()) {
-			$helper = Mineflow::variableHelper();
-			if ($helper->containsVariable($text)) {
-				$variables = DefaultVariables::getPlayerVariables($player, "player")
-					+ [FloatingTextObjectVariable::DEFAULT_NAME => new FloatingTextObjectVariable($this->parent)];
-				$text = $helper->replaceVariables($text, $variables);
-			}
-		}
-		return $text;
-	}
-
 	/**
-	 * @param Player $player
 	 * @param SendType $type
 	 * @return ClientboundPacket[]
 	 * @throws JsonException
 	 */
-	public function asPackets(Player $player, SendType $type): array {
+	public function asPackets(SendType $type): array {
 		switch ($type) {
 			# HACK: BlameMojuncrosoft
 			case SendType::ADD():
@@ -127,7 +110,7 @@ class FloatingText implements Sendable {
 
 				$pk = AddPlayerPacket::create(
 					$uuid,
-					$this->replaceVariables($player),
+					$this->text,
 					$this->actorRuntimeId,
 					"",
 					$this->position,
@@ -156,11 +139,11 @@ class FloatingText implements Sendable {
 				$pks = [$apk, $pk, $rpk];
 				break;
 
-			case SendType::EDIT():
+			case SendType::EDIT:
 				$pk = SetActorDataPacket::create(
 					$this->actorRuntimeId,
 					[
-						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->replaceVariables($player)),
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
 					],
 					new PropertySyncData([], []),
 					0
@@ -192,7 +175,7 @@ class FloatingText implements Sendable {
 	}
 
 	public function sendToPlayer(Player $player, SendType $type): void {
-		$pks = $this->asPackets($player, $type);
+		$pks = $this->asPackets($type);
 		foreach ($pks as $pk) {
 			$player->getNetworkSession()->sendDataPacket($pk);
 		}

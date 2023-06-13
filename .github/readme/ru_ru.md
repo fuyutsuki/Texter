@@ -49,20 +49,6 @@ Texter - это плагин для [PocketMine-MP](https://github.com/pmmp/Pock
 
 **Пожалуйста, используйте `#` для переноса строк**.
 
-#### Переменные
-
-Если у Вас установлен [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), то появится возможность использовать переменные в летающем тексте.
-
-|название|тип|доступные свойства|
-|:----|:-|:----------------|
-|`server_name`|строка||
-|`microtime`|число||
-|`time`|строка||
-|`date`|строка||
-|`default_world`|строка||
-|`player`|Игрок|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|Летающий текст|`name(строка), pos(Vector3), spacing(Vector3), texts(список)`|
-
 
 :symbols: Язык
 -----------------------------------------

@@ -49,20 +49,6 @@ All commands have permissions set to `texter.command.txt` (OP only).
 
 **Please insert `#` for line breaks**.
 
-#### Variables
-
-If you have installed [Mineflow >= 2.0](https://poggit.pmmp.io/p/Mineflow), you can apply variables to floating characters.
-
-|name|type|available properties|
-|:----|:-|:----------------|
-|`server_name`|string||
-|`microtime`|number||
-|`time`|string||
-|`date`|string||
-|`default_world`|string||
-|`player`|Player|[Mineflow#Player](https://github.com/aieuo/Mineflow#player)|
-|`ft`|FloatingText|`name(string), pos(Vector3), spacing(Vector3), texts(list)`|
-
 
 :symbols: Language
 -----------------------------------------

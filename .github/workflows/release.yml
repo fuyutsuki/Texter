@@ -108,8 +108,10 @@ jobs:
           php-version: ${{ matrix.php }}
           install-path: "./bin"
           pm-version-major: "5"
-      - uses: SOF3/pharynx@0.3.2
+      - uses: SOF3/pharynx@v0.1
         id: pharynx
+        with:
+          pharynx-version: "0.3.2"
       - uses: actions/upload-artifact@v3
         with:
           name: plugin.phar

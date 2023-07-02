@@ -67,6 +67,7 @@ jobs:
 
       - name: Build plugin Phar
         run: |
+          rm -rf bin
           mkdir build
           php -dphar.readonly=0 DevTools/stub.php --make . --out "build/Texter_v${{ steps.check-texter-version.outputs.VER }}.phar"
 
@@ -103,8 +104,5 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
-      - uses: SOF3/pharynx@v0.1
-        id: pharynx
-        with:
-          pharynx-version: "0.3.2"
+          php-version: ${{ matrix.php }}
+      - uses: SOF3/pharynx@v0.2

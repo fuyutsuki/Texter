@@ -8,5 +8,6 @@ projects:
     icon: "/assets/Logo.png"
     libs:
       - src: dktapps/pmforms/pmforms
-        version: dev-master
+        version: ^2.1.0
+        branch: master
 ...

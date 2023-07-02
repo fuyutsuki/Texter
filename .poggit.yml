@@ -6,4 +6,7 @@ projects:
   Texter:
     path: ""
     icon: "/assets/Logo.png"
+    libs:
+      - src: dktapps-pm-pl/pmforms/pmforms
+        version: dev-master
 ...

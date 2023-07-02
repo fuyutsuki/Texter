@@ -87,3 +87,30 @@ jobs:
           file_glob: true
           file: build/**
           tag: ${{ steps.tagging-commit.outputs.TAG }}
+
+  pharynx:
+    name: Build PHAR for Poggit
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        image:
+          - ubuntu-20.04
+        php:
+          - 8.2
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: pmmp/setup-php-action@2.0.0
+        with:
+          php-version: ${{ matrix.php }}
+          install-path: "./bin"
+          pm-version-major: "5"
+      - uses: SOF3/pharynx@v0.2
+        id: pharynx
+      - uses: actions/upload-artifact@v3
+        with:
+          name: plugin.phar
+          path: ${{steps.pharynx.outputs.output-phar}}

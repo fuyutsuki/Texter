@@ -1,7 +1,7 @@
 {
 	"name": "fuyutsuki/texter",
 	"description": "Texter is a plugin for PocketMine-MP that supports multiple worlds and allows you to add, edit, move, and delete FloatingText.",
-	"type": "project",
+	"type": "pocketmine-plugin",
 	"license": "NCSA",
 	"authors": [
 		{
@@ -36,12 +36,16 @@
 	},
 	"require-dev": {
 		"phpstan/phpstan": "^1.10",
-		"pocketmine/pocketmine-mp": "^5.1"
+		"pocketmine/pocketmine-mp": "^5.1",
+		"sof3/pharynx": "^0.3.2"
 	},
 	"autoload": {
 		"psr-4": {
 			"jp\\mcbe\\fuyutsuki\\Texter\\": ["src"]
 		}
+	},
+	"scripts": {
+		"build": "php -dphar.readonly=0 vendor/bin/pharynx -i=. -c -p=Timer.phar"
 	},
 	"config": {
 		"sort-packages": true

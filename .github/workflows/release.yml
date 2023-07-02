@@ -67,7 +67,6 @@ jobs:
 
       - name: Build plugin Phar
         run: |
-          rm -rf bin
           mkdir build
           php -dphar.readonly=0 DevTools/stub.php --make . --out "build/Texter_v${{ steps.check-texter-version.outputs.VER }}.phar"
 

@@ -44,6 +44,9 @@
 			"jp\\mcbe\\fuyutsuki\\Texter\\": ["src"]
 		}
 	},
+	"scripts": {
+		"build": "php -dphar.readonly=0 vendor/bin/pharynx -i=. -c -p=Timer.phar"
+	},
 	"config": {
 		"sort-packages": true
 	}

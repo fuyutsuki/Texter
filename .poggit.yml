@@ -7,6 +7,6 @@ projects:
     path: ""
     icon: "/assets/Logo.png"
     libs:
-      - src: dktapps-pm-pl/pmforms/pmforms
+      - src: dktapps/pmforms/pmforms
         version: dev-master
 ...

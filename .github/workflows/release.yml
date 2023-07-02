@@ -92,4 +92,4 @@ jobs:
         uses: SOF3/pharynx@v0.1
         id: pharynx
         with:
-          pharynx-version: "0.3.2"
+          pharynx-version: "0.3.0"

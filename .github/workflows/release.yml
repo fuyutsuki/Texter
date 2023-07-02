@@ -87,8 +87,24 @@ jobs:
           file: build/**
           tag: ${{ steps.tagging-commit.outputs.TAG }}
 
-      - name: Upload build on Poggit
-        uses: SOF3/pharynx@v0.1
+  pharynx:
+    name: Build PHAR for Poggit
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        image:
+          - ubuntu-20.04
+        php:
+          - 8.2
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+      - uses: SOF3/pharynx@v0.1
         id: pharynx
         with:
-          pharynx-version: "0.3.0"
+          pharynx-version: "0.3.2"

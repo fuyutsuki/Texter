@@ -111,7 +111,7 @@ jobs:
       - uses: SOF3/pharynx@v0.1
         id: pharynx
         with:
-          pharynx-version: "0.3.2"
+          pharynx-version: "0.3.0"
       - uses: actions/upload-artifact@v3
         with:
           name: plugin.phar

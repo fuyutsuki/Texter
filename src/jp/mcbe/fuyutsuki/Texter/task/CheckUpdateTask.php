@@ -46,8 +46,11 @@ class CheckUpdateTask extends AsyncTask {
 		if ($plugin !== null && $plugin->isEnabled()) {
 			/** @var Main $plugin */
 			$data = $this->getResult();
-			if (isset($data["name"], $data["html_url"])) {
-				$ver = new VersionString($data["name"]);
+			if (isset($data["tag_name"], $data["html_url"])) {
+				$pattern = "/(?<=v)\d+\.\d+\.\d+/";
+				preg_match($pattern, $data["tag_name"], $version);
+
+				$ver = new VersionString($version[0]);
 				$plugin->compareVersion(true, $ver, $data["html_url"]);
 			}else {
 				$plugin->compareVersion(false);

@@ -1,9 +1,1 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fuyutsuki/Texter
-branches:
-  - master
-  - dev/4.2
-projects:
-  Texter:
-    path: ""
-    icon: "/assets/Logo.png"
-...
+{"projects":{"Texter":{"path":".","lint":false}}}

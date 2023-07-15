@@ -57,7 +57,10 @@ class AddFloatingTextForm extends CustomForm {
 		}
 
 		if (count($this->session->texts()) >= 2) {
-			$spacing = $this->session->spacing()->add(0, -0.3, 0);
+			$spacing = $this->session->spacing();
+			if ($spacing->equals(Vector3::zero())) {
+				$spacing = $spacing->add(0, -0.3, 0);
+			}
 			$range = range(-30, 30);
 			foreach ($range as $k => $v) {
 				$range[$k] = (string)($v/10);

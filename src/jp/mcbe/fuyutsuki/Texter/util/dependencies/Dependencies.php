@@ -12,7 +12,7 @@ final class Dependencies {
 
 	public const PLUGIN_NAMESPACE = "\\jp\\mcbe\\fuyutsuki\\Texter";
 
-	public const PACKAGED_LIBRARY_NAMESPACE = self::PLUGIN_NAMESPACE . "\\libs";
+	public const PHARYNX_LIBRARY_DIR = "\\libs";
 	public const PMFORMS = "\\dktapps\\pmforms\\BaseForm";
 
 }

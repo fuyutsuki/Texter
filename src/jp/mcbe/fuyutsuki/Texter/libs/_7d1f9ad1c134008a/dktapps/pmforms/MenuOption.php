@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms;
 
 /**
  * Represents an option on a MenuForm. The option is shown as a button and may optionally have an image next to it.

@@ -21,40 +21,56 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element;
 
 use pocketmine\form\FormValidationException;
 use function gettype;
-use function is_bool;
+use function is_string;
 
 /**
- * Represents a UI on/off switch. The switch may have a default value.
+ * Element which accepts text input. The text-box can have a default value, and may also have a text hint when there is
+ * no text in the box.
  */
-class Toggle extends CustomFormElement{
-	/** @var bool */
+class Input extends CustomFormElement{
+
+	/** @var string */
+	private $hint;
+	/** @var string */
 	private $default;
 
-	public function __construct(string $name, string $text, bool $defaultValue = false){
+	public function __construct(string $name, string $text, string $hintText = "", string $defaultText = ""){
 		parent::__construct($name, $text);
-		$this->default = $defaultValue;
+		$this->hint = $hintText;
+		$this->default = $defaultText;
 	}
 
 	public function getType() : string{
-		return "toggle";
-	}
-
-	public function getDefaultValue() : bool{
-		return $this->default;
+		return "input";
 	}
 
 	public function validateValue($value) : void{
-		if(!is_bool($value)){
-			throw new FormValidationException("Expected bool, got " . gettype($value));
+		if(!is_string($value)){
+			throw new FormValidationException("Expected string, got " . gettype($value));
 		}
+	}
+
+	/**
+	 * Returns the text shown in the text-box when the box is not focused and there is no text in it.
+	 */
+	public function getHintText() : string{
+		return $this->hint;
+	}
+
+	/**
+	 * Returns the text which will be in the text-box by default.
+	 */
+	public function getDefaultText() : string{
+		return $this->default;
 	}
 
 	protected function serializeElementData() : array{
 		return [
+			"placeholder" => $this->hint,
 			"default" => $this->default
 		];
 	}

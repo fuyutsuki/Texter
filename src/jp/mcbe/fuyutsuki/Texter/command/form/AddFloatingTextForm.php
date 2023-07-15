@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\CustomForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\CustomFormResponse;
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\element\Input;
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\element\Label;
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\element\StepSlider;
-use jp\mcbe\fuyutsuki\Texter\libs\_f0436ea6965e0087\dktapps\pmforms\element\Toggle;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\CustomForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\CustomFormResponse;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element\Input;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element\Label;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element\StepSlider;
+use jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element\Toggle;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
@@ -57,7 +57,10 @@ class AddFloatingTextForm extends CustomForm {
 		}
 
 		if (count($this->session->texts()) >= 2) {
-			$spacing = $this->session->spacing()->add(0, -0.3, 0);
+			$spacing = $this->session->spacing();
+			if ($spacing->equals(Vector3::zero())) {
+				$spacing = $spacing->add(0, -0.3, 0);
+			}
 			$range = range(-30, 30);
 			foreach ($range as $k => $v) {
 				$range[$k] = (string)($v/10);

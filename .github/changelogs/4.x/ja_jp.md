@@ -2,6 +2,12 @@
 
 ## 4.2.x
 
+### 4.2.1
+
+#### :arrow_heading_up: PMMPの変更に追従
+
+- PMMP 5.3.x (Minecraft 1.20.10~) に対応しました
+
 ### 4.2.0
 
 #### :arrow_heading_up: PMMPの変更に追従

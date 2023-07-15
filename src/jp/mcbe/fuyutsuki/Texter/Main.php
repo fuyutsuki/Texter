@@ -39,11 +39,10 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
 use function array_key_last;
-use function class_exists;
 use function explode;
 use function file_exists;
 use function glob;
-use function implode;
+use function is_dir;
 use function mkdir;
 use function str_starts_with;
 
@@ -205,42 +204,18 @@ class Main extends PluginBase {
 	}
 
 	private function checkPackaged(): bool {
-		if (str_starts_with($this->getFile(), self::PHAR_HEADER)) {
-			if (class_exists(Dependencies::PACKAGED_LIBRARY_NAMESPACE . Dependencies::PMFORMS)) {
-				return true;// PoggitCI
-			}elseif (Main::canLoadDependencyFromComposer()) {
-				Main::loadDependency();
-				return true;// GitHubActions
-			}else {
-				$message = $this->lang->translateString("error.on.enable.not.packaged");
-				$this->getLogger()->critical($message);
-				return false;
-			}
-		}else {
-			$plugins = $this->getServer()->getPluginManager()->getPlugins();
-			if (isset($plugins["DEVirion"])) {
-				if (class_exists(Dependencies::PMFORMS)) {
-					return true;// developer
-				} else {
-					$message = $this->lang->translateString("error.on.enable.not.found.virions", [implode(", ", ["pmforms"])]);
-					$this->getLogger()->critical($message);
-					return false;
-				}
-			}elseif (Main::canLoadDependencyFromComposer()) {
-				Main::loadDependency();
-				if (class_exists(Dependencies::PMFORMS)) {
-					return true;// developer
-				} else {
-					$message = $this->lang->translateString("error.on.enable.not.found.virions", [implode(", ", ["pmforms"])]);
-					$this->getLogger()->critical($message);
-					return false;
-				}
-			}else {
-				$message = $this->lang->translateString("error.on.enable.not.packaged");
-				$this->getLogger()->critical($message);
-				return false;
+		if ($this->isPhar() && $this->isPackagedByPharynx()) {
+			return true; // pharynx
+		}elseif (Main::canLoadDependencyFromComposer()) {
+			Main::loadDependency();
+			if (class_exists(Dependencies::PMFORMS)) {
+				return true; // developer
 			}
 		}
+
+		$message = $this->lang->translateString("error.on.enable.not.packaged");
+		$this->getLogger()->critical($message);
+		return false;
 	}
 
 	private function unlinkRecursive(string $dir): bool {
@@ -268,6 +243,14 @@ class Main extends PluginBase {
 
 	private function findWorldsPath(): array {
 		return glob($this->getWorldsPath() . "*");
+	}
+
+	private function isPhar(): bool {
+		return str_starts_with($this->getFile(), self::PHAR_HEADER);
+	}
+
+	private function isPackagedByPharynx(): bool {
+		return is_dir($this->getFile() . Dependencies::PHARYNX_LIBRARY_DIR);
 	}
 
 	public static function prefix(): string {

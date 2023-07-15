@@ -21,41 +21,18 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_7d1f9ad1c134008a\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\element;
 
-use pocketmine\form\FormValidationException;
-use function gettype;
-use function is_bool;
-
-/**
- * Represents a UI on/off switch. The switch may have a default value.
- */
-class Toggle extends CustomFormElement{
-	/** @var bool */
-	private $default;
-
-	public function __construct(string $name, string $text, bool $defaultValue = false){
-		parent::__construct($name, $text);
-		$this->default = $defaultValue;
-	}
+class Dropdown extends BaseSelector{
 
 	public function getType() : string{
-		return "toggle";
-	}
-
-	public function getDefaultValue() : bool{
-		return $this->default;
-	}
-
-	public function validateValue($value) : void{
-		if(!is_bool($value)){
-			throw new FormValidationException("Expected bool, got " . gettype($value));
-		}
+		return "dropdown";
 	}
 
 	protected function serializeElementData() : array{
 		return [
-			"default" => $this->default
+			"options" => $this->options,
+			"default" => $this->defaultOptionIndex
 		];
 	}
 }

@@ -2,6 +2,12 @@
 
 ## 4.2.x
 
+### 4.2.1
+
+#### :arrow_heading_up: follow PMMP changes
+
+- Added support for PMMP 5.3.x (Minecraft 1.20.10~)
+
 ### 4.2.0
 
 #### :arrow_heading_up: follow PMMP changes

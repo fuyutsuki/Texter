@@ -250,7 +250,7 @@ class Main extends PluginBase {
 	}
 
 	private function isPackagedByPharynx(): bool {
-		return is_dir($this->getFile() . Dependencies::PHARYNX_LIBRARY_DIR);
+		return is_file($this->getFile() . Dependencies::PACKAGED_POGGIT_FILE);
 	}
 
 	public static function prefix(): string {

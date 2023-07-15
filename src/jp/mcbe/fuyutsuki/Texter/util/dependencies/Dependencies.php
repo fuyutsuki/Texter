@@ -10,9 +10,7 @@ final class Dependencies {
 
 	use Imconstructable;
 
-	public const PLUGIN_NAMESPACE = "\\jp\\mcbe\\fuyutsuki\\Texter";
-
-	public const PHARYNX_LIBRARY_DIR = "\\libs";
+	public const PACKAGED_POGGIT_FILE = ".poggit";
 	public const PMFORMS = "\\dktapps\\pmforms\\BaseForm";
 
 }

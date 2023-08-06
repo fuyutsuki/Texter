@@ -119,7 +119,7 @@ class FloatingText implements Sendable {
 					0.0,
 					0.0,
 					ItemStackWrapper::legacy(ItemStack::null()),
-					GameMode::ADVENTURE()->id(),
+					0,
 					[
 						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
 							EntityMetadataFlags::IMMOBILE => true,

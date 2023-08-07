@@ -25,12 +25,12 @@ use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\GameMode;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
 use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
 use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
 use pocketmine\network\mcpe\protocol\types\PlayerPermissions;
 use pocketmine\network\mcpe\protocol\UpdateAbilitiesPacket;
-use pocketmine\player\GameMode;
 use pocketmine\player\Player;
 use pocketmine\world\World;
 use Ramsey\Uuid\Uuid;
@@ -119,7 +119,7 @@ class FloatingText implements Sendable {
 					0.0,
 					0.0,
 					ItemStackWrapper::legacy(ItemStack::null()),
-					GameMode::ADVENTURE()->id(),
+					GameMode::ADVENTURE,
 					[
 						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
 							EntityMetadataFlags::IMMOBILE => true,

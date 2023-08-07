@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\CustomForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\CustomFormResponse;
-use jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\element\Input;
-use jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\element\Label;
+use jp\mcbe\fuyutsuki\Texter\libs\_6f9c506c1688708d\dktapps\pmforms\CustomForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_6f9c506c1688708d\dktapps\pmforms\CustomFormResponse;
+use jp\mcbe\fuyutsuki\Texter\libs\_6f9c506c1688708d\dktapps\pmforms\element\Input;
+use jp\mcbe\fuyutsuki\Texter\libs\_6f9c506c1688708d\dktapps\pmforms\element\Label;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;

@@ -21,18 +21,24 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_4686a0072a19eb56\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_6f9c506c1688708d\dktapps\pmforms\element;
 
-class StepSlider extends BaseSelector{
+use function assert;
+
+/**
+ * Element which displays some text on a form.
+ */
+class Label extends CustomFormElement{
 
 	public function getType() : string{
-		return "step_slider";
+		return "label";
+	}
+
+	public function validateValue($value) : void{
+		assert($value === null);
 	}
 
 	protected function serializeElementData() : array{
-		return [
-			"steps" => $this->options,
-			"default" => $this->defaultOptionIndex
-		];
+		return [];
 	}
 }

@@ -36,12 +36,12 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\task\CheckUpdateTask;
 use jp\mcbe\fuyutsuki\Texter\util\dependencies\Dependencies;
 use pocketmine\plugin\PluginBase;
+use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
 use function array_key_last;
 use function explode;
 use function file_exists;
-use function glob;
 use function is_dir;
 use function mkdir;
 use function str_starts_with;
@@ -67,6 +67,7 @@ class Main extends PluginBase {
 		self::setPrefix();
 		$this->loadResources();
 		$this->registerCommands();
+		$this->convertOldFloatingTexts();
 		$this->loadFloatingTexts();
 		$this->checkUpdate();
 	}
@@ -121,7 +122,7 @@ class Main extends PluginBase {
 		$this->getLogger()->info(($isCanUse ? TextFormat::GREEN : TextFormat::RED) . $message);
 	}
 
-	private function loadFloatingTexts() {
+	private function convertOldFloatingTexts() {
 		$floatingTextDir = $this->getDataFolder() . FloatingTextData::FLOATING_TEXT_DIRECTORY;
 		if (!file_exists($floatingTextDir)) {
 			mkdir($floatingTextDir, 0755, true);
@@ -142,17 +143,18 @@ class Main extends PluginBase {
 			$uftFile = new OldFloatingTextData($this, $dir, OldFloatingTextData::FILE_UFT);
 			$uftFile->convert();
 		}
+	}
 
-		$worldsPath = $this->findWorldsPath();
-		foreach ($worldsPath as $worldPath) {
-			$folderName = $this->getFileName($worldPath);
-			$floatingTextData = FloatingTextData::getInstance($folderName);
-			if ($floatingTextData === null) {
-				$floatingTextData = new FloatingTextData($this, $folderName);
-			}
-			$floatingTextData->generateFloatingTexts($this);
-			$this->getLogger()->debug("Loaded FloatingText file: $folderName.json");
-		}
+	private function loadFloatingTexts() {
+		$this->getScheduler()->scheduleDelayedTask(
+			new ClosureTask(function () {
+				$defaultWorldFolderName = $this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName();
+				$floatingTextData = new FloatingTextData($this, $defaultWorldFolderName);
+				$floatingTextData->generateFloatingTexts($this);
+				$this->getLogger()->debug("Loaded FloatingText file: $defaultWorldFolderName.json");
+			}),
+			$this->isDebug() ? 5 * 20 : 1
+		);
 	}
 
 	public function checkUpdate() {
@@ -227,22 +229,13 @@ class Main extends PluginBase {
 		return rmdir($dir);
 	}
 
-	private function getFileName(string $path): string {
-		$exploded = explode(DIRECTORY_SEPARATOR, $path);
-		return $exploded[array_key_last($exploded)];
-	}
-
 	private function getFileExtension(string $path): string {
 		$exploded = explode(".", $path);
 		return $exploded[array_key_last($exploded)];
 	}
 
-	private function getWorldsPath(): string {
-		return $this->getServer()->getDataPath() . "worlds" . DIRECTORY_SEPARATOR;
-	}
-
-	private function findWorldsPath(): array {
-		return glob($this->getWorldsPath() . "*");
+	private function isDebug(): bool {
+		return Main::canLoadDependencyFromComposer() && class_exists(Dependencies::PMFORMS);
 	}
 
 	private function isPhar(): bool {

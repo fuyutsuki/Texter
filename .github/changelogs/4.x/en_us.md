@@ -2,6 +2,18 @@
 
 ## 4.2.x
 
+### 4.2.3
+
+#### ✔ Changes
+
+- Now loads only the worlds you need when you need them (#151)
+
+### 4.2.2
+
+#### :bug: Bug fixes
+
+- Fixed a bug that WaterdogPE could not process packets properly (#148)
+
 ### 4.2.1
 
 #### :arrow_heading_up: follow PMMP changes

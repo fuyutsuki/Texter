@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\data;
 
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
-use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
 class OldFloatingTextData extends Config {
@@ -36,11 +36,12 @@ class OldFloatingTextData extends Config {
 	public const FILE_FT = "ft.json";
 	public const FILE_UFT = "uft.json";
 
-	private Plugin $plugin;
-
-	public function __construct(Plugin $plugin, string $path, string $file) {
+	public function __construct(
+		private PluginBase $plugin,
+		string $path,
+		string $file
+	) {
 		parent::__construct($path.$file, Config::JSON);
-		$this->plugin = $plugin;
 	}
 
 	public function convert() {

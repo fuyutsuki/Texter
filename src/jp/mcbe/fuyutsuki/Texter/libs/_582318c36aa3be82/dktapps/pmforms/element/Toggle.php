@@ -21,24 +21,41 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_75c42800fe7b2380\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_582318c36aa3be82\dktapps\pmforms\element;
 
-use function assert;
+use pocketmine\form\FormValidationException;
+use function gettype;
+use function is_bool;
 
 /**
- * Element which displays some text on a form.
+ * Represents a UI on/off switch. The switch may have a default value.
  */
-class Label extends CustomFormElement{
+class Toggle extends CustomFormElement{
+	/** @var bool */
+	private $default;
+
+	public function __construct(string $name, string $text, bool $defaultValue = false){
+		parent::__construct($name, $text);
+		$this->default = $defaultValue;
+	}
 
 	public function getType() : string{
-		return "label";
+		return "toggle";
+	}
+
+	public function getDefaultValue() : bool{
+		return $this->default;
 	}
 
 	public function validateValue($value) : void{
-		assert($value === null);
+		if(!is_bool($value)){
+			throw new FormValidationException("Expected bool, got " . gettype($value));
+		}
 	}
 
 	protected function serializeElementData() : array{
-		return [];
+		return [
+			"default" => $this->default
+		];
 	}
 }

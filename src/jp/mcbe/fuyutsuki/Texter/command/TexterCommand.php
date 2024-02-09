@@ -110,7 +110,7 @@ class TexterCommand extends Command implements PluginOwned {
 							if (1 <= $argsCount && $argsCount <= 3) {
 								if ($argsCount !== 2) {
 									if ($args[0] === "here") {
-										$subCommand->setPosition($sender->getPosition());
+										$subCommand->setPosition($sender->getPosition()->up());
 									}
 									if (!empty($args[0]) && !empty($args[1]) && !empty($args[2])) {
 										$subCommand->setPositionByString($args[0], $args[1], $args[2]);

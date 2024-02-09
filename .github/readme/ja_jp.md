@@ -71,3 +71,4 @@ Texterは複数ワールドに対応した、FloatingText(浮き文字)の追加
 - [ ] tr_tr(トルコ語)
 - [ ] zh_cn(中国語/簡体)
 - [ ] vi_vn(ベトナム語)
+- [x] de_de(ドイツ語)

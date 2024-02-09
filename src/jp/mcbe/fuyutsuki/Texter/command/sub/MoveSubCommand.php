@@ -25,7 +25,7 @@ class MoveSubCommand extends TexterSubCommand {
 	}
 
 	public function setPosition(Vector3 $position) {
-		$this->position = $position;
+		$this->position = $position->round(precision: 1);
 	}
 
 	public function setPositionByString(string $x, string $y, string $z) {
@@ -39,16 +39,15 @@ class MoveSubCommand extends TexterSubCommand {
 		$lang = TexterLang::fromLocale($player->getLocale());
 
 		if ($floatingTextData->existsFloatingText($this->name)) {
-			$position = $player->getPosition()->up()->round(1);
 			$floatingText = $floatingTextData->floatingText($this->name);
-			$floatingText->setPosition($position);
+			$floatingText->setPosition($this->position);
 			$floatingText->recalculatePosition();
 			$floatingText->sendToWorld($world, SendType::MOVE);
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.move.success", [
 				$this->name,
-				"x: $position->x, y: $position->y, z: $position->z"
+				"x: {$this->position->x}, y: {$this->position->y}, z: {$this->position->z}"
 			]);
 		}else {
 			$message = TextFormat::RED . $lang->translateString("error.ft.name.not.exists", [

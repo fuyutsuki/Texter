@@ -40,12 +40,12 @@ use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\player\Player;
-use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 
 class EventListener implements Listener {
 
 	public function __construct(
-		private Plugin $plugin
+		private PluginBase $plugin
 	) {
 	}
 

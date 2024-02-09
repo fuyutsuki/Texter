@@ -71,3 +71,4 @@ PR luôn được mở!
 - [ ] tr_tr(Tiếng Thủ Nhĩ Kỳ)
 - [ ] zh_cn(Tiếng Trung Quốc)
 - [ ] vi_vn(Tiếng Việt)
+- [x] de_de(Tiếng Đức)

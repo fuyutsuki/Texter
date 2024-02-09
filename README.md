@@ -71,3 +71,4 @@ issue or PR in other languages is welcome!
 - [ ] tr_tr(Turkish)
 - [ ] zh_cn(Chinese/Simplified)
 - [ ] vi_vn(Vietnamese)
+- [x] de_de(German)

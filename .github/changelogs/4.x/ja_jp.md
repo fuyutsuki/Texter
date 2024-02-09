@@ -1,5 +1,18 @@
 # 4.x 変更履歴
 
+## 4.3.x
+
+### 4.3.0
+
+#### :globe_with_meridians: 国際化
+
+- @TERAMMII による翻訳: 韓国語を手直しし、英語を改善
+- @DragonfireHD98 による翻訳: ドイツ語を追加
+
+#### :arrow_heading_up: PMMPの変更に追従
+
+- PMMP 5.11.x (Minecraft 1.20.60~) に対応しました
+
 ## 4.2.x
 
 ### 4.2.3

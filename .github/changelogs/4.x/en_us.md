@@ -1,5 +1,18 @@
 # 4.x changelog
 
+## 4.3.x
+
+### 4.3.0
+
+#### :globe_with_meridians: More i18n
+
+- Translated by @TERAMMII: Korean reworked, English improved
+- Translated by @DragonfireHD98: Added German
+
+#### :arrow_heading_up: following PMMP changes
+
+- Added support for PMMP 5.11.x (Minecraft 1.20.60~)
+
 ## 4.2.x
 
 ### 4.2.3

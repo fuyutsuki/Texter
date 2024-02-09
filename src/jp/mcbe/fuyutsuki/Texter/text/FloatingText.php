@@ -116,7 +116,6 @@ class FloatingText implements Sendable {
 			SendType::REMOVE => RemoveActorPacket::create(
 				$this->actorRuntimeId
 			),
-			default => throw new InvalidArgumentException("The SendType must be an enum value SendType::ADD, SendType::EDIT, SendType::MOVE or SendType::REMOVE"),
 		};
 	}
 

@@ -30,7 +30,7 @@ namespace jp\mcbe\fuyutsuki\Texter\data;
 use jp\mcbe\fuyutsuki\Texter\task\PrepareTextsTask;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\util\StringArrayMultiton;
-use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 
 class FloatingTextData extends Config {
@@ -45,7 +45,7 @@ class FloatingTextData extends Config {
 	/** @var FloatingTextCluster[] */
 	private array $floatingTexts = [];
 
-	public function __construct(Plugin $plugin, string $worldFolderName) {
+	public function __construct(PluginBase $plugin, string $worldFolderName) {
 		$floatingTextDir = $plugin->getDataFolder() . self::FLOATING_TEXT_DIRECTORY;
 		parent::__construct($floatingTextDir . "$worldFolderName.json", Config::JSON);
 		$this->setJsonOptions(Data::JSON_OPTIONS);
@@ -53,7 +53,7 @@ class FloatingTextData extends Config {
 		$this->folderName = $worldFolderName;
 	}
 
-	public function generateFloatingTexts(Plugin $plugin) {
+	public function generateFloatingTexts(PluginBase $plugin) {
 		$prepare = new PrepareTextsTask($plugin, $this);
 		$plugin->getScheduler()->scheduleRepeatingTask($prepare, PrepareTextsTask::TICKING_PERIOD);
 	}

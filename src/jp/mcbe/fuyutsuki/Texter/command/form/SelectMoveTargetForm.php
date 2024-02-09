@@ -44,7 +44,7 @@ class SelectMoveTargetForm extends MenuForm {
 		switch ($label) {
 			case FormLabels::HERE:
 				$subCommand = new MoveSubCommand($this->name);
-				$subCommand->setPosition($player->getPosition());
+				$subCommand->setPosition($player->getPosition()->up());
 				$subCommand->execute($player);
 				break;
 

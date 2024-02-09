@@ -5,35 +5,23 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
 use http\Exception\InvalidArgumentException;
-use JsonException;
 use pocketmine\entity\Entity;
-use pocketmine\entity\Skin;
 use pocketmine\math\Vector3;
-use pocketmine\network\mcpe\convert\TypeConverter;
-use pocketmine\network\mcpe\protocol\AddPlayerPacket;
+use pocketmine\network\mcpe\protocol\AddActorPacket;
 use pocketmine\network\mcpe\protocol\ClientboundPacket;
 use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
-use pocketmine\network\mcpe\protocol\PlayerListPacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
-use pocketmine\network\mcpe\protocol\types\AbilitiesData;
-use pocketmine\network\mcpe\protocol\types\command\CommandPermissions;
-use pocketmine\network\mcpe\protocol\types\DeviceOS;
+use pocketmine\network\mcpe\protocol\types\entity\ByteMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
 use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
-use pocketmine\network\mcpe\protocol\types\GameMode;
-use pocketmine\network\mcpe\protocol\types\inventory\ItemStack;
-use pocketmine\network\mcpe\protocol\types\inventory\ItemStackWrapper;
-use pocketmine\network\mcpe\protocol\types\PlayerListEntry;
-use pocketmine\network\mcpe\protocol\types\PlayerPermissions;
-use pocketmine\network\mcpe\protocol\UpdateAbilitiesPacket;
 use pocketmine\player\Player;
 use pocketmine\world\World;
-use Ramsey\Uuid\Uuid;
 
 class FloatingText implements Sendable {
 
@@ -83,102 +71,57 @@ class FloatingText implements Sendable {
 		$this->parent = $parent;
 	}
 
-	/**
-	 * @param SendType $type
-	 * @return ClientboundPacket[]
-	 * @throws JsonException
-	 */
-	public function asPackets(SendType $type): array {
-		switch ($type) {
-			# HACK: BlameMojuncrosoft
-			case SendType::ADD:
-				$uuid = Uuid::uuid4();
-
-				$apk = PlayerListPacket::add([
-					PlayerListEntry::createAdditionEntry(
-						$uuid,
-						$this->actorRuntimeId,
-						"",
-						TypeConverter::getInstance()->getSkinAdapter()->toSkinData(new Skin(
-							"Standard_Custom",
-							str_repeat("\x00", 8192),
-							"",
-							"geometry.humanoid.custom"
-						))
-					)
-				]);
-
-				$pk = AddPlayerPacket::create(
-					$uuid,
-					$this->text,
-					$this->actorRuntimeId,
-					"",
-					$this->position,
-					null,
-					0.0,
-					0.0,
-					0.0,
-					ItemStackWrapper::legacy(ItemStack::null()),
-					GameMode::ADVENTURE,
-					[
-						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
-							EntityMetadataFlags::IMMOBILE => true,
-						]),
-						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
-					],
-					new PropertySyncData([], []),
-					UpdateAbilitiesPacket::create(new AbilitiesData(CommandPermissions::NORMAL, PlayerPermissions::VISITOR, $this->actorRuntimeId, [])),
-					[],
-					"",
-					DeviceOS::UNKNOWN
-				);
-
-				$rpk = PlayerListPacket::remove([
-					PlayerListEntry::createRemovalEntry($uuid),
-				]);
-				$pks = [$apk, $pk, $rpk];
-				break;
-
-			case SendType::EDIT:
-				$pk = SetActorDataPacket::create(
-					$this->actorRuntimeId,
-					[
-						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
-					],
-					new PropertySyncData([], []),
-					0
-				);
-				$pks = [$pk];
-				break;
-
-			case SendType::MOVE:
-				$pk = MoveActorAbsolutePacket::create(
-					$this->actorRuntimeId,
-					$this->position->up()->add(0, 0.6, 0),
-					0.0,
-					0.0,
-					0.0,
-					MoveActorAbsolutePacket::FLAG_TELEPORT
-				);
-				$pks = [$pk];
-				break;
-
-			case SendType::REMOVE:
-				$pk = RemoveActorPacket::create($this->actorRuntimeId);
-				$pks = [$pk];
-				break;
-
-			default:
-				throw new InvalidArgumentException("The SendType must be an enum value SendType::ADD, SendType::EDIT, SendType::MOVE or SendType::REMOVE");
-		}
-		return $pks;
+	public function asPacket(SendType $type): ClientboundPacket {
+		return match ($type) {
+			SendType::ADD => AddActorPacket::create(
+				$this->actorRuntimeId,
+				$this->actorRuntimeId,
+				EntityIds::ITEM,
+				$this->position,
+				motion: null,
+				pitch: 0.0,
+				yaw: 0.0,
+				headYaw: 0.0,
+				bodyYaw: 0.0,
+				attributes: [],
+				metadata: [
+					EntityMetadataProperties::ALWAYS_SHOW_NAMETAG => new ByteMetadataProperty(1),
+					EntityMetadataProperties::BOUNDING_BOX_HEIGHT => new FloatMetadataProperty(0.0),
+					EntityMetadataProperties::BOUNDING_BOX_WIDTH => new FloatMetadataProperty(0.0),
+					EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
+						EntityMetadataFlags::IMMOBILE => true,
+					]),
+					EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
+					EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
+				],
+				syncedProperties: new PropertySyncData([], []),
+				links: []
+			),
+			SendType::EDIT => SetActorDataPacket::create(
+				$this->actorRuntimeId,
+				metadata: [
+					EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
+				],
+				syncedProperties: new PropertySyncData([], []),
+				tick: 0
+			),
+			SendType::MOVE => MoveActorAbsolutePacket::create(
+				$this->actorRuntimeId,
+				$this->position,
+				pitch: 0.0,
+				yaw: 0.0,
+				headYaw: 0.0,
+				flags: MoveActorAbsolutePacket::FLAG_TELEPORT
+			),
+			SendType::REMOVE => RemoveActorPacket::create(
+				$this->actorRuntimeId
+			),
+			default => throw new InvalidArgumentException("The SendType must be an enum value SendType::ADD, SendType::EDIT, SendType::MOVE or SendType::REMOVE"),
+		};
 	}
 
 	public function sendToPlayer(Player $player, SendType $type): void {
-		$pks = $this->asPackets($type);
-		foreach ($pks as $pk) {
-			$player->getNetworkSession()->sendDataPacket($pk);
-		}
+		$player->getNetworkSession()->sendDataPacket($this->asPacket($type));
 	}
 
 	public function sendToPlayers(array $players, SendType $type): void {

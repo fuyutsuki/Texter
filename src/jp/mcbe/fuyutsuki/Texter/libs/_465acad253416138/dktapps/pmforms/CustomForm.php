@@ -21,9 +21,9 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_582318c36aa3be82\dktapps\pmforms;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_582318c36aa3be82\dktapps\pmforms\element\CustomFormElement;
+use jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms\element\CustomFormElement;
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
 use pocketmine\utils\Utils;

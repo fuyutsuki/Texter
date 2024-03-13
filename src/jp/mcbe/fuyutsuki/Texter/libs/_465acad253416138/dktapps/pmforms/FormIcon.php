@@ -21,7 +21,7 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_582318c36aa3be82\dktapps\pmforms;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms;
 
 /**
  * Represents an icon which can be placed next to options on menus, or as the icon for the server-settings form type.

@@ -21,17 +21,17 @@
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_582318c36aa3be82\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms\element;
 
-class Dropdown extends BaseSelector{
+class StepSlider extends BaseSelector{
 
 	public function getType() : string{
-		return "dropdown";
+		return "step_slider";
 	}
 
 	protected function serializeElementData() : array{
 		return [
-			"options" => $this->options,
+			"steps" => $this->options,
 			"default" => $this->defaultOptionIndex
 		];
 	}

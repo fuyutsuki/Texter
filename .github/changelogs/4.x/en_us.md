@@ -2,6 +2,12 @@
 
 ## 4.3.x
 
+### 4.3.1
+
+#### :bug: Bug fixes
+
+- Fixed a bug that floating characters are hidden after a certain time (#159)
+
 ### 4.3.0
 
 #### :globe_with_meridians: More i18n

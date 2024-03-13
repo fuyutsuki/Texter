@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
-use http\Exception\InvalidArgumentException;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
+use pocketmine\network\mcpe\convert\TypeConverter;
 use pocketmine\network\mcpe\protocol\AddActorPacket;
-use pocketmine\network\mcpe\protocol\ClientboundPacket;
-use pocketmine\network\mcpe\protocol\MoveActorAbsolutePacket;
 use pocketmine\network\mcpe\protocol\RemoveActorPacket;
 use pocketmine\network\mcpe\protocol\SetActorDataPacket;
 use pocketmine\network\mcpe\protocol\types\entity\ByteMetadataProperty;
@@ -17,6 +16,7 @@ use pocketmine\network\mcpe\protocol\types\entity\EntityIds;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataFlags;
 use pocketmine\network\mcpe\protocol\types\entity\EntityMetadataProperties;
 use pocketmine\network\mcpe\protocol\types\entity\FloatMetadataProperty;
+use pocketmine\network\mcpe\protocol\types\entity\IntMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\LongMetadataProperty;
 use pocketmine\network\mcpe\protocol\types\entity\PropertySyncData;
 use pocketmine\network\mcpe\protocol\types\entity\StringMetadataProperty;
@@ -71,56 +71,96 @@ class FloatingText implements Sendable {
 		$this->parent = $parent;
 	}
 
-	public function asPacket(SendType $type): ClientboundPacket {
+	public function asPackets(SendType $type): array {
 		return match ($type) {
-			SendType::ADD => AddActorPacket::create(
-				$this->actorRuntimeId,
-				$this->actorRuntimeId,
-				EntityIds::ITEM,
-				$this->position,
-				motion: null,
-				pitch: 0.0,
-				yaw: 0.0,
-				headYaw: 0.0,
-				bodyYaw: 0.0,
-				attributes: [],
-				metadata: [
-					EntityMetadataProperties::ALWAYS_SHOW_NAMETAG => new ByteMetadataProperty(1),
-					EntityMetadataProperties::BOUNDING_BOX_HEIGHT => new FloatMetadataProperty(0.0),
-					EntityMetadataProperties::BOUNDING_BOX_WIDTH => new FloatMetadataProperty(0.0),
-					EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
-						EntityMetadataFlags::IMMOBILE => true,
-					]),
-					EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
-					EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
-				],
-				syncedProperties: new PropertySyncData([], []),
-				links: []
-			),
-			SendType::EDIT => SetActorDataPacket::create(
-				$this->actorRuntimeId,
-				metadata: [
-					EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
-				],
-				syncedProperties: new PropertySyncData([], []),
-				tick: 0
-			),
-			SendType::MOVE => MoveActorAbsolutePacket::create(
-				$this->actorRuntimeId,
-				$this->position,
-				pitch: 0.0,
-				yaw: 0.0,
-				headYaw: 0.0,
-				flags: MoveActorAbsolutePacket::FLAG_TELEPORT
-			),
-			SendType::REMOVE => RemoveActorPacket::create(
-				$this->actorRuntimeId
-			),
+			SendType::ADD => [
+				AddActorPacket::create(
+					$this->actorRuntimeId,
+					$this->actorRuntimeId,
+					EntityIds::FALLING_BLOCK,
+					$this->position,
+					motion: null,
+					pitch: 0.0,
+					yaw: 0.0,
+					headYaw: 0.0,
+					bodyYaw: 0.0,
+					attributes: [],
+					metadata: [
+						EntityMetadataProperties::ALWAYS_SHOW_NAMETAG => new ByteMetadataProperty(1),
+						EntityMetadataProperties::BOUNDING_BOX_HEIGHT => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::BOUNDING_BOX_WIDTH => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
+							EntityMetadataFlags::IMMOBILE => true,
+						]),
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
+						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::VARIANT => new IntMetadataProperty(TypeConverter::getInstance()->getBlockTranslator()->internalIdToNetworkId(VanillaBlocks::AIR()->getStateId()))
+					],
+					syncedProperties: new PropertySyncData([], []),
+					links: []
+				),
+			],
+			SendType::EDIT => [
+				SetActorDataPacket::create(
+					$this->actorRuntimeId,
+					metadata: [
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
+					],
+					syncedProperties: new PropertySyncData([], []),
+					tick: 0
+				),
+			],
+			SendType::MOVE => [
+				// MoveActorAbsolutePacket::create(
+				// 	$this->actorRuntimeId,
+				// 	$this->position,
+				// 	pitch: 0.0,
+				// 	yaw: 0.0,
+				// 	headYaw: 0.0,
+				// 	flags: MoveActorAbsolutePacket::FLAG_TELEPORT
+				// ),
+				RemoveActorPacket::create(
+					$this->actorRuntimeId
+				),
+				AddActorPacket::create(
+					$this->actorRuntimeId,
+					$this->actorRuntimeId,
+					EntityIds::FALLING_BLOCK,
+					$this->position,
+					motion: null,
+					pitch: 0.0,
+					yaw: 0.0,
+					headYaw: 0.0,
+					bodyYaw: 0.0,
+					attributes: [],
+					metadata: [
+						EntityMetadataProperties::ALWAYS_SHOW_NAMETAG => new ByteMetadataProperty(1),
+						EntityMetadataProperties::BOUNDING_BOX_HEIGHT => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::BOUNDING_BOX_WIDTH => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::FLAGS => LongMetadataProperty::buildFromFlags([
+							EntityMetadataFlags::IMMOBILE => true,
+						]),
+						EntityMetadataProperties::NAMETAG => new StringMetadataProperty($this->text),
+						EntityMetadataProperties::SCALE => new FloatMetadataProperty(0.0),
+						EntityMetadataProperties::VARIANT => new IntMetadataProperty(TypeConverter::getInstance()->getBlockTranslator()->internalIdToNetworkId(VanillaBlocks::AIR()->getStateId()))
+					],
+					syncedProperties: new PropertySyncData([], []),
+					links: []
+				),
+			],
+			SendType::REMOVE => [
+				RemoveActorPacket::create(
+					$this->actorRuntimeId
+				),
+			],
 		};
 	}
 
 	public function sendToPlayer(Player $player, SendType $type): void {
-		$player->getNetworkSession()->sendDataPacket($this->asPacket($type));
+		$packets = $this->asPackets($type);
+		foreach ($packets as $packet) {
+			$player->getNetworkSession()->sendDataPacket($packet);
+		}
 	}
 
 	public function sendToPlayers(array $players, SendType $type): void {

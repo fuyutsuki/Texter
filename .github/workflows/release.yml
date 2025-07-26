@@ -90,12 +90,12 @@ jobs:
 
   pharynx:
     name: Build PHAR for Poggit
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
         image:
-          - ubuntu-22.04
+          - ubuntu-20.04
         php:
           - 8.2
     

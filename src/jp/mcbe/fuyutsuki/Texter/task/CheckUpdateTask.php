@@ -27,29 +27,18 @@ class CheckUpdateTask extends AsyncTask {
 		curl_setopt_array($curl, [
 			CURLOPT_URL => "https://api.github.com/repos/fuyutsuki/Texter/releases/latest",
 			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_USERAGENT => "php_" . PHP_VERSION,
-			CURLOPT_SSL_VERIFYPEER => false,
-			CURLOPT_CONNECTTIMEOUT => 5,
-			CURLOPT_TIMEOUT => 10
+			CURLOPT_USERAGENT => "php_".PHP_VERSION,
+			CURLOPT_SSL_VERIFYPEER => false
 		]);
-
 		$json = curl_exec($curl);
 		$errorNo = curl_errno($curl);
-
 		if ($errorNo) {
 			$error = curl_error($curl);
-			error_log("[TexterUpdateCheck] cURL error: " . $error);
-			$this->setResult([]);
-		} else {
-			$data = json_decode($json, true);
-			if (is_array($data)) {
-				$this->setResult($data);
-			} else {
-				error_log("[TexterUpdateCheck] Invalid JSON response.");
-				$this->setResult([]);
-			}
+			throw new Exception($error);
 		}
 		curl_close($curl);
+		$data = json_decode($json, true);
+		$this->setResult($data);
 	}
 
 	public function onCompletion(): void {

@@ -2,6 +2,12 @@
 
 ## 4.3.x
 
+### 4.3.2
+
+#### :bug: Bug fixes
+
+- Updated language keys to fix command usage output
+
 ### 4.3.1
 
 #### :bug: Bug fixes

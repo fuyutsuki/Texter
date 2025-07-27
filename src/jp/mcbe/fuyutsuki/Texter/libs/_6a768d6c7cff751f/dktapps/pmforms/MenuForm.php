@@ -1,27 +1,18 @@
 <?php
 
 /*
+ * This file is part of pmforms.
+ * Copyright (C) 2018-2025 Dylan K. Taylor <https://github.com/dktapps-pm-pl/pmforms>
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
- *
- * This program is free software: you can redistribute it and/or modify
+ * pmforms is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- *
- *
-*/
+ */
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms;
 
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
@@ -57,7 +48,7 @@ class MenuForm extends BaseForm{
 	/**
 	 * @param MenuOption[]  $options
 	 * @param \Closure      $onSubmit signature `function(Player $player, int $selectedOption)`
-	 * @param \Closure|null $onClose signature `function(Player $player)`
+	 * @param \Closure|null $onClose  signature `function(Player $player)`
 	 *
 	 * @phpstan-param OnSubmit     $onSubmit
 	 * @phpstan-param OnClose|null $onClose

@@ -1,27 +1,18 @@
 <?php
 
 /*
+ * This file is part of pmforms.
+ * Copyright (C) 2018-2025 Dylan K. Taylor <https://github.com/dktapps-pm-pl/pmforms>
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
- *
- * This program is free software: you can redistribute it and/or modify
+ * pmforms is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- *
- *
-*/
+ */
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms\element;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\element;
 
 use pocketmine\form\FormValidationException;
 use function gettype;
@@ -49,7 +40,7 @@ class Slider extends CustomFormElement{
 		$this->max = $max;
 
 		if($default !== null){
-			if($default > $this->max or $default < $this->min){
+			if($default > $this->max || $default < $this->min){
 				throw new \InvalidArgumentException("Default must be in range $this->min ... $this->max");
 			}
 			$this->default = $default;
@@ -68,10 +59,10 @@ class Slider extends CustomFormElement{
 	}
 
 	public function validateValue($value) : void{
-		if(!is_float($value) and !is_int($value)){
+		if(!is_float($value) && !is_int($value)){
 			throw new FormValidationException("Expected float, got " . gettype($value));
 		}
-		if($value < $this->min or $value > $this->max){
+		if($value < $this->min || $value > $this->max){
 			throw new FormValidationException("Value $value is out of bounds (min $this->min, max $this->max)");
 		}
 	}

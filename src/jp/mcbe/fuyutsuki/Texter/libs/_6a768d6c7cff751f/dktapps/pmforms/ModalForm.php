@@ -1,27 +1,18 @@
 <?php
 
 /*
+ * This file is part of pmforms.
+ * Copyright (C) 2018-2025 Dylan K. Taylor <https://github.com/dktapps-pm-pl/pmforms>
  *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
- *
- * This program is free software: you can redistribute it and/or modify
+ * pmforms is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- *
- *
-*/
+ */
 
 declare(strict_types=1);
 
-namespace jp\mcbe\fuyutsuki\Texter\libs\_465acad253416138\dktapps\pmforms;
+namespace jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms;
 
 use pocketmine\form\FormValidationException;
 use pocketmine\player\Player;
@@ -33,6 +24,7 @@ use function is_bool;
  * This form type presents a simple "yes/no" dialog with two buttons.
  *
  * @phpstan-type OnSubmit \Closure(Player $player, bool $choice) : void
+ * @phpstan-type OnClose \Closure(Player $player) : void
  */
 class ModalForm extends BaseForm{
 
@@ -47,23 +39,34 @@ class ModalForm extends BaseForm{
 	private $button1;
 	/** @var string */
 	private $button2;
+	/**
+	 * @var \Closure|null
+	 * @phpstan-var OnClose
+	 */
+	private $onClose = null;
 
 	/**
-	 * @param string   $title Text to put on the title of the dialog.
-	 * @param string   $text Text to put in the body.
-	 * @param \Closure $onSubmit signature `function(Player $player, bool $choice)`
-	 * @param string   $yesButtonText Text to show on the "Yes" button. Defaults to client-translated "Yes" string.
-	 * @param string   $noButtonText Text to show on the "No" button. Defaults to client-translated "No" string.
+	 * @param string        $title         Text to put on the title of the dialog.
+	 * @param string        $text          Text to put in the body.
+	 * @param \Closure      $onSubmit      signature `function(Player $player, bool $choice)`
+	 * @param string        $yesButtonText Text to show on the "Yes" button. Defaults to client-translated "Yes" string.
+	 * @param string        $noButtonText  Text to show on the "No" button. Defaults to client-translated "No" string.
+	 * @param \Closure|null $onClose       signature `function(Player $player)`
 	 *
 	 * @phpstan-param OnSubmit $onSubmit
+	 * @phpstan-param OnClose|null $onClose
 	 */
-	public function __construct(string $title, string $text, \Closure $onSubmit, string $yesButtonText = "gui.yes", string $noButtonText = "gui.no"){
+	public function __construct(string $title, string $text, \Closure $onSubmit, string $yesButtonText = "gui.yes", string $noButtonText = "gui.no", ?\Closure $onClose = null){
 		parent::__construct($title);
 		$this->content = $text;
 		Utils::validateCallableSignature(function(Player $player, bool $choice) : void{}, $onSubmit);
 		$this->onSubmit = $onSubmit;
 		$this->button1 = $yesButtonText;
 		$this->button2 = $noButtonText;
+		if($onClose !== null){
+			Utils::validateCallableSignature(function(Player $player) : void{}, $onClose);
+			$this->onClose = $onClose;
+		}
 	}
 
 	public function getYesButtonText() : string{
@@ -75,11 +78,15 @@ class ModalForm extends BaseForm{
 	}
 
 	final public function handleResponse(Player $player, $data) : void{
-		if(!is_bool($data)){
+		if($data === null){
+			if($this->onClose !== null){
+				($this->onClose)($player);
+			}
+		}elseif(is_bool($data)){
+			($this->onSubmit)($player, $data);
+		}else{
 			throw new FormValidationException("Expected bool, got " . gettype($data));
 		}
-
-		($this->onSubmit)($player, $data);
 	}
 
 	protected function getType() : string{

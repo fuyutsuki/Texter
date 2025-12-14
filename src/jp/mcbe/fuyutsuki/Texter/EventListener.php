@@ -39,6 +39,7 @@ use pocketmine\event\server\DataPacketSendEvent;
 use pocketmine\event\world\WorldLoadEvent;
 use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
+use pocketmine\network\mcpe\protocol\types\command\raw\CommandRawData;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use ReflectionProperty;
@@ -86,15 +87,23 @@ class EventListener implements Listener {
 		foreach ($ev->getPackets() as $pk) {
 			if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
 				/** @var AvailableCommandsPacket $pk */
-				if (isset($pk->commandData[TexterCommand::NAME])) {
+				foreach ($pk->commandData as $i => $command) {
+					if ($command->getName() !== TexterCommand::NAME) {
+						continue;
+					}
+
 					$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
-					$texterCommand = $pk->commandData[TexterCommand::NAME];
 
-					$property = new ReflectionProperty($texterCommand, 'description');
+					$property = new \ReflectionProperty($command, 'description');
 					$property->setAccessible(true);
-					$property->setValue($texterCommand, TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION));
+					$property->setValue(
+						$command,
+						TexterLang::fromLocale($locale)
+							->translateString(TexterCommand::DESCRIPTION)
+					);
 
-					$pk->commandData[TexterCommand::NAME] = $texterCommand;
+					$pk->commandData[$i] = $command;
+					break;
 				}
 			}
 		}

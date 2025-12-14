@@ -86,24 +86,21 @@ class EventListener implements Listener {
 	public function onSendPacket(DataPacketSendEvent $ev): void {
 		foreach ($ev->getPackets() as $pk) {
 			if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
-				/** @var AvailableCommandsPacket $pk */
-				foreach ($pk->commandData as $i => $command) {
-					if ($command->getName() !== TexterCommand::NAME) {
-						continue;
+				if ($pk instanceof AvailableCommandsPacket) {
+					foreach ($pk->commandData as $i => $command) {
+						if ($command->getName() !== TexterCommand::NAME) {
+							continue;
+						}
+
+						$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
+
+						$property = new \ReflectionProperty($command, 'description');
+						$property->setAccessible(true);
+						$property->setValue($command, TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION));
+
+						$pk->commandData[$i] = $command;
+						break;
 					}
-
-					$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
-
-					$property = new \ReflectionProperty($command, 'description');
-					$property->setAccessible(true);
-					$property->setValue(
-						$command,
-						TexterLang::fromLocale($locale)
-							->translateString(TexterCommand::DESCRIPTION)
-					);
-
-					$pk->commandData[$i] = $command;
-					break;
 				}
 			}
 		}

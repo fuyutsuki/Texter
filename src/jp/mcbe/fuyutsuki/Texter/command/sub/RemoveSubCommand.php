@@ -17,11 +17,11 @@ class RemoveSubCommand extends TexterSubCommand {
 	public const ALIAS = "r";
 
 	public function __construct(
-		private string $name
+		private readonly string $name
 	) {
 	}
 
-	public function execute(Player $player) {
+	public function execute(Player $player): void {
 		$lang = TexterLang::fromLocale($player->getLocale());
 		$world = $player->getWorld();
 		$folderName = $world->getFolderName();

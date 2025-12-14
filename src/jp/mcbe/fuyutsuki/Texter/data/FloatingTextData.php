@@ -53,7 +53,7 @@ class FloatingTextData extends Config {
 		$this->folderName = $worldFolderName;
 	}
 
-	public function generateFloatingTexts(PluginBase $plugin) {
+	public function generateFloatingTexts(PluginBase $plugin): void {
 		$prepare = new PrepareTextsTask($plugin, $this);
 		$plugin->getScheduler()->scheduleRepeatingTask($prepare, PrepareTextsTask::TICKING_PERIOD);
 	}
@@ -70,7 +70,7 @@ class FloatingTextData extends Config {
 		return $this->floatingTexts[$name] ?? null;
 	}
 
-	public function store(FloatingTextCluster $text, bool $onlyCache = false) {
+	public function store(FloatingTextCluster $text, bool $onlyCache = false): void {
 		$name = $text->name();
 		$this->floatingTexts[$name] = $text;
 		if (!$onlyCache) {
@@ -78,7 +78,7 @@ class FloatingTextData extends Config {
 		}
 	}
 
-	public function removeFloatingText(string $name, bool $onlyCache = false) {
+	public function removeFloatingText(string $name, bool $onlyCache = false): void {
 		unset($this->floatingTexts[$name]);
 		if (!$onlyCache) {
 			$this->remove($name);

@@ -41,22 +41,23 @@ use pocketmine\network\mcpe\protocol\AvailableCommandsPacket;
 use pocketmine\network\mcpe\protocol\ProtocolInfo;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
+use ReflectionProperty;
 
 class EventListener implements Listener {
 
 	public function __construct(
-		private PluginBase $plugin
+		private readonly PluginBase $plugin
 	) {
 	}
 
-	public function onJoinPlayer(PlayerJoinEvent $ev) {
+	public function onJoinPlayer(PlayerJoinEvent $ev): void {
 		$player = $ev->getPlayer();
 		$world = $player->getWorld();
 		$sendTask = new SendTextsTask($player, $world, SendType::ADD);
 		$this->plugin->getScheduler()->scheduleDelayedRepeatingTask($sendTask, SendTextsTask::DELAY_TICKS, SendTextsTask::TICKING_PERIOD);
 	}
 
-	public function onLoadLevel(WorldLoadEvent $ev) {
+	public function onLoadLevel(WorldLoadEvent $ev): void {
 		$folderName = $ev->getWorld()->getFolderName();
 		if (FloatingTextData::getInstance($folderName) === null) {
 			$floatingTextData = new FloatingTextData($this->plugin, $folderName);
@@ -65,7 +66,7 @@ class EventListener implements Listener {
 		}
 	}
 
-	public function onEntityLevelChange(EntityTeleportEvent $ev) {
+	public function onEntityLevelChange(EntityTeleportEvent $ev): void {
 		$entity = $ev->getEntity();
 		if ($entity instanceof Player) {
 			$from = $ev->getFrom()->getWorld();
@@ -78,14 +79,22 @@ class EventListener implements Listener {
 		}
 	}
 
-	public function onSendPacket(DataPacketSendEvent $ev) {
+	/**
+	 * @throws \ReflectionException
+	 */
+	public function onSendPacket(DataPacketSendEvent $ev): void {
 		foreach ($ev->getPackets() as $pk) {
 			if ($pk->pid() === ProtocolInfo::AVAILABLE_COMMANDS_PACKET) {
 				/** @var AvailableCommandsPacket $pk */
 				if (isset($pk->commandData[TexterCommand::NAME])) {
 					$locale = $ev->getTargets()[0]->getPlayerInfo()->getLocale();
 					$texterCommand = $pk->commandData[TexterCommand::NAME];
-					$texterCommand->description = TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION);
+
+					$property = new ReflectionProperty($texterCommand, 'description');
+					$property->setAccessible(true);
+					$property->setValue($texterCommand, TexterLang::fromLocale($locale)->translateString(TexterCommand::DESCRIPTION));
+
+					$pk->commandData[TexterCommand::NAME] = $texterCommand;
 				}
 			}
 		}

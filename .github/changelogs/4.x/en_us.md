@@ -2,6 +2,20 @@
 
 ## 4.3.x
 
+### 4.3.3
+
+#### :bug: Bug fixes
+
+- A bug has been fixed where the server crashes when a player tries to join the server.
+
+#### :arrow_heading_up: updated minimum PMMP version
+
+- PMMP 5.36.x is now required to run Texter
+
+#### ✔ Changes
+
+- Some changes for newer PHP versions
+
 ### 4.3.2
 
 #### :bug: Bug fixes

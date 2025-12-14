@@ -43,7 +43,7 @@ class FloatingText implements Sendable {
 		return $this->position;
 	}
 
-	public function setPosition(Vector3 $position) {
+	public function setPosition(Vector3 $position): void {
 		$this->position = $position;
 	}
 
@@ -51,7 +51,7 @@ class FloatingText implements Sendable {
 		return str_replace("\n", "#", $this->text);
 	}
 
-	public function setText(string $text) {
+	public function setText(string $text): void {
 		$this->text = str_replace("#", "\n", $text);
 	}
 
@@ -59,7 +59,7 @@ class FloatingText implements Sendable {
 		return $this->actorRuntimeId;
 	}
 
-	public function setActorRuntimeId(int $actorRuntimeId) {
+	public function setActorRuntimeId(int $actorRuntimeId): void {
 		$this->actorRuntimeId = $actorRuntimeId === 0 ? Entity::nextRuntimeId() : $actorRuntimeId;
 	}
 
@@ -67,7 +67,7 @@ class FloatingText implements Sendable {
 		return $this->parent;
 	}
 
-	public function setParent(FloatingTextCluster $parent) {
+	public function setParent(FloatingTextCluster $parent): void {
 		$this->parent = $parent;
 	}
 

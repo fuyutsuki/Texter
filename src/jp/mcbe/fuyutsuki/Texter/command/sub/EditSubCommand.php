@@ -18,11 +18,11 @@ class EditSubCommand extends TexterSubCommand {
 	public const ALIAS = "e";
 
 	public function __construct(
-		private string $name
+		private readonly string $name
 	) {
 	}
 
-	public function execute(Player $player) {
+	public function execute(Player $player): void {
 		$world = $player->getWorld();
 		$folderName = $world->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);

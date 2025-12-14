@@ -19,8 +19,8 @@ class SelectMoveTargetForm extends MenuForm {
 	private array $keys;
 
 	public function __construct(
-		private TexterLang $lang,
-		private string $name
+		private readonly TexterLang $lang,
+		private string              $name
 	) {
 		$options = [
 			FormLabels::HERE => new MenuOption($lang->translateString("form.move.here")),

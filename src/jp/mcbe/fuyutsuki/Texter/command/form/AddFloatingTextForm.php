@@ -164,7 +164,7 @@ class AddFloatingTextForm extends CustomForm {
 		}
 	}
 
-	public static function send(Player $player) {
+	public static function send(Player $player): void {
 		$form = new self($player);
 		$player->sendForm($form);
 	}

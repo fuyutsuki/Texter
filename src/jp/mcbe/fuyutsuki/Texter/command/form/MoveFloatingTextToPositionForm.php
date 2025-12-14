@@ -19,9 +19,9 @@ use Ramsey\Uuid\Uuid;
 class MoveFloatingTextToPositionForm extends CustomForm {
 
 	public function __construct(
-		private TexterLang $lang,
-		private string $name,
-		bool $isNotValid = false
+		private readonly TexterLang $lang,
+		private readonly string     $name,
+		bool                        $isNotValid = false
 	) {
 		$inputX = $lang->translateString("form.move.position.x");
 		$inputY = $lang->translateString("form.move.position.y");
@@ -75,7 +75,7 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 		}
 	}
 
-	public function resend(Player $player, bool $isNotValid = false) {
+	public function resend(Player $player, bool $isNotValid = false): void {
 		$form = new self($this->lang, $this->name, $isNotValid);
 		$player->sendForm($form);
 	}

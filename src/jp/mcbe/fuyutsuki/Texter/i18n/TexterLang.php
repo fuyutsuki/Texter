@@ -26,7 +26,7 @@ class TexterLang extends Language {
 		$this->stringArrayMultitonConstruct($locale);
 	}
 
-	public static function setConsoleLocale(string $locale) {
+	public static function setConsoleLocale(string $locale): void {
 		self::$consoleLocale = $locale;
 	}
 

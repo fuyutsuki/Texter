@@ -39,6 +39,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
+use xxFLORII\bStats\Metrics;
 use function array_key_last;
 use function explode;
 use function file_exists;
@@ -74,7 +75,9 @@ class Main extends PluginBase {
 
 	public function onEnable(): void {
 		$pluginManager = $this->getServer()->getPluginManager();
+		$metrics = new Metrics($this, 28646);
 		if ($this->checkPackaged()) {
+			$metrics->scheduleMetricsDataSend();
 			$pluginManager->registerEvents(new EventListener($this), $this);
 		}else {
 			$pluginManager->disablePlugin($this);

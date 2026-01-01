@@ -15,6 +15,7 @@
 #### ✔ Changes
 
 - Some changes for newer PHP versions
+- Added bStats plugin Metrics
 
 ### 4.3.2
 

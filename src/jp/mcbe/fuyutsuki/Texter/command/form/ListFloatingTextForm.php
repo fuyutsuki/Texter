@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuOption;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
@@ -26,7 +26,7 @@ class ListFloatingTextForm extends MenuForm {
 
 	public function __construct(
 		Player $player,
-		private string $action = ""
+		private readonly string $action = ""
 	) {
 		$this->lang = TexterLang::fromLocale($player->getLocale());
 
@@ -76,7 +76,7 @@ class ListFloatingTextForm extends MenuForm {
 		}
 	}
 
-	public static function send(Player $player, string $action = "") {
+	public static function send(Player $player, string $action = ""): void {
 		$form = new self($player, $action);
 		$player->sendForm($form);
 	}

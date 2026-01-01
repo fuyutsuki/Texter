@@ -22,8 +22,8 @@ class PrepareTextsTask extends Task {
 	private array $names;
 
 	public function __construct(
-		private PluginBase $plugin,
-		private FloatingTextData $data
+		private readonly PluginBase 	$plugin,
+		private readonly FloatingTextData $data
 	) {
 		$worldManager = $this->plugin->getServer()->getWorldManager();
 		$folderName = $this->data->folderName();
@@ -47,7 +47,7 @@ class PrepareTextsTask extends Task {
 		}
 	}
 
-	public function onSuccess() {
+	public function onSuccess(): void {
 		if ($this->plugin->isEnabled()) {
 			$message = TexterLang::fromConsole()->translateString("on.enable.prepared", [
 				$this->data->folderName(),

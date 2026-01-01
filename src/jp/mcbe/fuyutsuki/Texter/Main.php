@@ -39,6 +39,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\xxFLORII\bStats\Metrics;
 use function array_key_last;
 use function explode;
 use function file_exists;
@@ -74,14 +75,16 @@ class Main extends PluginBase {
 
 	public function onEnable(): void {
 		$pluginManager = $this->getServer()->getPluginManager();
+		$metrics = new Metrics($this, 28646);
 		if ($this->checkPackaged()) {
+			$metrics->scheduleMetricsDataSend();
 			$pluginManager->registerEvents(new EventListener($this), $this);
 		}else {
 			$pluginManager->disablePlugin($this);
 		}
 	}
 
-	private function loadResources() {
+	private function loadResources(): void {
 		$this->config = new ConfigData($this);
 		//
 		$oldLanguageDir = $this->getDataFolder() . "language";
@@ -113,7 +116,7 @@ class Main extends PluginBase {
 		}
 	}
 
-	private function registerCommands() {
+	private function registerCommands(): void {
 		if ($isCanUse = $this->config->isCanUseCommands()) {
 			$commandMap = $this->getServer()->getCommandMap();
 			$commandMap->register($this->getName(), new TexterCommand($this), TexterCommand::NAME);
@@ -122,7 +125,7 @@ class Main extends PluginBase {
 		$this->getLogger()->info(($isCanUse ? TextFormat::GREEN : TextFormat::RED) . $message);
 	}
 
-	private function convertOldFloatingTexts() {
+	private function convertOldFloatingTexts(): void {
 		$floatingTextDir = $this->getDataFolder() . FloatingTextData::FLOATING_TEXT_DIRECTORY;
 		if (!file_exists($floatingTextDir)) {
 			mkdir($floatingTextDir, 0755, true);
@@ -145,7 +148,7 @@ class Main extends PluginBase {
 		}
 	}
 
-	private function loadFloatingTexts() {
+	private function loadFloatingTexts(): void {
 		$this->getScheduler()->scheduleDelayedTask(
 			new ClosureTask(function () {
 				$defaultWorldFolderName = $this->getServer()->getWorldManager()->getDefaultWorld()->getFolderName();
@@ -157,7 +160,7 @@ class Main extends PluginBase {
 		);
 	}
 
-	public function checkUpdate() {
+	public function checkUpdate(): void {
 		if ($this->config->isCheckUpdate()) {
 			try {
 				$this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask);
@@ -167,7 +170,7 @@ class Main extends PluginBase {
 		}
 	}
 
-	public function compareVersion(bool $success, ?VersionString $latest = null, string $url = "") {
+	public function compareVersion(bool $success, ?VersionString $latest = null, string $url = ""): void {
 		if ($success) {
 			$verStr = $this->getDescription()->getVersion();
 			$current = new VersionString($verStr);
@@ -220,13 +223,13 @@ class Main extends PluginBase {
 		return false;
 	}
 
-	private function unlinkRecursive(string $dir): bool {
+	private function unlinkRecursive(string $dir): void {
 		$files = array_diff(scandir($dir), [".", ".."]);
 		foreach ($files as $file) {
 			$path = $dir . DIRECTORY_SEPARATOR . $file;
 			is_dir($path) ? $this->unlinkRecursive($path) : unlink($path);
 		}
-		return rmdir($dir);
+		rmdir($dir);
 	}
 
 	private function getFileExtension(string $path): string {
@@ -250,7 +253,7 @@ class Main extends PluginBase {
 		return self::$prefix;
 	}
 
-	private function setPrefix() {
+	private function setPrefix(): void {
 		self::$prefix = "[{$this->getDescription()->getPrefix()}]";
 	}
 

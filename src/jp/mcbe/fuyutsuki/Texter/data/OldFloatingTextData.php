@@ -37,14 +37,14 @@ class OldFloatingTextData extends Config {
 	public const FILE_UFT = "uft.json";
 
 	public function __construct(
-		private PluginBase $plugin,
-		string $path,
-		string $file
+		private readonly PluginBase $plugin,
+		string                      $path,
+		string                      $file
 	) {
 		parent::__construct($path.$file, Config::JSON);
 	}
 
-	public function convert() {
+	public function convert(): void {
 		$fts = $this->getAll();
 		foreach ($fts as $worldName => $texts) {
 			$floatingTextData = FloatingTextData::getInstance($worldName);
@@ -70,7 +70,7 @@ class OldFloatingTextData extends Config {
 		$this->removeFile();
 	}
 
-	private function removeFile() {
+	private function removeFile(): void {
 		unlink($this->getPath());
 	}
 

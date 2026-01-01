@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuOption;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
@@ -19,8 +19,8 @@ class SelectMoveTargetForm extends MenuForm {
 	private array $keys;
 
 	public function __construct(
-		private TexterLang $lang,
-		private string $name
+		private readonly TexterLang $lang,
+		private string              $name
 	) {
 		$options = [
 			FormLabels::HERE => new MenuOption($lang->translateString("form.move.here")),

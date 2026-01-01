@@ -20,19 +20,19 @@ class MoveSubCommand extends TexterSubCommand {
 	private Vector3 $position;
 
 	public function __construct(
-		private string $name
+		private readonly string $name
 	) {
 	}
 
-	public function setPosition(Vector3 $position) {
+	public function setPosition(Vector3 $position): void {
 		$this->position = $position->round(precision: 1);
 	}
 
-	public function setPositionByString(string $x, string $y, string $z) {
+	public function setPositionByString(string $x, string $y, string $z): void {
 		$this->position = new Vector3((float)$x, (float)$y, (float)$z);
 	}
 
-	public function execute(Player $player) {
+	public function execute(Player $player): void {
 		$world = $player->getWorld();
 		$folderName = $world->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);

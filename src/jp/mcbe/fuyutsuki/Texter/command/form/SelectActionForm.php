@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_6a768d6c7cff751f\dktapps\pmforms\MenuOption;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\RemoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
@@ -20,8 +20,8 @@ class SelectActionForm extends MenuForm {
 	private array $keys;
 
 	public function __construct(
-		TexterLang $lang,
-		private string $name
+		TexterLang 				$lang,
+		private readonly string $name
 	) {
 		$edit = TextFormat::BOLD . $lang->translateString("form.edit")."\n".TextFormat::RESET;
 		$move = TextFormat::BOLD . $lang->translateString("form.move")."\n".TextFormat::RESET;

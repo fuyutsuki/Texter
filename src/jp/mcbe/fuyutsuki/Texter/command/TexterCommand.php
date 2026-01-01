@@ -51,7 +51,7 @@ class TexterCommand extends Command implements PluginOwned {
 	public const PERMISSION = "texter.command.txt";
 
 	public function __construct(
-		private Main $plugin
+		private readonly Main $plugin
 	) {
 		parent::__construct(self::NAME);
 		$consoleLang = TexterLang::fromConsole();

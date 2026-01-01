@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="/assets/Texter.png" width="600px">
+<img src="/assets/Texter.png" width="800" alt="">
 
 <h1>Texter</h1>
 

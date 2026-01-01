@@ -29,14 +29,34 @@
 					}
 				}
 			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "xxplugins/bstats-pmmp",
+				"version": "1.0.0",
+				"source": {
+					"type": "git",
+					"url": "https://github.com/xxPLUGINS/bStats-PMMP",
+					"reference": "master"
+				},
+				"autoload": {
+					"psr-4": {
+						"xxFLORII\\bStats\\": ["src/xxFLORII/bStats"]
+					}
+				}
+			}
 		}
 	],
 	"require": {
-		"dktapps-pm-pl/pmforms": "dev-master"
+		"ext-curl": "*",
+		"ext-mbstring": "*",
+		"dktapps-pm-pl/pmforms": "dev-master",
+		"xxplugins/bstats-pmmp": "*"
 	},
 	"require-dev": {
 		"phpstan/phpstan": "^1.10",
-		"pocketmine/pocketmine-mp": "^5.3",
+		"pocketmine/pocketmine-mp": "^5.36",
 		"sof3/pharynx": "^0.3.4"
 	},
 	"autoload": {

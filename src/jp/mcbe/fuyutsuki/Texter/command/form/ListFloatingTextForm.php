@@ -26,7 +26,7 @@ class ListFloatingTextForm extends MenuForm {
 
 	public function __construct(
 		Player $player,
-		private string $action = ""
+		private readonly string $action = ""
 	) {
 		$this->lang = TexterLang::fromLocale($player->getLocale());
 
@@ -76,7 +76,7 @@ class ListFloatingTextForm extends MenuForm {
 		}
 	}
 
-	public static function send(Player $player, string $action = "") {
+	public static function send(Player $player, string $action = ""): void {
 		$form = new self($player, $action);
 		$player->sendForm($form);
 	}

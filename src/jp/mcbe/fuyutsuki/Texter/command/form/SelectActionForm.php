@@ -20,8 +20,8 @@ class SelectActionForm extends MenuForm {
 	private array $keys;
 
 	public function __construct(
-		TexterLang $lang,
-		private string $name
+		TexterLang 				$lang,
+		private readonly string $name
 	) {
 		$edit = TextFormat::BOLD . $lang->translateString("form.edit")."\n".TextFormat::RESET;
 		$move = TextFormat::BOLD . $lang->translateString("form.move")."\n".TextFormat::RESET;

@@ -21,9 +21,9 @@ class SendTextsTask extends Task {
 	private array $remain;
 
 	public function __construct(
-		private Player $target,
-		World $sendTo,
-		private SendType $type
+		private readonly Player $target,
+		World                   $sendTo,
+		private readonly SendType $type
 	) {
 		$data = FloatingTextData::getInstance($sendTo->getFolderName());
 		$this->remain = $data !== null ? $data->floatingTexts() : [];
@@ -38,7 +38,7 @@ class SendTextsTask extends Task {
 		}
 	}
 
-	private function onSuccess() {
+	private function onSuccess(): void {
 		$this->getHandler()->cancel();
 	}
 }

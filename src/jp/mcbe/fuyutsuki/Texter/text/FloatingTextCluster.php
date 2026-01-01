@@ -35,7 +35,7 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		return $this->position;
 	}
 
-	public function setPosition(Vector3 $position) {
+	public function setPosition(Vector3 $position): void {
 		$this->position = $position;
 	}
 
@@ -43,7 +43,7 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		return $this->spacing;
 	}
 
-	public function setSpacing(?Vector3 $spacing = null) {
+	public function setSpacing(?Vector3 $spacing = null): void {
 		$this->spacing = $spacing ?? Vector3::zero();
 	}
 
@@ -51,13 +51,13 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		return $this->position->addVector($this->spacing->multiply($index));
 	}
 
-	public function recalculatePosition() {
+	public function recalculatePosition(): void {
 		foreach ($this->floatingTexts as $index => $floatingText) {
 			$floatingText->setPosition($this->calculateSpacing($index));
 		}
 	}
 
-	public function generateFloatingText(array $texts) {
+	public function generateFloatingText(array $texts): void {
 		foreach ($texts as $index => $text) {
 			$this->floatingTexts[] = new FloatingText(
 				$this->calculateSpacing($index),
@@ -75,19 +75,19 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		return $this->floatingTexts[$index];
 	}
 
-	public function append(FloatingText $floatingText) {
+	public function append(FloatingText $floatingText): void {
 		$this->floatingTexts[] = $floatingText;
 	}
 
-	public function update(int $index, FloatingText $floatingText) {
+	public function update(int $index, FloatingText $floatingText): void {
 		$this->floatingTexts[$index] = $floatingText;
 	}
 
-	public function remove(int $index) {
+	public function remove(int $index): void {
 		unset($this->floatingTexts[$index]);
 	}
 
-	public function resetIndex() {
+	public function resetIndex(): void {
 		$this->floatingTexts = array_values($this->floatingTexts);
 	}
 

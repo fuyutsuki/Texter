@@ -39,7 +39,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\scheduler\ClosureTask;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\VersionString;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\xxFLORII\bStats\Metrics;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\xxFLORII\bStats\Metrics;
 use function array_key_last;
 use function explode;
 use function file_exists;

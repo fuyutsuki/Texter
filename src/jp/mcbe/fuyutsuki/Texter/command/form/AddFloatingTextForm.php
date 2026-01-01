@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\CustomForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\CustomFormResponse;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\element\Input;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\element\Label;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\element\StepSlider;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\element\Toggle;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\CustomForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\CustomFormResponse;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\element\Input;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\element\Label;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\element\StepSlider;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\element\Toggle;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;

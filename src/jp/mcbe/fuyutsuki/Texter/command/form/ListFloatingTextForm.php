@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace jp\mcbe\fuyutsuki\Texter\command\form;
 
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuForm;
-use jp\mcbe\fuyutsuki\Texter\libs\_e7f596115d1cc90b\dktapps\pmforms\MenuOption;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\MenuForm;
+use jp\mcbe\fuyutsuki\Texter\libs\_f6a0d8769f281660\dktapps\pmforms\MenuOption;
 use jp\mcbe\fuyutsuki\Texter\command\sub\EditSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;

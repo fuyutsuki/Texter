@@ -2,7 +2,7 @@ name: Texter
 prefix: Texter
 main: jp\mcbe\fuyutsuki\Texter\Main
 version: 4.3.3
-api: 5.37.0
+api: 5.3.0
 load: postworld
 
 author: yuko fuyutsuki

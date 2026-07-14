@@ -1,0 +1,32 @@
+name: Texter
+api: 3.0.0
+version: 4.4.0
+main: jp.mcbe.fuyutsuki.Texter.Main
+
+author: yuko fuyutsuki
+authors:
+  - xxFLORII
+  # SpecialThanks
+  - mfmfnek0
+  - onebone
+  - ogiwara
+  - Shootsta_ERU0531
+  - Toganon
+  - ShadowArt
+  - Marron0421
+
+  # Russian translation
+  - No4NaMe
+  - iteplenky
+  # Chinese translation
+  - SuperYYT
+  # Turkish translation
+  - SuperAdam47
+  # Korean translation
+  - minijaham
+  # Indonesian translation
+  - VicoSilalahi
+  # Vietnamese translation
+  - TobyDev265
+  # Mexican translation
+  - IvanCraft623

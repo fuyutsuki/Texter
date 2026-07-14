@@ -4,15 +4,9 @@
 
 <h1>Texter</h1>
 
-Texter is a plugin for [PocketMine-MP](https://github.com/pmmp/PocketMine-MP) that supports multiple worlds and allows you to add, edit, move, and delete FloatingText.
+Texter is a plugin for [PowerNukkitX](https://github.com/PowerNukkitX/PowerNukkitX) that supports multiple worlds and allows you to add, edit, move, and delete FloatingText.
 
 [![GitHub](https://img.shields.io/github/license/fuyutsuki/Texter?style=flat-square)](https://github.com/fuyutsuki/Texter/blob/master/LICENSE)
-[![](https://poggit.pmmp.io/shield.state/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
-[![](https://poggit.pmmp.io/shield.api/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
-
-[![](https://poggit.pmmp.io/shield.dl/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter) / [![](https://poggit.pmmp.io/shield.dl.total/Texter&style=flat-square)](https://poggit.pmmp.io/p/Texter)
-
-[![PoggitCI Badge](https://poggit.pmmp.io/ci.badge/fuyutsuki/Texter/Texter)](https://poggit.pmmp.io/ci/fuyutsuki/Texter/Texter)
 
 </div>
 
@@ -31,7 +25,7 @@ Other languages:
 :inbox_tray: Download
 -----------------------------------------
 
-* [Poggit](https://poggit.pmmp.io/p/Texter)
+* [GitHub Releases](https://github.com/fuyutsuki/Texter/releases)
 
 
 :sparkles: Features
